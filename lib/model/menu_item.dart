@@ -16,6 +16,7 @@ class MenuItem {
   Map<MenuItemSource, String> mapping = {
     MenuItemSource.my_profile: 'My Profile',
     MenuItemSource.play_stream:'Live Streams',
+    MenuItemSource.video_talk:'Video Call',
     MenuItemSource.manage_address: 'Manage Address',
     MenuItemSource.manage_order: 'Manage Order',
     MenuItemSource.wishlist: 'Wishlist'

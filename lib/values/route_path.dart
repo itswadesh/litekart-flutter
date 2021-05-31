@@ -20,3 +20,4 @@ const String ProductDetailRoute = 'ProductDetail';
 const String OrderConfirm = 'OrderConfirm';
 const String ProductList = 'ProductList';
 const String StreamList  = 'StreamList';
+const String VideoTalk = 'VideoTalk';

@@ -1,4 +1,5 @@
 import 'package:anne/view/menu/play_stream/play_stream_list.dart';
+import 'package:anne/view/menu/video_talk/video_talk_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       break;
     case routes.StreamList:
       return MaterialPageRoute(builder: (context) => PlayStreamList());
+      break;
+    case routes.VideoTalk:
+      return MaterialPageRoute(builder: (context) => VideoTalkPage());
       break;
     default:
       return errorPageRoute(settings);
