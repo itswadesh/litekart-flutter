@@ -7,7 +7,8 @@
 //
 
 import 'package:anne/utils/zego_config.dart';
-import 'package:anne/view/menu/video_talk/video_talk_view_object.dart';
+import 'package:anne/view/video_talk/video_talk_view_object.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -237,7 +238,7 @@ class _VideoTalkPageState extends State<VideoTalkPage> {
         Expanded(
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: 2,
               mainAxisSpacing: 5.0,
               crossAxisSpacing: 5.0,
               childAspectRatio: 3.0/4.0,

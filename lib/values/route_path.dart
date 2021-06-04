@@ -21,3 +21,4 @@ const String OrderConfirm = 'OrderConfirm';
 const String ProductList = 'ProductList';
 const String StreamList  = 'StreamList';
 const String VideoTalk = 'VideoTalk';
+const String StreamPlay = 'StreamPlay';

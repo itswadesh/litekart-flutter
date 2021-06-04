@@ -10,11 +10,11 @@ class ApiEndpoint {
 
   ApiEndpoint() {
     if (kReleaseMode) {
-      _endpoint = "https://pre.tablez.com/api/";
-      _graphQlUrl = "https://pre.tablez.com/graphql";
+      _endpoint = "https://tapi.litekart.in/api/";
+      _graphQlUrl = "https://tapi.litekart.in/graphql";
     } else {
-      _endpoint = "https://stg.tablez.com/api/";
-      _graphQlUrl = "https://stg.tablez.com/graphql";
+      _endpoint = "https://tapi.litekart.in/api/";
+      _graphQlUrl = "https://tapi.litekart.in/graphql";
     }
     _productList = "${_endpoint}products/es";
     _searchHint = "${_endpoint}products/autocomplete";

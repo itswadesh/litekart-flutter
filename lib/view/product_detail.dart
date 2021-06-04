@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:anne/utils/zego_config.dart';
+import 'package:anne/view/play_stream/play_stream_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -22,6 +26,7 @@ import 'package:anne/utility/graphQl.dart';
 import 'package:anne/components/widgets/loading.dart';
 import 'package:anne/values/route_path.dart' as routes;
 import 'package:anne/view_model/wishlist_view_model.dart';
+import 'package:zego_express_engine/zego_express_engine.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -51,6 +56,45 @@ class _ProductDetail extends State<ProductDetail> {
     productId = widget.productId;
 
     super.initState();
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    // Can destroy the engine when you don't need audio and video calls
+    //
+    // Destroy engine will automatically logout room and stop publishing/playing stream.
+    ZegoExpressEngine.destroyEngine();
+  }
+
+  // Step1: Create ZegoExpressEngine
+  Future<void> _createEngine() async {
+    int appID = ZegoConfig.instance.appID;
+    String appSign = ZegoConfig.instance.appSign;
+    bool isTestEnv = ZegoConfig.instance.isTestEnv;
+    ZegoScenario scenario = ZegoConfig.instance.scenario;
+    bool enablePlatformView = ZegoConfig.instance.enablePlatformView;
+
+    await ZegoExpressEngine.createEngine(appID, appSign, isTestEnv, scenario, enablePlatformView: enablePlatformView);
+  }
+
+  // Step2 LoginRoom
+  Future<void>  _loginRoom(roomId) async {
+    String roomID = roomId;
+    ZegoUser user = ZegoUser(ZegoConfig.instance.userID, ZegoConfig.instance.userName);
+    await ZegoExpressEngine.instance.loginRoom(roomID, user);
+    ZegoConfig.instance.roomID = roomID;
+    ZegoConfig.instance.saveConfig();
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+
+      int screenWidthPx = MediaQuery.of(context).size.width.toInt() * MediaQuery.of(context).devicePixelRatio.toInt();
+      int screenHeightPx = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - 56.0).toInt() * MediaQuery.of(context).devicePixelRatio.toInt();
+
+      return PlayStreamPage(roomID,screenWidthPx, screenHeightPx);
+
+    }));
 
   }
 
@@ -607,6 +651,11 @@ class _ProductDetail extends State<ProductDetail> {
                 SizedBox(
                   height: ScreenUtil().setWidth(34),
                 ),
+                productData.liveStreams!=null&&productData.liveStreams.scheduleDateTime!=null?Container(child: getLiveStreamWidget(productData.liveStreams),):Container(),
+               Container(
+                   padding: EdgeInsets.fromLTRB(0, 0, 0, ScreenUtil().setWidth(34)),
+                   child:getVideoCallWidget()),
+
                 Container(
                   color: Color(0xfff3f3f3),
                   height: ScreenUtil().setWidth(20),
@@ -725,6 +774,185 @@ class _ProductDetail extends State<ProductDetail> {
     }
     return children;
   }
+
+  getLiveStreamWidget(LiveStreamProductDetail liveStream) {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+              color:Color(0xffffffff),
+              height: ScreenUtil().setWidth(59),
+              width: double.infinity,
+              child: Center(child: Text("Live Stream",style: TextStyle(color:Color(0xff4a4a4a),fontSize: ScreenUtil().setSp(23),),textAlign: TextAlign.center,),
+              )),
+          Container(
+            child: CountdownTimer(
+              endTime:
+              liveStream.scheduleDateTime,
+              widgetBuilder: (_, CurrentRemainingTime time) {
+                if (time == null) {
+                  return GestureDetector(
+                      onTap: ()async{
+                        await _createEngine();
+                        await _loginRoom(liveStream.id);
+                      },
+                      child: Container(
+                    width: ScreenUtil().setWidth(250),
+                    height: ScreenUtil().setWidth(44),
+                    decoration: BoxDecoration(
+                      color: Color(0xffbb8738),
+                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(45)),
+
+                    ),
+                    child: Center(child: Text("Start Now !!!",style: TextStyle(color: Color(0xffffffff)),)),
+                  ));
+                }
+                return Container(
+                  height: ScreenUtil().setWidth(44),
+                  width: ScreenUtil().setWidth(241),
+                  color: Colors.grey,
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(6),
+                      ScreenUtil().setWidth(7),
+                      ScreenUtil().setWidth(6),
+                      ScreenUtil().setWidth(7)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: ScreenUtil().setWidth(31),
+                          width: ScreenUtil().setWidth(31),
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.hours != null ? time.hours : 0) ~/ 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(4),
+                      ),
+                      Container(
+                          height: 31,
+                          width: 31,
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.hours != null ? time.hours : 0) % 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: ScreenUtil().setWidth(3),
+                              right: ScreenUtil().setWidth(3)),
+                          child: Text(
+                            ":",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: ScreenUtil().setSp(
+                                  16,
+                                ),
+                                fontWeight: FontWeight.w600),
+                          )),
+                      Container(
+                          height: ScreenUtil().setWidth(31),
+                          width: ScreenUtil().setWidth(31),
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.min != null ? time.min : 0) ~/ 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(4),
+                      ),
+                      Container(
+                          height: ScreenUtil().setWidth(31),
+                          width: ScreenUtil().setWidth(31),
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.min != null ? time.min : 0) % 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: ScreenUtil().setWidth(3),
+                              right: ScreenUtil().setWidth(3)),
+                          child: Text(
+                            ":",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: ScreenUtil().setSp(
+                                  16,
+                                ),
+                                fontWeight: FontWeight.w600),
+                          )),
+                      Container(
+                          height: ScreenUtil().setWidth(31),
+                          width: ScreenUtil().setWidth(31),
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.sec != null ? time.sec : 0) ~/ 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(4),
+                      ),
+                      Container(
+                          height: ScreenUtil().setWidth(31),
+                          width: ScreenUtil().setWidth(31),
+                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                          child: Center(
+                              child: Text(
+                                  "${(time.sec != null ? time.sec : 0) % 10}",
+                                  style: TextStyle(color: Colors.black38))),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                          )),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  getVideoCallWidget() {
+    return GestureDetector(
+        onTap: ()async{
+          locator<NavigationService>().pushNamed(routes.VideoTalk);
+        },
+        child: Container(
+          width: ScreenUtil().setWidth(250),
+          height: ScreenUtil().setWidth(44),
+          decoration: BoxDecoration(
+            color: Color(0xffbb8738),
+            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(45)),
+
+          ),
+          child: Center(child: Text("Call Vendor",style: TextStyle(color: Color(0xffffffff)),)),
+        ));
+  }
 }
 
 class RatingClass extends StatefulWidget {
@@ -796,7 +1024,7 @@ class _RatingClass extends State<RatingClass> {
           }
           return RatingBar.builder(
             itemSize: ScreenUtil().setWidth(18),
-            initialRating: result.data["reviewSummary"]["avg"] ?? 0,
+            initialRating: double.parse(result.data["reviewSummary"]["avg"].toString()) ?? 0,
             minRating: 0,
             direction: Axis.horizontal,
             allowHalfRating: true,

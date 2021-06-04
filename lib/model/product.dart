@@ -75,7 +75,7 @@ class ProductData {
 
   factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
       name: json["name"],
-      img: json["img"],
+      img: json["img"]??"https://tapi.litekart.in/icon.png",
       id: json["id"],
       slug: json["slug"],
       position: int.parse(json["position"].toString()),
@@ -150,11 +150,13 @@ class ProductDetailData {
   BrandData brand;
   String description;
   String barcode;
+
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
   ProductColor color;
   ProductSize size;
   List<Features> features;
+  LiveStreamProductDetail liveStreams;
   //ProductSize size;
   // List<ProductVariant> variants;
   // CategoryData category;
@@ -192,7 +194,8 @@ class ProductDetailData {
         // this.colorGroup,
         // this.sizeGroup,
         this.color,
-        this.size
+        this.size,
+        this.liveStreams
         // this.variants,
         // this.vendor
       });
@@ -244,10 +247,45 @@ class ProductDetailData {
           : ProductColor(),
       size: json["size"] != null
           ? ProductSize.fromJson(json["size"])
-          : ProductSize()
+          : ProductSize(),
+    liveStreams: json["liveStream"]!=null?LiveStreamProductDetail.fromJson(json["liveStream"]):LiveStreamProductDetail()
     // variants: List<ProductVariant>.from(json["variants"].map((x)=>ProductVariant.fromJson(x))),
     // vendor: Vendor.fromJson(json["vendor"])
   );
+}
+
+class LiveStreamProductDetail {
+  String id;
+  String img;
+  String title;
+  int scheduleDateTime;
+  StreamUser user;
+
+  LiveStreamProductDetail({
+    this.scheduleDateTime,this.title,this.id,this.img,this.user
+});
+
+  factory LiveStreamProductDetail.fromJson(Map<String, dynamic> json)=>
+      LiveStreamProductDetail(
+        img: json["img"],
+        id: json["id"],
+        title: json["title"],
+        scheduleDateTime: json["scheduleDateTime"],
+        user: json["user"]!=null?StreamUser.fromJson(json["user"]):StreamUser()
+      );
+}
+
+class StreamUser{
+  String firstName;
+  String lastName;
+  StreamUser({this.lastName,this.firstName});
+
+  factory StreamUser.fromJson(Map<String, dynamic> json)=>
+      StreamUser(
+        firstName: json["firstName"],
+        lastName: json["lastName"]
+      );
+
 }
 
 class ProductVariant {

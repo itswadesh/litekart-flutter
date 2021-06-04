@@ -236,6 +236,16 @@ getOtp(phone: \$phone){
       active
       sort
     }
+    liveStreams {
+      id
+      title
+      img
+      scheduleDateTime
+      user {
+        firstName
+        lastName
+      }
+    }
     brand {
       id
       name

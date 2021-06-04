@@ -1,5 +1,4 @@
-import 'package:anne/view/menu/play_stream/play_stream_list.dart';
-import 'package:anne/view/menu/video_talk/video_talk_page.dart';
+import 'package:anne/view/video_talk/video_talk_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ import 'package:anne/view/menu/wishlist.dart';
 import 'package:anne/view/order_confirm.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view/product_list.dart';
-
+import 'package:anne/view/play_stream/play_stream_page.dart';
 import 'package:anne/view/profile/profilePage.dart';
 import 'package:anne/view/search.dart';
 
@@ -27,6 +26,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   debugPrint('Route Arguments  => ${settings.arguments}');
   String productId;
   var productList;
+  var streamArgs;
   CheckOutResponse checkoutResponse;
   var arguments = settings.arguments;
   if(settings.name==routes.ProductDetailRoute){
@@ -37,6 +37,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   }
   if(settings.name==routes.ProductList){
     productList =settings.arguments as Map<String, dynamic>;
+  }
+
+  if(settings.name == routes.StreamPlay){
+    streamArgs = settings.arguments as Map<String, dynamic>;
   }
   Map data;
   if (arguments is Map) {
@@ -91,7 +95,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => SearchPage());
       break;
     case routes.StreamList:
-      return MaterialPageRoute(builder: (context) => PlayStreamList());
+      return MaterialPageRoute(builder: (context) => PlayStreamPage(streamArgs["roomId"],streamArgs["screenWidthPx"],streamArgs["screenHeightPx"]));
       break;
     case routes.VideoTalk:
       return MaterialPageRoute(builder: (context) => VideoTalkPage());

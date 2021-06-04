@@ -22,14 +22,6 @@ class MenuViewModel extends ChangeNotifier {
       MenuItem(MenuItemSource.my_profile, FontAwesomeIcons.userCircle, () {
         _navigationService.pushNamed(routes.MyProfile);
       }),
-      MenuItem(MenuItemSource.play_stream, FontAwesomeIcons.stream,
-              () {
-            _navigationService.pushNamed(routes.StreamList);
-          }),
-      MenuItem(MenuItemSource.video_talk, FontAwesomeIcons.video,
-              () {
-            _navigationService.pushNamed(routes.VideoTalk);
-          }),
       MenuItem(MenuItemSource.manage_order, FontAwesomeIcons.shoppingBag,
           () {
         _navigationService.pushNamed(routes.ManageOrder);

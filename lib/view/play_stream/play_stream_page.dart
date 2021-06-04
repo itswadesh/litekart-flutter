@@ -8,11 +8,11 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 
 
 class PlayStreamPage extends StatefulWidget {
-
+  final roomId;
   final int screenWidthPx;
   final int screenHeightPx;
 
-  PlayStreamPage(this.screenWidthPx, this.screenHeightPx);
+  PlayStreamPage(this.roomId,this.screenWidthPx, this.screenHeightPx);
 
   @override
   _PlayStreamPageState createState() => new _PlayStreamPageState();
@@ -44,15 +44,13 @@ class _PlayStreamPageState extends State<PlayStreamPage> {
 
   bool _isUseSpeaker = true;
 
-  TextEditingController _controller = new TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
 
-    if (ZegoConfig.instance.streamID.isNotEmpty) {
-      _controller.text = ZegoConfig.instance.streamID;
-    }
+
 
     setPlayerCallback();
   }
@@ -154,7 +152,7 @@ class _PlayStreamPageState extends State<PlayStreamPage> {
 
    onPlayButtonPressed() {
 
-    String streamID = _controller.text.trim();
+    String streamID = widget.roomId;
 
     if (ZegoConfig.instance.enablePlatformView) {
 
@@ -209,7 +207,7 @@ class _PlayStreamPageState extends State<PlayStreamPage> {
   }
 
   void onSnapshotButtonClicked() {
-    ZegoExpressEngine.instance.takePlayStreamSnapshot(_controller.text.trim()).then((result) {
+    ZegoExpressEngine.instance.takePlayStreamSnapshot(widget.roomId).then((result) {
       print('[takePublishStreamSnapshot], errorCode: ${result.errorCode}, is null image?: ${result.image != null ? "false" : "true"}');
       ZegoUtils.showImage(context, result.image);
     });
