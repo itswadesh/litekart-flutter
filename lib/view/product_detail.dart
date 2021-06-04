@@ -248,7 +248,7 @@ class _ProductDetail extends State<ProductDetail> {
   Widget getProductDetails() {
     icon = Icons.favorite_border;
     var count = productData.images.length;
-
+    print("live stream id  ::  "+productData.liveStreams[0].id.toString());
     return Stack(children: [
       SingleChildScrollView(
           child: Column(
@@ -648,10 +648,10 @@ class _ProductDetail extends State<ProductDetail> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(34),
-                ),
-                productData.liveStreams!=null&&productData.liveStreams.scheduleDateTime!=null?Container(child: getLiveStreamWidget(productData.liveStreams),):Container(),
+                // SizedBox(
+                //   height: ScreenUtil().setWidth(34),
+                // ),
+                productData.liveStreams!=null&&productData.liveStreams.length!=0&&productData.liveStreams[0].scheduleDateTime!=null?Container(child: getLiveStreamWidget(productData.liveStreams[0]),):Container(),
                Container(
                    padding: EdgeInsets.fromLTRB(0, 0, 0, ScreenUtil().setWidth(34)),
                    child:getVideoCallWidget()),
@@ -932,6 +932,7 @@ class _ProductDetail extends State<ProductDetail> {
               },
             ),
           ),
+          SizedBox(height: ScreenUtil().setWidth(34),)
         ],
       ),
     );

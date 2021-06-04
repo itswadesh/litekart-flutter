@@ -156,7 +156,7 @@ class ProductDetailData {
   ProductColor color;
   ProductSize size;
   List<Features> features;
-  LiveStreamProductDetail liveStreams;
+  List<LiveStreamProductDetail> liveStreams;
   //ProductSize size;
   // List<ProductVariant> variants;
   // CategoryData category;
@@ -248,7 +248,8 @@ class ProductDetailData {
       size: json["size"] != null
           ? ProductSize.fromJson(json["size"])
           : ProductSize(),
-    liveStreams: json["liveStream"]!=null?LiveStreamProductDetail.fromJson(json["liveStream"]):LiveStreamProductDetail()
+    liveStreams: json["liveStreams"]!=null&&json["liveStreams"].length!=0?List<LiveStreamProductDetail>.from(
+        json["liveStreams"].map((x) => LiveStreamProductDetail.fromJson(x))):[LiveStreamProductDetail()]
     // variants: List<ProductVariant>.from(json["variants"].map((x)=>ProductVariant.fromJson(x))),
     // vendor: Vendor.fromJson(json["vendor"])
   );
