@@ -1,22 +1,26 @@
-
-import 'package:anne/utility/api_provider.dart';
+import '../../utility/api_provider.dart';
 
 class ProductsRepository {
   ApiProvider _apiProvider = ApiProvider();
 
-  fetchHotData(){
+  fetchHotData() {
     return _apiProvider.fetchHotData();
   }
 
-  fetchSuggestedData(){
+  fetchSuggestedData() {
     return _apiProvider.fetchSuggestedData();
   }
 
-  fetchYouMayLikeData(){
+  fetchYouMayLikeData() {
     return _apiProvider.fetchYouMayLikeData();
   }
 
-  fetchProductList(categoryName, searchText, brand, color, size, page){
-    return _apiProvider.fetchProductList(categoryName, searchText, brand, color, size, page);
+  fetchProductList(categoryName, searchText, brand, color, size, gender,priceRange,ageGroup,discount, page,parentBrand,brandId,urlLink,sort) {
+    return _apiProvider.fetchProductList(
+        categoryName, searchText, brand, color, size, gender,priceRange,ageGroup,discount, page,parentBrand,brandId,urlLink,sort);
+  }
+
+  fetchProductDetailApi(productId) {
+    return _apiProvider.fetchProductDetailApi(productId);
   }
 }

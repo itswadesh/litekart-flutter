@@ -1,46 +1,57 @@
-import 'package:anne/view/video_talk/video_talk_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:anne/response_handler/checkOutResponse.dart';
-import 'package:anne/values/route_path.dart' as routes;
-import 'package:anne/view/cart.dart';
-import 'package:anne/view/checkout.dart';
-import 'package:anne/view/common/login.dart';
-import 'package:anne/view/common/onboarding.dart';
-import 'package:anne/view/home.dart';
-import 'package:anne/view/menu/manage_address.dart';
-import 'package:anne/view/menu/manage_order.dart';
-import 'package:anne/view/menu/my_profile.dart';
-import 'package:anne/view/menu/wishlist.dart';
-import 'package:anne/view/order_confirm.dart';
-import 'package:anne/view/product_detail.dart';
-import 'package:anne/view/product_list.dart';
-import 'package:anne/view/play_stream/play_stream_page.dart';
-import 'package:anne/view/profile/profilePage.dart';
-import 'package:anne/view/search.dart';
+import '../../response_handler/brandResponse.dart';
+import '../../response_handler/checkOutResponse.dart';
+import '../../values/route_path.dart' as routes;
+import '../../view/add_review_page.dart';
+import '../../view/brand_page.dart';
+import '../../view/cart.dart';
+import '../../view/checkout.dart';
+import '../../view/common/login.dart';
+import '../../view/common/onboarding.dart';
+import '../../view/home.dart';
+import '../../view/menu/mega_menu.dart';
+import '../../view/menu/manage_address.dart';
+import '../../view/menu/manage_order.dart';
+import '../../view/menu/my_profile.dart';
+import '../../view/menu/wishlist.dart';
+import '../../view/order_confirm.dart';
+import '../../view/order_tracking.dart';
+import '../../view/product_detail.dart';
+import '../../view/product_list.dart';
 
+import '../../view/profile/profilePage.dart';
+import '../../view/return.dart';
+import '../../view/search.dart';
+import '../../view/zoom_image.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   debugPrint('Route Name => ${settings.name}');
   debugPrint('Route Arguments  => ${settings.arguments}');
   String productId;
   var productList;
-  var streamArgs;
+  var orderTrackData;
+  var returnData;
   CheckOutResponse checkoutResponse;
   var arguments = settings.arguments;
-  if(settings.name==routes.ProductDetailRoute){
+  if (settings.name == routes.ProductDetailRoute || settings.name == routes.AddReviewRoute) {
     productId = settings.arguments;
   }
-  if(settings.name==routes.OrderConfirm){
+  if (settings.name == routes.OrderConfirm) {
     checkoutResponse = settings.arguments;
   }
-  if(settings.name==routes.ProductList){
-    productList =settings.arguments as Map<String, dynamic>;
-  }
 
-  if(settings.name == routes.StreamPlay){
-    streamArgs = settings.arguments as Map<String, dynamic>;
+  if (settings.name == routes.OrderTrack) {
+    orderTrackData = settings.arguments as Map<String, dynamic>;
+  }
+  if (settings.name == routes.ReturnPageRoute) {
+    returnData = settings.arguments as Map<String, dynamic>;
+  }
+  if (settings.name == routes.ProductList) {
+    print("here");
+    print(settings.arguments.toString());
+    productList = settings.arguments as Map<String, dynamic>;
   }
   Map data;
   if (arguments is Map) {
@@ -61,17 +72,36 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(builder: (context) => SplashScreen());
     //   break;
     case routes.ProductDetailRoute:
-      print("here is the id : "+productId);
-      return MaterialPageRoute(builder: (context)=>ProductDetail(productId));
+      return MaterialPageRoute(builder: (context) => ProductDetail(productId));
       break;
     case routes.OrderConfirm:
-      return MaterialPageRoute(builder: (context)=>OrderConfirm(checkoutResponse));
+      return MaterialPageRoute(
+          builder: (context) => OrderConfirm(checkoutResponse));
+      break;
+    case routes.OrderTrack:
+      return MaterialPageRoute(
+          builder: (context) => OrderTracking(orderTrackData["id"],orderTrackData["items"],orderTrackData["address"]));
       break;
     case routes.ProductList:
-      return MaterialPageRoute(builder: (context)=>ProductList(productList["searchKey"],productList["category"],productList["brandName"]));
+      return MaterialPageRoute(
+          builder: (context) => ProductList(
+              productList["searchKey"],
+              productList["category"],
+              productList["brandName"],
+              productList["parentBrand"],productList["brand"],productList["urlLink"]));
+      break;
+    case routes.ReturnPageRoute:
+      return MaterialPageRoute(builder: (context) => ReturnPage(returnData["id"],returnData["pid"],returnData["qty"]));
       break;
     case routes.CartRoute:
       return MaterialPageRoute(builder: (context) => Cart());
+      break;
+    case routes.AddReviewRoute:
+      return MaterialPageRoute(builder: (context) => AddReviewPage(productId));
+      break;
+    case routes.ZoomImageRoute:
+      Map<String, dynamic> zoomArguments = settings.arguments as Map<String, dynamic>;
+      return MaterialPageRoute(builder: (context) => ZoomImage(zoomArguments['imageLinks'], zoomArguments['index']));
       break;
     case routes.ProfileInfoRoute:
       return MaterialPageRoute(builder: (context) => ProfilePage());
@@ -94,11 +124,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.SearchPage:
       return MaterialPageRoute(builder: (context) => SearchPage());
       break;
-    case routes.StreamList:
-      return MaterialPageRoute(builder: (context) => PlayStreamPage(streamArgs["roomId"],streamArgs["screenWidthPx"],streamArgs["screenHeightPx"]));
+    case routes.MegaMenuRoute:
+      return MaterialPageRoute(builder: (context) => MegaMenu());
       break;
-    case routes.VideoTalk:
-      return MaterialPageRoute(builder: (context) => VideoTalkPage());
+    case routes.BrandPage:
+      return MaterialPageRoute(
+          builder: (context) =>
+              BrandPage(brand: data['brandData'] as BrandData));
       break;
     default:
       return errorPageRoute(settings);

@@ -9,7 +9,7 @@ getOtp(phone: \$phone){
 }""";
   }
 
-  signOut(){
+  signOut() {
     return """mutation signOut {
   signOut
 }""";
@@ -106,6 +106,54 @@ getOtp(phone: \$phone){
       createdAt
       updatedAt
     }
+  }
+}""";
+  }
+
+  trending() {
+    return """query trending(\$type: String) {
+  trending(type: \$type) {
+    id
+    sku
+    barcode
+    description
+    productMasterId
+    slug
+    name
+    type
+    price
+    mrp
+    stock
+    tax
+    img
+    images
+    time
+    active
+    popularity
+    position
+    trending
+    featured
+    hot
+    new
+    sale
+    recommended
+    title
+    metaDescription
+    keywords
+    ratings
+    reviews
+    itemId
+    warranty
+    discount
+    ageMin
+    ageMax
+    ageUnit
+    cgst
+    sgst
+    igst
+    category
+    variants
+    vendor
   }
 }""";
   }
@@ -236,16 +284,6 @@ getOtp(phone: \$phone){
       active
       sort
     }
-    liveStreams {
-      id
-      title
-      img
-      scheduleDateTime
-      user {
-        firstName
-        lastName
-      }
-    }
     brand {
       id
       name
@@ -266,7 +304,18 @@ getOtp(phone: \$phone){
       id
       name
     }
+    keyFeatures
     features {
+      id
+      name
+      value
+    }
+    specifications {
+      id
+      name
+      value
+    }
+    productDetails {
       id
       name
       value
@@ -309,6 +358,9 @@ getOtp(phone: \$phone){
     title
     metaDescription
     keywords
+    countryOfOrigin
+    link
+    warranty
     vendor {
       id
       firstName
@@ -470,6 +522,9 @@ getOtp(phone: \$phone){
   \$limit: Int
   \$sort: String
   \$type: String
+  \$pageId: String
+  \$groupId: String
+  \$groupTitle: String
   \$active: Boolean
 ) {
   banners(
@@ -478,6 +533,9 @@ getOtp(phone: \$phone){
     limit: \$limit
     sort: \$sort
     type: \$type
+    pageId: \$pageId
+    groupId: \$groupId
+    groupTitle: \$groupTitle
     active: \$active
   ) {
     count
@@ -489,12 +547,39 @@ getOtp(phone: \$phone){
       heading
       img
       type
+      pageId
+      groupId
+      groupTitle
       active
       createdAt
       updatedAt
     }
   }
 }""";
+  }
+
+  groupByBanner() {
+    return """query groupByBanner(\$type: String, \$pageId: String, \$groupTitle: String) {
+  groupByBanner(type: \$type, pageId: \$pageId, groupTitle: \$groupTitle) {
+    _id {    
+      title
+    }
+    data {
+      link
+      heading
+      img
+      sort
+      type
+      pageId
+      active
+      groupId
+      groupTitle
+      createdAt
+      updatedAt
+    }
+  }
+}
+ """;
   }
 
   saveAddress() {
@@ -623,69 +708,120 @@ getOtp(phone: \$phone){
 }""";
   }
 
-  pendingOrders() {
-    return """query pendingOrders(
-  \$page: Int
-  \$skip: Int
-  \$limit: Int
-  \$search: String
-  \$sort: String
-  \$q: String
-) {
-  pendingOrders(
-    page: \$page
-    q: \$q
-    skip: \$skip
-    limit: \$limit
-    search: \$search
-    sort: \$sort
-  ) {
-    data {
-      id
-      orderNo
-      otp
-      amount {
-        qty
-        subtotal
-        total
-        shipping
-        discount
-      }
-      delivery {
-        otp
-        finish {
-          lat
-          lng
-        }
-      }
-      items {
-        name
-        slug
-        img
-        rate
-        qty
-        status
-      }
-      user {
-        phone
-        firstName
-        lastName
-      }
-      address {
-        firstName
-        lastName
-        address
-        town
-        city
-        zip
-        coords {
-          lat
-          lng
-        }
-      }
-      createdAt
-      updatedAt
+//   pendingOrders() {
+//     return """query pendingOrders(
+//   \$page: Int
+//   \$skip: Int
+//   \$limit: Int
+//   \$search: String
+//   \$sort: String
+//   \$q: String
+// ) {
+//   pendingOrders(
+//     page: \$page
+//     q: \$q
+//     skip: \$skip
+//     limit: \$limit
+//     search: \$search
+//     sort: \$sort
+//   ) {
+//     data {
+//       id
+//       orderNo
+//       otp
+//       amount {
+//         qty
+//         subtotal
+//         total
+//         shipping
+//         discount
+//       }
+//       delivery {
+//         otp
+//         finish {
+//           lat
+//           lng
+//         }
+//       }
+//       items {
+//         name
+//         slug
+//         img
+//         rate
+//         qty
+//         status
+//       }
+//       user {
+//         phone
+//         firstName
+//         lastName
+//       }
+//       address {
+//         firstName
+//         lastName
+//         address
+//         town
+//         city
+//         zip
+//         coords {
+//           lat
+//           lng
+//         }
+//       }
+//       createdAt
+//       updatedAt
+//     }
+//   }
+// }""";
+//   }
+
+
+  order(){
+    return """
+    query order(\$id: ID!) {
+  order(id: \$id) {
+     id
+    orderNo
+    otp
+    amount {
+      qty
+      subtotal
+      discount
+      shipping
+      total
     }
+    paymentOrderId
+    delivery {
+      otp
+    }
+    items {
+      status
+      pid
+      name
+      slug
+      img
+      qty
+      price
+      vendor {
+        store
+      }
+      options
+      brandName
+    }
+    address {
+      email
+      firstName
+      lastName
+      address
+      town
+      city
+      country
+      state
+      zip
+      phone
+    }
+    createdAt
+    updatedAt
   }
 }""";
   }
@@ -697,7 +833,7 @@ getOtp(phone: \$phone){
   \$limit: Int
   \$search: String
   \$sort: String
-  \$status: String # Pending, Tracking, Delivered
+  \$status: String
 ) {
   myOrders(
     page: \$page
@@ -713,115 +849,299 @@ getOtp(phone: \$phone){
     data {
       id
       orderNo
-      reviewed
       otp
       createdAt
       updatedAt
       codPaid
-      payment {
-        method
-        status
-        amount
-        amount_paid
-        amount_due
-      }
+      paymentMode
+      paymentStatus
+      paymentCurrency
+      paymentReferenceId
+      paymentOrderId
+      paymentReceipt
+      paymentId
+      invoiceId
+      paymentGateway
+      codPaid
+      amountPaid
+      amountDue
+      paymentStatus
+      paymentMsg
+      paymentTime
+      paid
       amount {
         qty
         subtotal
-        tax 
+        tax
         discount
         total
         shipping
       }
-      user {
-        firstName
-        lastName
-        phone
-        email
-        gender
-        info {
-          public
-          store
-          storePhotos
-        }
-        avatar
-      }
+      userFirstName
+      userLastName
+      userPhone
       address {
-        address
         firstName
         lastName
+        town
+        city
+        state
+        zip
+        address
+        lat
+        lng
+        email
+        phone
       }
       items {
+        id
         pid
+        posInvoiceNo
+        itemOrderNo
         name
-        slug
+        barcode
         img
+        slug
         price
         qty
-        status
+        shippingCharge
+        tax
+        time
+        options
+        brandName
+        brandImg
+        orderStatus {
+          id
+          event
+          tracking_id
+          courier_name
+        }
         vendor {
-          store
           firstName
           lastName
           phone
+          address {
+            address
+          }
+          store
         }
+        status
+      }
+      orderItems {
+        id
+        pid
+        posInvoiceNo
+        itemOrderNo
+        name
+        barcode
+        img
+        slug
+        price
+        qty
+        shippingCharge
+        tax
+        time
+        options
+        brandName
+        brandImg
+        orderStatus {
+          id
+          event
+          tracking_id
+          courier_name
+        }
+        vendor {
+          firstName
+          lastName
+          phone
+          address {
+            address
+          }
+          store
+        }
+        status
       }
     }
   }
 }""";
   }
 
-  allOrders() {
-    return """query allOrders {
-  allOrders {
-    count
-    page
-    pageSize
-    data {
-      id
-      orderNo
-      createdAt
-      user {
-        firstName
-        lastName
-        phone
-      }
-      amount {
-        qty
-        subtotal
-        tax {
-          cgst
-          sgst
-          igst
-        }
-        discount
-        total
-        shipping
-      }
-      address {
-        firstName
-        lastName
-        address
-        coords {
-          lat
-          lng
-        }
-      }
+  returnItem(){
+    return """mutation returnOrReplace(
+  \$orderId: ID!
+  \$pId: String!
+  \$reason: String!
+  \$requestType: String!
+  \$qty: Int
+) {
+  returnOrReplace(
+    orderId: \$orderId
+    pId: \$pId
+    reason: \$reason
+    requestType: \$requestType
+    qty: \$qty
+  ) {
+    id
+    orderNo
+    otp
+    amount {
+      qty
+      subtotal
+      discount
+      shipping
+      total
+      tax
+    }
+    paymentOrderId
+    paymentMode
+    paymentAmount
+    paymentCurrency
+    paymentReferenceId
+    delivery {
+      otp
+    }
+    items {
+      status
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      slug
+      img
+      tracking
+      shippingCharge
+      tax
+      brandName
+      brandImg
+      parentBrandName
+      parentBrandImg
+    }
+    orderItems {
+      status
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      slug
+      img
+      tracking
+      shippingCharge
+      tax
+      brandName
+      brandImg
+      parentBrandName
+      parentBrandImg
+    }
+    address {
+      firstName
+      lastName
+      phone
+      lat
+      lng
+    }
+    createdAt
+    updatedAt
+  }
+}
+""";
+  }
 
-      items {
-        pid
-        name
-        img
-        slug
-        price
-        qty
-        status
-        vendor {
-          store
-        }
+  orderItem(){
+    return """query orderItem(\$id: ID!) {
+  orderItem(id: \$id) {
+    id
+    orderId
+    status
+    pid
+    posInvoiceNo
+    itemOrderNo
+    name
+    slug
+    img
+    tracking
+    shippingCharge
+    price
+    qty
+    tax
+    brandName
+    brandImg
+    size
+    color
+    trackingId
+    returnTrackingId
+    courierName
+    returnCourierName
+    days
+    type
+    #order level info
+    orderNo
+    otp
+    createdAt
+    paySuccess
+    paymentMode
+    paymentStatus
+    paymentCurrency
+    paymentReferenceId
+    paymentOrderId
+    paymentReceipt
+    paymentId
+    invoiceId
+    paymentGateway
+    codPaid
+    amountPaid
+    amountDue
+    paymentMsg
+    paymentTime
+    paid
+    userFirstName
+    userLastName
+    userPhone
+    userEmail
+    invoiceLink
+    returnValidTill
+    user {
+      id
+      firstName
+    }
+    address {
+      firstName
+      lastName
+      town
+      city
+      state
+      zip
+      address
+      lat
+      lng
+      email
+      phone
+    }
+    orderHistory {
+      id
+      status
+      title
+      body
+      icon
+      public
+      index
+      time
+    }
+    vendor {
+      firstName
+      lastName
+      phone
+      address {
+        address
       }
+      store
     }
   }
+}""";
+  }
+
+  paySuccessPageHit() {
+    return """mutation paySuccessPageHit(\$id: ID!) {
+  paySuccessPageHit(id: \$id)
 }""";
   }
 
@@ -958,9 +1278,101 @@ getOtp(phone: \$phone){
 }""";
   }
 
+  subBrands() {
+    return """query brands(\$page: Int, \$search: String, \$limit: Int, \$sort: String, \$parent: String, \$featured: Boolean) {
+  brands(
+    page: \$page
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    parent: \$parent
+    featured:\$featured
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      brandId
+      name
+      slug
+      img
+      position
+      meta
+      metaTitle
+      metaDescription
+      metaKeywords
+      facebookUrl
+      instaUrl
+      twitterUrl
+      linkedinUrl
+      youtubeUrl
+      active
+      featured
+      parent {
+        id
+        name
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    __typename
+  }
+}""";
+  }
+
+  parentBrands() {
+    return """query parentBrands(
+  \$page: Int
+  \$search: String
+  \$limit: Int
+  \$sort: String
+  \$featured: Boolean
+) {
+  parentBrands(
+    page: \$page
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    featured: \$featured
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      brandId
+      name
+      slug
+      img
+      position
+      meta
+      metaTitle
+      metaDescription
+      metaKeywords
+      facebookUrl
+      instaUrl
+      twitterUrl
+      linkedinUrl
+      youtubeUrl
+      active
+      featured
+      parent {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}""";
+  }
+
   reviewSummary() {
-    return """query reviewSummary(\$product: ID!) {
-  reviewSummary(product: \$product) {
+    return """query reviewSummary(\$pid: ID!) {
+  reviewSummary(pid: \$pid) {
     avg
     count
     total
@@ -1098,8 +1510,8 @@ getOtp(phone: \$phone){
 }""";
   }
 
-  saveFcmToken(){
-return """mutation saveFcmToken(
+  saveFcmToken() {
+    return """mutation saveFcmToken(
   \$id: String!
   \$token: String
   \$platform: String
@@ -1129,7 +1541,7 @@ return """mutation saveFcmToken(
 }""";
   }
 
-  myTokens(){
+  myTokens() {
     return """query myTokens(\$page: Int, \$search: String, \$limit: Int, \$sort: String) {
   myTokens(page: \$page, search: \$search, limit: \$limit, sort: \$sort) {
     count
@@ -1152,4 +1564,125 @@ return """mutation saveFcmToken(
   }
 }""";
   }
+
+  megamenu() {
+    return """query megamenu(\$id: ID, \$slug: String, \$search: String, \$sort: String, \$featured: Boolean) {
+  megamenu(
+    id: \$id
+    slug: \$slug
+    search: \$search
+    sort: \$sort
+    featured: \$featured
+  ) {
+    id
+    name
+    slug
+    img
+    featured
+    children {
+      name
+      slug
+      img
+      featured
+      children {
+        name
+        slug
+        img
+        featured
+        children {
+          name
+          slug
+          img
+          featured
+          children {
+            name
+            slug
+            img
+            featured
+            children {
+              name
+              slug
+              img
+              featured
+              children {
+                name
+                slug
+                img
+                featured
+                children {
+                  name
+                  slug
+                  img
+                  featured
+                  children {
+                    name
+                    slug
+                    img
+                    featured
+                    children {
+                      name
+                      slug
+                      img
+                      featured
+                      __typename
+                    }
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}""";
+  }
+  saveReview(){
+    return """
+  mutation saveReview(
+  \$id: String!
+  \$pid: ID!
+  \$variant: ID
+  \$user: ID
+  \$rating: Int
+  \$message: String
+  \$active: Boolean
+) {
+  saveReview(
+    id: \$id
+    pid: \$pid
+    variant: \$variant
+    user: \$user
+    rating: \$rating
+    message: \$message
+    active: \$active
+  ) {
+    id
+    pid {
+      name
+      slug
+      img
+      type
+    }
+    user {
+      firstName
+      lastName
+      phone
+    }
+    rating
+    message
+    active
+  }
+}""";
+
+}
 }

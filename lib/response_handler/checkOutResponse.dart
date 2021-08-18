@@ -1,4 +1,4 @@
-import 'package:anne/model/address.dart';
+import '../../model/address.dart';
 
 class CheckOutResponse {
   String id;

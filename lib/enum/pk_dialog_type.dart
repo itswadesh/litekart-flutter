@@ -1,4 +1,1 @@
-enum PkDialogType {
-  progress,
-  alert
-}
+enum PkDialogType { progress, alert }

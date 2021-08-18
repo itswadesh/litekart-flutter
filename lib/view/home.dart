@@ -1,30 +1,38 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/view_model/auth_view_model.dart';
-import 'package:anne/view_model/banner_view_model.dart';
-import 'package:anne/view_model/brand_view_model.dart';
-import 'package:anne/view_model/category_view_model.dart';
-import 'package:anne/view_model/home_view_model.dart';
-import 'package:anne/view_model/list_details_view_model.dart';
-import 'package:anne/view_model/product_view_model.dart';
-import 'package:anne/utility/theme.dart';
-import 'package:anne/view/menu.dart';
+import '../../response_handler/bannerResponse.dart';
+import '../../response_handler/brandResponse.dart';
+import '../../service/event/tracking.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/api_endpoint.dart';
+import '../../utility/locator.dart';
+import '../../utility/query_mutation.dart';
+import '../../values/event_constant.dart';
+import '../../utility/update_alert.dart';
+import '../../view_model/auth_view_model.dart';
+import '../../view_model/banner_view_model.dart';
+import '../../view_model/brand_view_model.dart';
+import '../../view_model/category_view_model.dart';
+import '../../view_model/home_view_model.dart';
+import '../../view_model/list_details_view_model.dart';
+import '../../view_model/product_view_model.dart';
+import '../../utility/theme.dart';
+import '../../view/menu.dart';
 import 'cart_logo.dart';
 import 'product_list.dart';
-import 'package:anne/components/widgets/loading.dart';
-import 'package:anne/components/widgets/productViewColor2Card.dart';
-import 'package:anne/components/widgets/productViewColor3Card.dart';
-import 'package:anne/components/widgets/productViewColorCard.dart';
-import 'package:anne/components/widgets/productViewSpecialCard.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../components/widgets/loading.dart';
+import '../../components/widgets/productViewColor2Card.dart';
+import '../../components/widgets/productViewColorCard.dart';
+import '../../values/route_path.dart' as routes;
 
 class Home extends StatefulWidget {
   @override
@@ -96,6 +104,41 @@ class _Home extends State<HomeForeground> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
+  void initState() {
+    this.initDynamicLinks();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      try {
+        (UpdateAlert()).versionCheck((context));
+      } catch (e) {
+        print(e);
+      }
+    });
+    super.initState();
+  }
+
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+          final Uri deepLink = dynamicLink?.link;
+          if (deepLink != null) {
+            log("vhbbj"+deepLink.path);
+            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
+          }
+        },
+        onError: (OnLinkErrorException e) async {
+          print('onLinkError');
+          print(e.message);
+        }
+    );
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+    if (deepLink != null) {
+      log("yhhhhh"+deepLink.path);
+      locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return AnimatedContainer(
@@ -123,7 +166,7 @@ class _Home extends State<HomeForeground> {
               title: Container(
                   height: 35,
                   child: Image.asset(
-                    'assets/images/anne.png',
+                    'assets/images/tablez.png',
                   )),
               actions: [
                 InkWell(
@@ -146,130 +189,30 @@ class _Home extends State<HomeForeground> {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      // Container(
-                      //     margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //     Container(
-                      //       padding: EdgeInsets.only(
-                      //         bottom:
-                      //             3, // This can be the space you need betweeb text and underline
-                      //       ),
-                      //       decoration: BoxDecoration(
-                      //           border: Border(
-                      //               bottom: BorderSide(
-                      //         color: counter == 1
-                      //             ? Color(0xffee7625)
-                      //             : Colors.transparent,
-                      //         width: counter == 1
-                      //             ? 2.0
-                      //             : 0.0, // This would be the width of the underline
-                      //       ))),
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             counter = 1;
-                      //           });
-                      //         },
-                      //         child: Text("Fashion",
-                      //             style: ThemeApp().underlineThemeText(
-                      //                 Color(0xffee7625),
-                      //                 15.0,
-                      //                 counter == 1 ? true : false)),
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       padding: EdgeInsets.only(
-                      //         bottom:
-                      //             3, // This can be the space you need betweeb text and underline
-                      //       ),
-                      //       decoration: BoxDecoration(
-                      //           border: Border(
-                      //               bottom: BorderSide(
-                      //         color: counter == 2
-                      //             ? Color(0xffee7625)
-                      //             : Colors.transparent,
-                      //         width: counter == 2
-                      //             ? 2.0
-                      //             : 0.0, // This would be the width of the underline
-                      //       ))),
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             counter = 2;
-                      //           });
-                      //         },
-                      //         child: Text("Toys",
-                      //             style: ThemeApp().underlineThemeText(
-                      //                 Color(0xffee7625),
-                      //                 15.0,
-                      //                 counter == 2 ? true : false)),
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       padding: EdgeInsets.only(
-                      //         bottom:
-                      //             3, // This can be the space you need betweeb text and underline
-                      //       ),
-                      //       decoration: BoxDecoration(
-                      //           border: Border(
-                      //               bottom: BorderSide(
-                      //         color: counter == 3
-                      //             ? Color(0xffee7625)
-                      //             : Colors.transparent,
-                      //         width: counter == 3
-                      //             ? 2.0
-                      //             : 0.0, // This would be the width of the underline
-                      //       ))),
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             counter = 3;
-                      //           });
-                      //         },
-                      //         child: Text("Baby Care",
-                      //             style: ThemeApp().underlineThemeText(
-                      //                 Color(0xffee7625),
-                      //                 15.0,
-                      //                 counter == 3 ? true : false)),
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       padding: EdgeInsets.only(
-                      //         bottom:
-                      //             3, // This can be the space you need betweeb text and underline
-                      //       ),
-                      //       decoration: BoxDecoration(
-                      //           border: Border(
-                      //               bottom: BorderSide(
-                      //         color: counter == 4
-                      //             ? Color(0xffee7625)
-                      //             : Colors.transparent,
-                      //         width: counter == 4
-                      //             ? 2.0
-                      //             : 0.0, // This would be the width of the underline
-                      //       ))),
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             counter = 4;
-                      //           });
-                      //         },
-                      //         child: Text("All",
-                      //             style: ThemeApp().underlineThemeText(
-                      //                 Color(0xffee7625),
-                      //                 15.0,
-                      //                 counter == 4 ? true : false)),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )),
                       BannersSliderClass(),
                       SizedBox(
                         height: 10,
                       ),
                       CategoriesClass(),
+                      SizedBox(height: ScreenUtil().setWidth(30)),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: InkWell(
+                            onTap: () {
+                              locator<NavigationService>()
+                                  .pushNamed(routes.MegaMenuRoute);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                'assets/images/shop_by_category.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       ListDealsClass(),
                       YouMayLikeClass(),
                       BannersClass(),
@@ -363,15 +306,17 @@ class _SuggestedClass extends State<SuggestedClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(190),
+          height: ScreenUtil().setWidth(254),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productSuggestedResponse.data.length,
               itemBuilder: (BuildContext context, index) {
-                return Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(29)),
-                    child: ProductViewSpecialCard(
-                        value.productSuggestedResponse.data[index]));
+                return Column(
+                  children: [
+                    ProductViewColor2Card(
+                        value.productSuggestedResponse.data[index])
+                  ],
+                );
               }),
         )
       ]);
@@ -411,8 +356,11 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
             .fetchYouMayLikeData();
         return Container();
       } else if (value.youMayLikeStatus == "empty") {
+        log("heere empt");
+
         return SizedBox.shrink();
       } else if (value.youMayLikeStatus == "error") {
+        log("heere");
         return SizedBox.shrink();
       }
       return Column(children: [
@@ -422,7 +370,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
         Container(
           padding: EdgeInsets.only(
             bottom: ScreenUtil().setWidth(
-                3), // This can be the space you need betweeb text and underline
+                3), // This can be the space you need between text and underline
           ),
           decoration: BoxDecoration(
               border: Border(
@@ -447,10 +395,21 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
               scrollDirection: Axis.horizontal,
               itemCount: value.productYouMayLikeResponse.data.length,
               itemBuilder: (BuildContext context, index) {
-                return Column(children: [
-                  ProductViewColor2Card(
-                      value.productYouMayLikeResponse.data[index])
-                ]);
+                return InkWell(
+                  onTap: () {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_YOU_MAY_LIKE,
+                      "itemId":
+                          value.productYouMayLikeResponse.data[index].barcode,
+                      "event": "tap"
+                    };
+                    Tracking(event: EVENT_YOU_MAY_LIKE, data: data);
+                  },
+                  child: Column(children: [
+                    ProductViewColor2Card(
+                        value.productYouMayLikeResponse.data[index])
+                  ]),
+                );
               }),
         )
       ]);
@@ -518,15 +477,26 @@ class _TrendingClass extends State<TrendingClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(260),
+          height: ScreenUtil().setWidth(254),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productTrendingResponse.data.length,
               itemBuilder: (BuildContext context, index) {
-                return Column(children: [
-                  ProductViewColor3Card(
-                      value.productTrendingResponse.data[index])
-                ]);
+                return InkWell(
+                  onTap: () {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_TRENDING,
+                      "itemId":
+                          value.productTrendingResponse.data[index].barcode,
+                      "event": "tap"
+                    };
+                    Tracking(event: EVENT_TRENDING, data: data);
+                  },
+                  child: Column(children: [
+                    ProductViewColor2Card(
+                        value.productTrendingResponse.data[index])
+                  ]),
+                );
               }),
         )
       ]);
@@ -561,7 +531,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
 
   Widget getBannersList() {
     return Consumer<BannerViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, BannerViewModel value, Widget child) {
       if (value.statusSlider == "loading") {
         Provider.of<BannerViewModel>(context, listen: false).fetchSliderData();
         return Container();
@@ -570,9 +540,10 @@ class _BannersSliderClass extends State<BannersSliderClass> {
       } else if (value.statusSlider == "error") {
         return Container();
       } else {
+        log("This is Slider length"+value.sliderResponse.data.length.toString());
         return Container(
           child: CarouselSlider.builder(
-            itemCount: value.bannerSliderResponse.data.length,
+            itemCount: value.sliderResponse.data.length,
             options: CarouselOptions(
               viewportFraction: 1,
               aspectRatio: 20 / 9,
@@ -580,19 +551,56 @@ class _BannersSliderClass extends State<BannersSliderClass> {
               autoPlay: true,
             ),
             itemBuilder: (ctx, index, _index) {
-              if (value.bannerSliderResponse?.data[index] != null) {
-                return Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(ScreenUtil().radius(5))),
-                    child: Container(
-                      width: ScreenUtil().setWidth(380),
-                      height: MediaQuery.of(context).size.height * 0.10,
-                      child: Image.network(
-                        value.bannerSliderResponse?.data[index].img.toString(),
+              if (value.sliderResponse?.data[index] != null) {
+                log(index.toString());
+                log(value.sliderResponse.data[index].img);
+                return InkWell(
+                  onTap: () async {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_HOME_MAIN_SLIDER,
+                      "imageUrl":
+                          value.sliderResponse?.data[index].img.toString(),
+                      "position": index,
+                      "event": "tap",
+                    };
+                    Tracking(event: EVENT_HOME_MAIN_SLIDER, data: data);
+print("link ${value.sliderResponse.data[index].link}");
+
+                    if (value.sliderResponse.data[index].link == null ||
+                        value.sliderResponse.data[index].link == "") {
+
+                    }
+                   else if(value.sliderResponse.data[index].link.contains(ApiEndpoint().brandLink)){
+                      log("here");
+                     for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+                     {
+                       print(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name);
+                       if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==value.sliderResponse.data[index].link.split(ApiEndpoint().brandLink)[1]){
+                       print("here ytii");
+                         locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                       }
+                     }
+                    }
+                   else{
+                      locator<NavigationService>().push(MaterialPageRoute(
+                          builder: (context) => ProductList("", "", "", "", "",
+                              value.sliderResponse.data[index].link)));
+                    }
+
+                  },
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(ScreenUtil().radius(5))),
+                      child: Container(
                         width: ScreenUtil().setWidth(380),
                         height: MediaQuery.of(context).size.height * 0.10,
-                        fit: BoxFit.cover,
+                        child: Image.network(
+                          value.sliderResponse?.data[index].img.toString(),
+                          width: ScreenUtil().setWidth(380),
+                          height: MediaQuery.of(context).size.height * 0.10,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -638,67 +646,114 @@ class _BannersClass extends State<BannersClass> {
       } else if (value.statusBanner == "error") {
         return SizedBox.shrink();
       } else {
-        return Column(children: [
-          SizedBox(
-            height: 10,
-          ),
-          InkWell(
-              onTap: () {
-                locator<NavigationService>()
-                    .pushNamed(routes.ProductList, args: {
-                  "searchKey": value.bannerBannerResponse.data[0].link,
-                  "category": "",
-                  "brandName": ""
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.fromLTRB(9, 10, 9, 10),
-                child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/loading.gif',
-                    image: value.bannerBannerResponse.data[0].img),
-              )),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
-            height: 185,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: value.bannerBannerResponse.data.length,
-                itemBuilder: (BuildContext context, index) {
-                  if (value.bannerBannerResponse.data != null) {
-                    return Column(children: [
-                      InkWell(
-                        onTap: () {
-                          locator<NavigationService>().push(MaterialPageRoute(
-                              builder: (context) => ProductList(
-                                  value.bannerBannerResponse.data[index].link,
-                                  "",
-                                  "")));
-                        },
-                        child: index == 0
-                            ? Container()
-                            : Container(
-                                height: 160,
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/loading.gif',
-                                  image: value
-                                      .bannerBannerResponse.data[index].img,
-                                ),
-                                margin: EdgeInsets.fromLTRB(0, 10, 20, 0),
-                              ),
-                      ),
-                    ]);
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                }),
-          ),
-        ]);
+        return Column(children: getColumn(value.bannerResponse));
       }
     });
+  }
+
+  getColumn(BannerResponse bannerResponse) {
+    List<Widget> children = [];
+    for (int i = 0; i < bannerResponse.groupByBanner.length; i++) {
+      children.add(
+        SizedBox(
+          height: 10,
+        ),
+      );
+      children.add(InkWell(
+          onTap: () async {
+
+            if (bannerResponse.groupByBanner[i].data[0].link == null ||
+                bannerResponse.groupByBanner[i].data[0].link == "") {
+
+            }
+            else if(bannerResponse.groupByBanner[i].data[0].link.contains(ApiEndpoint().brandLink)){
+              for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+              {
+                if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[0].link.split(ApiEndpoint().brandLink)[1]){
+                  locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                }
+              }
+            }
+            else{
+              locator<NavigationService>().push(MaterialPageRoute(
+                  builder: (context) => ProductList("", "", "", "", "",
+                      bannerResponse.groupByBanner[i].data[0].link)));
+            }
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.fromLTRB(9, 10, 9, 10),
+            child: FadeInImage.assetNetwork(
+                placeholder: 'assets/images/loading.gif',
+                image: bannerResponse.groupByBanner[i].data[0].img),
+          )));
+      children.add(
+        SizedBox(
+          height: 10,
+        ),
+      );
+      children.add(Container(
+        padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
+        height: 185,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: bannerResponse.groupByBanner[i].data.length,
+            itemBuilder: (BuildContext context, index) {
+              if (bannerResponse.groupByBanner[0].data != null) {
+                return InkWell(
+                  onTap: () {},
+                  child: Column(children: [
+                    InkWell(
+                      onTap: () async {
+                        Map<String, dynamic> data = {
+                          "id": EVENT_HOME_PROMO_BANNER,
+                          "position": index,
+                          "event": "tap"
+                        };
+                        Tracking(event: EVENT_HOME_PROMO_BANNER, data: data);
+
+
+                        if (bannerResponse.groupByBanner[i].data[index].link == null ||
+                            bannerResponse.groupByBanner[i].data[index].link == "") {
+
+                        }
+                        else if(bannerResponse.groupByBanner[i].data[index].link.contains(ApiEndpoint().brandLink)){
+                          log("here");
+                          for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+                          {
+                            log(i.toString());
+                            if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[index].link.split(ApiEndpoint().brandLink)[1]){
+                              locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                            }
+                          }
+                        }
+                        else{
+                          locator<NavigationService>().push(MaterialPageRoute(
+                              builder: (context) => ProductList("", "", "", "", "",
+                                  bannerResponse.groupByBanner[i].data[index].link)));
+                        }
+                      },
+                      child: index == 0
+                          ? Container()
+                          : Container(
+                              height: 160,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/images/loading.gif',
+                                image: bannerResponse
+                                    .groupByBanner[i].data[index].img,
+                              ),
+                              margin: EdgeInsets.fromLTRB(0, 10, 20, 0),
+                            ),
+                    ),
+                  ]),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
+      ));
+    }
+    return children;
   }
 }
 
@@ -1008,57 +1063,69 @@ class _CategoriesClass extends State<CategoriesClass> {
                 itemBuilder: (BuildContext build, index) {
                   return Container(
                       child: InkWell(
-                          onTap: () {
-                            locator<NavigationService>()
-                                .pushNamed(routes.ProductList, args: {
-                              "searchKey": "",
-                              "category":
-                                  value.categoryResponse.data[index].slug,
-                              "brandName": ""
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Card(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(
-                                              ScreenUtil().radius(40)),
-                                          topRight: Radius.circular(
-                                              ScreenUtil().radius(40)),
-                                          bottomLeft: Radius.circular(
-                                              ScreenUtil().radius(40)),
-                                          topLeft: Radius.circular(
-                                              ScreenUtil().radius(40)))),
-                                  child: Container(
-                                      width: ScreenUtil().radius(95),
-                                      height: ScreenUtil().radius(95),
-                                      decoration: new BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Color(0xff32AFC8),
-                                                  width: ScreenUtil().setWidth(2)),
-                                              top: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2)),
-                                              left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2)),
-                                              right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2))),
-                                          shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                value.categoryResponse.data[index].name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(
-                                      14,
-                                    ),
-                                    color: Color(0xff616161)),
-                              ),
-                            ],
+                          onTap: () {},
+                          child: InkWell(
+                            onTap: () {
+                              Map<String, dynamic> data = {
+                                "id": EVENT_HOME_CATEGORIES,
+                                "title":
+                                    value.categoryResponse.data[index].name,
+                                "url": value.categoryResponse.data[index].slug,
+                                "event": "tap"
+                              };
+                              Tracking(
+                                  event: EVENT_HOME_CATEGORIES, data: data);
+                              locator<NavigationService>()
+                                  .pushNamed(routes.ProductList, args: {
+                                "searchKey": "",
+                                "category":
+                                    value.categoryResponse.data[index].slug,
+                                "brandName": "",
+                                "parentBrand": ""
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Card(
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(
+                                                ScreenUtil().radius(40)),
+                                            topRight: Radius.circular(
+                                                ScreenUtil().radius(40)),
+                                            bottomLeft: Radius.circular(
+                                                ScreenUtil().radius(40)),
+                                            topLeft: Radius.circular(
+                                                ScreenUtil().radius(40)))),
+                                    child: Container(
+                                        width: ScreenUtil().radius(95),
+                                        height: ScreenUtil().radius(95),
+                                        decoration: new BoxDecoration(
+                                            border: Border(
+                                                bottom:
+                                                    BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
+                                                top: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
+                                                left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
+                                                right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1))),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.tablez.com/icon.png'))))),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  value.categoryResponse.data[index].name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(
+                                        14,
+                                      ),
+                                      color: Color(0xff616161)),
+                                ),
+                              ],
+                            ),
                           )));
                 }),
           );
@@ -1122,47 +1189,44 @@ class _BrandClass extends State<BrandClass> {
                 height: ScreenUtil().setWidth(44.5),
               ),
               Container(
-                  //  color: Colors.white,
-                  height: 61,
-                  margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(52), 0,
-                      ScreenUtil().setWidth(51), 0),
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: value.brandResponse.data.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext build, index) {
-                        print(value.brandResponse.data[index].name);
-                        return Container(
-                            //  color: Colors.white,
-                            child: InkWell(
-                                onTap: () {
-                                  locator<NavigationService>()
-                                      .pushNamed(routes.ProductList, args: {
-                                    "searchKey": "",
-                                    "category": "",
-                                    "brandName":
-                                        value.brandResponse.data[index].name
-                                  });
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                        right: ScreenUtil().setWidth(30)),
-                                    width: ScreenUtil().setWidth(83),
-                                    height: ScreenUtil().setWidth(61),
-                                    decoration: new BoxDecoration(
-                                        //  color: Color(0xffffffff),
-                                        image: new DecorationImage(
-                                            fit: BoxFit.contain,
-                                            image: value.brandResponse
-                                                        .data[index].img !=
-                                                    null
-                                                ? NetworkImage(value
-                                                    .brandResponse
-                                                    .data[index]
-                                                    .img)
-                                                : NetworkImage(
-                                                    'https://next.anne.com/icon.png'))))));
-                      })),
+                //  color: Colors.white,
+                height: ScreenUtil().setWidth(61),
+                margin: EdgeInsets.fromLTRB(
+                    ScreenUtil().setWidth(52), 0, ScreenUtil().setWidth(51), 0),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: value.brandResponse.data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext build, index) {
+                      BrandData data = value.brandResponse.data[index];
+                      return Container(
+                        //  color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            locator<NavigationService>().pushNamed(
+                                routes.BrandPage,
+                                args: {"brandData": data});
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                right: ScreenUtil().setWidth(10)),
+                            width: ScreenUtil().setWidth(103),
+                            height: ScreenUtil().setWidth(61),
+                            decoration: new BoxDecoration(
+                              color: Colors.transparent,
+                              image: new DecorationImage(
+                                fit: BoxFit.contain,
+                                image: data.img != null
+                                    ? NetworkImage(data.img)
+                                    : NetworkImage(
+                                        'https://next.tablez.com/icon.png'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
               SizedBox(
                 height: ScreenUtil().setWidth(30),
               )

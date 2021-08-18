@@ -145,7 +145,7 @@ class PinCodeTextField extends StatefulWidget {
     this.inactiveColor = Colors.black54,
     this.disabledColor = Colors.black54,
     this.borderWidth = 2,
-    this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
+    this.mainAxisAlignment = MainAxisAlignment.spaceAround,
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
     this.shape = PinCodeFieldShape.underline,

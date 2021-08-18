@@ -1,6 +1,5 @@
-
-import 'package:anne/utility/api_provider.dart';
-import 'package:anne/utility/locator.dart';
+import '../../utility/api_provider.dart';
+import '../../utility/locator.dart';
 
 class CartRepository {
   ApiProvider _apiProvider = locator<ApiProvider>();
@@ -13,12 +12,11 @@ class CartRepository {
     return _apiProvider.cartAddItem(pid, vid, qty, replace);
   }
 
-  applyCoupon(promocode){
+  applyCoupon(promocode) {
     return _apiProvider.applyCoupon(promocode);
   }
 
-  listCoupons(){
+  listCoupons() {
     return _apiProvider.listCoupons();
   }
-
 }

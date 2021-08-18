@@ -17,10 +17,11 @@ class BrandResponse {
 
 class BrandData {
   String id;
-  String name;
+  String brandId;
   String slug;
   String img;
   int position;
+  String name;
   String meta;
   String metaTitle;
   String metaDescription;
@@ -29,9 +30,15 @@ class BrandData {
   bool active;
   String createdAt;
   String updatedAt;
+  String facebookUrl;
+  String instaUrl;
+  String twitterUrl;
+  String linkedinUrl;
+  String youtubeUrl;
 
   BrandData(
       {this.id,
+      this.brandId,
       this.active,
       this.name,
       this.metaDescription,
@@ -43,11 +50,17 @@ class BrandData {
       this.meta,
       this.img,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.facebookUrl,
+      this.instaUrl,
+      this.twitterUrl,
+      this.linkedinUrl,
+      this.youtubeUrl});
 
   factory BrandData.fromJson(Map<String, dynamic> json) =>
       BrandData(
           id: json["id"] ?? null,
+          brandId: json["brandId"] ?? null,
           name: json["name"] ?? null,
           meta: json["meta"] ?? null,
           metaDescription: json["metaDescription"] ?? null,
@@ -57,6 +70,11 @@ class BrandData {
           slug: json["slug"] ?? null,
           position: json["position"] ?? null,
           img: json["img"] ?? null,
+          facebookUrl: json["facebookUrl"] ?? null,
+          instaUrl: json["instaUrl"] ?? null,
+          twitterUrl: json["twitterUrl"] ?? null,
+          linkedinUrl: json["linkedinUrl"] ?? null,
+          youtubeUrl: json["youtubeUrl"] ?? null,
           active: json["active"] ?? null,
           createdAt: json["createdAt"] ?? null,
           updatedAt: json["updatedAt"]) ??

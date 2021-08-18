@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:anne/repository/brandRepository.dart';
-import 'package:anne/response_handler/brandResponse.dart';
-import 'package:anne/utility/query_mutation.dart';
+import '../../repository/brandRepository.dart';
+import '../../response_handler/brandResponse.dart';
+import '../../utility/query_mutation.dart';
 
 class BrandViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
@@ -13,9 +13,9 @@ class BrandViewModel with ChangeNotifier {
   }
 
   Future<void> fetchBrandData() async {
-    var resultData = await brandRepository.fetchBrandData();
+    var resultData = await brandRepository.fetchParentBrandData();
     status = resultData["status"];
-    if(status=="completed"){
+    if (status == "completed") {
       _brandResponse = BrandResponse.fromJson(resultData["value"]);
     }
     notifyListeners();

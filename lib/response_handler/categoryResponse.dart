@@ -1,4 +1,4 @@
-import 'package:anne/model/category.dart';
+import '../../model/category.dart';
 
 class CategoriesResponse {
   int count;

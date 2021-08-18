@@ -1,14 +1,15 @@
 import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:anne/enum/tz_dialog_type.dart';
-import 'package:anne/values/colors.dart';
+import '../../enum/tz_dialog_type.dart';
+import '../../values/colors.dart';
 
 class TzDialog extends ChangeNotifier {
   BuildContext context;
   TzDialogType type;
   String _message;
   bool notificationHandleStatus;
+
   TzDialog(this.context, this.type, [this._message = 'Please wait..']);
 
   String get message => _message;
@@ -18,8 +19,8 @@ class TzDialog extends ChangeNotifier {
     notifyListeners();
   }
 
-   show() async{
-   await showDialog(
+  show() async {
+    await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -38,7 +39,7 @@ class TzDialog extends ChangeNotifier {
         }
       },
     );
-      return notificationHandleStatus;
+    return notificationHandleStatus;
   }
 
   Widget loadProgress() {
@@ -126,69 +127,54 @@ class TzDialog extends ChangeNotifier {
     );
   }
 
-
-
   Widget notificationAlert() {
-
     return WillPopScope(
-      onWillPop: () => Future.value(false),
-      child: Dialog(
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        child: Container(
-          height: 150.0,
-          width: 200.0,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Text(
-                      "You have a new Notification from $message",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                InkWell(
-                  onTap: (){
+      child: Platform.isIOS
+          ? new CupertinoAlertDialog(
+              title: Text("You have a new Notification from $message"),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('View'),
+                  onPressed: () {
                     notificationHandleStatus = true;
-                    Navigator.pop(context);
+                    this.close();
                   },
-                  child:  Center(
-                      child: Text(
-                        'View',
-                        style: TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                InkWell(
-                  onTap: (){
-                    notificationHandleStatus = false;
-                    Navigator.pop(context);
-                  },
-                  child:  Center(
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(fontSize: 14.0, color: Colors.black),
-                      ),
-                    ),
                 ),
-              ],)
-
-            ],
-          ),
-        ),
-      ),
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    notificationHandleStatus = false;
+                    this.close();
+                  },
+                ),
+              ],
+            )
+          : new AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              title: Text("You have a new Notification from $message",
+                  style: TextStyle(fontWeight: FontWeight.w500)),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('View'),
+                  onPressed: () {
+                    notificationHandleStatus = true;
+                    this.close();
+                  },
+                ),
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    notificationHandleStatus = false;
+                    this.close();
+                  },
+                ),
+              ],
+            ),
+      onWillPop: () => Future.value(false),
     );
-
   }
 
   void close() {

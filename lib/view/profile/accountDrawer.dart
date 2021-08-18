@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/values/route_path.dart' as routes;
-import 'package:anne/view_model/auth_view_model.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import '../../values/route_path.dart' as routes;
+import '../../view_model/auth_view_model.dart';
 
 class AccountDrawer extends StatefulWidget {
   @override
@@ -103,7 +103,7 @@ class _AccountDrawer extends State<AccountDrawer> {
             height: 15,
           ),
           Text(
-            "${user.user.email ?? "email@anne.com"}",
+            "${user.user.email ?? "email@tablez.com"}",
             style: TextStyle(color: Colors.grey, fontSize: 17),
           ),
         ]),

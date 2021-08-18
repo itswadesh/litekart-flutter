@@ -1,5 +1,4 @@
-
-import 'package:anne/values/functions.dart';
+import '../../values/functions.dart';
 
 enum HomeCardLayout { Single, Grid, List }
 

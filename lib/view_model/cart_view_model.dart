@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:anne/repository/cart_repository.dart';
-import 'package:anne/response_handler/cartResponse.dart';
-import 'package:anne/response_handler/couponResponse.dart';
-import 'package:anne/utility/query_mutation.dart';
-
+import '../../repository/cart_repository.dart';
+import '../../response_handler/cartResponse.dart';
+import '../../response_handler/couponResponse.dart';
+import '../../utility/query_mutation.dart';
 
 class CartViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
@@ -24,17 +23,17 @@ class CartViewModel with ChangeNotifier {
   }
 
   fetchCartData() async {
-    var resultData  = await cartRepository.fetchCartData();
+    var resultData = await cartRepository.fetchCartData();
     status = resultData["status"];
-    if(status=="completed"){
+    if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
       cartCount = _cartResponse.qty;
       if (_cartResponse.discount != null) {
-                promocode = _cartResponse.discount.code ?? "";
-                if (promocode != "") {
-                  promocodeStatus = true;
-                }
-              }
+        promocode = _cartResponse.discount.code ?? "";
+        if (promocode != "") {
+          promocodeStatus = true;
+        }
+      }
     }
     notifyListeners();
   }
@@ -42,11 +41,11 @@ class CartViewModel with ChangeNotifier {
   cartAddItem(pid, vid, qty, replace) async {
     var resultData = await cartRepository.cartAddItem(pid, vid, qty, replace);
     status = resultData["status"];
-    if(status=="empty"){
-    _cartResponse = null;
+    if (status == "empty") {
+      _cartResponse = null;
       cartCount = 0;
     }
-    if(status=="completed"){
+    if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
       cartCount = _cartResponse.qty;
       if (_cartResponse.discount != null) {
@@ -82,7 +81,7 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  refreshCart(){
+  refreshCart() {
     status = "loading";
     notifyListeners();
   }
@@ -94,7 +93,7 @@ class CartViewModel with ChangeNotifier {
 
   applyCoupon() async {
     var resultData = await cartRepository.applyCoupon(promocode);
-    if(resultData["status"]){
+    if (resultData["status"]) {
       await fetchCartData();
       promocodeStatus = resultData["promocodeStatus"];
     }
@@ -105,7 +104,7 @@ class CartViewModel with ChangeNotifier {
   listCoupons() async {
     var resultData = await cartRepository.listCoupons();
     statusPromo = resultData["status"];
-    if(statusPromo=="completed"){
+    if (statusPromo == "completed") {
       _couponResponse = CouponResponse.fromJson(resultData["value"]);
     }
     notifyListeners();

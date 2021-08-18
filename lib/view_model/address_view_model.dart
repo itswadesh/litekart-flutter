@@ -1,16 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:anne/model/address.dart';
-import 'package:anne/repository/address_repository.dart';
-import 'package:anne/response_handler/addressResponse.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/utility/query_mutation.dart';
-import '../utility/graphQl.dart';
+import '../../model/address.dart';
+import '../../repository/address_repository.dart';
+import '../../response_handler/addressResponse.dart';
+import '../../utility/query_mutation.dart';
 
 class AddressViewModel with ChangeNotifier {
-
   QueryMutation addMutation = QueryMutation();
   Address _selectedAddress;
   var status = "loading";
@@ -27,7 +21,7 @@ class AddressViewModel with ChangeNotifier {
   fetchAddressData() async {
     var resultData = await addressRepository.fetchAddressData();
     status = resultData["status"];
-    if(status=="completed"){
+    if (status == "completed") {
       _addressResponse = AddressResponse.fromJson(resultData["value"]);
     }
     notifyListeners();
@@ -35,9 +29,11 @@ class AddressViewModel with ChangeNotifier {
 
   saveAddress(id, email, firstName, lastName, address, town, city, country,
       state, pin, phone) async {
-     bool statusResponse;
-     statusResponse = await addressRepository.saveAddress(id, email, firstName, lastName, address, town, city, country, state, pin, phone);
+    bool statusResponse;
+    statusResponse = await addressRepository.saveAddress(id, email, firstName,
+        lastName, address, town, city, country, state, pin, phone);
     await fetchAddressData();
+    selectAddress(_addressResponse.data[0]);
     notifyListeners();
     return statusResponse;
   }
@@ -57,6 +53,4 @@ class AddressViewModel with ChangeNotifier {
     status = statusData;
     notifyListeners();
   }
-
-
 }

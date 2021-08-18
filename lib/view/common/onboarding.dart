@@ -1,11 +1,13 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:anne/bloc/connectivity_bloc.dart';
+import '../../bloc/connectivity_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/values/colors.dart';
-import 'package:anne/values/functions.dart';
-import 'package:anne/view_model/onboarding_view_model.dart';
+import '../../service/event/tracking.dart';
+import '../../values/colors.dart';
+import '../../values/event_constant.dart';
+import '../../values/functions.dart';
+import '../../view_model/onboarding_view_model.dart';
 import 'internet.dart';
 
 class Onboarding extends StatefulWidget {
@@ -24,6 +26,7 @@ class _OnboardingState extends State<Onboarding> {
   @override
   void initState() {
     /*initChat();*/
+    Tracking(event: EVENT_ONBOARDING);
     super.initState();
     _connectivityBloc.initialise();
   }
@@ -104,17 +107,17 @@ class _OnboardingState extends State<Onboarding> {
                                   image: "assets/images/onboarding_one.png",
                                   title: "Discover",
                                   description:
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing"),
+                                      "Your favourite products at an amazing discount. Refresh the latest fashion trends. Explore a new way to shop."),
                               getScreens(
                                   image: "assets/images/onboarding_two.png",
                                   title: "Purchase",
                                   description:
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing"),
+                                      "Multiple payment options Get Biggest deals on Global Brands. Tops brands at the best price. Delight in the best offer online."),
                               getScreens(
                                   image: "assets/images/onboarding_three.png",
                                   title: "Delivery",
                                   description:
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing"),
+                                      "Anywhere with easy checkouts and quick delivery from our door to yours, Fast and no contact delivery at your doorsteps"),
                             ],
                           ),
                         ),

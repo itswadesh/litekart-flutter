@@ -1,4 +1,4 @@
-import 'package:anne/enum/home_card_layout.dart';
+import '../../enum/home_card_layout.dart';
 
 class DynamicRoute {
   String target;
@@ -14,6 +14,10 @@ class DynamicRoute {
     this.message = map['message'];
   }
 
-  Map<String, dynamic> get values =>
-      {'target': this.target, 'type': this.type, 'args': this.arguments, 'message':this.message};
+  Map<String, dynamic> get values => {
+        'target': this.target,
+        'type': this.type,
+        'args': this.arguments,
+        'message': this.message
+      };
 }

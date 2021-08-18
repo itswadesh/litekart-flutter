@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:anne/model/product.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../model/product.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import '../../values/route_path.dart' as routes;
+
 class ProductViewColor2Card extends StatelessWidget {
   final ProductData productData;
 
@@ -23,8 +24,9 @@ class ProductViewColor2Card extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return InkWell(
-        onTap: () async{
-         await locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: productData.id);
+        onTap: () async {
+          await locator<NavigationService>()
+              .pushNamed(routes.ProductDetailRoute, args: productData.id);
         },
         child: Card(
           margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),

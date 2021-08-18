@@ -1,11 +1,13 @@
-
-
-import 'package:anne/utility/api_provider.dart';
+import '../../utility/api_provider.dart';
 
 class BrandRepository {
   ApiProvider _apiProvider = ApiProvider();
 
-  fetchBrandData(){
+  fetchBrandData() {
     return _apiProvider.fetchBrandData();
+  }
+
+  fetchParentBrandData() {
+    return _apiProvider.fetchParentBrandData();
   }
 }

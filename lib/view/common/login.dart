@@ -3,16 +3,18 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:anne/components/base/data_loading_indicator.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/graphQl.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/values/colors.dart';
-import 'package:anne/components/login/pin_code_fields.dart';
-import 'package:anne/view_model/auth_view_model.dart';
-import 'package:anne/values/route_path.dart' as routes;
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/view_model/login_view_model.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import '../../components/base/data_loading_indicator.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/graphQl.dart';
+import '../../utility/locator.dart';
+import '../../values/colors.dart';
+import '../../components/login/pin_code_fields.dart';
+import '../../view_model/auth_view_model.dart';
+import '../../values/route_path.dart' as routes;
+import '../../view_model/cart_view_model.dart';
+import '../../view_model/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -28,6 +30,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
   var onTapRecognizer;
   String appSignature;
   String otpCode;
+  int otpResendLimit = 5;
 
   TextEditingController _otpController = TextEditingController()..text = "";
 
@@ -113,7 +116,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                     Container(
                         height: 35,
                         child: Image.asset(
-                          'assets/images/anne.png',
+                          'assets/images/tablez.png',
                         )),
                     GestureDetector(
                       onTap: () {
@@ -200,27 +203,33 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 ),
                 InkWell(
                   onTap: () async {
-                    if (_mobileController.text.isEmpty) {
-                      setState(() {
-                        _phoneFieldValidate = true;
-                      });
-                    } else {
-                      if (_mobileController.text.length < 10) {
+                    if (model.resendEnable &&
+                        model.resendTrial < otpResendLimit) {
+                      if (_mobileController.text.isEmpty) {
                         setState(() {
                           _phoneFieldValidate = true;
                         });
                       } else {
-                        _focusNode.unfocus();
-                        model.sendOtp(_mobileController.text);
+                        if (_mobileController.text.length < otpResendLimit) {
+                          setState(() {
+                            _phoneFieldValidate = true;
+                          });
+                        } else {
+                          _focusNode.unfocus();
+                          model.sendOtp(_mobileController.text);
+                        }
                       }
+                      listenForCode();
                     }
-                    listenForCode();
                   },
                   child: Container(
                     height: 43,
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: AppColors.primaryElement, width: 1),
+                      border: Border.all(
+                          color: model.resendEnable
+                              ? AppColors.primaryElement
+                              : Colors.grey,
+                          width: 1),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Column(
@@ -230,7 +239,9 @@ class _LoginState extends State<Login> with CodeAutoFill {
                           "Get OTP",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: AppColors.primaryElement,
+                            color: model.resendEnable
+                                ? AppColors.primaryElement
+                                : Colors.grey,
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
@@ -311,28 +322,62 @@ class _LoginState extends State<Login> with CodeAutoFill {
           ),
           GestureDetector(
             onTap: () {
-              if (_mobileController.text.isEmpty) {
-                _phoneFieldValidate = true;
-              } else if (_mobileController.text.length < 10) {
-                _phoneFieldValidate = true;
-              } else if (_mobileController.text.length == 10) {
-                model.sendOtp(_mobileController.text);
+              if (model.resendEnable && model.resendTrial < otpResendLimit) {
+                if (_mobileController.text.isEmpty) {
+                  _phoneFieldValidate = true;
+                } else if (_mobileController.text.length < otpResendLimit) {
+                  _phoneFieldValidate = true;
+                } else if (_mobileController.text.length == otpResendLimit) {
+                  model.sendOtp(_mobileController.text);
+                }
               }
             },
             child: Align(
               alignment: Alignment.topLeft,
               child: Container(
                 margin: EdgeInsets.only(left: 2, top: 28, bottom: 0),
-                child: Text(
-                  "Resend OTP",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    height: 3.41667,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.resendTrial < otpResendLimit
+                          ? "Resend OTP"
+                          : "Please try take break, use skip",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: model.resendEnable ? Colors.black : Colors.grey,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        height: 3.41667,
+                      ),
+                    ),
+                    !model.resendEnable &&
+                            (model?.resendTrial ?? 0) < otpResendLimit
+                        ? CountdownTimer(
+                            widgetBuilder: ((BuildContext context,
+                                CurrentRemainingTime time) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  "wait ${time.sec.toString()} second",
+                                  style: TextStyle(
+                                    color: AppColors.primaryElement,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    height: 3.41667,
+                                  ),
+                                ),
+                              );
+                            }),
+                            endTime: DateTime.now().millisecondsSinceEpoch +
+                                1000 * 30,
+                            onEnd: () {
+                              model.changeResendEnable();
+                            },
+                          )
+                        : SizedBox.shrink()
+                  ],
                 ),
               ),
             ),
@@ -406,8 +451,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
       onLoading(context);
       await model.validateOtp(_mobileController.text, _otpController.text);
       if (model.otpStatus) {
-        await Provider.of<ProfileModel>(context, listen: false)
-            .getProfile();
+        await Provider.of<ProfileModel>(context, listen: false).getProfile();
 
         await Provider.of<CartViewModel>(context, listen: false)
             .changeStatus("loading");

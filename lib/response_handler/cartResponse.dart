@@ -2,7 +2,7 @@ class CartResponse {
   int qty;
   double subtotal;
   DiscountModel discount;
-  int shipping;
+  String shipping;
   double total;
   int tax;
   List<CartData> items;
@@ -21,7 +21,7 @@ class CartResponse {
           List<CartData>.from(json["items"].map((x) => CartData.fromJson(x))),
       qty: json["qty"],
       discount: DiscountModel.fromJson(json["discount"]),
-      shipping: json["shippingCharge"] ?? 0,
+      shipping:  json["shipping"]["charge"].toString(),
       tax: json["tax"] ?? 0,
       total: double.parse(json["total"].toString()),
       subtotal: double.parse(json["subtotal"].toString()));
@@ -51,7 +51,7 @@ class CartData {
 
   factory CartData.fromJson(Map<String, dynamic> json) => CartData(
       name: json["name"],
-      img: json["img"]??"https://next.tablez.com/icon.png",
+      img: json["img"] ?? "https://next.tablez.com/icon.png",
       pid: json["pid"],
       slug: json["slug"],
       options: json["options"],

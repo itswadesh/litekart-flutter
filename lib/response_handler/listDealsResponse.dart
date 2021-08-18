@@ -1,4 +1,4 @@
-import 'package:anne/model/product.dart';
+import '../../model/product.dart';
 
 class ListDealsResponse {
   int count;

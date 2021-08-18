@@ -23,7 +23,8 @@ errorMessage() {
           ),
           Text(
             "Something went wrong !!",
-            style: TextStyle(color: Colors.grey, fontSize: 16, fontFamily: 'Sofia'),
+            style: TextStyle(
+                color: Colors.grey, fontSize: 16, fontFamily: 'Sofia'),
           ),
         ],
       ),

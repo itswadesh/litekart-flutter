@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:anne/repository/category_repository.dart';
-import 'package:anne/response_handler/categoryResponse.dart';
-import 'package:anne/utility/query_mutation.dart';
-
+import '../../repository/category_repository.dart';
+import '../../response_handler/categoryResponse.dart';
+import '../../utility/query_mutation.dart';
 
 class CategoryViewModel with ChangeNotifier {
   var status = "loading";
@@ -17,7 +16,7 @@ class CategoryViewModel with ChangeNotifier {
   Future<void> fetchCategoryData() async {
     var resultData = await categoryRepository.fetchCategoryData();
     status = resultData["status"];
-    if(status=="completed"){
+    if (status == "completed") {
       _categoriesResponse = CategoriesResponse.fromJson(resultData["value"]);
     }
     notifyListeners();

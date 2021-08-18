@@ -1,6 +1,5 @@
-
-import 'package:anne/utility/api_provider.dart';
-import 'package:anne/utility/locator.dart';
+import '../../utility/api_provider.dart';
+import '../../utility/locator.dart';
 
 class AuthRepository {
   ApiProvider _apiProvider = locator<ApiProvider>();
@@ -9,11 +8,11 @@ class AuthRepository {
     return _apiProvider.getProfile();
   }
 
-  editProfile(phone, firstName, lastName, email, gender){
+  editProfile(phone, firstName, lastName, email, gender) {
     return _apiProvider.editProfile(phone, firstName, lastName, email, gender);
   }
 
-  removeProfile(){
+  removeProfile() {
     return _apiProvider.removeProfile();
   }
 }

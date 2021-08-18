@@ -1,10 +1,9 @@
-
-import 'package:anne/utility/api_provider.dart';
+import '../../utility/api_provider.dart';
 
 class CategoryRepository {
   ApiProvider _apiProvider = ApiProvider();
 
-  fetchCategoryData(){
+  fetchCategoryData() {
     return _apiProvider.fetchCategoryData();
   }
 }

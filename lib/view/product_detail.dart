@@ -1,32 +1,31 @@
 import 'dart:convert';
-import 'dart:developer';
-
-import 'package:anne/utils/zego_config.dart';
-import 'package:anne/view/play_stream/play_stream_page.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/components/widgets/cartEmptyMessage.dart';
-import 'package:anne/model/product.dart';
-import 'package:anne/response_handler/productGroupResponse.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/components/widgets/errorMessage.dart';
-import 'package:anne/view/cart_logo.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/utility/graphQl.dart';
-
-import 'package:anne/components/widgets/loading.dart';
-import 'package:anne/values/route_path.dart' as routes;
-import 'package:anne/view_model/wishlist_view_model.dart';
-import 'package:zego_express_engine/zego_express_engine.dart';
+import '../../components/widgets/cartEmptyMessage.dart';
+import '../../model/product.dart';
+import '../../response_handler/productGroupResponse.dart';
+import '../../service/event/tracking.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
+import '../../utility/query_mutation.dart';
+import '../../components/widgets/errorMessage.dart';
+import '../../values/event_constant.dart';
+import '../../view/cart_logo.dart';
+import '../../view_model/auth_view_model.dart';
+import '../../view_model/cart_view_model.dart';
+import '../../utility/graphQl.dart';
+import '../../components/widgets/loading.dart';
+import '../../values/route_path.dart' as routes;
+import '../../view_model/product_detail_view_model.dart';
+import '../../view_model/wishlist_view_model.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -46,140 +45,117 @@ class _ProductDetail extends State<ProductDetail> {
   var indexImage = 0;
   var cartStatusButton = "Add to cart";
   var icon;
-  ProductDetailData productData;
-  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+
+  // ProductDetailData productData;
   String productId;
 
   @override
   void initState() {
     // TODO: implement initState
     productId = widget.productId;
-
+    Provider.of<ProductDetailViewModel>(context, listen: false)
+        .changeStatus("loading");
     super.initState();
-
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  _createDynamicLink(bool short, id) async {
+    var _linkMessage;
+    var dynamicUrl;
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://tablez.com/',
+      link: Uri.parse('https://www.tablez.com/$id'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.tablez.ind',
+        minimumVersion: 0,
+      ),
+      iosParameters: IosParameters(bundleId: 'com.tablez.ind'),
+      dynamicLinkParametersOptions: DynamicLinkParametersOptions(
+        shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
+      ),
+    );
 
-    // Can destroy the engine when you don't need audio and video calls
-    //
-    // Destroy engine will automatically logout room and stop publishing/playing stream.
-    ZegoExpressEngine.destroyEngine();
-  }
+    //Uri url;
+    if (short) {
+      final ShortDynamicLink shortLink = await parameters.buildShortLink();
+      dynamicUrl = shortLink.shortUrl;
+    } else {
+      dynamicUrl = await parameters.buildUrl();
+    }
 
-  // Step1: Create ZegoExpressEngine
-  Future<void> _createEngine() async {
-    int appID = ZegoConfig.instance.appID;
-    String appSign = ZegoConfig.instance.appSign;
-    bool isTestEnv = ZegoConfig.instance.isTestEnv;
-    ZegoScenario scenario = ZegoConfig.instance.scenario;
-    bool enablePlatformView = ZegoConfig.instance.enablePlatformView;
-
-    await ZegoExpressEngine.createEngine(appID, appSign, isTestEnv, scenario, enablePlatformView: enablePlatformView);
-  }
-
-  // Step2 LoginRoom
-  Future<void>  _loginRoom(roomId) async {
-    String roomID = roomId;
-    ZegoUser user = ZegoUser(ZegoConfig.instance.userID, ZegoConfig.instance.userName);
-    await ZegoExpressEngine.instance.loginRoom(roomID, user);
-    ZegoConfig.instance.roomID = roomID;
-    ZegoConfig.instance.saveConfig();
-    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-
-      int screenWidthPx = MediaQuery.of(context).size.width.toInt() * MediaQuery.of(context).devicePixelRatio.toInt();
-      int screenHeightPx = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - 56.0).toInt() * MediaQuery.of(context).devicePixelRatio.toInt();
-
-      return PlayStreamPage(roomID,screenWidthPx, screenHeightPx);
-
-    }));
-
+    setState(() {
+      _linkMessage = dynamicUrl.toString();
+    });
+    print(_linkMessage);
+    print(dynamicUrl);
+    return dynamicUrl;
   }
 
   @override
   Widget build(BuildContext context) {
-  if(Provider
-      .of<CartViewModel>(context)
-      .cartResponse
-      !=null) {
-    for (int i = 0; i < Provider
-        .of<CartViewModel>(context)
-        .cartResponse
-        .items
-        .length; i++) {
-      if (Provider
-          .of<CartViewModel>(context)
-          .cartResponse
-          .items[i].pid == productId) {
-        setState(() {
-          cartStatusButton = "Go to cart";
-        });
+    if (Provider.of<CartViewModel>(context).cartResponse != null) {
+      for (int i = 0;
+          i < Provider.of<CartViewModel>(context).cartResponse.items.length;
+          i++) {
+        if (Provider.of<CartViewModel>(context).cartResponse.items[i].pid ==
+            productId) {
+          setState(() {
+            cartStatusButton = "Go to cart";
+          });
+        }
       }
     }
-  }
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black54,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black54,
+            ),
           ),
+          title: Center(
+              // width: MediaQuery.of(context).size.width * 0.39,
+              child: Text(
+            "Product Details",
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontSize: ScreenUtil().setSp(
+                  21,
+                )),
+            textAlign: TextAlign.center,
+          )),
+          actions: [
+            Container(
+                padding: EdgeInsets.only(right: 10.0),
+                // width: MediaQuery.of(context).size.width * 0.35,
+                child: CartLogo())
+          ],
         ),
-        title: Center(
-            // width: MediaQuery.of(context).size.width * 0.39,
-            child: Text(
-          "Product Details",
-          style: TextStyle(
-              color: Color(0xff616161),
-              fontSize: ScreenUtil().setSp(
-                21,
-              )),
-          textAlign: TextAlign.center,
-        )),
-        actions: [
-          Container(
-              padding: EdgeInsets.only(right: 10.0),
-              // width: MediaQuery.of(context).size.width * 0.35,
-              child: CartLogo())
-        ],
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Color(0xfff3f3f3),
-        child: Query(
-          options: QueryOptions(
-              document: gql(addMutation.product()),
-              variables: {"id": productId}),
-          builder: (QueryResult result,
-              {VoidCallback refetch, FetchMore fetchMore}) {
-            if (result.hasException) {
-              print(result.exception.toString());
-              return errorMessage();
-            }
-            if (result.isLoading) {
-              return Loading();
-            }
-            if (result.data["product"] == null) {
-              return cartEmptyMessage(
-                  "noNetwork", "Nothing here . Something went wrong !!");
-            } else {
-              log(result.data["product"].toString());
-              productData = ProductDetailData.fromJson(result.data["product"]);
-              if (productData.stock <= 0) {
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            color: Color(0xfff3f3f3),
+            child: Consumer<ProductDetailViewModel>(
+                builder: (BuildContext context, value, Widget child) {
+              if (value.status == "loading") {
+                Provider.of<ProductDetailViewModel>(context, listen: false)
+                    .fetchProductDetailData(productId);
+                return Loading();
+              }
+              if (value.status == "empty") {
+                return cartEmptyMessage(
+                    "noNetwork", "Nothing here . Something went wrong !!");
+              }
+              if (value.status == "error") {
+                return errorMessage();
+              }
+              if (value.productDetailResponse.stock <= 0) {
                 cartStatusButton = "Not Available";
               }
-              return getProductDetails();
-            }
-          },
-        ),
-      ),
-    );
+              return getProductDetails(value.productDetailResponse);
+            })));
   }
 
   imagesList(count, images) {
@@ -235,9 +211,7 @@ class _ProductDetail extends State<ProductDetail> {
                 },
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/loading.gif',
-                  image: images[index] != null
-                      ? images[index].toString().trim()
-                      : 'https://next.anne.com/icon.png',
+                  image: images[index].toString().trim(),
                   width: ScreenUtil().setWidth(52),
                   height: ScreenUtil().setWidth(52),
                 )),
@@ -245,10 +219,10 @@ class _ProductDetail extends State<ProductDetail> {
         });
   }
 
-  Widget getProductDetails() {
+  Widget getProductDetails(ProductDetailData productData) {
     icon = Icons.favorite_border;
     var count = productData.images.length;
-    print("live stream id  ::  "+productData.liveStreams[0].id.toString());
+
     return Stack(children: [
       SingleChildScrollView(
           child: Column(
@@ -260,104 +234,146 @@ class _ProductDetail extends State<ProductDetail> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(
-                  Icons.share,
-                  size: 20,
-                ),
+                /*InkWell(
+                    onTap: () async {
+                      TzDialog _dialog =
+                      TzDialog(context, TzDialogType.progress);
+                      _dialog.show();
+                     var dynamicLink = await _createDynamicLink(true, productData.id);
+                     _dialog.close();
+                      final RenderBox box = context.findRenderObject();
+                      await Share.share(
+                          "Hi, Check out this awesome product on Tablez : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                          sharePositionOrigin:
+                              box.localToGlobal(Offset.zero) & box.size);
+                    },
+                    child: Icon(
+                      Icons.share,
+                      size: 20,
+                    )),*/
                 SizedBox(
                   width: 10,
                 ),
-                Container(
-                    margin:
-                        EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
-                    width: ScreenUtil().radius(24),
-                    height: ScreenUtil().radius(24),
-                    decoration: new BoxDecoration(
-                      color: Color(0xffFFE8E8),
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Color(0xffff2300),
-                              width: ScreenUtil().setWidth(0.4)),
-                          top: BorderSide(
-                              color: Color(0xffff2300),
-                              width: ScreenUtil().setWidth(0.4)),
-                          left: BorderSide(
-                              color: Color(0xffff2300),
-                              width: ScreenUtil().setWidth(0.4)),
-                          right: BorderSide(
-                              color: Color(0xffff2300),
-                              width: ScreenUtil().setWidth(0.4))),
-                      shape: BoxShape.circle,
-                    ),
-                    child: CheckWishListClass(productData.id, productData.id))
+                InkWell(
+                  onTap: () {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                      "itemId": productId,
+                      "event": "tap"
+                    };
+                    Tracking(
+                        event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                        data: data);
+                  },
+                  child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0, 0, ScreenUtil().setWidth(8), 0),
+                      width: ScreenUtil().radius(26),
+                      height: ScreenUtil().radius(26),
+                      decoration: new BoxDecoration(
+                        color: Color(0xffFFE8E8),
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Color(0xffff2300),
+                                width: ScreenUtil().setWidth(0.4)),
+                            top: BorderSide(
+                                color: Color(0xffff2300),
+                                width: ScreenUtil().setWidth(0.4)),
+                            left: BorderSide(
+                                color: Color(0xffff2300),
+                                width: ScreenUtil().setWidth(0.4)),
+                            right: BorderSide(
+                                color: Color(0xffff2300),
+                                width: ScreenUtil().setWidth(0.4))),
+                        shape: BoxShape.circle,
+                      ),
+                      child:
+                          CheckWishListClass(productData.id, productData.id)),
+                )
               ],
             ),
           ),
           GestureDetector(
-              onHorizontalDragUpdate: (details) {
-                // Note: Sensitivity is integer used when you don't want to mess up vertical drag
-                int sensitivity = 12;
-                if (details.delta.dx > sensitivity) {
-                  if (indexImage == 0) {
-                  } else {
-                    setState(() {
-                      indexImage = indexImage - 1;
-                    });
-                  }
-                } else if (details.delta.dx < -sensitivity) {
-                  if (indexImage == count - 1) {
-                  } else {
-                    setState(() {
-                      indexImage = indexImage + 1;
-                    });
-                  }
+            onHorizontalDragUpdate: (details) {
+              // Note: Sensitivity is integer used when you don't want to mess up vertical drag
+              int sensitivity = 12;
+              if (details.delta.dx > sensitivity) {
+                if (indexImage == 0) {
+                } else {
+                  setState(() {
+                    indexImage = indexImage - 1;
+                  });
                 }
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(60),
-                    ScreenUtil().setWidth(16.65),
-                    ScreenUtil().setWidth(59),
-                    ScreenUtil().setWidth(27)),
-                height: ScreenUtil().setWidth(291),
-                width: ScreenUtil().setWidth(295),
-                padding: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(12),
-                    ScreenUtil().setWidth(11),
-                    ScreenUtil().setWidth(12),
-                    ScreenUtil().setWidth(9)),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(
-                          color: Color(0xff32afc8),
-                          width: ScreenUtil().setWidth(0.3),
-                          // This would be the width of the underline
-                        ),
-                        top: BorderSide(
-                          color: Color(0xff32afc8),
-                          width: ScreenUtil().setWidth(0.3),
-                          // This would be the width of the underline
-                        ),
-                        left: BorderSide(
-                          color: Color(0xff32afc8),
-                          width: ScreenUtil().setWidth(0.3),
-                          // This would be the width of the underline
-                        ),
-                        right: BorderSide(
-                          color: Color(0xff32afc8),
-                          width: ScreenUtil().setWidth(0.3),
-                          // This would be the width of the underline
-                        ))),
+              } else if (details.delta.dx < -sensitivity) {
+                if (indexImage == count - 1) {
+                } else {
+                  setState(() {
+                    indexImage = indexImage + 1;
+                  });
+                }
+              }
+            },
+            onTap: () {
+              locator<NavigationService>().pushNamed(routes.ZoomImageRoute,
+                  args: {
+                    'imageLinks': productData.images,
+                    'index': indexImage
+                  });
+            },
+            child: Container(
+              margin: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(60),
+                  ScreenUtil().setWidth(16.65),
+                  ScreenUtil().setWidth(59),
+                  ScreenUtil().setWidth(27)),
+              height: ScreenUtil().setWidth(291),
+              width: ScreenUtil().setWidth(295),
+              padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(12),
+                  ScreenUtil().setWidth(11),
+                  ScreenUtil().setWidth(12),
+                  ScreenUtil().setWidth(9)),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                      bottom: BorderSide(
+                        color: Color(0xff32afc8),
+                        width: ScreenUtil().setWidth(0.3),
+                        // This would be the width of the underline
+                      ),
+                      top: BorderSide(
+                        color: Color(0xff32afc8),
+                        width: ScreenUtil().setWidth(0.3),
+                        // This would be the width of the underline
+                      ),
+                      left: BorderSide(
+                        color: Color(0xff32afc8),
+                        width: ScreenUtil().setWidth(0.3),
+                        // This would be the width of the underline
+                      ),
+                      right: BorderSide(
+                        color: Color(0xff32afc8),
+                        width: ScreenUtil().setWidth(0.3),
+                        // This would be the width of the underline
+                      ))),
+              child: PinchZoom(
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/loading.gif',
-                  image: productData.images[indexImage] != null
-                      ? productData.images[indexImage].trim()
-                      : 'https://next.anne.com/icon.png',
+                  image: productData.images[indexImage].toString().trim(),
                   width: ScreenUtil().setWidth(271),
                   height: ScreenUtil().setWidth(271),
                 ),
-              )),
+                resetDuration: const Duration(milliseconds: 100),
+                maxScale: 2.5,
+                onZoomStart: () {
+                  print('Start zooming');
+                },
+                onZoomEnd: () {
+                  print('Stop zooming');
+                },
+              ),
+            ),
+          ),
           Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.fromLTRB(
@@ -404,7 +420,7 @@ class _ProductDetail extends State<ProductDetail> {
                         right: ScreenUtil().setWidth(27)),
                     width: double.maxFinite,
                     child: Text(
-                      productData.name??"",
+                      productData.name ?? "",
                       style: TextStyle(
                           color: Color(0xff4a4a4a),
                           fontSize: ScreenUtil().setSp(
@@ -481,13 +497,39 @@ class _ProductDetail extends State<ProductDetail> {
                     margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
                     width: double.maxFinite,
                     child: Text(
-                      "Delivery by : " + productData.time.toString(),
+                      "Delivery by : " +
+                          DateFormat('dd/MM/yyyy').format(
+                              DateTime.fromMicrosecondsSinceEpoch(
+                                  (DateTime.now().millisecondsSinceEpoch *
+                                          1000) +
+                                      (86400000000 * 7))),
                       style: TextStyle(
                           color: Color(0xff4a4a4a),
                           fontSize: ScreenUtil().setSp(
                             13,
                           )),
                     )),
+                SizedBox(
+                  height: ScreenUtil().setWidth(15),
+                ),
+                Container(
+                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
+                    width: double.maxFinite,
+                    child: InkWell(
+                        onTap: () async {
+                          await locator<NavigationService>().pushNamed(
+                              routes.AddReviewRoute,
+                              args: productId);
+                        },
+                        child: Text(
+                          "Rate This Product",
+                          style: TextStyle(
+                              color: Color(0xffba8638),
+                              fontWeight: FontWeight.w600,
+                              fontSize: ScreenUtil().setSp(
+                                14,
+                              )),
+                        ))),
                 SizedBox(
                   height: ScreenUtil().setWidth(15),
                 ),
@@ -524,18 +566,20 @@ class _ProductDetail extends State<ProductDetail> {
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
                                       itemBuilder: (BuildContext build, index) {
-                                        print("thid id " +
-                                            productGroup.colorGroup[index].color
-                                                .colorCode
-                                                .toString());
                                         return InkWell(
-                                            onTap: () {
-                                              print(productGroup
-                                                  .colorGroup[index].id);
-                                              setState(() {
-                                                productId = productGroup
-                                                    .colorGroup[index].id;
-                                              });
+                                            onTap: () async {
+                                              if (productGroup.colorGroup[index]
+                                                      .color.name !=
+                                                  productData.color.name) {
+                                                await locator<
+                                                        NavigationService>()
+                                                    .pushReplacementNamed(
+                                                        routes
+                                                            .ProductDetailRoute,
+                                                        args: productGroup
+                                                            .colorGroup[index]
+                                                            .id);
+                                              }
                                             },
                                             child: Container(
                                                 margin: EdgeInsets.only(
@@ -593,12 +637,19 @@ class _ProductDetail extends State<ProductDetail> {
                                       shrinkWrap: true,
                                       itemBuilder: (BuildContext build, index) {
                                         return InkWell(
-                                            onTap: () {
-                                              print(productData.size.name);
-                                              setState(() {
-                                                productId = productGroup
-                                                    .sizeGroup[index].id;
-                                              });
+                                            onTap: () async {
+                                              if (productGroup.sizeGroup[index]
+                                                      .size.name !=
+                                                  productData.size.name) {
+                                                await locator<
+                                                        NavigationService>()
+                                                    .pushReplacementNamed(
+                                                        routes
+                                                            .ProductDetailRoute,
+                                                        args: productGroup
+                                                            .sizeGroup[index]
+                                                            .id);
+                                              }
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(
@@ -648,39 +699,89 @@ class _ProductDetail extends State<ProductDetail> {
                     }
                   },
                 ),
-                // SizedBox(
-                //   height: ScreenUtil().setWidth(34),
-                // ),
-                productData.liveStreams!=null&&productData.liveStreams.length!=0&&productData.liveStreams[0].scheduleDateTime!=null?Container(child: getLiveStreamWidget(productData.liveStreams[0]),):Container(),
-               Container(
-                   padding: EdgeInsets.fromLTRB(0, 0, 0, ScreenUtil().setWidth(34)),
-                   child:getVideoCallWidget()),
-
+                SizedBox(
+                  height: ScreenUtil().setWidth(34),
+                ),
+                productData.description != null
+                    ? Container(
+                        width: double.infinity,
+                        color: Color(0xffffffff),
+                        padding: EdgeInsets.fromLTRB(
+                            ScreenUtil().setWidth(22),
+                            ScreenUtil().setWidth(29),
+                            ScreenUtil().setWidth(28),
+                            ScreenUtil().setWidth(28)),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Description",
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(23),
+                                  color: Color(0xff4a4a4a)),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(31),
+                            ),
+                            Text(productData.description,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color(0xff4a4a4a),
+                                    fontSize: ScreenUtil().setSp(13))),
+                          ],
+                        ),
+                      )
+                    : Container(),
+                productData.keyFeature != null &&
+                        productData.keyFeature.length > 0
+                    ? Container(
+                        width: double.infinity,
+                        child: Column(
+                            children:
+                                getKeyFeatureChildren(productData.keyFeature)),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: productData.keyFeature != null ||
+                          productData.keyFeature.length != 0
+                      ? ScreenUtil().setWidth(20)
+                      : 0,
+                ),
                 Container(
                   color: Color(0xfff3f3f3),
                   height: ScreenUtil().setWidth(20),
                 ),
-                productData.features!=null||productData.features.length!=0?Container(
-                  width: double.infinity,
-                  child: Column(
-                      children: getSpecificationChildren(productData.features)
-                  ),
-                ):Container(),
-                SizedBox(height: productData.features!=null||productData.features.length!=0?ScreenUtil().setWidth(20):0,),
-                productData.description!=null? Container(
-                  width: double.infinity,
-                  color: Color(0xffffffff),
-                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(22), ScreenUtil().setWidth(29), ScreenUtil().setWidth(28), ScreenUtil().setWidth(28)),
-                  child: Column(children: [
-                    Text("Description",style: TextStyle(fontSize: ScreenUtil().setSp(23),color: Color(0xff4a4a4a)),textAlign: TextAlign.center,),
-                    SizedBox(height: ScreenUtil().setWidth(31),),
-                    Text(productData.description,textAlign: TextAlign.center,style:TextStyle(color: Color(0xff4a4a4a),fontSize: ScreenUtil().setSp(13))),
-                  ],),):Container(),
-
+                getProductDetailChildren(productData).length > 0
+                    ? Container(
+                        width: double.infinity,
+                        child: Column(
+                            children: getProductDetailChildren(productData)),
+                      )
+                    : SizedBox.shrink(),
+                Container(
+                  color: Color(0xfff3f3f3),
+                  height: getProductDetailChildren(productData).length > 0
+                      ? ScreenUtil().setWidth(20)
+                      : 0,
+                ),
+                productData.specifications != null ||
+                        productData.specifications.length != 0
+                    ? Container(
+                        width: double.infinity,
+                        child: Column(
+                            children: getSpecificationChildren(
+                                productData.specifications)),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: productData.specifications != null ||
+                          productData.specifications.length != 0
+                      ? ScreenUtil().setWidth(20)
+                      : 0,
+                ),
               ],
             ),
           ),
-
           SizedBox(
             height: ScreenUtil().setWidth(51),
           )
@@ -692,52 +793,65 @@ class _ProductDetail extends State<ProductDetail> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 color: Colors.white,
-                child: Container(
-                  width: double.infinity,
-                  height: ScreenUtil().setWidth(51),
-                  child: RaisedButton(
-                    padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                    textColor: Colors.white,
-                    color: cartStatusButton == "Not Available"
-                        ? Color(0xffbb8738).withOpacity(0.8)
-                        : Color(0xffbb8738),
-                    onPressed: () async {
-                      if (cartStatusButton == "Not Available") {
-                      } else {
-                        if (cartStatusButton == "Add to cart") {
-                          setState(() {
-                            cartStatusButton = "Go to cart";
-                          });
-                          Provider.of<CartViewModel>(context, listen: false)
-                              .cartAddItem(
-                                  productData.id, productData.id, 1, false);
+                child: InkWell(
+                  onTap: () {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                      "itemId": productId,
+                      "event": "click"
+                    };
+                    Tracking(
+                        event: EVENT_PRODUCT_DETAILS_ADD_TO_CART, data: data);
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: ScreenUtil().setHeight(61),
+                    child: InkWell(
+                      onTap: () {
+                        if (cartStatusButton == "Not Available") {
                         } else {
-                          _navigationService.pushNamed(routes.CartRoute);
+                          if (cartStatusButton == "Add to cart") {
+                            setState(() {
+                              cartStatusButton = "Go to cart";
+                            });
+                            Provider.of<CartViewModel>(context, listen: false)
+                                .cartAddItem(
+                                    productData.id, productData.id, 1, false);
+                          } else {
+                            _navigationService.pushNamed(routes.CartRoute);
+                          }
                         }
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cartStatusButton == "Not Available"
-                            ? SizedBox.shrink()
-                            : Icon(
-                                Icons.shopping_cart,
-                                size: ScreenUtil().setWidth(22),
-                              ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(16),
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                        color: cartStatusButton == "Not Available"
+                            ? Color(0xffbb8738).withOpacity(0.8)
+                            : Color(0xffbb8738),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cartStatusButton == "Not Available"
+                                ? SizedBox.shrink()
+                                : Icon(
+                                    Icons.shopping_cart,
+                                    color: Color(0xffffffff),
+                                    size: ScreenUtil().setWidth(22),
+                                  ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(16),
+                            ),
+                            Text(
+                              cartStatusButton,
+                              style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: ScreenUtil().setSp(
+                                    20,
+                                  ),
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
                         ),
-                        Text(
-                          cartStatusButton,
-                          style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: ScreenUtil().setSp(
-                                17,
-                              ),
-                              fontWeight: FontWeight.w500),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -745,214 +859,241 @@ class _ProductDetail extends State<ProductDetail> {
     ]);
   }
 
-  getSpecificationChildren(List<Features> features) {
+  getSpecificationChildren(List<Specifications> specifications) {
     List<Widget> children = [];
-    children.add(Container(
-      color:Color(0xffffffff),
-      height: ScreenUtil().setWidth(59),
-      width: double.infinity,
-      child: Center(child: Text("Specifications",style: TextStyle(color:Color(0xff4a4a4a),fontSize: ScreenUtil().setSp(23),),textAlign: TextAlign.center,),
-    )));
-    for(int i=0;i<features.length;i++){
-      children.add(Container(
-        color: Color(0xfff8f8f8),
-        height: ScreenUtil().setWidth(32),
-        width: double.infinity,
-        padding: EdgeInsets.only(left: ScreenUtil().setWidth(30)),
-        child: Center(child:Container(
-          width: double.infinity,
-          child:Text(features[i].name+":",textAlign: TextAlign.left,)),)));
+    if (specifications.length != 0) {
       children.add(Container(
           color: Color(0xffffffff),
-          height: ScreenUtil().setWidth(32),
+          height: ScreenUtil().setWidth(59),
           width: double.infinity,
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(30)),
-          child:Center(
-              child:Container(
+          child: Center(
+            child: Text(
+              "Product Specifications",
+              style: TextStyle(
+                color: Color(0xff4a4a4a),
+                fontSize: ScreenUtil().setSp(23),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )));
+    }
+    for (int i = 0; i < specifications.length; i++) {
+      children.add(Container(
+          color: i % 2 == 0 ? Color(0xfff8f8f8) : Color(0xffffffff),
+          //height: ScreenUtil().setWidth(32),
+          width: double.infinity,
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setWidth(10),
+              bottom: ScreenUtil().setWidth(10),
+              left: ScreenUtil().setWidth(30),
+              right: ScreenUtil().setWidth(20)),
+          child: Center(
+            child: Container(
                 width: double.infinity,
-              child:Text(features[i].value,textAlign: TextAlign.left,)))));
+                child: Row(
+                  children: [
+                    Container(
+                        width: ScreenUtil().setWidth(150),
+                        child: Column(
+                          children: [
+                            Container(
+                                width: ScreenUtil().setWidth(150),
+                                child: Text(
+                                  specifications[i].name,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ))
+                          ],
+                        )),
+                    Container(
+                      width: ScreenUtil().setWidth(200),
+                      child: Text(
+                        specifications[i].value,
+                        textAlign: TextAlign.left,
+                      ),
+                    )
+                  ],
+                )),
+          )));
     }
     return children;
   }
 
-  getLiveStreamWidget(LiveStreamProductDetail liveStream) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-              color:Color(0xffffffff),
-              height: ScreenUtil().setWidth(59),
-              width: double.infinity,
-              child: Center(child: Text("Live Stream",style: TextStyle(color:Color(0xff4a4a4a),fontSize: ScreenUtil().setSp(23),),textAlign: TextAlign.center,),
-              )),
-          Container(
-            child: CountdownTimer(
-              endTime:
-              liveStream.scheduleDateTime,
-              widgetBuilder: (_, CurrentRemainingTime time) {
-                if (time == null) {
-                  return GestureDetector(
-                      onTap: ()async{
-                        await _createEngine();
-                        await _loginRoom(liveStream.id);
-                      },
-                      child: Container(
-                    width: ScreenUtil().setWidth(250),
-                    height: ScreenUtil().setWidth(44),
-                    decoration: BoxDecoration(
-                      color: Color(0xffbb8738),
-                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(45)),
+  List<Widget> getProductDetailChildren(productData) {
+    List<Widget> children = [];
 
-                    ),
-                    child: Center(child: Text("Start Now !!!",style: TextStyle(color: Color(0xffffffff)),)),
-                  ));
-                }
-                return Container(
-                  height: ScreenUtil().setWidth(44),
-                  width: ScreenUtil().setWidth(241),
-                  color: Colors.grey,
-                  padding: EdgeInsets.fromLTRB(
-                      ScreenUtil().setWidth(6),
-                      ScreenUtil().setWidth(7),
-                      ScreenUtil().setWidth(6),
-                      ScreenUtil().setWidth(7)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: ScreenUtil().setWidth(31),
-                          width: ScreenUtil().setWidth(31),
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.hours != null ? time.hours : 0) ~/ 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(4),
+    //for(int i=0;i<specifications.length;i++){
+    if (productData?.countryOfOrigin != null) {
+      children.add(Container(
+          color: Color(0xfff8f8f8),
+          //height: ScreenUtil().setWidth(32),
+          width: double.infinity,
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setWidth(10),
+              bottom: ScreenUtil().setWidth(10),
+              left: ScreenUtil().setWidth(30),
+              right: ScreenUtil().setWidth(20)),
+          child: Center(
+            child: Container(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Container(
+                        width: ScreenUtil().setWidth(150),
+                        child: Column(
+                          children: [
+                            Container(
+                                width: ScreenUtil().setWidth(150),
+                                child: Text(
+                                  "Country of Origin ",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ))
+                          ],
+                        )),
+                    Container(
+                      width: ScreenUtil().setWidth(200),
+                      child: Text(
+                        "${productData?.countryOfOrigin}",
+                        textAlign: TextAlign.left,
                       ),
-                      Container(
-                          height: 31,
-                          width: 31,
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.hours != null ? time.hours : 0) % 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(3),
-                              right: ScreenUtil().setWidth(3)),
-                          child: Text(
-                            ":",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ),
-                                fontWeight: FontWeight.w600),
-                          )),
-                      Container(
-                          height: ScreenUtil().setWidth(31),
-                          width: ScreenUtil().setWidth(31),
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.min != null ? time.min : 0) ~/ 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(4),
+                    )
+                  ],
+                )),
+          )));
+    }
+    if (productData?.warranty != null) {
+      children.add(Container(
+          color: Color(0xffffffff),
+          //height: ScreenUtil().setWidth(32),
+          width: double.infinity,
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setWidth(10),
+              bottom: ScreenUtil().setWidth(10),
+              left: ScreenUtil().setWidth(30),
+              right: ScreenUtil().setWidth(20)),
+          child: Center(
+            child: Container(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Container(
+                        width: ScreenUtil().setWidth(150),
+                        child: Column(
+                          children: [
+                            Container(
+                                width: ScreenUtil().setWidth(150),
+                                child: Text(
+                                  "Warranty: ",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ))
+                          ],
+                        )),
+                    Container(
+                      width: ScreenUtil().setWidth(200),
+                      child: Text(
+                        productData?.warranty ?? '',
+                        textAlign: TextAlign.left,
                       ),
-                      Container(
-                          height: ScreenUtil().setWidth(31),
-                          width: ScreenUtil().setWidth(31),
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.min != null ? time.min : 0) % 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(3),
-                              right: ScreenUtil().setWidth(3)),
-                          child: Text(
-                            ":",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ),
-                                fontWeight: FontWeight.w600),
-                          )),
-                      Container(
-                          height: ScreenUtil().setWidth(31),
-                          width: ScreenUtil().setWidth(31),
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.sec != null ? time.sec : 0) ~/ 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(4),
-                      ),
-                      Container(
-                          height: ScreenUtil().setWidth(31),
-                          width: ScreenUtil().setWidth(31),
-                          // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
-                          child: Center(
-                              child: Text(
-                                  "${(time.sec != null ? time.sec : 0) % 10}",
-                                  style: TextStyle(color: Colors.black38))),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.rectangle,
-                          )),
-                    ],
-                  ),
-                );
-              },
+                    )
+                  ],
+                )),
+          )));
+    }
+
+    if (children.length > 0) {
+      children.insert(
+        0,
+        Container(
+          color: Color(0xffffffff),
+          height: ScreenUtil().setWidth(59),
+          width: double.infinity,
+          child: Center(
+            child: Text(
+              "Product Details",
+              style: TextStyle(
+                color: Color(0xff4a4a4a),
+                fontSize: ScreenUtil().setSp(23),
+              ),
+              textAlign: TextAlign.left,
             ),
           ),
-          SizedBox(height: ScreenUtil().setWidth(34),)
-        ],
-      ),
-    );
+        ),
+      );
+    }
+    return children;
   }
 
-  getVideoCallWidget() {
-    return GestureDetector(
-        onTap: ()async{
-          locator<NavigationService>().pushNamed(routes.VideoTalk);
-        },
-        child: Container(
-          width: ScreenUtil().setWidth(250),
-          height: ScreenUtil().setWidth(44),
-          decoration: BoxDecoration(
-            color: Color(0xffbb8738),
-            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(45)),
-
-          ),
-          child: Center(child: Text("Call Vendor",style: TextStyle(color: Color(0xffffffff)),)),
-        ));
+  getKeyFeatureChildren(List<String> keyFeature) {
+    List<Widget> children = [];
+    if (keyFeature.length != 0) {
+      children.add(Container(
+          color: Color(0xffffffff),
+          height: ScreenUtil().setWidth(59),
+          width: double.infinity,
+          child: Center(
+            child: Text(
+              "Key Features",
+              style: TextStyle(
+                color: Color(0xff4a4a4a),
+                fontSize: ScreenUtil().setSp(23),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )));
+    }
+    for (int i = 0; i < keyFeature.length; i++) {
+      children.add(Container(
+        color: Color(0xffffffff),
+        //height: ScreenUtil().setWidth(32),
+        width: double.infinity,
+        padding: EdgeInsets.only(
+            top: ScreenUtil().setWidth(10),
+            bottom: ScreenUtil().setWidth(10),
+            left: ScreenUtil().setWidth(10),
+            right: ScreenUtil().setWidth(20)),
+        child:
+            //Center(child:
+            Container(
+                // width: double.infinity,
+                child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Container(
+                  width: ScreenUtil().setWidth(50),
+                  child: Icon(
+                    FontAwesomeIcons.arrowCircleRight,
+                    color: Colors.grey,
+                    size: ScreenUtil().setWidth(18),
+                  )),
+              Container()
+            ]),
+            SizedBox(
+              width: 3,
+            ),
+            Container(
+              width: ScreenUtil().setWidth(305),
+              child: Text(
+                keyFeature[i],
+                textAlign: TextAlign.left,
+              ),
+            )
+          ],
+        )),
+      ));
+      // children.add(Container(
+      //     color: Color(0xffffffff),
+      //     height: ScreenUtil().setWidth(32),
+      //     width: double.infinity,
+      //     padding: EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+      //     child:Center(
+      //         child:Container(
+      //           width: double.infinity,
+      //         child:Text(features[i].value,textAlign: TextAlign.left,)))));
+    }
+    return children;
   }
 }
 
@@ -979,7 +1120,7 @@ class _RatingClass extends State<RatingClass> {
         options: QueryOptions(
             document: gql(addMutation.reviewSummary()),
             variables: {
-              "product": widget.id,
+              "pid": widget.id,
             }),
         builder: (QueryResult result,
             {VoidCallback refetch, FetchMore fetchMore}) {
@@ -1004,6 +1145,7 @@ class _RatingClass extends State<RatingClass> {
                 Icons.star,
                 color: Color(0xfff2b200),
               ),
+              ignoreGestures: true,
               onRatingUpdate: (double value) {},
             );
           }
@@ -1020,12 +1162,13 @@ class _RatingClass extends State<RatingClass> {
                 Icons.star,
                 color: Color(0xfff2b200),
               ),
+              ignoreGestures: true,
               onRatingUpdate: (double value) {},
             );
           }
           return RatingBar.builder(
             itemSize: ScreenUtil().setWidth(18),
-            initialRating: double.parse(result.data["reviewSummary"]["avg"].toString()) ?? 0,
+            initialRating: result.data["reviewSummary"]["avg"] ?? 0,
             minRating: 0,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -1035,6 +1178,7 @@ class _RatingClass extends State<RatingClass> {
               Icons.star,
               color: Color(0xfff2b200),
             ),
+            ignoreGestures: true,
             onRatingUpdate: (double value) {},
           );
         });
@@ -1057,51 +1201,72 @@ class CheckWishListClass extends StatefulWidget {
 class _CheckWishListClass extends State<CheckWishListClass> {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  bool status;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return GraphQLProvider(
-        client: graphQLConfiguration.initailizeClient(),
-        child: CacheProvider(
-            child: Query(
-                options: QueryOptions(
-                    document: gql(addMutation.checkWishList()),
-                    variables: {
-                      "product": widget.productID,
-                      "variant": widget.variantID
-                    }),
-                builder: (QueryResult result,
-                    {VoidCallback refetch, FetchMore fetchMore}) {
-                  if (result.hasException) {
-                    print(result.exception.toString());
-                    return Container();
-                  }
-                  if (result.isLoading) {
-                    return Container();
-                  }
-                  print(jsonEncode(result.data["checkWishlist"]));
-
-                  return Center(
-                      // margin: EdgeInsets.only(left: ScreenUtil().setWidth(0.4)),
-                      child: InkWell(
-                    child: result.data["checkWishlist"] == false
+      client: graphQLConfiguration.initailizeClient(),
+      child: CacheProvider(
+        child: Query(
+            options: QueryOptions(
+                document: gql(addMutation.checkWishList()),
+                variables: {
+                  "product": widget.productID,
+                  "variant": widget.variantID
+                }),
+            builder: (QueryResult result,
+                {VoidCallback refetch, FetchMore fetchMore}) {
+              if (result.hasException) {
+                print(result.exception.toString());
+                return Container();
+              }
+              if (result.isLoading) {
+                return Icon(Icons.workspaces_outline,
+                    color: Colors.red, size: ScreenUtil().setWidth(15));
+              }
+              if (result.isConcrete) {
+                status = result.data["checkWishlist"];
+                return Center(
+                  // margin: EdgeInsets.only(left: ScreenUtil().setWidth(0.4)),
+                  child: InkWell(
+                    child: status == false
                         ? Icon(
                             Icons.favorite_border,
                             color: Colors.red,
-                            size: ScreenUtil().setWidth(15),
+                            size: ScreenUtil().setWidth(18),
                           )
                         : Icon(
                             Icons.favorite,
                             color: Colors.red,
-                            size: ScreenUtil().setWidth(15),
+                            size: ScreenUtil().setWidth(18),
                           ),
                     onTap: () async {
-                     await Provider.of<WishlistViewModel>(context, listen: false)
-                          .toggleItem(widget.productID);
-                      setState(() {});
+                      if (Provider.of<ProfileModel>(context, listen: false)
+                              .user !=
+                          null) {
+                        await Provider.of<WishlistViewModel>(context,
+                                listen: false)
+                            .toggleItem(widget.productID);
+                        setState(() {
+                          status = !status;
+                        });
+                      } else {
+                        locator<NavigationService>()
+                            .pushNamed(routes.LoginRoute);
+                      }
+
+                      // setState(() {
+                      //
+                      // });
                     },
-                  ));
-                })));
+                  ),
+                );
+              }
+              return Container();
+            }),
+      ),
+    );
   }
 }

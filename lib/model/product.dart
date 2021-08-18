@@ -1,4 +1,4 @@
-import 'package:anne/response_handler/brandResponse.dart';
+import '../../response_handler/brandResponse.dart';
 
 class ProductData {
   String id;
@@ -27,6 +27,7 @@ class ProductData {
   BrandData brand;
   String description;
   String barcode;
+
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
   ProductColor color;
@@ -75,16 +76,16 @@ class ProductData {
 
   factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
       name: json["name"],
-      img: json["img"]??"https://tapi.litekart.in/icon.png",
+      img: json["img"],
       id: json["id"],
       slug: json["slug"],
       position: int.parse(json["position"].toString()),
       metaDescription: json["metaDescription"],
       featured: json["featured"],
       active: json["active"],
-      type: json["type"]??"",
+      type: json["type"] ?? "",
       // category: CategoryData.fromJson(json["category"]),
-      time: json["time"]??"",
+      time: json["time"] ?? "",
       images: List.from(json["images"].map((x) => x)),
       title: json["title"],
       hot: json["hot"],
@@ -122,7 +123,6 @@ class ProductData {
       );
 }
 
-
 class ProductDetailData {
   String id;
   String sku;
@@ -150,13 +150,19 @@ class ProductDetailData {
   BrandData brand;
   String description;
   String barcode;
+  String link;
+  List<String> keyFeature;
+  List<Specifications> specifications;
+  List<ProductDetails> productDetails;
 
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
   ProductColor color;
   ProductSize size;
   List<Features> features;
-  List<LiveStreamProductDetail> liveStreams;
+  String countryOfOrigin;
+  String warranty;
+
   //ProductSize size;
   // List<ProductVariant> variants;
   // CategoryData category;
@@ -164,129 +170,116 @@ class ProductDetailData {
 
   ProductDetailData(
       {this.name,
-        this.img,
-        this.id,
-        this.slug,
-        this.position,
-        this.metaDescription,
-        this.featured,
-        this.active,
-        this.type,
-        this.features,
-        // this.category,
-        this.time,
-        this.images,
-        this.title,
-        this.hot,
-        this.itemId,
-        this.keywords,
-        this.mrp,
-        this.popularity,
-        this.price,
-        this.recommend,
-        this.sale,
-        this.sku,
-        this.stock,
-        this.trending,
-        this.brand,
-        this.description,
-        this.barcode,
-        // this.colorGroup,
-        // this.sizeGroup,
-        this.color,
-        this.size,
-        this.liveStreams
-        // this.variants,
-        // this.vendor
+      this.img,
+      this.id,
+      this.slug,
+      this.position,
+      this.metaDescription,
+      this.featured,
+      this.active,
+      this.type,
+      this.features,
+      // this.category,
+      this.time,
+      this.images,
+      this.title,
+      this.hot,
+      this.itemId,
+      this.keywords,
+      this.mrp,
+      this.popularity,
+      this.price,
+      this.recommend,
+      this.sale,
+      this.sku,
+      this.stock,
+      this.trending,
+      this.brand,
+      this.description,
+      this.barcode,
+      // this.colorGroup,
+      // this.sizeGroup,
+      this.color,
+      this.size,
+      this.keyFeature,
+      this.productDetails,
+      this.specifications,
+      this.countryOfOrigin,
+      this.warranty,
+      this.link
+      // this.variants,
+      // this.vendor
       });
 
-  factory ProductDetailData.fromJson(Map<String, dynamic> json) => ProductDetailData(
-      name: json["name"],
-      img: json["img"],
-      id: json["id"],
-      slug: json["slug"],
-      position: int.parse(json["position"].toString()),
-      metaDescription: json["metaDescription"],
-      featured: json["featured"],
-      active: json["active"],
-      type: json["type"].toString(),
-      // category: CategoryData.fromJson(json["category"]),
-      time: json["time"]??"",
-      images: json["images"].length!=0?List.from(json["images"].map((x) => x)):["https://next.anne.com/icon.png"],
-      title: json["title"],
-      hot: json["hot"],
-      itemId: json["itemId"],
-      keywords: json["keywords"],
-      mrp: double.parse(json["mrp"].toString()),
-      popularity: int.parse(json["popularity"].toString()),
-      price: double.parse(json["price"].toString()),
-      recommend: json["recommend"],
-      sale: json["sale"],
-      sku: json["sku"].toString(),
-      stock: int.parse((json["stock"]??0).toString()),
-      trending: json["trending"],
-      brand: json["brand"] != null
-          ? BrandData.fromJson(json["brand"])
-          : BrandData(),
-      description: json["description"],
-      barcode: json["barcode"].toString(),
-      // sizeGroup: json["sizeGroup"] != null
-      //     ? List<SizeGroup>.from(
-      //     json["sizeGroup"].map((x) => SizeGroup.fromJson(x)))
-      //     : [SizeGroup()],
-      features: json["features"] != null
-          ? List<Features>.from(
-          json["features"].map((x) => Features.fromJson(x)))
-          : [Features()],
-      // colorGroup: json["colorGroup"] != null
-      //     ? List<ColorGroup>.from(
-      //     json["colorGroup"].map((x) => ColorGroup.fromJson(x)))
-      //     : [ColorGroup()],
-      color: json["color"] != null
-          ? ProductColor.fromJson(json["color"])
-          : ProductColor(),
-      size: json["size"] != null
-          ? ProductSize.fromJson(json["size"])
-          : ProductSize(),
-    liveStreams: json["liveStreams"]!=null&&json["liveStreams"].length!=0?List<LiveStreamProductDetail>.from(
-        json["liveStreams"].map((x) => LiveStreamProductDetail.fromJson(x))):[LiveStreamProductDetail()]
-    // variants: List<ProductVariant>.from(json["variants"].map((x)=>ProductVariant.fromJson(x))),
-    // vendor: Vendor.fromJson(json["vendor"])
-  );
-}
-
-class LiveStreamProductDetail {
-  String id;
-  String img;
-  String title;
-  int scheduleDateTime;
-  StreamUser user;
-
-  LiveStreamProductDetail({
-    this.scheduleDateTime,this.title,this.id,this.img,this.user
-});
-
-  factory LiveStreamProductDetail.fromJson(Map<String, dynamic> json)=>
-      LiveStreamProductDetail(
-        img: json["img"],
-        id: json["id"],
-        title: json["title"],
-        scheduleDateTime: json["scheduleDateTime"],
-        user: json["user"]!=null?StreamUser.fromJson(json["user"]):StreamUser()
-      );
-}
-
-class StreamUser{
-  String firstName;
-  String lastName;
-  StreamUser({this.lastName,this.firstName});
-
-  factory StreamUser.fromJson(Map<String, dynamic> json)=>
-      StreamUser(
-        firstName: json["firstName"],
-        lastName: json["lastName"]
-      );
-
+  factory ProductDetailData.fromJson(Map<String, dynamic> json) =>
+      ProductDetailData(
+          name: json["name"] ?? "",
+          img: json["img"],
+          id: json["id"],
+          slug: json["slug"],
+          position: int.parse(json["position"].toString()),
+          metaDescription: json["metaDescription"],
+          featured: json["featured"],
+          active: json["active"],
+          type: json["type"].toString(),
+          // category: CategoryData.fromJson(json["category"]),
+          time: json["time"] ?? "",
+          images: json["images"].length != 0
+              ? List.from(json["images"].map((x) => x))
+              : ["https://next.tablez.com/icon.png"],
+          title: json["title"],
+          hot: json["hot"],
+          itemId: json["itemId"],
+          keywords: json["keywords"],
+          mrp: double.parse(json["mrp"].toString()),
+          popularity: int.parse(json["popularity"].toString()),
+          price: double.parse(json["price"].toString()),
+          recommend: json["recommend"],
+          sale: json["sale"],
+          sku: json["sku"].toString(),
+          stock: int.parse((json["stock"] ?? 0).toString()),
+          trending: json["trending"],
+          brand: json["brand"] != null
+              ? BrandData.fromJson(json["brand"])
+              : BrandData(),
+          description: json["description"],
+          barcode: json["barcode"].toString(),
+          // sizeGroup: json["sizeGroup"] != null
+          //     ? List<SizeGroup>.from(
+          //     json["sizeGroup"].map((x) => SizeGroup.fromJson(x)))
+          //     : [SizeGroup()],
+          features: json["features"] != null
+              ? List<Features>.from(
+                  json["features"].map((x) => Features.fromJson(x)))
+              : [Features()],
+          specifications: json["specifications"] != null
+              ? List<Specifications>.from(
+                  json["specifications"].map((x) => Specifications.fromJson(x)))
+              : [Specifications()],
+          productDetails: json["productDetails"] != null
+              ? List<ProductDetails>.from(
+                  json["productDetails"].map((x) => ProductDetails.fromJson(x)))
+              : [ProductDetails()],
+          keyFeature:
+              json["keyFeatures"] != null && json["keyFeatures"].length != 0
+                  ? List.from(json["keyFeatures"].map((x) => x))
+                  : [],
+          // colorGroup: json["colorGroup"] != null
+          //     ? List<ColorGroup>.from(
+          //     json["colorGroup"].map((x) => ColorGroup.fromJson(x)))
+          //     : [ColorGroup()],
+          color: json["color"] != null
+              ? ProductColor.fromJson(json["color"])
+              : ProductColor(),
+          size: json["size"] != null
+              ? ProductSize.fromJson(json["size"])
+              : ProductSize(),
+          countryOfOrigin: json["countryOfOrigin"],
+          warranty: json["warranty"],
+          link: json["link"] ?? ""
+          // variants: List<ProductVariant>.from(json["variants"].map((x)=>ProductVariant.fromJson(x))),
+          // vendor: Vendor.fromJson(json["vendor"])
+          );
 }
 
 class ProductVariant {
@@ -344,11 +337,20 @@ class ColorData {
 
   ColorData({this.name, this.colorCode});
 
-  factory ColorData.fromJson(Map<String, dynamic> json) => ColorData(
-        name: json["name"],
-        colorCode:
-            int.parse("0xff" + json["color_code"].toString().substring(1)),
-      );
+  factory ColorData.fromJson(Map<String, dynamic> json) {
+    // print('json["color_code"] :: ${json["color_code"]}');
+    int _color;
+    try {
+      _color = int.parse("0xff" + json["color_code"].toString().substring(1));
+    } catch (e) {
+      _color = int.parse("0xff808080");
+    }
+
+    return ColorData(
+      name: json["name"],
+      colorCode: _color,
+    );
+  }
 }
 
 class SizeGroup {
@@ -364,7 +366,6 @@ class SizeGroup {
       size:
           json["size"] != null ? SizeData.fromJson(json["size"]) : SizeData());
 }
-
 
 class SizeData {
   String name;
@@ -404,7 +405,6 @@ class ProductColor {
       ProductColor(name: json["name"], id: json["id"]);
 }
 
-
 class Features {
   String id;
   String name;
@@ -413,8 +413,27 @@ class Features {
   Features({this.name, this.id, this.value});
 
   factory Features.fromJson(Map<String, dynamic> json) => Features(
-      id: json["id"],
-      name: json["name"]??"",
-      value:
-      json["value"]??"");
+      id: json["id"], name: json["name"] ?? "", value: json["value"] ?? "");
+}
+
+class Specifications {
+  String id;
+  String name;
+  String value;
+
+  Specifications({this.name, this.id, this.value});
+
+  factory Specifications.fromJson(Map<String, dynamic> json) => Specifications(
+      id: json["id"], name: json["name"] ?? "", value: json["value"] ?? "");
+}
+
+class ProductDetails {
+  String id;
+  String name;
+  String value;
+
+  ProductDetails({this.name, this.id, this.value});
+
+  factory ProductDetails.fromJson(Map<String, dynamic> json) => ProductDetails(
+      id: json["id"], name: json["name"] ?? "", value: json["value"] ?? "");
 }

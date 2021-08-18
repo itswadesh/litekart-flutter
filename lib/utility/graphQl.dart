@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import "package:flutter/material.dart";
 import "package:graphql_flutter/graphql_flutter.dart";
-import 'package:anne/utility/api_endpoint.dart';
-import 'package:anne/utility/shared_preferences.dart';
+import '../../utility/api_endpoint.dart';
 
 String token;
 String tempToken;
+
 class GraphQLConfiguration {
   HttpLink httpLink = HttpLink((ApiEndpoint()).graphQlUrl,
       defaultHeaders: {"cookie": token, "content-type": "application/json"},

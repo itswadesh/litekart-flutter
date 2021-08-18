@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/response_handler/checkOutResponse.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/graphQl.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/view_model/address_view_model.dart';
+import '../../response_handler/checkOutResponse.dart';
+import '../../service/event/tracking.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/graphQl.dart';
+import '../../utility/locator.dart';
+import '../../values/colors.dart';
+import '../../values/event_constant.dart';
+import '../../view_model/address_view_model.dart';
 import 'package:intl/intl.dart';
-import 'package:anne/values/route_path.dart' as routes;
-import 'package:anne/view_model/cart_view_model.dart';
+import '../../values/route_path.dart' as routes;
 
 class OrderConfirm extends StatefulWidget {
   final CheckOutResponse details;
@@ -45,7 +47,15 @@ class _OrderConfirm extends State<OrderConfirm> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: InkWell(
-          onTap: () => Navigator.pop(context),
+          onTap: () async {
+            // await Provider.of<CartViewModel>(context,
+            //     listen: false)
+            //     .changeStatus("loading");
+            // await Provider.of<OrderViewModel>(context,
+            //     listen: false).refreshOrderPage();
+            locator<NavigationService>()
+                .pushNamedAndRemoveUntil(routes.HomeRoute);
+          },
           child: Icon(
             Icons.arrow_back,
             color: Colors.black54,
@@ -133,7 +143,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                     width: double.infinity,
                     color: Color(0xffba8638),
                     child: Text(
-                      "© 2020 anne India Private Limited",
+                      "© 2020 Tablez India Private Limited",
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
@@ -162,200 +172,198 @@ class _OrderConfirm extends State<OrderConfirm> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Column(children: [
-                SizedBox(
-                  height: ScreenUtil().setWidth(80),
-                ),
-                Text(
-                  "Thanks for your Order !!",
-                  style: TextStyle(
-                      color: Color(0xff404040),
-                      fontSize: ScreenUtil().setSp(
-                        21,
-                      )),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(24),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: "Order number : ",
-                      style: TextStyle(
-                          color: Color(0xff8b8b8b),
-                          fontSize: ScreenUtil().setSp(
-                            17,
-                          )),
-                      children: [
-                        TextSpan(
-                            text: "#${checkOutData.orderNo}",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: ScreenUtil().setSp(
-                                  17,
-                                ),
-                                decoration: TextDecoration.underline))
-                      ]),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(24),
-                ),
-                Container(
-                    width: double.maxFinite,
-                    child: Text(
-                      "Your order was placed on ${DateFormat('dd-MM-yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(checkOutData.createdAt) * 1000))}. A Confirmation e-mail will be sent to the email Address(es) that you specified in the order details.",
-                      style: TextStyle(
-                          color: Color(0xff8b8b8b),
-                          fontSize: ScreenUtil().setSp(
-                            14,
-                          )),
-                    )),
-                SizedBox(
-                  height: ScreenUtil().setWidth(30),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: ScreenUtil().setWidth(44),
-                      width: ScreenUtil().setWidth(161),
-                      child: RaisedButton(
-                        padding: EdgeInsets.fromLTRB(
-                            0,
-                            ScreenUtil().setWidth(14),
-                            0,
-                            ScreenUtil().setWidth(13)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(ScreenUtil().setWidth(5)),
-                        ),
-                        textColor: Colors.white,
-                        color: Color(0xffee7625),
-                        onPressed: () {
-                          locator<NavigationService>()
-                              .pushReplacementNamed(routes.ManageOrder);
-                        },
-                        child: Text(
-                          "View Order details",
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(
-                            15,
-                          )),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(10),
-                    ),
-                    Container(
-                      height: ScreenUtil().setWidth(44),
-                      width: ScreenUtil().setWidth(161),
-                      child: RaisedButton(
-                        padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(0),
-                            ScreenUtil().setWidth(14),
-                            0,
-                            ScreenUtil().setWidth(13)),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(ScreenUtil().setWidth(5)),
-                            side: BorderSide(color: Color(0xff00c32d))),
-                        color: Colors.white,
-                        textColor: Color(0xff00c32d),
-                        onPressed: () async {
-                          await Provider.of<CartViewModel>(context,
-                                  listen: false)
-                              .changeStatus("loading");
-
-                          locator<NavigationService>()
-                              .pushNamedAndRemoveUntil(routes.HomeRoute);
-                        },
-                        child: Text(
-                          "Continue Shopping",
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(
-                            15,
-                          )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(31),
-                ),
-                Divider(
-                  thickness: ScreenUtil().setWidth(0.4),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(24),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  child: Text(
-                    "Item details",
+              child: InkWell(
+                onTap: () {
+                  Map<String, dynamic> data = {
+                    "id": EVENT_ORDER_PLACEMENT_SUCCESS,
+                    "paymentType": " seleted payment type",
+                    "cartValue": checkOutData.amount,
+                    "paymentData": {},
+                    "event": "payment-success"
+                  };
+                  Tracking(event: EVENT_ORDER_PLACEMENT_SUCCESS, data: data);
+                },
+                child: Column(children: [
+                  SizedBox(
+                    height: ScreenUtil().setWidth(80),
+                  ),
+                  Text(
+                    "Thanks for your Order !!",
                     style: TextStyle(
                         color: Color(0xff404040),
                         fontSize: ScreenUtil().setSp(
-                          16,
+                          21,
                         )),
                   ),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(20),
-                ),
-                getDetails(checkOutData.items),
-                SizedBox(
-                  height: ScreenUtil().setWidth(35),
-                ),
-                Divider(
-                  thickness: ScreenUtil().setWidth(0.4),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(21),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Invoice",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(
-                          12,
+                  SizedBox(
+                    height: ScreenUtil().setWidth(24),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: "Order number : ",
+                        style: TextStyle(
+                            color: Color(0xff8b8b8b),
+                            fontSize: ScreenUtil().setSp(
+                              17,
+                            )),
+                        children: [
+                          TextSpan(
+                              text: "#${checkOutData.orderNo}",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: ScreenUtil().setSp(
+                                    17,
+                                  ),
+                                  decoration: TextDecoration.underline))
+                        ]),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(24),
+                  ),
+                  Container(
+                      width: double.maxFinite,
+                      child: Text(
+                        "Your order was placed on ${DateFormat('dd-MM-yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(checkOutData.createdAt) * 1000))}. A Confirmation e-mail will be sent to the email Address(es) that you specified in the order details.",
+                        style: TextStyle(
+                            color: Color(0xff8b8b8b),
+                            fontSize: ScreenUtil().setSp(
+                              14,
+                            )),
+                      )),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(30),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: ScreenUtil().setWidth(44),
+                        width: ScreenUtil().setWidth(161),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            side: BorderSide(
+                                width: 1, color: AppColors.primaryElement),
+                          ),
+                          onPressed: () async {
+                            locator<NavigationService>()
+                                .pushReplacementNamed(routes.ManageOrder);
+                          },
+                          child: Text(
+                            "View Order",
+                            style: TextStyle(
+                                color: AppColors.primaryElement,
+                                fontFamily: 'Montserrat'),
+                          ),
                         ),
-                        color: Colors.blue,
                       ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(3),
-                    ),
-                    Icon(
-                      Icons.assignment,
-                      color: Colors.blue,
-                      size: ScreenUtil().setWidth(14),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(29),
-                    ),
-                    Text(
-                      "Print",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(
-                          12,
+                      SizedBox(
+                        width: ScreenUtil().setWidth(10),
+                      ),
+                      Container(
+                        height: ScreenUtil().setWidth(44),
+                        width: ScreenUtil().setWidth(150),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            side: BorderSide(
+                                width: 1, color: AppColors.primaryElement),
+                          ),
+                          onPressed: () async {
+                            locator<NavigationService>()
+                                .pushReplacementNamed(routes.HomeRoute);
+                          },
+                          child: Text(
+                            "Shop More",
+                            style: TextStyle(
+                                color: AppColors.primaryElement,
+                                fontFamily: 'Montserrat'),
+                          ),
                         ),
-                        color: Colors.blue,
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(31),
+                  ),
+                  Divider(
+                    thickness: ScreenUtil().setWidth(0.4),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(24),
+                  ),
+                  Container(
+                    width: double.maxFinite,
+                    child: Text(
+                      "Item details",
+                      style: TextStyle(
+                          color: Color(0xff404040),
+                          fontSize: ScreenUtil().setSp(
+                            16,
+                          )),
                     ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(3),
-                    ),
-                    Icon(
-                      Icons.print,
-                      color: Colors.blue,
-                      size: ScreenUtil().setWidth(14),
-                    )
-                  ],
-                ),
-              ]),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(20),
+                  ),
+                  getDetails(checkOutData.items),
+                  // SizedBox(
+                  //   height: ScreenUtil().setWidth(35),
+                  // ),
+                  // Divider(
+                  //   thickness: ScreenUtil().setWidth(0.4),
+                  // ),
+                  // SizedBox(
+                  //   height: ScreenUtil().setWidth(21),
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Text(
+                  //       "Invoice",
+                  //       style: TextStyle(
+                  //         fontSize: ScreenUtil().setSp(
+                  //           12,
+                  //         ),
+                  //         color: Colors.blue,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: ScreenUtil().setWidth(3),
+                  //     ),
+                  //     Icon(
+                  //       Icons.assignment,
+                  //       color: Colors.blue,
+                  //       size: ScreenUtil().setWidth(14),
+                  //     ),
+                  //     SizedBox(
+                  //       width: ScreenUtil().setWidth(29),
+                  //     ),
+                  //     Text(
+                  //       "Print",
+                  //       style: TextStyle(
+                  //         fontSize: ScreenUtil().setSp(
+                  //           12,
+                  //         ),
+                  //         color: Colors.blue,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: ScreenUtil().setWidth(3),
+                  //     ),
+                  //     Icon(
+                  //       Icons.print,
+                  //       color: Colors.blue,
+                  //       size: ScreenUtil().setWidth(14),
+                  //     )
+                  //   ],
+                  // ),
+                ]),
+              ),
             ),
           )),
     );

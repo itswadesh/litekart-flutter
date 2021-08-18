@@ -2,16 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/components/widgets/productViewColor2Card.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/api_endpoint.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/view_model/category_view_model.dart';
-import 'package:anne/view_model/product_view_model.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../components/widgets/productViewColor2Card.dart';
+import '../../service/event/tracking.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/api_endpoint.dart';
+import '../../utility/locator.dart';
+import '../../utility/query_mutation.dart';
+import '../../values/event_constant.dart';
+import '../../view_model/category_view_model.dart';
+import '../../view_model/product_view_model.dart';
+import '../../values/route_path.dart' as routes;
 import 'product_list.dart';
-import 'package:anne/components/widgets/loading.dart';
+import '../../components/widgets/loading.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -50,7 +52,10 @@ class _SearchPage extends State<SearchPage> {
                     args: {
                       "searchKey": search,
                       "category": "",
-                      "brandName": ""
+                      "brandName": "",
+                      "parentBrand":"",
+                      "brand":"",
+                      "urlLink":""
                     });
                 // locator<NavigationService>().push(MaterialPageRoute(
                 //     builder: (context) => ProductList(search, "", "")));
@@ -89,7 +94,18 @@ class _SearchPage extends State<SearchPage> {
                       ));
                     } else if (snapshot.data != null) {
                       //return Container();
-                      return getList(snapshot.data["data"]);
+                      return InkWell(
+                          onTap: () {
+                            Map<String, dynamic> data = {
+                              "id": EVENT_SEARCH_SUGGESTIONS_LIST,
+                              "suggestions": snapshot.data,
+                              "event": "list",
+                            };
+                            Tracking(
+                                event: EVENT_SEARCH_SUGGESTIONS_LIST,
+                                data: data);
+                          },
+                          child: getList(snapshot.data["data"]));
                     } else
                       return Center(
                           child: Text(
@@ -124,30 +140,36 @@ class _SearchPage extends State<SearchPage> {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (BuildContext context, index) {
-          var item = data[index]['_source'];
+          var item = data[index];
           print(item);
-          return Column(children: [
-            ListTile(
-              onTap: () {
-                locator<NavigationService>().push(MaterialPageRoute(
-                    builder: (context) => ProductList(item['name'], "", "")));
-              },
-              leading: item['img'] == null
-                  ? Icon(Icons.search)
-                  : Image.network(
-                      item['img'],
-                      width: ScreenUtil().setWidth(40),
-                    ),
-              title: Text(
-                "${item['name']}",
-                maxLines: 1,
+          return InkWell(
+            onTap: () {
+              Map<String, dynamic> data = {
+                "id": EVENT_SEARCH_SUGGESTION_SELECTED,
+                "itemId": "product id",
+                "position": "product position in list",
+                "event": "click",
+              };
+              Tracking(event: EVENT_SEARCH_SUGGESTION_SELECTED, data: data);
+            },
+            child: Column(children: [
+              ListTile(
+                onTap: () {
+                  locator<NavigationService>().push(MaterialPageRoute(
+                      builder: (context) => ProductList(item['key'], "", "","","","")));
+                },
+                leading: Icon(Icons.search),
+                title: Text(
+                  "${item['key']}",
+                  maxLines: 1,
+                ),
               ),
-            ),
-            Container(
-                margin: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(40), 0, 0, ScreenUtil().setWidth(10)),
-                child: Divider())
-          ]);
+              Container(
+                  margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(40), 0, 0,
+                      ScreenUtil().setWidth(10)),
+                  child: Divider())
+            ]),
+          );
         });
   }
 }
@@ -172,6 +194,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
     // TODO: implement build
     return Column(
       children: [
+        SizedBox(
+          height: ScreenUtil().setWidth(20),
+        ),
         Container(
           width: double.infinity,
           padding: EdgeInsets.only(
@@ -225,7 +250,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                 builder: (context) => ProductList(
                                     "",
                                     value.categoryResponse.data[index].slug,
-                                    "")));
+                                    "","","","")));
                           },
                           child: Column(
                             children: [
@@ -253,7 +278,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                               left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2)),
                                               right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
+                                          image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.tablez.com/icon.png'))))),
                               SizedBox(
                                 height: ScreenUtil().setWidth(27),
                               ),
@@ -321,7 +346,7 @@ class _TopPickClass extends State<TopPickClass> {
             left: ScreenUtil().setWidth(22),
             top: ScreenUtil().setWidth(8),
             bottom:
-                3, // This can be the space you need betweeb text and underline
+                3, // This can be the space you need between text and underline
           ),
           child: Text(
             "Top Picks For You",

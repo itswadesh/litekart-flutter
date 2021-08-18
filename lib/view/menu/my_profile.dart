@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/utility/graphQl.dart';
-import 'package:anne/view_model/auth_view_model.dart';
-import 'package:anne/view/cart_logo.dart';
+import '../../components/base/tz_dialog.dart';
+import '../../enum/tz_dialog_type.dart';
+import '../../utility/graphQl.dart';
+import '../../values/colors.dart';
+import '../../view_model/auth_view_model.dart';
+import '../../view/cart_logo.dart';
 
 class MyProfile extends StatefulWidget {
   @override
@@ -82,258 +85,242 @@ class _MyProfileState extends State<MyProfile> {
                     child: Consumer<ProfileModel>(
                         builder: (BuildContext context, value, Widget child) {
                       return SingleChildScrollView(
-                          child: Material(
-                              color: Color(0xfff3f3f3),
-                              // borderRadius: BorderRadius.circular(2),
-                              child: Card(
-                                  margin: EdgeInsets.fromLTRB(
-                                      ScreenUtil().setWidth(21),
-                                      ScreenUtil().setWidth(24),
-                                      ScreenUtil().setWidth(22),
-                                      ScreenUtil().setWidth(26)),
-                                  elevation: 2,
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(
-                                        ScreenUtil().setWidth(14),
-                                        ScreenUtil().setWidth(38),
-                                        ScreenUtil().setWidth(13),
-                                        ScreenUtil().setWidth(45)),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
+                          child: Container(
+                        padding: EdgeInsets.fromLTRB(
+                            ScreenUtil().setWidth(20),
+                            ScreenUtil().setHeight(38),
+                            ScreenUtil().setWidth(20),
+                            ScreenUtil().setHeight(45)),
+                        child: Column(
+                          children: [
+                            Container(
+                                child: TextFormField(
+                              readOnly: true,
+                              controller: _phone,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  labelText: "Phone",
+                                  labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: ScreenUtil().setSp(
+                                        15,
+                                      ))),
+                            )),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(25),
+                            ),
+                            Container(
+                                child: TextFormField(
+                              controller: _fName,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  labelText: "First Name",
+                                  labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: ScreenUtil().setSp(
+                                        15,
+                                      ))),
+                            )),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(25),
+                            ),
+                            Container(
+                                child: TextFormField(
+                              controller: _lName,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  labelText: "Last Name",
+                                  labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: ScreenUtil().setSp(
+                                        15,
+                                      ))),
+                            )),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(25),
+                            ),
+                            Container(
+                                child: TextFormField(
+                              controller: _email,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  contentPadding:
+                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  labelText: "Email",
+                                  labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: ScreenUtil().setSp(
+                                        15,
+                                      ))),
+                            )),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(22),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(22)),
+                              child: Text(
+                                "Gender",
+                                style: TextStyle(
+                                    color: Color(0xffb0b0b0),
+                                    fontSize: ScreenUtil().setSp(12)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(11),
+                            ),
+                            Container(
+                                padding: EdgeInsets.only(
+                                    left: ScreenUtil().setWidth(22)),
+                                child: Row(
+                                  children: [
+                                    icon("Male"),
+                                    InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedGender = "Male";
+                                          });
+                                        },
+                                        child: Text(
+                                          ' Male    ',
+                                          style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(15),
+                                              color: Color(0xff5f5f5f)),
+                                        )),
+                                    icon("Female"),
+                                    InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedGender = "Female";
+                                          });
+                                        },
+                                        child: Text(
+                                          ' Female    ',
+                                          style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(15),
+                                              color: Color(0xff5f5f5f)),
+                                        )),
+                                    icon("Others"),
+                                    InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedGender = "Others";
+                                          });
+                                        },
+                                        child: Text(
+                                          ' Others',
+                                          style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(15),
+                                              color: Color(0xff5f5f5f)),
+                                        ))
+                                  ],
+                                )),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(43),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                TzDialog _dialog =
+                                    TzDialog(context, TzDialogType.progress);
+                                _dialog.show();
+                                await Provider.of<ProfileModel>(context,
+                                        listen: false)
+                                    .editProfile(
+                                        _phone.text,
+                                        _fName.text,
+                                        _lName.text,
+                                        _email.text,
+                                        selectedGender);
+                                await Provider.of<ProfileModel>(context,
+                                        listen: false)
+                                    .getProfile();
+                                _dialog.close();
+                                final snackBar = SnackBar(
+                                    content: Text(
+                                        'Profile Updated Successfully !!'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                              child: Container(
+                                height: 43,
+                                width: MediaQuery.of(context).size.width * 0.80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryElement,
+                                      width: 1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Update Profile",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: AppColors.primaryElement,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            child: TextFormField(
-                                          controller: _phone,
-                                          decoration: InputDecoration(
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              contentPadding: EdgeInsets.all(
-                                                  ScreenUtil().setWidth(12)),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              labelText: "Phone",
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: ScreenUtil().setSp(
-                                                    15,
-                                                  ))),
-                                        )),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(25),
-                                        ),
-                                        Container(
-                                            child: TextFormField(
-                                          controller: _fName,
-                                          decoration: InputDecoration(
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              contentPadding: EdgeInsets.all(
-                                                  ScreenUtil().setWidth(12)),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              labelText: "First Name",
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: ScreenUtil().setSp(
-                                                    15,
-                                                  ))),
-                                        )),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(25),
-                                        ),
-                                        Container(
-                                            child: TextFormField(
-                                          controller: _lName,
-                                          decoration: InputDecoration(
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              contentPadding: EdgeInsets.all(
-                                                  ScreenUtil().setWidth(12)),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              labelText: "Last Name",
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: ScreenUtil().setSp(
-                                                    15,
-                                                  ))),
-                                        )),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(25),
-                                        ),
-                                        Container(
-                                            child: TextFormField(
-                                          controller: _email,
-                                          decoration: InputDecoration(
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              contentPadding: EdgeInsets.all(
-                                                  ScreenUtil().setWidth(12)),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1.0),
-                                              ),
-                                              labelText: "Email",
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: ScreenUtil().setSp(
-                                                    15,
-                                                  ))),
-                                        )),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(22),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          padding: EdgeInsets.only(
-                                              left: ScreenUtil().setWidth(22)),
-                                          child: Text(
-                                            "Gender",
-                                            style: TextStyle(
-                                                color: Color(0xffb0b0b0),
-                                                fontSize:
-                                                    ScreenUtil().setSp(12)),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(11),
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.only(
-                                                left:
-                                                    ScreenUtil().setWidth(22)),
-                                            child: Row(
-                                              children: [
-                                                icon("Male"),
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedGender = "Male";
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      ' Male    ',
-                                                      style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          color: Color(
-                                                              0xff5f5f5f)),
-                                                    )),
-                                                icon("Female"),
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedGender =
-                                                            "Female";
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      ' Female    ',
-                                                      style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          color: Color(
-                                                              0xff5f5f5f)),
-                                                    )),
-                                                icon("Others"),
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedGender =
-                                                            "Others";
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      ' Others',
-                                                      style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          color: Color(
-                                                              0xff5f5f5f)),
-                                                    ))
-                                              ],
-                                            )),
-                                        SizedBox(
-                                          height: ScreenUtil().setWidth(43),
-                                        ),
-                                        Container(
-                                          width: ScreenUtil().setWidth(344),
-                                          height: ScreenUtil().setWidth(40),
-                                          child: RaisedButton(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0,
-                                                ScreenUtil().setWidth(12),
-                                                0,
-                                                ScreenUtil().setWidth(10)),
-                                            onPressed: () async {
-                                              await Provider.of<ProfileModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .editProfile(
-                                                      _phone.text,
-                                                      _fName.text,
-                                                      _lName.text,
-                                                      _email.text,
-                                                      selectedGender);
-                                              await Provider.of<ProfileModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .getProfile();
-                                            },
-                                            color: Colors.blue,
-                                            child: Text(
-                                              "ADD ADDRESS",
-                                              style: TextStyle(
-                                                  fontSize: ScreenUtil().setSp(
-                                                    18,
-                                                  ),
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ))));
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
                     })))));
   }
 
   icon(String s) {
     if (s == selectedGender) {
       return Icon(
-        Icons.panorama_fish_eye,
-        color: Colors.blue,
+        Icons.circle,
+        color: AppColors.primaryElement,
         size: ScreenUtil().setWidth(18),
       );
     } else {

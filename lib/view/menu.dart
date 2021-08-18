@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/model/menu_item.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/values/radii.dart';
-import 'package:anne/view_model/auth_view_model.dart';
-import 'package:anne/view_model/home_view_model.dart';
-import 'package:anne/view_model/menu_view_model.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../model/menu_item.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import '../../values/radii.dart';
+import '../../view_model/auth_view_model.dart';
+import '../../view_model/home_view_model.dart';
+import '../../view_model/menu_view_model.dart';
+import '../../values/route_path.dart' as routes;
 
 class Menu extends StatefulWidget {
   final HomeViewModel model;
@@ -27,7 +27,8 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 
   Widget menuTiles(MenuItem menu, MenuViewModel model) {
     return GestureDetector(
-      onTap: (Provider.of<ProfileModel>(context, listen: false).user == null)
+      onTap: (Provider.of<ProfileModel>(context, listen: false).user == null &&
+              menu.title != "Shop By Category")
           ? () {
               _navigationService.pushNamed(routes.LoginRoute);
             }
@@ -161,7 +162,12 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                           MenuItem _item = model.menus[index];
                           return menuTiles(_item, model);
                         } else
-                          return Provider.of<ProfileModel>(context, listen: false).user==null ? loginButton() : logoutButton();
+                          return Provider.of<ProfileModel>(context,
+                                          listen: false)
+                                      .user ==
+                                  null
+                              ? loginButton()
+                              : logoutButton();
                       },
                       /*staggeredTileBuilder: (int index) {
                           return new StaggeredTile.fit(1);

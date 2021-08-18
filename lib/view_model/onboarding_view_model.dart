@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/values/constant.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../utility/locator.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../values/constant.dart';
+import '../../values/route_path.dart' as routes;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingViewModel extends ChangeNotifier {

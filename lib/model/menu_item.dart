@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:anne/enum/menu_item_source.dart';
+import '../../enum/menu_item_source.dart';
 
 class MenuItem {
   MenuItemSource source;
@@ -15,6 +15,7 @@ class MenuItem {
 
   Map<MenuItemSource, String> mapping = {
     MenuItemSource.my_profile: 'My Profile',
+    MenuItemSource.shop_by_category: 'Shop By Category',
     MenuItemSource.manage_address: 'Manage Address',
     MenuItemSource.manage_order: 'Manage Order',
     MenuItemSource.wishlist: 'Wishlist'

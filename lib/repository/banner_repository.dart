@@ -1,6 +1,6 @@
-
-import 'package:anne/utility/api_provider.dart';
-import 'package:anne/utility/locator.dart';
+import '../../utility/api_provider.dart';
+import '../../utility/locator.dart';
+import '../../values/constant.dart';
 
 class BannerRepository {
   ApiProvider _apiProvider = locator<ApiProvider>();
@@ -9,7 +9,7 @@ class BannerRepository {
     return _apiProvider.fetchBannerData();
   }
 
-  fetchSliderData(){
-    return _apiProvider.fetchSliderData();
+  fetchSliderData() {
+    return _apiProvider.fetchBanners(type: BANNER_TYPE_SLIDER, pageId: "home", sort: "sort");
   }
 }

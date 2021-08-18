@@ -40,6 +40,21 @@ class User {
       avatar: json["avatar"],
       address: List<UserAddress>.from(
           json["address"].map((x) => UserAddress.fromJson(x))));
+
+  Map<String, dynamic> get values => {
+        'active': this.active,
+        'id': this.id,
+        'phone': this.phone,
+        'address': this.address,
+        'email': this.email,
+        'lastName': this.lastName,
+        'firstName': this.firstName,
+        'avatar': this.avatar,
+        'gender': this.gender,
+        'provider': this.provider,
+        'role': this.role,
+        'verified': this.verified
+      };
 }
 
 class UserAddress {

@@ -1,17 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:anne/components/base/tz_dialog.dart';
-import 'package:anne/enum/tz_dialog_type.dart';
-import 'package:anne/utility/api_endpoint.dart';
-import 'package:anne/utility/graphQl.dart';
+import '../../components/base/tz_dialog.dart';
+import '../../enum/tz_dialog_type.dart';
+import '../../utility/graphQl.dart';
 
-import 'package:anne/utility/locator.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/utility/shared_preferences.dart';
+import '../../utility/locator.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/query_mutation.dart';
+import '../../utility/shared_preferences.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -20,6 +18,8 @@ class LoginViewModel extends ChangeNotifier {
   TzDialog _dialog;
   bool otpStatus;
   bool showOtpUi = false;
+  bool resendEnable = true;
+  int resendTrial = 0;
 
   LoginViewModel() {
     _dialog = TzDialog(
@@ -28,10 +28,13 @@ class LoginViewModel extends ChangeNotifier {
 
   void sendOtp(String mobile) async {
     _dialog.show();
+    changeResendEnable();
+    //resendTrialIncrement();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.mutate(
       MutationOptions(
-          document: gql(addMutation.getOtp()), variables: {'phone': mobile}),
+          document: gql(addMutation.getOtp()),
+          variables: {'phone': "+91" + mobile}),
     );
     print(jsonEncode(result.data));
     showOtpUi = true;
@@ -48,10 +51,10 @@ class LoginViewModel extends ChangeNotifier {
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.verifyOtp()),
-          variables: {'phone': mobile, 'otp': otp},
+          variables: {'phone': "+91" + mobile, 'otp': otp},
         ),
       );
-      if(!result.hasException){
+      if (!result.hasException) {
         token = tempToken;
         await addCookieToSF(token);
         _dialog.close();
@@ -65,6 +68,16 @@ class LoginViewModel extends ChangeNotifier {
       otpStatus = false;
     }
     _dialog.close();
+    notifyListeners();
+  }
+
+  changeResendEnable() {
+    resendEnable = !resendEnable;
+    resendTrial = resendTrial + 1;
+    notifyListeners();
+  }
+
+  resendTrialIncrement() {
     notifyListeners();
   }
 }

@@ -1,12 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:anne/model/user.dart';
-import 'package:anne/repository/auth_repository.dart';
-import 'package:anne/utility/shared_preferences.dart';
-import 'package:anne/utility/query_mutation.dart';
+import '../../model/user.dart';
+import '../../repository/auth_repository.dart';
+import '../../utility/query_mutation.dart';
 import '../utility/graphQl.dart';
 
 class ProfileModel extends ChangeNotifier {
@@ -29,7 +24,7 @@ class ProfileModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeProfile() async{
+  removeProfile() async {
     // await authRepository.removeProfile();
     _user = null;
     token = "";

@@ -1,1 +1,1 @@
-enum TzDialogType { progress, alert, notification}
+enum TzDialogType { progress, alert, notification }

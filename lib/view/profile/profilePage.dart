@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:koukicons/location.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/view_model/auth_view_model.dart';
+import '../../view_model/auth_view_model.dart';
 
-import 'package:anne/utility/theme.dart';
-
+import '../../utility/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -77,9 +76,7 @@ class _ProfilePage extends State<ProfilePage> {
                             textAlign: TextAlign.left,
                           ),
                           InkWell(
-                              onTap: () {
-
-                              },
+                              onTap: () {},
                               child: Icon(
                                 Icons.edit,
                                 color: Colors.deepPurpleAccent,

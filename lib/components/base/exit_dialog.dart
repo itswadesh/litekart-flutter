@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:anne/values/colors.dart';
+import '../../values/colors.dart';
 
 Future<bool> showExitDialog(BuildContext context, String message) {
   return showDialog(

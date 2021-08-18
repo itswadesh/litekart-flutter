@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/response_handler/productListApiReponse.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/view/product_detail.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../response_handler/productListApiReponse.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import '../../utility/query_mutation.dart';
+import '../../view_model/cart_view_model.dart';
+import '../../view/product_detail.dart';
+import '../../values/route_path.dart' as routes;
 
 class ProductViewCard extends StatefulWidget {
   final productData;
@@ -61,8 +61,8 @@ class _ProductViewCardState extends State<ProductViewCard> {
                               ScreenUtil().setWidth(7),
                               ScreenUtil().setWidth(10),
                               0),
-                          width: ScreenUtil().radius(24),
-                          height: ScreenUtil().radius(24),
+                          width: ScreenUtil().radius(26),
+                          height: ScreenUtil().radius(26),
                           decoration: new BoxDecoration(
                             color: Color(0xffFFE8E8),
                             border: Border(
@@ -93,9 +93,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                       ScreenUtil().setWidth(36), ScreenUtil().setWidth(13)),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
-                    image: (images?.length ?? 0) > 0
-                        ? images.first
-                        : 'https://next.anne.com/icon.png',
+                    image: images.first,
                     height: ScreenUtil().setWidth(110),
                     width: ScreenUtil().setWidth(111),
                   ),
@@ -211,13 +209,19 @@ class _ProductAddButton extends State<ProductAddButton> {
     return Container(
       height: ScreenUtil().setWidth(21),
       width: ScreenUtil().setWidth(57),
-      child: RaisedButton(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ScreenUtil().radius(25)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ScreenUtil().radius(25)),
+          ),
+          textStyle: TextStyle(
+              fontSize: ScreenUtil().setSp(
+                13,
+              ),
+              color: Colors.white),
+          primary: Color(0xff32afc8),
         ),
-        textColor: Colors.white,
-        color: Color(0xff32afc8),
         onPressed: () async {
           if (buttonValue != "ADDED") {
             setState(() {
@@ -229,10 +233,6 @@ class _ProductAddButton extends State<ProductAddButton> {
         },
         child: Text(
           buttonValue,
-          style: TextStyle(
-              fontSize: ScreenUtil().setSp(
-            13,
-          )),
         ),
       ),
     );

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../service/navigation/navigation_service.dart';
+import '../../utility/locator.dart';
+import '../../view_model/cart_view_model.dart';
+import '../../values/route_path.dart' as routes;
 
 class CartLogo extends StatefulWidget {
   @override
@@ -25,40 +25,55 @@ class _CartLogo extends State<CartLogo> {
         builder: (BuildContext context, value, Widget child) {
       if (value.status == "loading") {
         Provider.of<CartViewModel>(context, listen: false).fetchCartData();
+        return Padding(
+          padding: const EdgeInsets.only(right: 14, left: 14),
+          child: Center(
+              child:  Icon(
+          Icons.shopping_cart,
+          size: ScreenUtil().setWidth(28),
+          color: Colors.black54,
+        )));
       }
       return InkWell(
-          onTap: () {
-            _navigationService.pushNamed(routes.CartRoute);
-          },
-          child: Padding(
-              padding: const EdgeInsets.only(right: 14, left: 14),
-              child: Center(
-                  child: Stack(
-                children: [
-                  Icon(
-                    Icons.shopping_cart,
-                    size: ScreenUtil().setWidth(28),
-                    color: Colors.black54,
-                  ),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(12), 0, 0, 0),
-                      width: ScreenUtil().radius(15),
-                      height: ScreenUtil().radius(15),
-                      decoration: new BoxDecoration(
-                        color: Color(0xffbb8738),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "${value.cartCount}",
-                          style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: ScreenUtil().setSp(12)),
+        onTap: () {
+          _navigationService.pushNamed(routes.CartRoute);
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 14, left: 14),
+          child: Center(
+            child: Stack(
+              children: [
+                Icon(
+                  Icons.shopping_cart,
+                  size: ScreenUtil().setWidth(28),
+                  color: Colors.black54,
+                ),
+                value.cartCount > 0
+                    ? Positioned(
+                      left: 10, top: 0,
+                      child: Container(
+                          width: ScreenUtil().radius(15),
+                          height: ScreenUtil().radius(15),
+                          decoration: new BoxDecoration(
+                            color: Color(0xffbb8738),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${value.cartCount}",
+                              style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: ScreenUtil().setSp(12)),
+                            ),
+                          ),
                         ),
-                      ))
-                ],
-              ))));
+                    )
+                    : SizedBox.shrink()
+              ],
+            ),
+          ),
+        ),
+      );
     }));
   }
 }

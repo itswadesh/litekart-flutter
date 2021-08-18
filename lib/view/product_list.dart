@@ -1,24 +1,27 @@
 import 'package:dio/dio.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:anne/repository/products_repository.dart';
-import 'package:anne/response_handler/productListApiReponse.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/view/product_filter_drawer.dart';
-import 'package:anne/components/widgets/cartEmptyMessage.dart';
-import 'package:anne/components/widgets/loading.dart';
-import 'package:anne/components/widgets/productViewCard.dart';
+import '../../repository/products_repository.dart';
+import '../../response_handler/productListApiReponse.dart';
+import '../../utility/query_mutation.dart';
+import '../../view/product_filter_drawer.dart';
+import '../../components/widgets/cartEmptyMessage.dart';
+import '../../components/widgets/loading.dart';
+import '../../components/widgets/productViewCard.dart';
 
-import 'package:anne/view/cart_logo.dart';
+import '../../view/cart_logo.dart';
 
 class ProductList extends StatefulWidget {
   final search;
   final category;
   final brandName;
-
-  ProductList(this.search, this.category, this.brandName);
+  final parentBrand;
+  final brandId;
+  final urlLink;
+  ProductList(this.search, this.category, this.brandName,this.parentBrand,this.brandId,this.urlLink);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,11 +41,23 @@ class _ProductList extends State<ProductList> {
   List brandArr = [];
   List colorArr = [];
   List sizeArr = [];
+  List genderArr = [];
+  List priceRangeArr = [];
+  List ageGroupArr = [];
+  List discountArr = [];
+  String urlLink = "";
+  var brandId = "";
   var brand = "";
   var color = "";
+  var parentBrand = "";
   var size = "";
+  var gender = "";
+  var priceRange = "";
+  var ageGroup = "";
+  var discount = "";
   int page = 0;
   var count = 0;
+  var sort = "-createdAt";
   var facet;
   TextEditingController searchText = TextEditingController();
 
@@ -51,6 +66,9 @@ class _ProductList extends State<ProductList> {
     categoryName = widget.category;
     searchText.text = widget.search;
     brand = widget.brandName;
+    parentBrand = widget.parentBrand;
+    brandId = widget.brandId;
+    urlLink = widget.urlLink;
     _pagingController.addPageRequestListener((pageKey) {
       fetchProduct(pageKey);
     });
@@ -113,34 +131,68 @@ class _ProductList extends State<ProductList> {
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(
             ScreenUtil().setWidth(27),
-            ScreenUtil().setWidth(15),
+            ScreenUtil().setWidth(5),
             ScreenUtil().setWidth(16),
             ScreenUtil().setWidth(12)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Container(
+                padding:EdgeInsets.only(top: ScreenUtil().setWidth(10)),
+                child:
             Text(
               "$count Products Found",
               style: TextStyle(
                   color: Color(0xff616161),
                   fontSize: ScreenUtil().setWidth(16)),
-            ),
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                count > 0
+                    ? InkWell(
+                    onTap: () {
+                      showSortPopup();
+                    },
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+                        child: Icon(
+                      Icons.sort,
+                      size: ScreenUtil().setWidth(22),
+                      color: Color(0xffee7625),
+                    )))
+                    : Container(),
                 count > 0
                     ? InkWell(
                         onTap: () {
                           // key.currentState.openEndDrawer();
 
                           showMaterialModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                              )
+                            ),
                             context: context,
-                            builder: (context) => ProductFilterDrawer(
-                                facet, brandArr, colorArr, sizeArr,
-                                (bn, cl, sz) {
+                            builder: (context) => Container(
+                              decoration: BoxDecoration(
+
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                    topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                                  )
+                              ),
+                              child: ProductFilterDrawer(
+                                facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+                                (bn, cl, sz,gd,pr,ag,dc) {
                               brand = "";
                               color = "";
                               size = "";
+                               gender = "";
+                               priceRange = "";
+                               ageGroup = "";
+                               discount = "";
                               bn.forEach((element) {
                                 brand = brand + element + ",";
                               });
@@ -150,21 +202,39 @@ class _ProductList extends State<ProductList> {
                               sz.forEach((element) {
                                 size = size + element + ",";
                               });
+                              gd.forEach((element) {
+                                gender = gender + element + ",";
+                              });
+                              pr.forEach((element) {
+                                priceRange = priceRange + element + ",";
+                              });
+                              ag.forEach((element) {
+                                ageGroup = ageGroup + element + ",";
+                              });
+                              dc.forEach((element) {
+                                discount = discount + element + ",";
+                              });
                               print(brand);
                               brandArr = bn;
                               colorArr = cl;
                               sizeArr = sz;
+                              genderArr = gd;
+                              priceRangeArr = pr;
+                              ageGroupArr = ag;
+                              discountArr = dc;
                               page = 0;
                               print(brand);
                               _pagingController.refresh();
                             }),
-                          );
+                          ));
                         },
-                        child: Icon(
-                          Icons.sort,
+                        child: Container(
+                            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+                            child: Icon(
+                          Icons.filter_alt_outlined,
                           size: ScreenUtil().setWidth(22),
                           color: Color(0xffee7625),
-                        ))
+                        )))
                     : Container()
               ],
             )
@@ -213,13 +283,13 @@ class _ProductList extends State<ProductList> {
   fetchProduct(pageKey) async {
     var response;
     response = await productsRepository.fetchProductList(
-        categoryName, searchText.text, brand, color, size, page);
+        categoryName, searchText.text, brand, color, size, gender,priceRange,ageGroup,discount,page, parentBrand,brandId,urlLink,sort);
     if (response.statusCode == 200) {
       try {
         print(response.data.toString());
         count = response.data["count"];
         facet = response.data["facets"];
-
+        print("hi  there    "+facet.toString());
         final isLastPage = response.data["data"].length < 40;
         if (isLastPage) {
           _pagingController.appendLastPage(response.data["data"]);
@@ -235,5 +305,122 @@ class _ProductList extends State<ProductList> {
         page = page + 1;
       });
     }
+  }
+
+  void showSortPopup() {
+   var sorts = [
+      { "name": 'Relevance', "val": "" },
+      { "name": 'Whats New', "val": '-createdAt' },
+      { "name": 'Price low to high', "val": 'price' },
+      { "name": 'Price high to low', "val": '-price' },
+    ];
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Sort Products",
+                    style: TextStyle(
+                        color: Color(0xff3a3a3a),
+                        fontSize: ScreenUtil().setSp(17)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      size: ScreenUtil().setWidth(20),
+                      color: Color(0xff3a3a3a),
+                    ),
+                  ),
+                ],
+              ),
+              content:  Container(
+                      height: ScreenUtil().setWidth(320),
+                      width: ScreenUtil().setWidth(386),
+                      child: Column(
+                        children: [
+                          Divider(
+                            height: ScreenUtil().setWidth(0.4),
+                            thickness: ScreenUtil().setWidth(0.4),
+                            color: Color(0xff707070),
+                          ),
+                          SizedBox(
+                            height: ScreenUtil().setWidth(25),
+                          ),
+                          Container(
+                            height: ScreenUtil().setWidth(250),
+                            child: ListView.builder(
+                                itemCount: sorts.length,
+                                itemBuilder: (BuildContext build, index) {
+                                  return Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                sort = sorts[index]["val"];
+                                                page=0;
+                                                _pagingController.refresh();
+                                                Navigator.pop(context);
+                                              },
+                                              child: ((sorts[index]["val"] ==
+                                                  sort))
+                                                  ? Icon(
+                                                Icons.check_box,
+                                                color: Color(0xffee7625),
+                                                size:
+                                                ScreenUtil().setWidth(18),
+                                              )
+                                                  : Icon(
+                                                Icons.check_box_outline_blank,
+                                                color: Color(0xffee7625),
+                                                size:
+                                                ScreenUtil().setWidth(18),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: ScreenUtil().setWidth(20),
+                                            ),
+                                            DottedBorder(
+                                                color: Color(0xffbb8738),
+                                                dashPattern: [
+                                                  ScreenUtil().setWidth(4),
+                                                  ScreenUtil().setWidth(2)
+                                                ],
+                                                child: Container(
+                                                  height: ScreenUtil().setWidth(28),
+                                                  width: ScreenUtil().setWidth(150),
+                                                  child: Center(
+                                                      child: Text(
+                                                        sorts[index]["name"],
+                                                        style: TextStyle(
+                                                            color: Color(0xffbb8738),
+                                                            fontSize:
+                                                            ScreenUtil().setSp(
+                                                              13,
+                                                            )),
+                                                      )),
+                                                ))
+                                          ],
+                                        ),
+
+                                        SizedBox(
+                                          height: ScreenUtil().setWidth(38),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ));});
   }
 }

@@ -1,15 +1,13 @@
-import 'package:anne/components/base/pk_dialog.dart';
-import 'package:anne/components/base/tz_dialog.dart';
-import 'package:anne/enum/home_card_layout.dart';
-import 'package:anne/enum/pk_dialog_type.dart';
-import 'package:anne/enum/tz_dialog_type.dart';
-import 'package:anne/model/base/dynamic_routes.dart';
-import 'package:anne/model/user.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/view_model/auth_view_model.dart';
+import '../../components/base/tz_dialog.dart';
+import '../../enum/home_card_layout.dart';
+import '../../enum/tz_dialog_type.dart';
+import '../../model/base/dynamic_routes.dart';
+import '../../model/user.dart';
+import '../../service/navigation/navigation_service.dart';
+import '../../view_model/auth_view_model.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
-import 'package:anne/values/route_path.dart' as routes;
+import '../../values/route_path.dart' as routes;
 
 import 'locator.dart';
 

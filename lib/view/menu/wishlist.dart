@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:anne/components/widgets/cartEmptyMessage.dart';
-import 'package:anne/components/widgets/errorMessage.dart';
-import 'package:anne/components/widgets/loading.dart';
-import 'package:anne/service/navigation/navigation_service.dart';
-import 'package:anne/utility/graphQl.dart';
-import 'package:anne/utility/locator.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/view_model/wishlist_view_model.dart';
+import '../../components/widgets/cartEmptyMessage.dart';
+import '../../components/widgets/errorMessage.dart';
+import '../../components/widgets/loading.dart';
+import '../../utility/graphQl.dart';
+import '../../view_model/cart_view_model.dart';
+import '../../view_model/wishlist_view_model.dart';
 
-import 'package:anne/view/cart_logo.dart';
-import 'package:anne/view/product_detail.dart';
+import '../../view/cart_logo.dart';
+import '../../view/product_detail.dart';
 
 class Wishlist extends StatefulWidget {
   @override
@@ -149,7 +147,7 @@ class _WishCard extends State<WishCard> {
                               placeholder: 'assets/images/loading.gif',
                               image: value.wishlistResponse.data[index].product
                                       .img ??
-                                  "https://next.anne.com/icon.png",
+                                  "https://next.tablez.com/icon.png",
                               fit: BoxFit.contain,
                               width: ScreenUtil().setWidth(92),
                               height: ScreenUtil().setWidth(102),

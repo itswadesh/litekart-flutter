@@ -1,21 +1,51 @@
-
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:anne/model/user.dart';
-import 'package:anne/utility/query_mutation.dart';
-import 'package:anne/utility/shared_preferences.dart';
-import 'package:anne/view_model/auth_view_model.dart';
+import '../../model/user.dart';
+import '../../utility/query_mutation.dart';
+import '../../utility/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'api_endpoint.dart';
 import 'graphQl.dart';
 
-class ApiProvider{
-
+class ApiProvider {
   QueryMutation addMutation = QueryMutation();
   Dio dio = Dio();
-  // Address Apis
 
+  // Product Detail api
+
+  fetchProductDetailApi(productId) async {
+    Map responseData;
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
+    try {
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.product()), variables: {"id": productId}),
+      );
+      if (resultData.hasException) {
+        print(resultData.exception);
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data["product"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["product"]
+          };
+        }
+      }
+    } catch (e) {
+      print(e);
+      responseData = {"status": "error"};
+    }
+    return responseData;
+  }
+
+  // Address Apis
 
   fetchAddressData() async {
     Map responseData;
@@ -29,27 +59,21 @@ class ApiProvider{
       );
       if (resultData.hasException) {
         print(resultData.exception);
-        responseData ={
-          "status":"error"
-        };
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["myAddresses"] == null ||
             resultData.data["myAddresses"]["data"].length == 0) {
-          responseData ={
-            "status":"empty"
-          };
+          responseData = {"status": "empty"};
         } else {
-          responseData ={
-            "status":"completed",
-            "value":resultData.data["myAddresses"]
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["myAddresses"]
           };
         }
       }
     } catch (e) {
       print(e);
-      responseData ={
-        "status":"error"
-      };
+      responseData = {"status": "error"};
     }
     return responseData;
   }
@@ -77,12 +101,12 @@ class ApiProvider{
       );
       if (result.hasException) {
         print(result.exception.graphqlErrors);
-          statusResponse=false;
+        statusResponse = false;
       } else {
-        statusResponse=true;
+        statusResponse = true;
       }
     } catch (e) {
-      statusResponse=false;
+      statusResponse = false;
     }
     return statusResponse;
   }
@@ -118,7 +142,6 @@ class ApiProvider{
     }
   }
 
-
   // Auth Apis
 
   Future<User> getProfile() async {
@@ -141,94 +164,116 @@ class ApiProvider{
   editProfile(phone, firstName, lastName, email, gender) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.mutate(
+    await _client.mutate(
         MutationOptions(document: gql(addMutation.updateProfile()), variables: {
-          'phone': phone,
-          'firstName': firstName,
-          'email': email,
-          'lastName': lastName,
-          'gender': gender,
-        }));
+      'phone': phone,
+      'firstName': firstName,
+      'email': email,
+      'lastName': lastName,
+      'gender': gender,
+    }));
   }
 
-  removeProfile() async{
+  removeProfile() async {
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration1.clientToQuery();
-    QueryResult result = await _client.mutate(
-        MutationOptions(document: gql(addMutation.signOut())));
+    await _client
+        .mutate(MutationOptions(document: gql(addMutation.signOut())));
     token = "";
     tempToken = "";
     deleteCookieFromSF();
   }
 
-
   // Banner Apis
 
-   fetchBannerData() async {
+  fetchBannerData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.banners()),
-            variables: {"type": "banner"}),
+            document: gql(addMutation.groupByBanner()),
+            variables: {"type": "hero"}),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status" : "error"
-        };
+        responseData = {"status": "error"};
       } else {
-        if (resultData.data["banners"] == null) {
-          responseData = {
-            "status" : "empty"
-          };
+        if (resultData.data["groupByBanner"] == null ||
+            resultData.data["groupByBanner"].length == null) {
+          responseData = {"status": "empty"};
         } else {
-          responseData = {
-            "status" : "completed",
-            "value":resultData.data["banners"]
-          };
+          responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
-      responseData = {
-        "status" : "error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
   }
 
-   fetchSliderData() async {
+  fetchBanners(
+      {String pageId, @required String type, String sort, bool active}) async {
+    Map<String, dynamic> variables = {"type": type};
+    if (pageId != null) variables['pageId'] = pageId;
+    if (sort != null) variables['sort'] = sort;
+
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.banners()),
-            variables: {"type": "slider"}),
+            document: gql(addMutation.banners()), variables: variables),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status" : "error"
-        };
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["banners"] == null) {
-          responseData = {
-            "status" : "empty"
-          };
+          responseData = {"status": "empty"};
         } else {
           responseData = {
-            "status" : "completed",
-            "value":resultData.data["banners"]
+            "status": "completed",
+            "value": resultData.data["banners"]
           };
         }
       }
     } catch (e) {
-      responseData = {
-        "status" : "error"
-      };
+      responseData = {"status": "error"};
+      print(e);
+    }
+    return responseData;
+  }
+
+  fetchSubBrand({@required String pageId}) async {
+    Map responseData;
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+        MutationOptions(document: gql(addMutation.subBrands()), variables: {
+          "limit": 10,
+          "page": 0,
+          "sort": "sort",
+          "parent": pageId,
+          "featured": true
+        }),
+      );
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data["brands"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["brands"]
+          };
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
@@ -236,7 +281,7 @@ class ApiProvider{
 
   // brand Apis
 
-   fetchBrandData() async {
+  fetchBrandData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -244,37 +289,59 @@ class ApiProvider{
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.brands()),
-            variables: {"featured": true, "limit": 5, "page": 0},
+            variables: {"sort": "sort", "limit": 5, "page": 0},
             fetchPolicy: FetchPolicy.noCache),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status" : "error"
-        };
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["brands"] == null ||
             resultData.data["brands"]["data"].length == 0) {
-          responseData = {
-            "status" : "empty"
-          };
+          responseData = {"status": "empty"};
         } else {
           responseData = {
-            "status" : "completed",
-            "value":resultData.data["brands"]
+            "status": "completed",
+            "value": resultData.data["brands"]
           };
         }
       }
     } catch (e) {
-      responseData = {
-        "status" : "error"
-      };
+      responseData = {"status": "error"};
     }
     return responseData;
   }
 
+  fetchParentBrandData() async {
+    Map responseData;
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.parentBrands()),
+            variables: {"featured": true, "limit": 5, "page": 0},
+            fetchPolicy: FetchPolicy.noCache),
+      );
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data["parentBrands"] == null ||
+            resultData.data["parentBrands"]["data"].length == 0) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["parentBrands"]
+          };
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+    }
+    return responseData;
+  }
 
   // Cart Apis
-
 
   fetchCartData() async {
     Map responseData;
@@ -288,33 +355,23 @@ class ApiProvider{
       );
       if (resultData.hasException) {
         print(resultData.exception.toString());
-        responseData = {
-          "status" : "error"
-        };
+        responseData = {"status": "error"};
       } else {
-        if (resultData.data["cart"] == null ) {
+        if (resultData.data["cart"] == null) {
+          responseData = {"status": "empty"};
+        } else if (resultData.data["cart"]["items"] == null ||
+            resultData.data["cart"]["items"].length == 0) {
+          responseData = {"status": "empty"};
+        } else {
           responseData = {
-            "status" : "empty"
-          };
-        }
-        else if(
-        resultData.data["cart"]["items"].length == 0){
-          responseData = {
-            "status" : "empty"
-          };
-        }
-        else {
-          responseData = {
-            "status" : "completed",
-            "value":resultData.data["cart"]
+            "status": "completed",
+            "value": resultData.data["cart"]
           };
         }
       }
     } catch (e) {
       print(e);
-      responseData = {
-    "status" : "error"
-    };
+      responseData = {"status": "error"};
     }
     return responseData;
   }
@@ -335,36 +392,30 @@ class ApiProvider{
       );
       if (resultData.hasException) {
         print(resultData.exception.toString());
-        responseData = {
-          "status" : "error"
-        };
+        responseData = {"status": "error"};
       } else {
-          token = tempToken;
-          await addCookieToSF(token);
+        token = tempToken;
+        await addCookieToSF(token);
 
         if (resultData.data["addToCart"] == null ||
             resultData.data["addToCart"]["items"].length == 0) {
-          responseData = {
-            "status" : "empty"
-          };
+          responseData = {"status": "empty"};
         } else {
           responseData = {
-            "status" : "completed",
-            "value":resultData.data["addToCart"]
+            "status": "completed",
+            "value": resultData.data["addToCart"]
           };
         }
       }
     } catch (e) {
       print(e.toString());
-      responseData = {
-        "status" : "error"
-      };
+      responseData = {"status": "error"};
     }
     return responseData;
   }
 
   applyCoupon(promocode) async {
-    Map responseData ;
+    Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
@@ -374,19 +425,18 @@ class ApiProvider{
             variables: {"code": promocode}),
       );
       if (resultData.hasException) {
-
-        responseData= {"status":false};
+        responseData = {"status": false};
       } else {
         if (resultData.data["applyCoupon"] == null ||
             resultData.data["applyCoupon"]["items"].length == 0) {
-          responseData= {"status":false};
+          responseData = {"status": false};
         } else {
-          responseData= {"status":true,"promocodeStatus":true};
+          responseData = {"status": true, "promocodeStatus": true};
         }
       }
     } catch (e) {
       print(e);
-      responseData= {"status":false};
+      responseData = {"status": false};
     }
     return responseData;
   }
@@ -403,36 +453,28 @@ class ApiProvider{
       );
       if (resultData.hasException) {
         print(resultData.exception.toString());
-        responseData = {
-          "status":"error"
-        };
-
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["coupons"] == null ||
             resultData.data["coupons"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
+          responseData = {"status": "empty"};
         } else {
           responseData = {
-            "status":"completed",
-            "value":resultData.data["coupons"]
+            "status": "completed",
+            "value": resultData.data["coupons"]
           };
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
   }
 
-
   // category api
 
-   fetchCategoryData() async {
+  fetchCategoryData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -444,28 +486,21 @@ class ApiProvider{
       );
       if (resultData.hasException) {
         print(resultData.exception);
-        responseData = {
-          "status":"error"
-        };
-
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["categories"] == null ||
             resultData.data["categories"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
-
+          responseData = {"status": "empty"};
         } else {
+          print(resultData.data["categories"].toString());
           responseData = {
-            "status":"completed",
-            "value":resultData.data["categories"]
+            "status": "completed",
+            "value": resultData.data["categories"]
           };
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
@@ -484,31 +519,26 @@ class ApiProvider{
         ),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status":"error"
-        };
+        responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
             resultData.data["listDeals"] == null ||
             resultData.data["listDeals"]["data"].length == 0 ||
             int.parse(resultData.data["listDeals"]["data"][0]["endTimeISO"]) <
                 DateTime.now().millisecondsSinceEpoch) {
-          responseData = {
-            "status":"empty"
-          };
+          responseData = {"status": "empty"};
         } else {
+          print(resultData.data["listDeals"]["data"].toString());
           responseData = {
-            "status":"error",
-            "value":resultData.data["listDeals"]
+            "status": "error",
+            "value": resultData.data["listDeals"]
           };
         }
       }
 
       // _apiResponse = ApiResponse.completed(_categoriesResponse);
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       // _apiResponse = ApiResponse.error(e.toString());
       print(e);
     }
@@ -524,33 +554,25 @@ class ApiProvider{
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.products()), variables: {"hot": true}),
+            document: gql(addMutation.trending()), variables: {"type": "hot"}),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status":"error"
-        };
+        responseData = {"status": "error"};
       } else {
-        if (resultData.data["products"] == null ||
-            resultData.data["products"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
+        if (resultData.data == null ||
+            resultData.data["trending"].length == 0) {
+          responseData = {"status": "empty"};
         } else {
-          responseData = {
-            "status":"completed",
-            "value":resultData.data["products"]
-          };
+          responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
-  return responseData;
+    return responseData;
   }
+
   Future<void> fetchYouMayLikeData() async {
     Map responseData;
     try {
@@ -558,33 +580,27 @@ class ApiProvider{
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.products()), variables: {"sale": true}),
+            document: gql(addMutation.trending()), variables: {"type": "sale"}),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status":"error"
-        };
+        log(resultData.exception.toString());
+        responseData = {"status": "error"};
       } else {
-        if (resultData.data["products"] == null ||
-            resultData.data["products"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
+        if (resultData.data == null ||
+            resultData.data["trending"].length == 0) {
+          responseData = {"status": "empty"};
         } else {
-          responseData = {
-            "status":"completed",
-            "value":resultData.data["products"]
-          };
+          print(resultData.data["trending"].toString());
+          responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
   }
+
   Future<void> fetchSuggestedData() async {
     Map responseData;
     try {
@@ -592,29 +608,21 @@ class ApiProvider{
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.products()), variables: {"new": true}),
+            document: gql(addMutation.trending()), variables: {"type": "new"}),
       );
       if (resultData.hasException) {
-        responseData = {
-          "status":"error"
-        };
+        responseData = {"status": "error"};
       } else {
-        if (resultData.data["products"] == null ||
-            resultData.data["products"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
+        if (resultData.data == null ||
+            resultData.data["trending"].length == 0) {
+          responseData = {"status": "empty"};
         } else {
-          responseData = {
-            "status":"completed",
-            "value":resultData.data["products"]
-          };
+          print(resultData.data["trending"].toString());
+          responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
@@ -631,26 +639,20 @@ class ApiProvider{
         document: gql(addMutation.myWishlist()),
       ));
       if (resultData.hasException) {
-        responseData = {
-          "status":"error"
-        };
+        responseData = {"status": "error"};
       } else {
         if (resultData.data["myWishlist"] == null ||
             resultData.data["myWishlist"]["data"].length == 0) {
-          responseData = {
-            "status":"empty"
-          };
+          responseData = {"status": "empty"};
         } else {
           responseData = {
-            "status":"completed",
-            "value":resultData.data["myWishlist"]
+            "status": "completed",
+            "value": resultData.data["myWishlist"]
           };
         }
       }
     } catch (e) {
-      responseData = {
-        "status":"error"
-      };
+      responseData = {"status": "error"};
       print(e);
     }
     return responseData;
@@ -671,23 +673,119 @@ class ApiProvider{
   }
 
   // Product List Api
-
-  fetchProductList(categoryName,searchText,brand,color,size,page)async{
-    print(categoryName);
-   var response = await dio.get((ApiEndpoint()).productList, queryParameters: {
-      "categories": categoryName,
-      "q": searchText,
-      "brands": brand,
-      "colors": color,
-      "sizes": size,
-      "page": page
+  fetchProductList(
+      categoryName,
+      searchText,
+      brand,
+      color,
+      size,
+      gender,
+      priceRange,
+      ageGroup,
+      discount,
+      page,
+      parentBrand,
+      brandId,
+      urlLink,
+      sort) async {
+    var cn = "";
+    var st = "";
+    var br = "";
+    var cl = "";
+    var sz = "";
+    var gd = "";
+    var pr = "";
+    var ag = "";
+    var dc = "";
+    var pb = "";
+    log(urlLink.toString());
+    if (urlLink != "" && urlLink != null) {
+      if (urlLink.contains(apiEndpoint.externalLink)) {
+        if (await canLaunch(urlLink)) {
+          await launch(urlLink);
+        } else
+          // can't launch url, there is some error
+          throw "Could not launch $urlLink";
+      } else if (urlLink.contains(apiEndpoint.categoryLink) ||
+          urlLink.contains(apiEndpoint.searchLink) ||
+          urlLink.contains("/search?")) {
+        cn = urlLink.contains(ApiEndpoint().categoryLink)
+            ? (urlLink.split(ApiEndpoint().categoryLink)[1]).split(
+                "${urlLink.split(ApiEndpoint().categoryLink)[1].contains("?") ? "?" : "\n"}")[0]
+            : "";
+        st = urlLink.contains(ApiEndpoint().searchLink)
+            ? (urlLink.split(ApiEndpoint().searchLink)[1]).split(
+                "${urlLink.split(ApiEndpoint().searchLink)[1].contains("?") ? "?" : "\n"}")[0]
+            : "";
+        br = urlLink.contains("brands=")
+            ? (urlLink.split("brands=")[1]).split(
+                "${urlLink.split("brands=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        cl = urlLink.contains("colors=")
+            ? (urlLink.split("colors=")[1]).split(
+                "${urlLink.split("colors=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        sz = urlLink.contains("sizes=")
+            ? (urlLink.split("sizes=")[1]).split(
+                "${urlLink.split("sizes=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        gd = urlLink.contains("genders=")
+            ? (urlLink.split("genders=")[1]).split(
+                "${urlLink.split("genders=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        pr = urlLink.contains("price=")
+            ? (urlLink.split("price=")[1]).split(
+                "${urlLink.split("price=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        ag = urlLink.contains("age=")
+            ? (urlLink.split("age=")[1]).split(
+                "${urlLink.split("age=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        dc = urlLink.contains("discount=")
+            ? (urlLink.split("discount=")[1]).split(
+                "${urlLink.split("discount=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        pb = urlLink.contains("parentBrands=")
+            ? (urlLink.split("parentBrands=")[1]).split(
+                "${urlLink.split("parentBrands=")[1].contains("&") ? "&" : "\n"}")[0]
+            : "";
+        // bi = urlLink.contains("brand=") ? (urlLink.split("brand=")[1]).split(
+        //     "${urlLink.split("brand=")[1].contains("&") ? "&" : "\n"}")[0] : "";
+      }
+    }
+    log(sort);
+    log(categoryName + cn);
+    log(searchText + st);
+    log(brand + br);
+    log(color + cl);
+    log(size + sz);
+    log(gender + gd);
+    log(priceRange + pr);
+    log(ageGroup + ag);
+    log(discount + dc);
+    log(page.toString());
+    log(pb + parentBrand);
+    var response = await dio.get((ApiEndpoint()).productList, queryParameters: {
+      "categories": categoryName + cn,
+      "q": searchText + st,
+      "brands": brand + br,
+      "colors": color + cl,
+      "sizes": size + sz,
+      "genders": gender + gd,
+      "price": priceRange + pr,
+      "age": ageGroup + ag,
+      "discount": discount + dc,
+      "sort": sort,
+      "page": page,
+      "parentBrands": parentBrand + pb,
+      // "brand": bi
     });
-   return response;
+    return response;
   }
 
   // checkout api
 
-  checkout(addressId,paymentMode) async{
+  checkout(addressId, paymentMode) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.mutate(
@@ -698,52 +796,228 @@ class ApiProvider{
     return result;
   }
 
-  // cashfree api
-
-  cashFreePayNow(selectedAddressId) async{
-    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult resultCashFree = await _client.mutate(
-      MutationOptions(
-          document: gql(addMutation.cashfreePayNow()),
-          variables: {
-            'address': selectedAddressId,
-          }),
-    );
-    return resultCashFree;
-  }
-
-
-  // fcm token
-
-  saveFcmToken(id, token, platform, device_id,active) async{
+  order(id) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.mutate(
       MutationOptions(
-          document: gql(addMutation.saveFcmToken()),
-          variables: {
-            "id": id,
-            "token": token,
-            "platform": platform,
-            "device_id": device_id,
-            "active": active
-          }),
+          document: gql(addMutation.order()), variables: {'id': id}),
     );
     return result;
   }
 
-  myToken(page, search, limit, sort)async{
+  paySuccessPageHit(id) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.mutate(
       MutationOptions(
-          document: gql(addMutation.myTokens()),
-        ),
+          document: gql(addMutation.paySuccessPageHit()),
+          variables: {'id': id}),
     );
-    if(result.hasException || result.data["count"]==0){
+    return result;
+  }
+
+  // cashfree api
+
+  cashFreePayNow(selectedAddressId) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult resultCashFree = await _client.mutate(
+      MutationOptions(document: gql(addMutation.cashfreePayNow()), variables: {
+        'address': selectedAddressId,
+      }),
+    );
+    return resultCashFree;
+  }
+
+  captureCashFree(data) async {
+    try {
+      var response = await dio.post(apiEndpoint.cashFreeEndpoint, data: data);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        log(response.data);
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
+
+  // myOrder Api
+
+  fetchMyOrders(page, skip, limit, search, sort, String status) async {
+    Map responseData;
+    print(status);
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+          MutationOptions(document: gql(addMutation.myOrders()), variables: {
+        // "page":page,
+        // "skip":skip,
+        // "limit":limit,
+        // "search":search,
+        // "sort":sort,
+        // "status": status
+      }));
+      print(resultData.data.toString());
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data == null ||
+            resultData.data["myOrders"] == null ||
+            resultData.data["myOrders"]["data"].length == 0) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["myOrders"]
+          };
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+      print(e);
+    }
+    return responseData;
+  }
+
+  orderItem(id) async {
+    log(id);
+    Map responseData;
+
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(MutationOptions(
+          document: gql(addMutation.orderItem()), variables: {"id": id}));
+      print(resultData.data.toString());
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data == null || resultData.data["orderItem"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["orderItem"]
+          };
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+      print(e);
+    }
+    return responseData;
+  }
+
+  Future<bool> returnItem(id, pid, reason, request, qty) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    try {
+      await _client.mutate(
+        MutationOptions(document: gql(addMutation.returnItem()), variables: {
+          'orderId': id,
+          'pId': pid,
+          'reason': reason,
+          'requestType': request,
+          'qty': qty
+        }),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // fcm token
+
+  saveFcmToken(id, token, platform, deviceId, active) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.mutate(
+      MutationOptions(document: gql(addMutation.saveFcmToken()), variables: {
+        "id": id,
+        "token": token,
+        "platform": platform,
+        "device_id": deviceId,
+        "active": active
+      }),
+    );
+    return result;
+  }
+
+  myToken(page, search, limit, sort) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.mutate(
+      MutationOptions(
+        document: gql(addMutation.myTokens()),
+      ),
+    );
+    if (result.hasException || result.data["count"] == 0) {
       return false;
     }
     return true;
+  }
+
+  // Mega Menu
+
+  Future<void> fetchMegaMenu() async {
+    Map responseData;
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(MutationOptions(
+        document: gql(addMutation.megamenu()),
+      ));
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data == null ||
+            resultData.data["megamenu"].length == 0) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {"status": "completed", "value": resultData.data};
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+      print(e);
+    }
+    return responseData;
+  }
+
+  // Review
+
+  saveReview(id, pid, rating, message) async {
+    Map responseData;
+
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(MutationOptions(
+          document: gql(addMutation.saveReview()),
+          variables: {
+            "id": id,
+            "pid": pid,
+            "rating": rating,
+            "message": message
+          }));
+      print(resultData.data.toString());
+      print(resultData.exception.toString());
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        responseData = {
+          "status": "completed",
+        };
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+    }
+    return responseData;
   }
 }

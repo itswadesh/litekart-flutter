@@ -1,5 +1,3 @@
-import 'package:anne/view/order_confirm.dart';
-
 const String HomeRoute = '/';
 const String LoginRoute = 'Login';
 const String OnboardingRoute = 'Onboarding';
@@ -19,6 +17,9 @@ const String SearchPage = 'SearchPage';
 const String ProductDetailRoute = 'ProductDetail';
 const String OrderConfirm = 'OrderConfirm';
 const String ProductList = 'ProductList';
-const String StreamList  = 'StreamList';
-const String VideoTalk = 'VideoTalk';
-const String StreamPlay = 'StreamPlay';
+const String MegaMenuRoute = 'MegaMenuRoute';
+const String BrandPage = 'BrandPage';
+const String OrderTrack = "OrderTrack";
+const String ReturnPageRoute = "ReturnPage";
+const String AddReviewRoute = "AddReviewRoute";
+const String ZoomImageRoute = "ZoomImageRoute";
