@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:anne/values/colors.dart';
+import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -698,6 +700,35 @@ class _ProductDetail extends State<ProductDetail> {
                       );
                     }
                   },
+                ),
+                SizedBox(
+                  height: ScreenUtil().setWidth(34),
+                ),
+                Container(
+                  width: ScreenUtil().setWidth(150),
+                  height: ScreenUtil().setHeight(42),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      side:
+                          BorderSide(width: 2, color: AppColors.primaryElement),
+                    ),
+                    onPressed: () async {
+                      LiveStreamSetUp().startRTC(context, "1234", 123, 'start');
+                    },
+                    child: Text(
+                      "Join Stream",
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(
+                            16,
+                          ),
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryElement,
+                          fontFamily: 'Montserrat'),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: ScreenUtil().setWidth(34),
