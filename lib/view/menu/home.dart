@@ -8,96 +8,39 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../response_handler/bannerResponse.dart';
-import '../../response_handler/brandResponse.dart';
-import '../../service/event/tracking.dart';
-import '../../service/navigation/navigation_service.dart';
-import '../../utility/api_endpoint.dart';
-import '../../utility/locator.dart';
-import '../../utility/query_mutation.dart';
-import '../../values/event_constant.dart';
-import '../../utility/update_alert.dart';
-import '../../view_model/auth_view_model.dart';
-import '../../view_model/banner_view_model.dart';
-import '../../view_model/brand_view_model.dart';
-import '../../view_model/category_view_model.dart';
-import '../../view_model/home_view_model.dart';
-import '../../view_model/list_details_view_model.dart';
-import '../../view_model/product_view_model.dart';
-import '../../utility/theme.dart';
-import '../../view/menu.dart';
-import 'cart_logo.dart';
-import 'product_list.dart';
-import '../../components/widgets/loading.dart';
-import '../../components/widgets/productViewColor2Card.dart';
-import '../../components/widgets/productViewColorCard.dart';
-import '../../values/route_path.dart' as routes;
+import '../../../response_handler/bannerResponse.dart';
+import '../../../response_handler/brandResponse.dart';
+import '../../../service/event/tracking.dart';
+import '../../../service/navigation/navigation_service.dart';
+import '../../../utility/api_endpoint.dart';
+import '../../../utility/locator.dart';
+import '../../../utility/query_mutation.dart';
+import '../../../values/event_constant.dart';
+import '../../../utility/update_alert.dart';
+import '../../../view_model/auth_view_model.dart';
+import '../../../view_model/banner_view_model.dart';
+import '../../../view_model/brand_view_model.dart';
+import '../../../view_model/category_view_model.dart';
+import '../../../view_model/home_view_model.dart';
+import '../../../view_model/list_details_view_model.dart';
+import '../../../view_model/product_view_model.dart';
+import '../../../utility/theme.dart';
+import '../../../view/drawer.dart';
+import '../cart_logo.dart';
+import '../product_list.dart';
+import '../../../components/widgets/loading.dart';
+import '../../../components/widgets/productViewColor2Card.dart';
+import '../../../components/widgets/productViewColorCard.dart';
+import '../../../values/route_path.dart' as routes;
 
 class Home extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _Home createState() => _Home();
 }
 
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ChangeNotifierProvider(
-        create: (BuildContext context) => HomeViewModel(context),
-        child: Consumer<HomeViewModel>(
-          builder: (context, model, child) {
-            return Stack(
-              children: [HomeBackground(model), HomeForeground(model)],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class HomeBackground extends StatefulWidget {
-  final HomeViewModel model;
-
-  HomeBackground(this.model);
-
-  @override
-  _HomeBackgroundState createState() => _HomeBackgroundState();
-}
-
-class _HomeBackgroundState extends State<HomeBackground> {
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (widget.model.isDrawerOpen) {
-          widget.model.resize();
-          return false;
-        } else {
-          return true;
-        }
-      },
-      child: Scaffold(
-        body: Menu(widget.model),
-      ),
-    );
-  }
-}
-
-class HomeForeground extends StatefulWidget {
-  final HomeViewModel model;
-
-  HomeForeground(this.model);
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _Home();
-  }
-}
-
-class _Home extends State<HomeForeground> {
+class _Home extends State<Home> {
   var counter = 4;
   var searchVisible = false;
   QueryMutation addMutation = QueryMutation();
@@ -141,24 +84,15 @@ class _Home extends State<HomeForeground> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return AnimatedContainer(
-      curve: Curves.easeIn,
-      transform: Matrix4.translationValues(
-          widget.model.xOffset, widget.model.yOffset, widget.model.zOffset)
-        ..scale(widget.model.scaleFactor)
-        ..rotateY(widget.model.isDrawerOpen ? 0.5 : 0),
-      duration: Duration(milliseconds: 300),
-      child: ClipRRect(
-        borderRadius: widget.model.isDrawerOpen
-            ? BorderRadius.circular(20)
-            : BorderRadius.circular(0),
-        child: Scaffold(
+    return  Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
               centerTitle: true,
               backgroundColor: Colors.white,
               leading: InkWell(
-                  onTap: () => widget.model.resize(),
+                  onTap: () {
+
+                  },
                   child: Icon(
                     Icons.menu,
                     color: Colors.black54,
@@ -181,11 +115,48 @@ class _Home extends State<HomeForeground> {
                 SizedBox(
                   width: 8,
                 ),
+                InkWell(
+                    onTap: () {
+                     if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                            {
+                              locator<NavigationService>().pushNamed(routes.LoginRoute);
+                      }
+                     else {
+                       locator<NavigationService>().pushNamed(
+                           routes.ManageOrder);
+                     }
+                    },
+                    child: Icon(
+                      FontAwesomeIcons.shoppingBag,
+                      size: 24,
+                      color: Colors.black54,
+                    )),
+                SizedBox(
+                  width: 8,
+                ),
+                InkWell(
+                    onTap: () {
+                      if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                      {
+                        locator<NavigationService>().pushNamed(routes.LoginRoute);
+                      }
+                      else {
+                        locator<NavigationService>().pushNamed(
+                            routes.Wishlist);
+                      }
+                    },
+                    child: Icon(
+                      FontAwesomeIcons.heart,
+                      size: 24,
+                      color: Colors.black54,
+                    )),
+                SizedBox(
+                  width: 8,
+                ),
                 CartLogo()
               ]),
           body: Container(
-            child: Stack(
-              children: [
+            child:
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -222,24 +193,8 @@ class _Home extends State<HomeForeground> {
                     ],
                   ),
                 ),
-                widget.model.isDrawerOpen
-                    ? InkWell(
-                        onTap: () {
-                          if (widget.model.isDrawerOpen) {
-                            widget.model.resize();
-                          }
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                        ),
-                      )
-                    : SizedBox.shrink()
-              ],
-            ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }
 

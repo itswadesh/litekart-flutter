@@ -10,7 +10,7 @@ import '../../view/cart.dart';
 import '../../view/checkout.dart';
 import '../../view/common/login.dart';
 import '../../view/common/onboarding.dart';
-import '../../view/home.dart';
+import '../view/menu/home.dart';
 import '../../view/menu/mega_menu.dart';
 import '../../view/menu/manage_address.dart';
 import '../../view/menu/manage_order.dart';
