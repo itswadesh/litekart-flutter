@@ -1,4 +1,5 @@
 import 'package:anne/view/menu.dart';
+import 'package:anne/view/profile/profileEditPage.dart';
 import 'package:anne/view_model/menu_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -117,6 +118,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       break;
     case routes.ProfileInfoRoute:
       return MaterialPageRoute(builder: (context) => ProfilePage());
+      break;
+    case routes.ProfileEditRoute:
+      return MaterialPageRoute(builder: (context) => ProfileEdit());
       break;
     case routes.MyProfile:
       return MaterialPageRoute(

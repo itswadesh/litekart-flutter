@@ -1,3 +1,4 @@
+import 'package:anne/view_model/auth_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -208,6 +209,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
         if (value.status == "loading") {
           Provider.of<CategoryViewModel>(context, listen: false)
               .fetchCategoryData();
+          if (Provider.of<ProfileModel>(context).user == null) {
+            Provider.of<ProfileModel>(context, listen: false).getProfile();
+          }
           return Loading();
         } else if (value.status == "empty") {
           return SizedBox.shrink();

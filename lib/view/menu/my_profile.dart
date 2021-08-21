@@ -1,5 +1,9 @@
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../components/base/tz_dialog.dart';
@@ -8,7 +12,7 @@ import '../../utility/graphQl.dart';
 import '../../values/colors.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../view/cart_logo.dart';
-
+import '../../values/route_path.dart' as routes;
 class MyProfile extends StatefulWidget {
   @override
   _MyProfileState createState() => _MyProfileState();
@@ -16,11 +20,7 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-  TextEditingController _phone = TextEditingController();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _fName = TextEditingController();
-  TextEditingController _lName = TextEditingController();
-  String selectedGender = "Male";
+
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
@@ -29,17 +29,6 @@ class _MyProfileState extends State<MyProfile> {
     if (Provider.of<ProfileModel>(context, listen: false).user == null) {
       Provider.of<ProfileModel>(context, listen: false).getProfile();
     }
-    _phone.text =
-        Provider.of<ProfileModel>(context, listen: false).user.phone ?? "";
-    _email.text =
-        Provider.of<ProfileModel>(context, listen: false).user.email ?? "";
-    _fName.text =
-        Provider.of<ProfileModel>(context, listen: false).user.firstName ?? "";
-    _lName.text =
-        Provider.of<ProfileModel>(context, listen: false).user.lastName ?? "";
-    selectedGender =
-        Provider.of<ProfileModel>(context, listen: false).user.gender ??
-            selectedGender;
     super.initState();
   }
 
@@ -52,7 +41,7 @@ class _MyProfileState extends State<MyProfile> {
           backgroundColor: Colors.white,
 
           title:  Text(
-            "User Profile",
+            "Profile",
             style: TextStyle(
                 color: Color(0xff616161),
                 fontSize: ScreenUtil().setSp(
@@ -77,256 +66,71 @@ class _MyProfileState extends State<MyProfile> {
                         builder: (BuildContext context, value, Widget child) {
                       return SingleChildScrollView(
                           child: Container(
-                        padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(20),
-                            ScreenUtil().setHeight(38),
-                            ScreenUtil().setWidth(20),
-                            ScreenUtil().setHeight(45)),
                         child: Column(
                           children: [
-                            Container(
-                                child: TextFormField(
-                              readOnly: true,
-                              controller: _phone,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  contentPadding:
-                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  labelText: "Phone",
-                                  labelStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: ScreenUtil().setSp(
-                                        15,
-                                      ))),
-                            )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(25),
-                            ),
-                            Container(
-                                child: TextFormField(
-                              controller: _fName,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  contentPadding:
-                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  labelText: "First Name",
-                                  labelStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: ScreenUtil().setSp(
-                                        15,
-                                      ))),
-                            )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(25),
-                            ),
-                            Container(
-                                child: TextFormField(
-                              controller: _lName,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  contentPadding:
-                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  labelText: "Last Name",
-                                  labelStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: ScreenUtil().setSp(
-                                        15,
-                                      ))),
-                            )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(25),
-                            ),
-                            Container(
-                                child: TextFormField(
-                              controller: _email,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  contentPadding:
-                                      EdgeInsets.all(ScreenUtil().setWidth(12)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                  ),
-                                  labelText: "Email",
-                                  labelStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: ScreenUtil().setSp(
-                                        15,
-                                      ))),
-                            )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(22),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.only(
-                                  left: ScreenUtil().setWidth(22)),
-                              child: Text(
-                                "Gender",
-                                style: TextStyle(
-                                    color: Color(0xffb0b0b0),
-                                    fontSize: ScreenUtil().setSp(12)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(11),
-                            ),
-                            Container(
-                                padding: EdgeInsets.only(
-                                    left: ScreenUtil().setWidth(22)),
+                            Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,),
+                            Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
+                              child: Column(children :[ Container(
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    icon("Male"),
+                                    SizedBox(width: ScreenUtil().setWidth(20),),
                                     InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedGender = "Male";
-                                          });
+                                        onTap: (){
                                         },
-                                        child: Text(
-                                          ' Male    ',
-                                          style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(15),
-                                              color: Color(0xff5f5f5f)),
-                                        )),
-                                    icon("Female"),
-                                    InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedGender = "Female";
-                                          });
-                                        },
-                                        child: Text(
-                                          ' Female    ',
-                                          style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(15),
-                                              color: Color(0xff5f5f5f)),
-                                        )),
-                                    icon("Others"),
-                                    InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedGender = "Others";
-                                          });
-                                        },
-                                        child: Text(
-                                          ' Others',
-                                          style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(15),
-                                              color: Color(0xff5f5f5f)),
-                                        ))
-                                  ],
-                                )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(43),
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                TzDialog _dialog =
-                                    TzDialog(context, TzDialogType.progress);
-                                _dialog.show();
-                                await Provider.of<ProfileModel>(context,
-                                        listen: false)
-                                    .editProfile(
-                                        _phone.text,
-                                        _fName.text,
-                                        _lName.text,
-                                        _email.text,
-                                        selectedGender);
-                                await Provider.of<ProfileModel>(context,
-                                        listen: false)
-                                    .getProfile();
-                                _dialog.close();
-                                final snackBar = SnackBar(
-                                    content: Text(
-                                        'Profile Updated Successfully !!'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              child: Container(
-                                height: 43,
-                                width: MediaQuery.of(context).size.width * 0.80,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.primaryElement,
-                                      width: 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Update Profile",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppColors.primaryElement,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
-                                    ),
+                                        child: Container(
+                                          height: ScreenUtil().setWidth(120),
+                                          width: ScreenUtil().setWidth(120),
+                                          child: Card(
+                                            child: Container(
+                                              height: ScreenUtil().setWidth(120),
+                                              width: ScreenUtil().setWidth(120),
+                                              child: value.user.avatar!=null? Image.network(value.user.avatar):Image.asset("assets/images/user.png")
+                                            ),
+                                          ),)),
+                                    SizedBox(width: ScreenUtil().setWidth(20),),
+                                    Transform.translate(offset: Offset(0,ScreenUtil().setWidth(18)),
+                                      child: Container(
+                                        child: Text(value.user.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(20),fontWeight: FontWeight.w600),)
+                                      ),)
                                   ],
                                 ),
                               ),
+                                SizedBox(height: ScreenUtil().setWidth(20),),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: ScreenUtil().setWidth(25),
+                              color: Color(0xffe1e1e1),
                             ),
-                          ],
+                            getTiles("Orders","Check Your Order Status",FontAwesomeIcons.shoppingBag,routes.ManageOrder),
+                            Divider(),
+                                getTiles("Wishlist","Your most Loved Products",FontAwesomeIcons.heart,routes.Wishlist),
+                           Divider(),
+                            getTiles("Address","Save Addresses for a hessle-free Checkout",FontAwesomeIcons.mapMarkerAlt,routes.ManageAddress),
+                                Divider(),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: ScreenUtil().setWidth(25),
+                              color: Color(0xffe1e1e1),
+                            ),
+                            getTiles("Profile Details","Change Your Profile Details",FontAwesomeIcons.userEdit,routes.ProfileEditRoute),
+                                Divider()
+]))]
                         ),
-                      ));
+                        ),
+                      );
                     })))));
   }
 
-  icon(String s) {
-    if (s == selectedGender) {
-      return Icon(
-        Icons.circle,
-        color: AppColors.primaryElement,
-        size: ScreenUtil().setWidth(18),
-      );
-    } else {
-      return InkWell(
-          onTap: () {
-            print(s);
-            setState(() {
-              selectedGender = s;
-            });
-          },
-          child: Icon(
-            Icons.panorama_fish_eye,
-            color: Colors.grey,
-            size: ScreenUtil().setWidth(18),
-          ));
-    }
+  getTiles(String title, String subtitle, IconData icon, String path) {
+    return ListTile(
+      onTap: (){
+        locator<NavigationService>().pushNamed(path);
+      },
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: Icon(FontAwesomeIcons.angleRight),
+    );
   }
 }

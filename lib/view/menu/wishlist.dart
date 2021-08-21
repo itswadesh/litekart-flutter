@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:anne/response_handler/wishlistResponse.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import '../../components/widgets/cartEmptyMessage.dart';
 import '../../components/widgets/errorMessage.dart';
@@ -8,7 +13,6 @@ import '../../components/widgets/loading.dart';
 import '../../utility/graphQl.dart';
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
-
 import '../../view/cart_logo.dart';
 import '../../view/product_detail.dart';
 
@@ -19,6 +23,13 @@ class Wishlist extends StatefulWidget {
 
 class _WishlistState extends State<Wishlist> {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +69,9 @@ class _WishlistState extends State<Wishlist> {
   getWishList() {
     return Consumer<WishlistViewModel>(
         builder: (BuildContext context, value, Widget child) {
+          log("hiii there");
       if (value.status == "loading") {
-        Provider.of<WishlistViewModel>(context, listen: false).fetchData();
+          Provider.of<WishlistViewModel>(context, listen: false).fetchData();
         return Loading();
       } else if (value.status == "empty") {
         return cartEmptyMessage("wishlist", "Wishlist is Empty");
@@ -67,26 +79,40 @@ class _WishlistState extends State<Wishlist> {
         return errorMessage();
       }
 
-      return SingleChildScrollView(
-          child: Column(children: [
+      return
         Container(
-            child: Column(
-          children: [
-            SizedBox(
-              height: ScreenUtil().setWidth(18),
-            ),
-            Container(child: WishCard()),
-            SizedBox(
-              height: ScreenUtil().setWidth(30),
-            ),
-          ],
-        ))
-      ]));
+            child:  Consumer<WishlistViewModel>(
+                builder: (BuildContext context, value, Widget child) {
+              return PagedGridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio:
+                        ScreenUtil().setWidth(183) / ScreenUtil().setWidth(280),
+                    crossAxisCount: 2),
+                pagingController: value.pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, item, index) => WishCard(item),
+                    // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
+                    //   error: _pagingController.error,
+                    //   onTryAgain: () => _pagingController.refresh(),
+                    // ),
+                    // newPageErrorIndicatorBuilder: (_) => NewPageErrorIndicator(
+                    //   error: _pagingController.error,
+                    //   onTryAgain: () => _pagingController.retryLastFailedRequest(),
+                    // ),
+                    firstPageProgressIndicatorBuilder: (_) => Loading(),
+                    newPageProgressIndicatorBuilder: (_) => Loading(),
+                    noItemsFoundIndicatorBuilder: (_) =>
+                        cartEmptyMessage("search", "No Product Found")),
+                // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
+              );
+            }));
     });
   }
 }
 
 class WishCard extends StatefulWidget {
+  final item;
+  WishCard(this.item);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -95,191 +121,151 @@ class WishCard extends StatefulWidget {
 }
 
 class _WishCard extends State<WishCard> {
+  WishlistData item;
+
+  @override
+  void initState() {
+    item = widget.item;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     // ignore: missing_required_param
-    return Consumer<WishlistViewModel>(
-      builder: (BuildContext context, value, Widget child) {
-        return ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: value.wishlistResponse.data.length,
-            itemBuilder: (BuildContext context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProductDetail(
-                          value.wishlistResponse.data[index].product.id)));
-                },
-                child: Material(
-                    color: Color(0xfff3f3f3),
-                    // borderRadius: BorderRadius.circular(2),
-                    child: Card(
-                      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(11), 0,
-                          ScreenUtil().setWidth(15), ScreenUtil().setWidth(10)),
-                      elevation: 0,
-                      child: Container(
-                        height: ScreenUtil().setWidth(126),
-                        width: ScreenUtil().setWidth(388),
-                        padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(15),
-                            ScreenUtil().setWidth(12),
-                            ScreenUtil().setWidth(15),
-                            ScreenUtil().setWidth(8)),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            new ClipRRect(
-                                child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/images/loading.gif',
-                              image: value.wishlistResponse.data[index].product
-                                      .img ??
-                                  "https://next.tablez.com/icon.png",
-                              fit: BoxFit.contain,
-                              width: ScreenUtil().setWidth(92),
-                              height: ScreenUtil().setWidth(102),
-                            )),
-                            Padding(
-                              padding:
-                                  EdgeInsets.all(ScreenUtil().setWidth(20)),
-                            ),
-                            Container(
-                                child: Expanded(
-                              child: Column(children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      width: ScreenUtil().setWidth(188),
-                                      child: Text(
-                                        value.wishlistResponse.data[index]
-                                            .product.name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff616161),
-                                          fontSize: ScreenUtil().setSp(
-                                            17,
-                                          ),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                        width: ScreenUtil().setWidth(27),
-                                        height: ScreenUtil().setWidth(27),
-                                        decoration: new BoxDecoration(
-                                            color: Color(0xffF5f5f5),
-                                            borderRadius: BorderRadius.circular(
-                                                ScreenUtil().radius(4))),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Provider.of<CartViewModel>(context,
-                                                    listen: false)
-                                                .cartAddItem(
-                                                    value.wishlistResponse
-                                                        .data[index].product.id,
-                                                    value.wishlistResponse
-                                                        .data[index].product.id,
-                                                    1,
-                                                    false);
-                                          },
-                                          child: Icon(
-                                            Icons.add_shopping_cart,
-                                            color: Color(0xffbb8728),
-                                            size: ScreenUtil().setWidth(15),
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(2),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    value.wishlistResponse.data[index].product
-                                        .brand,
-                                    style: TextStyle(
-                                      color: Color(0xffba8638),
-                                      fontSize: ScreenUtil().setWidth(13),
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(11),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    "₹ " +
-                                        value.wishlistResponse.data[index]
-                                            .product.price
-                                            .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xff00ba0e),
-                                        fontSize: ScreenUtil().setSp(
-                                          14,
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(10),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        InkWell(
-                                            onTap: () {
-                                              Provider.of<WishlistViewModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .toggleItem(value
-                                                      .wishlistResponse
-                                                      .data[index]
-                                                      .product
-                                                      .id);
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    0, 0, 0, 0),
-                                                width:
-                                                    ScreenUtil().setWidth(27),
-                                                height:
-                                                    ScreenUtil().setWidth(27),
-                                                decoration: new BoxDecoration(
-                                                    color: Color(0xfff5f5f5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            ScreenUtil()
-                                                                .radius(4))),
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Color(0xff656565),
-                                                  size:
-                                                      ScreenUtil().setWidth(18),
-                                                )))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ]),
-                            ))
-                          ],
-                        ),
+    return Container(
+      margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
+        border: Border.all(color: Color(0xffb1b1b1))
+      ),
+      child: InkWell(
+        onTap: () async {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ProductDetail(item.id)));
+        },
+        child: Container(
+          width: ScreenUtil().setWidth(183),
+          //     height: ScreenUtil().setWidth(269),
+          height: ScreenUtil().setWidth(280),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/loading.gif',
+                      image: item.product.img,
+                      height: ScreenUtil().setWidth(193),
+                      width: ScreenUtil().setWidth(193),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        right: ScreenUtil().setWidth(10),
+                        top: ScreenUtil().setWidth(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            await Provider.of<WishlistViewModel>(context,
+                                    listen: false)
+                                .toggleItem(item.product.id);
+                          },
+                          child: Icon(Icons.cancel,size: ScreenUtil().setWidth(25),color: Color(0xffe1e1e1),),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(10),
+                      ScreenUtil().setWidth(20), 0),
+                  child: Text(
+                    item.product.brand,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(
+                        12,
                       ),
-                    )),
-              );
-            });
-      },
+                      color: Color(0xffBB8738),
+                    ),
+                    textAlign: TextAlign.left,
+                  )),
+              SizedBox(
+                height: ScreenUtil().setWidth(9),
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
+                      ScreenUtil().setWidth(20), 0),
+                  child: Text(item.product.name,
+                      style: TextStyle(
+                          color: Color(0xff5f5f5f),
+                          fontSize: ScreenUtil().setSp(
+                            14,
+                          )),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1)),
+              SizedBox(
+                height: ScreenUtil().setWidth(7),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "₹ " + item.product.price.toString() + " ",
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(
+                          14,
+                        ),
+                        color: Color(0xff4a4a4a)),
+                  ),
+                  item.product.price < item.product.mrp
+                      ? Text(
+                          " ₹ " + item.product.mrp.toString(),
+                          style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: ScreenUtil().setSp(
+                                9,
+                              ),
+                              color: Color(0xff4a4a4a)),
+                        )
+                      : Container(),
+                  item.product.price < item.product.mrp
+                      ? Text(
+                          " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
+                          style: TextStyle(
+                              color: Color(0xff00d832),
+                              fontSize: ScreenUtil().setSp(
+                                8,
+                              )),
+                        )
+                      : Container()
+                ],
+              ),
+              SizedBox(height: ScreenUtil().setWidth(5),),
+              Divider(height: ScreenUtil().setWidth(5),),
+              InkWell(
+                  onTap: () async {
+                    await Provider.of<CartViewModel>(context, listen: false)
+                        .cartAddItem(item.product.id, item.product.id, 1, false);
+                    await Provider.of<WishlistViewModel>(context, listen: false)
+                        .toggleItem(item.product.id);
+                  },
+                  child: Container(
+                    width: ScreenUtil().setWidth(183),
+                    height: ScreenUtil().setWidth(30),
+                    child: Center(
+                      child: Text("MOVE TO BAG",style: TextStyle(color: Color(0xffBB8738)),),
+                    ),
+                  ))
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

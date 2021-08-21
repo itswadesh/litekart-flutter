@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -638,6 +637,9 @@ class ApiProvider {
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.myWishlist()),
       ));
+
+      log("hiiiiiiii     "+resultData.data.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
