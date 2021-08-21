@@ -74,6 +74,7 @@ dependencies:
   permission_handler: ^8.1.4+2
   fluttertoast: ^8.0.7
   file_picker: ^3.0.4
+  scaling_header: 1.1.1
 
 dev_dependencies:
   flutter_test:

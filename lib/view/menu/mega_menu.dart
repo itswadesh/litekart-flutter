@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -16,20 +18,18 @@ class MegaMenu extends StatefulWidget {
 }
 
 class _MegaMenu extends State<MegaMenu> {
+  final List gradientColors = [
+    Color(0xffCCFFE7),
+    Color(0xffc5c5c5),
+    Color(0xffE1FFB5),
+    Color(0xff98EEFF)
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black54,
-          ),
-        ),
         title: Text("Categories",
             style: TextStyle(
                 color: Color(0xff616161),
@@ -63,37 +63,20 @@ class _MegaMenu extends State<MegaMenu> {
         return SizedBox.shrink();
       } else {
         return Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: ScreenUtil().setWidth(19),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: ScreenUtil().setWidth(23)),
-                height: ScreenUtil().setWidth(55),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: value.topMegaMenuResponse.megamenu.length,
-                    itemBuilder: (buildContext, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Provider.of<MegaMenuViewModel>(context,
-                                    listen: false)
-                                .selectTopIndex(index);
-                          },
-                          child: topMenuCard(
-                              value.topMegaMenuResponse.megamenu[index],
-                              index == value.selectedTopIndex));
-                    }),
-              ),
-              SizedBox(
-                height: ScreenUtil().setWidth(19),
-              ),
-              getMenuCard(value.topMegaMenuResponse
-                  .megamenu[value.selectedTopIndex].children)
-            ],
-          ),
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: value.topMegaMenuResponse.megamenu.length,
+              itemBuilder: (buildContext, index) {
+                return GestureDetector(
+                    onTap: () {
+                      Provider.of<MegaMenuViewModel>(context, listen: false)
+                          .selectTopIndex(index);
+                    },
+                    child: topMenuCard(
+                        value.topMegaMenuResponse.megamenu[index],
+                        index == value.selectedTopIndex));
+              }),
         );
       }
     });
@@ -101,62 +84,57 @@ class _MegaMenu extends State<MegaMenu> {
 
   topMenuCard(MegaMenuResponse megamenu, bool colorStatus) {
     return Container(
-      margin: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(ScreenUtil().radius(10)),
-      ),
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
-        child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: colorStatus ? Color(0xffEAA13B) : Color(0xff)),
-                borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
-            padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(28),
-                ScreenUtil().setWidth(15),
-                ScreenUtil().setWidth(28),
-                ScreenUtil().setWidth(15)),
-            child: Center(
-              child: Text(
-                megamenu.name,
-                style: TextStyle(
-                    color: colorStatus ? Color(0xffEAA13B) : Color(0xff6d6d6d),
-                    fontSize: ScreenUtil().setSp(15),
-                    fontFamily: "Sofia"),
-              ),
-            )),
-      ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                gradientColors[Random().nextInt(gradientColors.length)],
+                gradientColors[Random().nextInt(gradientColors.length)],
+                gradientColors[Random().nextInt(gradientColors.length)]
+              ],
+            ),
+          ),
+          margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
+          child:  ExpansionTile(
+              title:  Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+             Container(
+                 width: ScreenUtil().setWidth(155),
+                 child: Text(megamenu.name, style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(30)),)),
+            megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(100),height: ScreenUtil().setWidth(100),)
+            : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(100),height: ScreenUtil().setWidth(100))],
+          ),
+            children: getMenuCard(megamenu.children),
+          ),
+
     );
   }
 
   getMenuCard(List<MegaMenuChildren1> children) {
-    return Container(
-      child: ListView.builder(
-          itemCount: children.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (buildContext, index) {
-            return Card(
-              margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(23), 0,
-                  ScreenUtil().setWidth(23), ScreenUtil().setWidth(23)),
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
-              child: ExpansionTile(
-                  title: Text(
-                    children[index].name,
-                    style: TextStyle(
-                        color: Color(0xffEAA13B),
-                        fontSize: ScreenUtil().setSp(15),
-                        fontFamily: "Sofia"),
-                  ),
-                  children: getExpansionTileChild(children[index].children)),
-            );
-          }),
-    );
+    List<Widget> childrenList  = [];
+
+    for(int index=0;index<children.length;index++)
+      {
+        childrenList.add(Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
+          child: ExpansionTile(
+              title: Text(
+                children[index].name,
+                style: TextStyle(
+                    color: Color(0xffEAA13B),
+                    fontSize: ScreenUtil().setSp(15),
+                    fontFamily: "Sofia"),
+              ),
+              children: getExpansionTileChild(children[index].children)),
+        ));
+      }
+
+    return childrenList;
   }
 
   getExpansionTileChild(List<MegaMenuChildren2> children) {
@@ -174,7 +152,7 @@ class _MegaMenu extends State<MegaMenu> {
                 "searchKey": "",
                 "category": children[i].slug,
                 "brandName": "",
-                "parentBrand":""
+                "parentBrand": ""
               });
             },
             title: Text(children[i].name,

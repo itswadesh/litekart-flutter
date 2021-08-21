@@ -716,7 +716,7 @@ class _ProductDetail extends State<ProductDetail> {
                           BorderSide(width: 2, color: AppColors.primaryElement),
                     ),
                     onPressed: () async {
-                      LiveStreamSetUp().startRTC(context, "1234", 123, 'start');
+                      LiveStreamSetUp().startRTC(context, "1234", 123, 'join');
                     },
                     child: Text(
                       "Join Stream",

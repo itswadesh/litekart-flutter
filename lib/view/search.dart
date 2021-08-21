@@ -195,27 +195,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
     return Column(
       children: [
         SizedBox(
-          height: ScreenUtil().setWidth(20),
-        ),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(22),
-            top: ScreenUtil().setWidth(8),
-            bottom:
-                3, // This can be the space you need betweeb text and underline
-          ),
-          child: Text(
-            "Browse Category",
-            style: TextStyle(
-                color: Color(0xff303030),
-                fontSize: ScreenUtil().setSp(
-                  16,
-                )),
-          ),
-        ),
-        SizedBox(
-          height: ScreenUtil().setWidth(30),
+          height: ScreenUtil().setWidth(10),
         ),
         getCategoriesList()
       ],

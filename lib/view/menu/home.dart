@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:anne/view/search.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _Home extends State<Home> {
     return  Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-              centerTitle: true,
+
               backgroundColor: Colors.white,
               leading: InkWell(
                   onTap: () {
@@ -113,7 +114,7 @@ class _Home extends State<Home> {
                       color: Colors.black54,
                     )),
                 SizedBox(
-                  width: 8,
+                  width: 10,
                 ),
                 InkWell(
                     onTap: () {
@@ -128,11 +129,11 @@ class _Home extends State<Home> {
                     },
                     child: Icon(
                       FontAwesomeIcons.shoppingBag,
-                      size: 24,
+                      size: 20,
                       color: Colors.black54,
                     )),
                 SizedBox(
-                  width: 8,
+                  width: 10,
                 ),
                 InkWell(
                     onTap: () {
@@ -147,42 +148,23 @@ class _Home extends State<Home> {
                     },
                     child: Icon(
                       FontAwesomeIcons.heart,
-                      size: 24,
+                      size: 20,
                       color: Colors.black54,
                     )),
-                SizedBox(
-                  width: 8,
-                ),
                 CartLogo()
-              ]),
+              ],
+
+
+          ),
           body: Container(
             child:
                 SingleChildScrollView(
                   child: Column(
                     children: [
+                      SearchCategoriesClass(),
                       BannersSliderClass(),
                       SizedBox(
                         height: 10,
-                      ),
-                      CategoriesClass(),
-                      SizedBox(height: ScreenUtil().setWidth(30)),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              locator<NavigationService>()
-                                  .pushNamed(routes.MegaMenuRoute);
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                'assets/images/shop_by_category.png',
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                       ListDealsClass(),
                       YouMayLikeClass(),
@@ -197,6 +179,13 @@ class _Home extends State<Home> {
         );
   }
 }
+
+
+
+
+
+
+
 
 class SuggestedClass extends StatefulWidget {
   @override

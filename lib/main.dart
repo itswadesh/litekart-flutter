@@ -29,6 +29,7 @@ import 'view_model/banner_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'view_model/manage_order_view_model.dart';
+import 'view_model/menu_view_model.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -128,6 +129,7 @@ class _MyApp extends State<Main> {
       builder: () => MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: ProfileModel()),
+          ChangeNotifierProvider.value(value: MenuViewModel()),
           ChangeNotifierProvider.value(value: CategoryViewModel()),
           ChangeNotifierProvider.value(value: ListDealsViewModel()),
           ChangeNotifierProvider.value(value: BannerViewModel()),
@@ -143,7 +145,7 @@ class _MyApp extends State<Main> {
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,
-          title: 'Tablez',
+          title: 'Anne',
           theme: ThemeData(
             fontFamily: 'Sofia',
             primarySwatch: AppColors.primaryColor,

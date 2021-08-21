@@ -1,7 +1,7 @@
 enum MenuItemSource {
-  my_profile,
+  home,
   shop_by_category,
   manage_order,
-  manage_address,
-  wishlist
+  wishlist,
+  profile
 }

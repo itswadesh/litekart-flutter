@@ -50,17 +50,8 @@ class _MyProfileState extends State<MyProfile> {
         key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.black54,
-            ),
-          ),
-          title: Center(
-              // width: MediaQuery.of(context).size.width * 0.39,
-              child: Text(
+
+          title:  Text(
             "User Profile",
             style: TextStyle(
                 color: Color(0xff616161),
@@ -68,7 +59,7 @@ class _MyProfileState extends State<MyProfile> {
                   21,
                 )),
             textAlign: TextAlign.center,
-          )),
+          ),
           actions: [
             Container(
                 padding: EdgeInsets.only(right: 10.0),
