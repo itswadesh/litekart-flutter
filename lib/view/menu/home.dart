@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/view/search.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -99,9 +100,9 @@ class _Home extends State<Home> {
                     color: Colors.black54,
                   )),
               title: Container(
-                  height: 35,
+                  height: 45,
                   child: Image.asset(
-                    'assets/images/tablez.png',
+                    'assets/images/logo.png',
                   )),
               actions: [
                 InkWell(
@@ -114,7 +115,7 @@ class _Home extends State<Home> {
                       color: Colors.black54,
                     )),
                 SizedBox(
-                  width: 10,
+                  width: ScreenUtil().setWidth(24),
                 ),
                 InkWell(
                     onTap: () {
@@ -133,7 +134,7 @@ class _Home extends State<Home> {
                       color: Colors.black54,
                     )),
                 SizedBox(
-                  width: 10,
+                  width: ScreenUtil().setWidth(24),
                 ),
                 InkWell(
                     onTap: () {
@@ -151,6 +152,7 @@ class _Home extends State<Home> {
                       size: 20,
                       color: Colors.black54,
                     )),
+                SizedBox(width: ScreenUtil().setWidth(12),),
                 CartLogo()
               ],
 
@@ -250,14 +252,14 @@ class _SuggestedClass extends State<SuggestedClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(254),
+          height: ScreenUtil().setWidth(295),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productSuggestedResponse.data.length,
               itemBuilder: (BuildContext context, index) {
                 return Column(
                   children: [
-                    ProductViewColor2Card(
+                    ProductCard(
                         value.productSuggestedResponse.data[index])
                   ],
                 );
@@ -334,7 +336,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(254),
+          height: ScreenUtil().setWidth(295),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productYouMayLikeResponse.data.length,
@@ -350,7 +352,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
                     Tracking(event: EVENT_YOU_MAY_LIKE, data: data);
                   },
                   child: Column(children: [
-                    ProductViewColor2Card(
+                    ProductCard(
                         value.productYouMayLikeResponse.data[index])
                   ]),
                 );
@@ -421,7 +423,7 @@ class _TrendingClass extends State<TrendingClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(254),
+          height: ScreenUtil().setWidth(295),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productTrendingResponse.data.length,
@@ -437,7 +439,7 @@ class _TrendingClass extends State<TrendingClass> {
                     Tracking(event: EVENT_TRENDING, data: data);
                   },
                   child: Column(children: [
-                    ProductViewColor2Card(
+                    ProductCard(
                         value.productTrendingResponse.data[index])
                   ]),
                 );

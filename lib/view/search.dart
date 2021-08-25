@@ -219,7 +219,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
           return SizedBox.shrink();
         } else {
           return Container(
-            height: ScreenUtil().setWidth(160),
+            height: ScreenUtil().setWidth(140),
             padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(10), 0, ScreenUtil().setWidth(10), 0),
             child: ListView.builder(
@@ -251,20 +251,20 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                           topLeft: Radius.circular(
                                               ScreenUtil().radius(40)))),
                                   child: Container(
-                                      width: ScreenUtil().radius(95),
-                                      height: ScreenUtil().radius(95),
+                                      width: ScreenUtil().radius(80),
+                                      height: ScreenUtil().radius(80),
                                       decoration: new BoxDecoration(
                                           border: Border(
                                               bottom: BorderSide(
-                                                  color: Color(0xff32AFC8),
+                                                  color: Color(0xfff3f3f3),
                                                   width: ScreenUtil().setWidth(2)),
-                                              top: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2)),
-                                              left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2)),
-                                              right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(2))),
+                                              top: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
+                                              left: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
+                                              right: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.tablez.com/icon.png'))))),
                               SizedBox(
-                                height: ScreenUtil().setWidth(27),
+                                height: ScreenUtil().setWidth(15),
                               ),
                               Text(
                                 value.categoryResponse.data[index].name,

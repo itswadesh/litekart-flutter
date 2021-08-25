@@ -8,7 +8,6 @@ import '../../view_model/auth_view_model.dart';
 class AccountDrawer extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _AccountDrawer();
   }
 }
@@ -16,7 +15,6 @@ class AccountDrawer extends StatefulWidget {
 class _AccountDrawer extends State<AccountDrawer> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,

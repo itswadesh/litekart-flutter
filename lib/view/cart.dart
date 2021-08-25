@@ -1,3 +1,4 @@
+import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:dotted_border/dotted_border.dart';
 import '../../components/widgets/buttonValue.dart';
 import '../../response_handler/cartResponse.dart';
@@ -747,8 +748,8 @@ class _CartCard extends State<CartCard> {
 
   Widget getCard(CartData cartData, CartResponse response) {
     return Card(
-      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(11), 0,
-          ScreenUtil().setWidth(15), ScreenUtil().setWidth(10)),
+      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(0), 0,
+          ScreenUtil().setWidth(0), ScreenUtil().setWidth(10)),
       elevation: 0,
       child: Container(
         // height: ScreenUtil().setWidth(126),
@@ -761,7 +762,7 @@ class _CartCard extends State<CartCard> {
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: Row(
+        child: Column(children:[ Row(
           children: <Widget>[
             new ClipRRect(
                 child: FadeInImage.assetNetwork(
@@ -795,16 +796,7 @@ class _CartCard extends State<CartCard> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            width: ScreenUtil().setWidth(27),
-                            height: ScreenUtil().setWidth(27),
-                            decoration: new BoxDecoration(
-                                color: Color(0xffFFE8E8),
-                                borderRadius: BorderRadius.circular(
-                                    ScreenUtil().radius(4))),
-                            child:
-                                CheckWishListClass(cartData.pid, cartData.pid))
+
                       ],
                     ),
                     SizedBox(
@@ -960,36 +952,7 @@ class _CartCard extends State<CartCard> {
                                 ),
                               ))
                         ]),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            width: ScreenUtil().setWidth(27),
-                            height: ScreenUtil().setWidth(27),
-                            decoration: new BoxDecoration(
-                                color: Color(0xfff5f5f5),
-                                borderRadius: BorderRadius.circular(
-                                    ScreenUtil().radius(4))),
-                            child: InkWell(
-                                onTap: () async {
-                                  Map<String, dynamic> data = {
-                                    "id": EVENT_CART_REMOVE_ITEM,
-                                    "itemId": cartData.pid,
-                                    "cartItems": cartData,
-                                    "cartValue": response.subtotal,
-                                    "event": "tap",
-                                  };
-                                  Tracking(
-                                      event: EVENT_CART_REMOVE_ITEM,
-                                      data: data);
-                                  Provider.of<CartViewModel>(context,
-                                          listen: false)
-                                      .cartAddItem(cartData.pid, cartData.pid,
-                                          -cartData.qty, false);
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Color(0xff656565),
-                                  size: ScreenUtil().setWidth(18),
-                                )))
+
                       ],
                     ),
                   ],
@@ -998,6 +961,50 @@ class _CartCard extends State<CartCard> {
             )
           ],
         ),
+    Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+              InkWell(
+                  onTap: () async {
+                  await  Provider.of<CartViewModel>(context,
+                        listen: false)
+                        .cartAddItem(cartData.pid, cartData.pid,
+                        -cartData.qty, false);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(color: Color(0xffd3d3d3))
+                      )
+                    ),
+                    width: ScreenUtil().setWidth(150),
+                    height: ScreenUtil().setWidth(30),
+                    child: Center(
+                      child: Text("REMOVE",style: TextStyle(color: Color(0xffBB8738)),),
+                    ),
+                  )),
+
+              InkWell(
+                  onTap: () async {
+                    Provider.of<CartViewModel>(context,
+                        listen: false)
+                        .cartAddItem(cartData.pid, cartData.pid,
+                        -cartData.qty, false);
+                    await Provider.of<WishlistViewModel>(context, listen: false)
+                        .toggleItem(cartData.pid);
+                  },
+                  child: Container(
+                    width: ScreenUtil().setWidth(215),
+                    height: ScreenUtil().setWidth(30),
+                    child: Center(
+                      child: Text("MOVE TO BAG",style: TextStyle(color: Color(0xffBB8738)),),
+                    ),
+                  ))
+            ],
+          )
+    ]),
       ),
     );
   }

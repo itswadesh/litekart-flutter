@@ -116,7 +116,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                     Container(
                         height: 35,
                         child: Image.asset(
-                          'assets/images/tablez.png',
+                          'assets/images/logo.png',
                         )),
                     GestureDetector(
                       onTap: () {

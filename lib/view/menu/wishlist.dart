@@ -115,7 +115,6 @@ class WishCard extends StatefulWidget {
   WishCard(this.item);
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _WishCard();
   }
 }
@@ -131,8 +130,6 @@ class _WishCard extends State<WishCard> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // ignore: missing_required_param
     return Container(
       margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
       decoration: BoxDecoration(
