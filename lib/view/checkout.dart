@@ -648,261 +648,319 @@ class _Checkout extends State<Checkout> {
                     // borderRadius: BorderRadius.circular(2),
                     child: Card(
                       margin: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(26),
+                          ScreenUtil().setWidth(0),
                           ScreenUtil().setWidth(20),
-                          ScreenUtil().setWidth(26),
+                          ScreenUtil().setWidth(0),
                           ScreenUtil().setWidth(26)),
-                      elevation: 2,
+                      elevation: 0.1,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(32.33),
-                            ScreenUtil().setWidth(36.33),
-                            ScreenUtil().setWidth(29),
-                            ScreenUtil().setWidth(33)),
+                            ScreenUtil().setWidth(0),
+                            ScreenUtil().setWidth(20),
+                            ScreenUtil().setWidth(0),
+                            ScreenUtil().setWidth(10)),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
                         child: Column(children: [
-                          Row(
-                            children: [
-                              // InkWell(
-                              //   onTap: () async {
-                              //
-                              //   },
-                              //     child:
-                              (value.selectedAddress != null &&
-                                      (value.selectedAddress.id ==
-                                          value.addressResponse.data[index].id))
-                                  ? Icon(
+                          Container(
+                              padding:EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+                              child: Column(children:[
+                                Row(
+                                  children: [
+                                    // InkWell(
+                                    //   onTap: () async {
+                                    //     await Provider.of<AddressViewModel>(context,
+                                    //             listen: false)
+                                    //         .selectAddress(
+                                    //             value.addressResponse.data[index]);
+                                    //   },
+                                    //   child:
+                                    (value.selectedAddress != null &&
+                                        (value.selectedAddress.id ==
+                                            value.addressResponse.data[index].id))
+                                        ? Icon(
                                       Icons.check_circle,
                                       color: AppColors.primaryElement,
                                       size: ScreenUtil().setWidth(18),
                                     )
-                                  : Icon(
+                                        : Icon(
                                       Icons.check_box_outline_blank,
                                       color: AppColors.primaryElement,
                                       size: ScreenUtil().setWidth(18),
                                     ),
-                              // ),
-                              SizedBox(
-                                width: ScreenUtil().setWidth(9.33),
-                              ),
-                              Container(
-                                width: ScreenUtil().setWidth(245),
-                                child: Text(
-                                  "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
-                                  style: TextStyle(
-                                      color: Color(0xff525252),
-                                      fontSize: ScreenUtil().setSp(
-                                        17,
-                                      )),
+                                    // ),
+                                    SizedBox(
+                                      width: ScreenUtil().setWidth(9.33),
+                                    ),
+                                    Container(
+                                      width: ScreenUtil().setWidth(245),
+                                      child: Text(
+                                        "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
+                                        style: TextStyle(
+                                            color: Color(0xff525252),
+                                            fontSize: ScreenUtil().setSp(
+                                              17,
+                                            )),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
+                                SizedBox(
+                                  height: ScreenUtil().setWidth(16),
+                                ),
+                                Container(
+                                  padding:
+                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
+                                  width: double.infinity,
+                                  child: Text(
+                                    "Address : " +
+                                        value.addressResponse.data[index].address
+                                            .toString(),
+                                    style: TextStyle(
+                                        color: Color(0xff5f5f5f),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenUtil().setWidth(11),
+                                ),
+                                Container(
+                                  padding:
+                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
+                                  width: double.infinity,
+                                  child: Text(
+                                    "Pin : " +
+                                        value.addressResponse.data[index].zip.toString(),
+                                    style: TextStyle(
+                                        color: Color(0xff5f5f5f),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenUtil().setWidth(12),
+                                ),
+                                Container(
+                                  padding:
+                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
+                                  width: double.infinity,
+                                  child: Text(
+                                    value.addressResponse.data[index].phone.toString(),
+                                    style: TextStyle(
+                                        color: Color(0xff5f5f5f),
+                                        fontSize: ScreenUtil().setSp(
+                                          15,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenUtil().setWidth(13),
+                                ),
+                                Container(
+                                  padding:
+                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
+                                  width: double.infinity,
+                                  child: Text(
+                                    value.addressResponse.data[index].email.toString(),
+                                    style: TextStyle(
+                                        color: Color(0xff5f5f5f),
+                                        fontSize: ScreenUtil().setSp(
+                                          15,
+                                        )),
+                                  ),
+                                ),
+                                // SizedBox(
+                                //   height: ScreenUtil().setWidth(26),
+                                // ),
+                                // Row(
+                                //   children: [
+                                //     InkWell(
+                                //       onTap: () {
+                                //         setState(() {
+                                //           primaryAddressBox = index;
+                                //         });
+                                //       },
+                                //       child: primaryAddressBox == index
+                                //           ? Icon(
+                                //               Icons.check_box,
+                                //               color: AppColors.primaryElement,
+                                //               size: ScreenUtil().setWidth(18),
+                                //             )
+                                //           : Icon(
+                                //               Icons.check_box_outline_blank,
+                                //               color: AppColors.primaryElement,
+                                //               size: ScreenUtil().setWidth(18),
+                                //             ),
+                                //     ),
+                                //     SizedBox(
+                                //       width: ScreenUtil().setWidth(12.25),
+                                //     ),
+                                //     Container(
+                                //       width: ScreenUtil().setWidth(250),
+                                //       child: Text(
+                                //         "Make this a primary Address",
+                                //         style: TextStyle(
+                                //             color: Color(0xff5c5c5c),
+                                //             fontSize: ScreenUtil().setSp(
+                                //               13,
+                                //             )),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                SizedBox(
+                                  height: ScreenUtil().setWidth(20),
+                                ),])),
+                          Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+
+                              InkWell(
+                                  onTap: () async {
+                                    addressId =
+                                        value.addressResponse.data[index].id;
+                                    _phone.text =
+                                        value.addressResponse.data[index].phone;
+                                    _address.text =
+                                        value.addressResponse.data[index].address;
+                                    _pin.text = value
+                                        .addressResponse.data[index].zip
+                                        .toString();
+                                    _email.text =
+                                        value.addressResponse.data[index].email;
+                                    _town.text =
+                                        value.addressResponse.data[index].town;
+                                    _city.text =
+                                        value.addressResponse.data[index].city;
+                                    _country.text =
+                                        value.addressResponse.data[index].country;
+                                    _state.text =
+                                        value.addressResponse.data[index].state;
+                                    _firstName.text = value
+                                        .addressResponse.data[index].firstName;
+                                    _lastName.text = value
+                                        .addressResponse.data[index].lastName;
+                                    setState(() {
+                                      newAddress = !newAddress;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            right: BorderSide(color: Color(0xffd3d3d3))
+                                        )
+                                    ),
+                                    width: ScreenUtil().setWidth(150),
+                                    height: ScreenUtil().setWidth(30),
+                                    child: Center(
+                                      child: Text("EDIT",style: TextStyle(color: Color(0xffBB8738)),),
+                                    ),
+                                  )),
+
+                              InkWell(
+                                  onTap: () async {
+                                    await Provider.of<AddressViewModel>(context,
+                                        listen: false)
+                                        .deleteAddress(
+                                        value.addressResponse.data[index].id);
+                                  },
+                                  child: Container(
+                                    width: ScreenUtil().setWidth(215),
+                                    height: ScreenUtil().setWidth(30),
+                                    child: Center(
+                                      child: Text("REMOVE",style: TextStyle(color: Color(0xffBB8738)),),
+                                    ),
+                                  ))
                             ],
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(16),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(26)),
-                            width: double.infinity,
-                            child: Text(
-                              "Address : " +
-                                  value.addressResponse.data[index].address
-                                      .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff5f5f5f),
-                                  fontSize: ScreenUtil().setSp(
-                                    16,
-                                  )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(11),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(26)),
-                            width: double.infinity,
-                            child: Text(
-                              "Pin : " +
-                                  value.addressResponse.data[index].zip
-                                      .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff5f5f5f),
-                                  fontSize: ScreenUtil().setSp(
-                                    16,
-                                  )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(12),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(26)),
-                            width: double.infinity,
-                            child: Text(
-                              value.addressResponse.data[index].phone
-                                  .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff5f5f5f),
-                                  fontSize: ScreenUtil().setSp(
-                                    15,
-                                  )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(13),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(26)),
-                            width: double.infinity,
-                            child: Text(
-                              value.addressResponse.data[index].email
-                                  .toString(),
-                              style: TextStyle(
-                                  color: Color(0xff5f5f5f),
-                                  fontSize: ScreenUtil().setSp(
-                                    15,
-                                  )),
-                            ),
-                          ),
-                          // SizedBox(
-                          //   height: ScreenUtil().setWidth(26),
-                          // ),
+                          )
                           // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
                           //   children: [
-                          //     InkWell(
-                          //       onTap: () {
-                          //         setState(() {
-                          //           primaryAddressBox = index;
-                          //         });
-                          //       },
-                          //       child: primaryAddressBox == index
-                          //           ? Icon(
-                          //               Icons.check_box,
-                          //               color: AppColors.primaryElement,
-                          //               size: ScreenUtil().setWidth(18),
-                          //             )
-                          //           : Icon(
-                          //               Icons.check_box_outline_blank,
-                          //               color: AppColors.primaryElement,
-                          //               size: ScreenUtil().setWidth(18),
+                          //     Container(
+                          //         height: ScreenUtil().setWidth(37),
+                          //         width: ScreenUtil().setWidth(100),
+                          //         child: OutlinedButton(
+                          //           style: OutlinedButton.styleFrom(
+                          //             shape: RoundedRectangleBorder(
+                          //               borderRadius: BorderRadius.circular(18.0),
                           //             ),
-                          //     ),
+                          //             side: BorderSide(
+                          //                 width: 1,
+                          //                 color: AppColors.primaryElement),
+                          //           ),
+                          //           onPressed: () {
+                          //             addressId =
+                          //                 value.addressResponse.data[index].id;
+                          //             _phone.text =
+                          //                 value.addressResponse.data[index].phone;
+                          //             _address.text =
+                          //                 value.addressResponse.data[index].address;
+                          //             _pin.text = value
+                          //                 .addressResponse.data[index].zip
+                          //                 .toString();
+                          //             _email.text =
+                          //                 value.addressResponse.data[index].email;
+                          //             _town.text =
+                          //                 value.addressResponse.data[index].town;
+                          //             _city.text =
+                          //                 value.addressResponse.data[index].city;
+                          //             _country.text =
+                          //                 value.addressResponse.data[index].country;
+                          //             _state.text =
+                          //                 value.addressResponse.data[index].state;
+                          //             _firstName.text = value
+                          //                 .addressResponse.data[index].firstName;
+                          //             _lastName.text = value
+                          //                 .addressResponse.data[index].lastName;
+                          //             setState(() {
+                          //               newAddress = !newAddress;
+                          //             });
+                          //           },
+                          //           child: Text(
+                          //             "Edit",
+                          //             style: TextStyle(
+                          //                 color: AppColors.primaryElement,
+                          //                 fontFamily: 'Montserrat'),
+                          //           ),
+                          //         )),
                           //     SizedBox(
-                          //       width: ScreenUtil().setWidth(12.25),
+                          //       width: ScreenUtil().setWidth(14),
                           //     ),
                           //     Container(
-                          //       width: ScreenUtil().setWidth(250),
-                          //       child: Text(
-                          //         "Make this a primary Address",
-                          //         style: TextStyle(
-                          //             color: Color(0xff5c5c5c),
-                          //             fontSize: ScreenUtil().setSp(
-                          //               13,
-                          //             )),
+                          //       height: ScreenUtil().setWidth(37),
+                          //       width: ScreenUtil().setWidth(100),
+                          //       child: OutlinedButton(
+                          //         style: OutlinedButton.styleFrom(
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(18.0),
+                          //           ),
+                          //           side: BorderSide(
+                          //               width: 1, color: AppColors.primaryElement),
+                          //         ),
+                          //         onPressed: () async {
+                          //           await Provider.of<AddressViewModel>(context,
+                          //                   listen: false)
+                          //               .deleteAddress(
+                          //                   value.addressResponse.data[index].id);
+                          //         },
+                          //         child: Text(
+                          //           "Remove",
+                          //           style: TextStyle(
+                          //               color: AppColors.primaryElement,
+                          //               fontFamily: 'Montserrat'),
+                          //         ),
                           //       ),
                           //     ),
                           //   ],
-                          // ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(36),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  height: ScreenUtil().setWidth(37),
-                                  width: ScreenUtil().setWidth(100),
-                                  child: OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
-                                      side: BorderSide(
-                                          width: 1,
-                                          color: AppColors.primaryElement),
-                                    ),
-                                    onPressed: () {
-                                      addressId =
-                                          value.addressResponse.data[index].id;
-                                      _phone.text = value
-                                          .addressResponse.data[index].phone;
-                                      _address.text = value
-                                          .addressResponse.data[index].address;
-                                      _pin.text = value
-                                          .addressResponse.data[index].zip
-                                          .toString();
-                                      _email.text = value
-                                          .addressResponse.data[index].email;
-                                      _town.text = value
-                                          .addressResponse.data[index].town;
-                                      _city.text = value
-                                          .addressResponse.data[index].city;
-                                      _country.text = value
-                                          .addressResponse.data[index].country;
-                                      _state.text = value
-                                          .addressResponse.data[index].state;
-                                      _firstName.text = value.addressResponse
-                                          .data[index].firstName;
-                                      _lastName.text = value
-                                          .addressResponse.data[index].lastName;
-                                      setState(() {
-                                        newAddress = !newAddress;
-                                      });
-                                    },
-                                    child: Text(
-                                      'Edit',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: AppColors.primaryElement),
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: ScreenUtil().setWidth(14),
-                              ),
-                              Container(
-                                height: ScreenUtil().setWidth(37),
-                                width: ScreenUtil().setWidth(100),
-                                child: Container(
-                                    height: ScreenUtil().setWidth(37),
-                                    width: ScreenUtil().setWidth(83),
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18.0),
-                                        ),
-                                        side: BorderSide(
-                                            width: 1,
-                                            color: AppColors.primaryElement),
-                                      ),
-                                      onPressed: () async {
-                                        await Provider.of<AddressViewModel>(
-                                                context,
-                                                listen: false)
-                                            .deleteAddress(value.addressResponse
-                                                .data[index].id);
-                                      },
-                                      child: Text(
-                                        'Remove',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color: AppColors.primaryElement),
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          )
+                          // )
                         ]),
                       ),
-                    )),
-              );
+                    )),);
             })
       ]);
     });

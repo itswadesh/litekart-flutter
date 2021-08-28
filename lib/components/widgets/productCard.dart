@@ -63,6 +63,35 @@ class _ProductCard extends State<ProductCard> {
                       width: ScreenUtil().setWidth(193),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                    Container(
+                        margin: EdgeInsets.fromLTRB(
+                            0, ScreenUtil().setWidth(5), ScreenUtil().setWidth(5), 0),
+                        width: ScreenUtil().radius(35),
+                        height: ScreenUtil().radius(35),
+                        decoration: new BoxDecoration(
+                          color: Color(0xfff3f3f3),
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              top: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              left: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              right: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4))),
+                          shape: BoxShape.circle,
+                        ),
+                        child:
+                        CheckWishListClass(item.id, item.id)),
+                  ],)
+                  
                   // Container(
                   //   padding: EdgeInsets.only(
                   //       right: ScreenUtil().setWidth(10),

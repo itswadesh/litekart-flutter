@@ -25,22 +25,27 @@ class _CartLogo extends State<CartLogo> {
         builder: (BuildContext context, value, Widget child) {
       if (value.status == "loading") {
         Provider.of<CartViewModel>(context, listen: false).fetchCartData();
-        return Padding(
-          padding: const EdgeInsets.only(right: 14, left: 14),
-          child: Center(
+        return
+          // Padding(
+          // // padding: const EdgeInsets.only(right: 14, left: 14),
+          // child:
+          Center(
               child:  Icon(
           Icons.shopping_cart,
           size: ScreenUtil().setWidth(28),
           color: Colors.black54,
-        )));
+        //)
+          ));
       }
       return InkWell(
         onTap: () {
           _navigationService.pushNamed(routes.CartRoute);
         },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 14, left: 14),
-          child: Center(
+        child:
+        //Padding(
+          // padding: const EdgeInsets.only(right: 14, left: 14),
+        //  child:
+        Center(
             child: Stack(
               children: [
                 Icon(
@@ -72,7 +77,7 @@ class _CartLogo extends State<CartLogo> {
               ],
             ),
           ),
-        ),
+        //),
       );
     }));
   }

@@ -1,3 +1,4 @@
+import 'package:anne/components/widgets/productListCard.dart';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -242,9 +243,9 @@ class _ProductList extends State<ProductList> {
         ),
       ),
       Container(
-        color: Colors.grey.shade300,
+        color: Color(0xffffffff),
         height: MediaQuery.of(context).size.height * 0.89,
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
             () {
@@ -255,12 +256,12 @@ class _ProductList extends State<ProductList> {
           child: PagedGridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
-                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(228),
+                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(285),
                 crossAxisCount: 2),
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, item, index) =>
-                    ProductViewCard(item ?? ProductListData()),
+                    ProductListCard(item ?? ProductListData()),
                 // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                 //   error: _pagingController.error,
                 //   onTryAgain: () => _pagingController.refresh(),

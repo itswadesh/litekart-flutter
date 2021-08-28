@@ -227,7 +227,7 @@ class _SuggestedClass extends State<SuggestedClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(51),
+          height: ScreenUtil().setWidth(30),
         ),
         Container(
           padding: EdgeInsets.only(
@@ -243,7 +243,7 @@ class _SuggestedClass extends State<SuggestedClass> {
           ))),
           child: Text(
             "Suggested For You",
-            style: ThemeApp().underlineThemeText(Color(0xff32AFC8), 18.0, true),
+            style: ThemeApp().underlineThemeText(Color(0xff32AFC8), 25.0, true),
           ),
         ),
         SizedBox(
@@ -311,7 +311,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(38),
+          height: ScreenUtil().setWidth(30),
         ),
         Container(
           padding: EdgeInsets.only(
@@ -327,7 +327,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
           ))),
           child: Text(
             "You May Like",
-            style: ThemeApp().underlineThemeText(Color(0xffC53193), 18.0, true),
+            style: ThemeApp().underlineThemeText(Color(0xffC53193), 25.0, true),
           ),
         ),
         SizedBox(
@@ -398,7 +398,7 @@ class _TrendingClass extends State<TrendingClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(54),
+          height: ScreenUtil().setWidth(30),
         ),
         Container(
           padding: EdgeInsets.only(
@@ -414,7 +414,7 @@ class _TrendingClass extends State<TrendingClass> {
           ))),
           child: Text(
             "Trending",
-            style: ThemeApp().underlineThemeText(Color(0xffA1CF5F), 18.0, true),
+            style: ThemeApp().underlineThemeText(Color(0xffA1CF5F), 25.0, true),
           ),
         ),
         SizedBox(
@@ -1112,7 +1112,7 @@ class _BrandClass extends State<BrandClass> {
           return Column(
             children: [
               SizedBox(
-                height: ScreenUtil().setWidth(56),
+                height: ScreenUtil().setWidth(30),
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -1128,7 +1128,7 @@ class _BrandClass extends State<BrandClass> {
                 child: Text(
                   "Brands",
                   style: ThemeApp()
-                      .underlineThemeText(Color(0xff32AFC8), 18.0, true),
+                      .underlineThemeText(Color(0xff32AFC8), 25.0, true),
                 ),
               ),
               SizedBox(

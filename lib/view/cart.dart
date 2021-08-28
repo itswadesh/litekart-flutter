@@ -999,7 +999,7 @@ class _CartCard extends State<CartCard> {
                     width: ScreenUtil().setWidth(215),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("MOVE TO BAG",style: TextStyle(color: Color(0xffBB8738)),),
+                      child: Text("MOVE TO WISHLIST",style: TextStyle(color: Color(0xffBB8738)),),
                     ),
                   ))
             ],

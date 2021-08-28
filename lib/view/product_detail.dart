@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
+import 'package:anne/view/menu/wishlist.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,8 +59,8 @@ class _ProductDetail extends State<ProductDetail> {
     productId = widget.productId;
     Provider.of<ProductDetailViewModel>(context, listen: false)
         .changeStatus("loading");
-    pageController = PageController(
-        initialPage: 0, keepPage: true, viewportFraction: 1);
+    pageController =
+        PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
     super.initState();
   }
 
@@ -111,7 +112,6 @@ class _ProductDetail extends State<ProductDetail> {
     }
     // TODO: implement build
     return Scaffold(
-
         body: Container(
             height: MediaQuery.of(context).size.height,
             color: Color(0xfff3f3f3),
@@ -144,162 +144,46 @@ class _ProductDetail extends State<ProductDetail> {
       SingleChildScrollView(
           child: Column(
         children: [
-              SizedBox(height: ScreenUtil().setWidth(20),),
-              Container(child:
-              Stack(
+          SizedBox(
+            height: ScreenUtil().setWidth(40),
+          ),
+          Container(
+              color: Color(0xffffffff),
+              child: Stack(
                 children: [
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      height: ScreenUtil().setWidth(400),
-                      child:
-                  PageView.builder(
-                    itemCount: productData.images.length,
-                    itemBuilder: (_, int index) {
-                      return  PinchZoom(
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/loading.gif',
-                          image: productData.images[indexImage].toString().trim(),
-                          width: MediaQuery.of(context).size.width,
-                          height: ScreenUtil().setWidth(400),
-                        ),
-                        resetDuration: const Duration(milliseconds: 100),
-                        maxScale: 2.5,
-                        onZoomStart: () {
-                          print('Start zooming');
-                        },
-                        onZoomEnd: () {
-                          print('Stop zooming');
-                        },
-                      );
-                    },
-                    controller: pageController,
-                  )
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(16.58),
-                        ScreenUtil().setWidth(21.58), 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-
-                        InkWell(
-                            onTap: () {
-                             locator<NavigationService>().pop();
+                      height: ScreenUtil().setWidth(500),
+                      child: PageView.builder(
+                        itemCount: productData.images.length,
+                        itemBuilder: (_, int index) {
+                          return InkWell(
+                              onTap: (){
+                                locator<NavigationService>().pushNamed(routes.ZoomImageRoute, args: {"imageLinks":productData.images,"index":index});
+                              },
+                              child: PinchZoom(
+                            child: FadeInImage.assetNetwork(
+                              placeholder: 'assets/images/loading.gif',
+                              image: productData.images[index]
+                                  .toString()
+                                  .trim(),
+                              width: MediaQuery.of(context).size.width,
+                              height: ScreenUtil().setWidth(500),
+                            ),
+                            resetDuration: const Duration(milliseconds: 100),
+                            maxScale: 2.5,
+                            onZoomStart: () {
+                              print('Start zooming');
                             },
-                            child: Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0, 0, ScreenUtil().setWidth(8), 0),
-                                width: ScreenUtil().radius(26),
-                                height: ScreenUtil().radius(26),
-                                decoration: new BoxDecoration(
-                                  color: Color(0xffFFE8E8),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      top: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      left: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      right: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4))),
-                                  shape: BoxShape.circle,
-                                ),
-                                child:
-                                Icon(Icons.arrow_back))),
-                            SizedBox(width: ScreenUtil().setWidth(300),),
-                        /*InkWell(
-                    onTap: () async {
-                      TzDialog _dialog =
-                      TzDialog(context, TzDialogType.progress);
-                      _dialog.show();
-                     var dynamicLink = await _createDynamicLink(true, productData.id);
-                     _dialog.close();
-                      final RenderBox box = context.findRenderObject();
-                      await Share.share(
-                          "Hi, Check out this awesome product on Tablez : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
-                          sharePositionOrigin:
-                              box.localToGlobal(Offset.zero) & box.size);
-                    },
-                    child: Icon(
-                      Icons.share,
-                      size: 20,
-                    )),*/
-                        SizedBox(
-                          width: ScreenUtil().setWidth(15),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Map<String, dynamic> data = {
-                              "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                              "itemId": productId,
-                              "event": "tap"
-                            };
-                            Tracking(
-                                event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                                data: data);
-                          },
-                          child: Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0, 0, ScreenUtil().setWidth(8), 0),
-                              width: ScreenUtil().radius(26),
-                              height: ScreenUtil().radius(26),
-                              decoration: new BoxDecoration(
-                                color: Color(0xffFFE8E8),
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Color(0xfff3f3f3),
-                                        width: ScreenUtil().setWidth(0.4)),
-                                    top: BorderSide(
-                                        color: Color(0xfff3f3f3),
-                                        width: ScreenUtil().setWidth(0.4)),
-                                    left: BorderSide(
-                                        color: Color(0xfff3f3f3),
-                                        width: ScreenUtil().setWidth(0.4)),
-                                    right: BorderSide(
-                                        color: Color(0xfff3f3f3),
-                                        width: ScreenUtil().setWidth(0.4))),
-                                shape: BoxShape.circle,
-                              ),
-                              child:
-                              CheckWishListClass(productData.id, productData.id)),
-
-                        ),
-                     SizedBox(width: ScreenUtil().setWidth(15),),
-                     Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0, 0, ScreenUtil().setWidth(8), 0),
-                          width: ScreenUtil().radius(26),
-                          height: ScreenUtil().radius(26),
-                          decoration: new BoxDecoration(
-                            color: Color(0xffFFE8E8),
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                top: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                left: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                right: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4))),
-                            shape: BoxShape.circle,
-                          ),
-                          child:
-                          CartLogo()),
-                      ],
-                    ),
-                  ),
+                            onZoomEnd: () {
+                              print('Stop zooming');
+                            },
+                          ));
+                        },
+                        controller: pageController,
+                      )),
                 ],
-              )
-              ),
+              )),
           SizedBox(
             height: ScreenUtil().setWidth(27),
           ),
@@ -452,6 +336,10 @@ class _ProductDetail extends State<ProductDetail> {
                 SizedBox(
                   height: ScreenUtil().setWidth(15),
                 ),
+                Container(
+                  color: Color(0xfff3f3f3),
+                  height: ScreenUtil().setWidth(25),
+                ),
                 Query(
                   options: QueryOptions(
                       document: gql(addMutation.productGroup()),
@@ -471,6 +359,22 @@ class _ProductDetail extends State<ProductDetail> {
                       print(result.data["product_group"]["colorGroup"]);
                       return Column(
                         children: [
+                          productGroup.colorGroup.length > 0
+                              ? SizedBox(
+                                  height: ScreenUtil().setWidth(15),
+                                )
+                              : Container(),
+                          productGroup.colorGroup.length > 0
+                              ? Container(
+                                  padding: EdgeInsets.only(
+                                      left: ScreenUtil().setWidth(20),
+                                      bottom: ScreenUtil().setWidth(10)),
+                                  width: double.infinity,
+                                  child: Text("Select Color",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setWidth(18))))
+                              : Container(),
                           productGroup.colorGroup.length > 0
                               ? Container(
                                   height: ScreenUtil().setWidth(50),
@@ -541,6 +445,17 @@ class _ProductDetail extends State<ProductDetail> {
                                   height: ScreenUtil().setWidth(15),
                                 )
                               : SizedBox.shrink(),
+                          productGroup.sizeGroup.length > 0
+                              ? Container(
+                                  padding: EdgeInsets.only(
+                                      left: ScreenUtil().setWidth(20),
+                                      bottom: ScreenUtil().setWidth(10)),
+                                  width: double.infinity,
+                                  child: Text("Select Size",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setWidth(18))))
+                              : Container(),
                           productGroup.sizeGroup.length > 0
                               ? Container(
                                   height: ScreenUtil().setWidth(50),
@@ -652,27 +567,40 @@ class _ProductDetail extends State<ProductDetail> {
                 ),
                 productData.description != null
                     ? Container(
+                  color: Color(0xfff3f3f3),
+                  height: ScreenUtil().setWidth(25),
+                ):Container(),
+                productData.description != null
+                    ? Container(
                         width: double.infinity,
                         color: Color(0xffffffff),
                         padding: EdgeInsets.fromLTRB(
                             ScreenUtil().setWidth(22),
-                            ScreenUtil().setWidth(29),
+                            ScreenUtil().setWidth(0),
                             ScreenUtil().setWidth(28),
                             ScreenUtil().setWidth(28)),
                         child: Column(
                           children: [
-                            Text(
-                              "Description",
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(23),
-                                  color: Color(0xff4a4a4a)),
-                              textAlign: TextAlign.center,
+
+                            Container(
+                              color: Color(0xffffffff),
+                              height: ScreenUtil().setWidth(25),
                             ),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(31),
-                            ),
+                            Container(
+                                color: Color(0xffffffff),
+                                width: double.infinity,
+                                child:  Text(
+                                  "Description",
+                                  style: TextStyle(
+                                    color: Color(0xff4a4a4a),
+                                    fontSize: ScreenUtil().setSp(20),
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                  textAlign: TextAlign.left,
+                                )),
+                            SizedBox(height: ScreenUtil().setWidth(10),),
                             Text(productData.description,
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Color(0xff4a4a4a),
                                     fontSize: ScreenUtil().setSp(13))),
@@ -680,6 +608,7 @@ class _ProductDetail extends State<ProductDetail> {
                         ),
                       )
                     : Container(),
+
                 productData.keyFeature != null &&
                         productData.keyFeature.length > 0
                     ? Container(
@@ -735,95 +664,289 @@ class _ProductDetail extends State<ProductDetail> {
           )
         ],
       )),
+      Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            color: Color(0xffffffff),
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(35),
+                ScreenUtil().setWidth(21.58), 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                    onTap: () {
+                      locator<NavigationService>().pop();
+                    },
+                    child: Container(
+                        margin: EdgeInsets.fromLTRB(
+                            0, 0, ScreenUtil().setWidth(8), 0),
+                        width: ScreenUtil().radius(35),
+                        height: ScreenUtil().radius(35),
+                        decoration: new BoxDecoration(
+                          color: Color(0xfff3f3f3),
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              top: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              left: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4)),
+                              right: BorderSide(
+                                  color: Color(0xfff3f3f3),
+                                  width: ScreenUtil().setWidth(0.4))),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.arrow_back,
+                          size: ScreenUtil().setWidth(20),
+                        ))),
+                SizedBox(
+                  width: ScreenUtil().setWidth(200),
+                ),
+                /*InkWell(
+                    onTap: () async {
+                      TzDialog _dialog =
+                      TzDialog(context, TzDialogType.progress);
+                      _dialog.show();
+                     var dynamicLink = await _createDynamicLink(true, productData.id);
+                     _dialog.close();
+                      final RenderBox box = context.findRenderObject();
+                      await Share.share(
+                          "Hi, Check out this awesome product on Tablez : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                          sharePositionOrigin:
+                              box.localToGlobal(Offset.zero) & box.size);
+                    },
+                    child: Icon(
+                      Icons.share,
+                      size: 20,
+                    )),*/
+                SizedBox(
+                  width: ScreenUtil().setWidth(15),
+                ),
+                InkWell(
+                  onTap: () {
+                    Map<String, dynamic> data = {
+                      "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                      "itemId": productId,
+                      "event": "tap"
+                    };
+                    Tracking(
+                        event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                        data: data);
+                  },
+                  child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0, 0, ScreenUtil().setWidth(8), 0),
+                      width: ScreenUtil().radius(35),
+                      height: ScreenUtil().radius(35),
+                      decoration: new BoxDecoration(
+                        color: Color(0xfff3f3f3),
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Color(0xfff3f3f3),
+                                width: ScreenUtil().setWidth(0.4)),
+                            top: BorderSide(
+                                color: Color(0xfff3f3f3),
+                                width: ScreenUtil().setWidth(0.4)),
+                            left: BorderSide(
+                                color: Color(0xfff3f3f3),
+                                width: ScreenUtil().setWidth(0.4)),
+                            right: BorderSide(
+                                color: Color(0xfff3f3f3),
+                                width: ScreenUtil().setWidth(0.4))),
+                        shape: BoxShape.circle,
+                      ),
+                      child:
+                          CheckWishListClass(productData.id, productData.id)),
+                ),
+                SizedBox(
+                  width: ScreenUtil().setWidth(15),
+                ),
+                Container(
+                    margin:
+                        EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
+                    width: ScreenUtil().radius(35),
+                    height: ScreenUtil().radius(35),
+                    decoration: new BoxDecoration(
+                      color: Color(0xfff3f3f3),
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Color(0xfff3f3f3),
+                              width: ScreenUtil().setWidth(0.4)),
+                          top: BorderSide(
+                              color: Color(0xfff3f3f3),
+                              width: ScreenUtil().setWidth(0.4)),
+                          left: BorderSide(
+                              color: Color(0xfff3f3f3),
+                              width: ScreenUtil().setWidth(0.4)),
+                          right: BorderSide(
+                              color: Color(0xfff3f3f3),
+                              width: ScreenUtil().setWidth(0.4))),
+                      shape: BoxShape.circle,
+                    ),
+                    child:
+                    // Transform.translate(
+                    //   offset: Offset(-10, 0),
+                    //   child:
+                      CartLogo(),
+      //              )
+      ),
+              ],
+            ),
+          )),
       cartStatusButton == "Not Available"
           ? SizedBox.shrink()
           : Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: Colors.white,
-                child: InkWell(
-                  onTap: () {
-                    Map<String, dynamic> data = {
-                      "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
-                      "itemId": productId,
-                      "event": "click"
-                    };
-                    Tracking(
-                        event: EVENT_PRODUCT_DETAILS_ADD_TO_CART, data: data);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: ScreenUtil().setHeight(61),
-                    child: InkWell(
-                      onTap: () {
-                        if (cartStatusButton == "Not Available") {
-                        } else {
-                          if (cartStatusButton == "Add to cart") {
-                            setState(() {
-                              cartStatusButton = "Go to cart";
-                            });
-                            Provider.of<CartViewModel>(context, listen: false)
-                                .cartAddItem(
-                                    productData.id, productData.id, 1, false);
-                          } else {
-                            _navigationService.pushNamed(routes.CartRoute);
-                          }
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                        color: cartStatusButton == "Not Available"
-                            ? Color(0xffbb8738).withOpacity(0.8)
-                            : Color(0xffbb8738),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cartStatusButton == "Not Available"
-                                ? SizedBox.shrink()
-                                : Icon(
-                                    Icons.shopping_cart,
-                                    color: Color(0xffffffff),
-                                    size: ScreenUtil().setWidth(22),
-                                  ),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(16),
-                            ),
-                            Text(
-                              cartStatusButton,
-                              style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontSize: ScreenUtil().setSp(
-                                    20,
-                                  ),
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                  color:Color(0xfff3f3f3),
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
+                  bottom: ScreenUtil().setWidth(5)
                   ),
-                ),
-              )),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      width: ScreenUtil().setWidth(180),
+                      height: ScreenUtil().setHeight(42),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          side: BorderSide(
+                              width: 2, color: Color(0xffdd0000)),
+                        ),
+                        onPressed: () async {
+
+                          if (Provider.of<ProfileModel>(context, listen: false)
+                              .user !=
+                              null) {
+                            await Provider.of<WishlistViewModel>(context,
+                                listen: false)
+                                .toggleItem(productData.id);
+                          } else {
+                            locator<NavigationService>()
+                                .pushNamed(routes.LoginRoute);
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                         
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CheckWishListClass(productData.id, productData.id),
+                              SizedBox(
+                                width: ScreenUtil().setWidth(16),
+                              ),
+                              Text(
+                                "WISHLIST",
+                                style: TextStyle(
+                                    color: Color(0xff646464),
+                                    fontSize: ScreenUtil().setSp(
+                                      20,
+                                    ),
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                  Container(
+                    decoration: BoxDecoration(
+                      color:  Color(0xffdd0000),
+                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5))                      
+                    ),
+                      width: ScreenUtil().setWidth(180),
+                      height: ScreenUtil().setHeight(42),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                        onPressed: () async {
+                          Map<String, dynamic> data = {
+                            "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                            "itemId": productId,
+                            "event": "click"
+                          };
+                          Tracking(
+                              event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                              data: data);
+                          if (cartStatusButton == "Not Available") {
+                          } else {
+                            if (cartStatusButton == "Add to cart") {
+                              setState(() {
+                                cartStatusButton = "Go to cart";
+                              });
+                              Provider.of<CartViewModel>(context, listen: false)
+                                  .cartAddItem(
+                                      productData.id, productData.id, 1, false);
+                            } else {
+                              _navigationService.pushNamed(routes.CartRoute);
+                            }
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                          color: cartStatusButton == "Not Available"
+                              ? Color(0xffdd0000).withOpacity(0.8)
+                              : Color(0xffdd0000),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              cartStatusButton == "Not Available"
+                                  ? SizedBox.shrink()
+                                  : Icon(
+                                      Icons.shopping_cart,
+                                      color: Color(0xffffffff),
+                                      size: ScreenUtil().setWidth(22),
+                                    ),
+                              SizedBox(
+                                width: ScreenUtil().setWidth(16),
+                              ),
+                              Text(
+                                cartStatusButton,
+                                style: TextStyle(
+                                    color: Color(0xffffffff),
+                                    fontSize: ScreenUtil().setSp(
+                                      20,
+                                    ),
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
+                ],
+              ))),
     ]);
   }
 
   getSpecificationChildren(List<Specifications> specifications) {
     List<Widget> children = [];
     if (specifications.length != 0) {
-      children.add(Container(
+      children.add( Container(
+        padding: EdgeInsets.only(left: ScreenUtil().setWidth(30),top: ScreenUtil().setWidth(15)),
+        height: ScreenUtil().setWidth(50),
           color: Color(0xffffffff),
-          height: ScreenUtil().setWidth(59),
           width: double.infinity,
-          child: Center(
-            child: Text(
-              "Product Specifications",
-              style: TextStyle(
-                color: Color(0xff4a4a4a),
-                fontSize: ScreenUtil().setSp(23),
-              ),
-              textAlign: TextAlign.center,
+          child:  Text(
+            "Product Specification",
+            style: TextStyle(
+              color: Color(0xff4a4a4a),
+              fontSize: ScreenUtil().setSp(20),
+              fontWeight: FontWeight.w600
             ),
-          )));
+            textAlign: TextAlign.left,
+          )),);
     }
     for (int i = 0; i < specifications.length; i++) {
       children.add(Container(
@@ -849,7 +972,7 @@ class _ProductDetail extends State<ProductDetail> {
                                 child: Text(
                                   specifications[i].name,
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: TextStyle(color: Color(0xff000000)),
                                 ))
                           ],
                         )),
@@ -858,6 +981,7 @@ class _ProductDetail extends State<ProductDetail> {
                       child: Text(
                         specifications[i].value,
                         textAlign: TextAlign.left,
+                        style: TextStyle(color: Color(0xffa4a4a4)),
                       ),
                     )
                   ],
@@ -895,7 +1019,7 @@ class _ProductDetail extends State<ProductDetail> {
                                 child: Text(
                                   "Country of Origin ",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: TextStyle(color: Color(0xff000000)),
                                 ))
                           ],
                         )),
@@ -904,6 +1028,7 @@ class _ProductDetail extends State<ProductDetail> {
                       child: Text(
                         "${productData?.countryOfOrigin}",
                         textAlign: TextAlign.left,
+                        style: TextStyle(color: Color(0xffa4a4a4)),
                       ),
                     )
                   ],
@@ -934,7 +1059,7 @@ class _ProductDetail extends State<ProductDetail> {
                                 child: Text(
                                   "Warranty: ",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: TextStyle(color: Color(0xff000000)),
                                 ))
                           ],
                         )),
@@ -943,6 +1068,7 @@ class _ProductDetail extends State<ProductDetail> {
                       child: Text(
                         productData?.warranty ?? '',
                         textAlign: TextAlign.left,
+                        style: TextStyle(color: Color(0xffa4a4a4)),
                       ),
                     )
                   ],
@@ -954,20 +1080,19 @@ class _ProductDetail extends State<ProductDetail> {
       children.insert(
         0,
         Container(
-          color: Color(0xffffffff),
-          height: ScreenUtil().setWidth(59),
-          width: double.infinity,
-          child: Center(
-            child: Text(
+            padding: EdgeInsets.only(left: ScreenUtil().setWidth(30),top: ScreenUtil().setWidth(15)),
+            height: ScreenUtil().setWidth(50),
+            color: Color(0xffffffff),
+            width: double.infinity,
+            child:  Text(
               "Product Details",
               style: TextStyle(
                 color: Color(0xff4a4a4a),
-                fontSize: ScreenUtil().setSp(23),
+                fontSize: ScreenUtil().setSp(20),
+                  fontWeight: FontWeight.w600
               ),
               textAlign: TextAlign.left,
-            ),
-          ),
-        ),
+            )),
       );
     }
     return children;
@@ -977,18 +1102,25 @@ class _ProductDetail extends State<ProductDetail> {
     List<Widget> children = [];
     if (keyFeature.length != 0) {
       children.add(Container(
+        color: Color(0xfff3f3f3),
+        height: ScreenUtil().setWidth(25),
+      ),);
+      children.add(Container(
+        color: Color(0xffffffff),
+        height: ScreenUtil().setWidth(20),
+      ),);
+      children.add(Container(
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(25)),
           color: Color(0xffffffff),
-          height: ScreenUtil().setWidth(59),
           width: double.infinity,
-          child: Center(
-            child: Text(
+          child:  Text(
               "Key Features",
               style: TextStyle(
                 color: Color(0xff4a4a4a),
-                fontSize: ScreenUtil().setSp(23),
+                fontSize: ScreenUtil().setSp(20),
+                  fontWeight: FontWeight.w600
               ),
-              textAlign: TextAlign.center,
-            ),
+              textAlign: TextAlign.left,
           )));
     }
     for (int i = 0; i < keyFeature.length; i++) {
@@ -1012,7 +1144,7 @@ class _ProductDetail extends State<ProductDetail> {
               Container(
                   width: ScreenUtil().setWidth(50),
                   child: Icon(
-                    FontAwesomeIcons.arrowCircleRight,
+                    FontAwesomeIcons.checkCircle,
                     color: Colors.grey,
                     size: ScreenUtil().setWidth(18),
                   )),
@@ -1172,7 +1304,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
               }
               if (result.isLoading) {
                 return Icon(Icons.workspaces_outline,
-                    color: Colors.red, size: ScreenUtil().setWidth(15));
+                    color: Color(0xffd3d3d3), size: ScreenUtil().setWidth(15));
               }
               if (result.isConcrete) {
                 status = result.data["checkWishlist"];
