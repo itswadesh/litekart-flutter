@@ -30,12 +30,14 @@ class _ProductListCard extends State<ProductListCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
-        border: Border.all(color: Color(0xffb1b1b1)),
-
-      ),
+      color:Color(0xffffffff),
+      margin: EdgeInsets.all(ScreenUtil().setWidth(2)),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
+      //   //border: Border.all(color: Color(0xffb1b1b1)
+      //   //),
+      //
+      // ),
       child: InkWell(
         onTap: () async {
           Navigator.of(context).push(
@@ -178,7 +180,7 @@ class _ProductListCard extends State<ProductListCard> {
                       ],
                     ),
                    // SizedBox(height: ScreenUtil().setWidth(19),),
-                    Divider(height: ScreenUtil().setWidth(5),),
+                    Divider(height: ScreenUtil().setWidth(10),),
                     InkWell(
                         onTap: () async {
                           if(item.stock>0) {

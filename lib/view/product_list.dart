@@ -2,6 +2,7 @@ import 'package:anne/components/widgets/productListCard.dart';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -136,7 +137,7 @@ class _ProductList extends State<ProductList> {
             ScreenUtil().setWidth(16),
             ScreenUtil().setWidth(12)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
                 padding:EdgeInsets.only(top: ScreenUtil().setWidth(10)),
@@ -147,53 +148,207 @@ class _ProductList extends State<ProductList> {
                   color: Color(0xff616161),
                   fontSize: ScreenUtil().setWidth(16)),
             )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                count > 0
-                    ? InkWell(
-                    onTap: () {
-                      showSortPopup();
-                    },
-                    child: Container(
-                        padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-                        child: Icon(
-                      Icons.sort,
-                      size: ScreenUtil().setWidth(22),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     count > 0
+            //         ? InkWell(
+            //         onTap: () {
+            //           showSortPopup();
+            //         },
+            //         child: Container(
+            //             padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+            //             child: Icon(
+            //           Icons.sort,
+            //           size: ScreenUtil().setWidth(22),
+            //           color: Color(0xffee7625),
+            //         )))
+            //         : Container(),
+            //     count > 0
+            //         ? InkWell(
+            //             onTap: () {
+            //               // key.currentState.openEndDrawer();
+            //
+            //               showMaterialModalBottomSheet(
+            //                 shape: RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.only(
+            //                     topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+            //                     topRight: Radius.circular(ScreenUtil().setWidth(25)),
+            //                   )
+            //                 ),
+            //                 context: context,
+            //                 builder: (context) => Container(
+            //                   decoration: BoxDecoration(
+            //
+            //                       borderRadius: BorderRadius.only(
+            //                         topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+            //                         topRight: Radius.circular(ScreenUtil().setWidth(25)),
+            //                       )
+            //                   ),
+            //                   child: ProductFilterDrawer(
+            //                     facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+            //                     (bn, cl, sz,gd,pr,ag,dc) {
+            //                   brand = "";
+            //                   color = "";
+            //                   size = "";
+            //                    gender = "";
+            //                    priceRange = "";
+            //                    ageGroup = "";
+            //                    discount = "";
+            //                   bn.forEach((element) {
+            //                     brand = brand + element + ",";
+            //                   });
+            //                   cl.forEach((element) {
+            //                     color = color + element + ",";
+            //                   });
+            //                   sz.forEach((element) {
+            //                     size = size + element + ",";
+            //                   });
+            //                   gd.forEach((element) {
+            //                     gender = gender + element + ",";
+            //                   });
+            //                   pr.forEach((element) {
+            //                     priceRange = priceRange + element + ",";
+            //                   });
+            //                   ag.forEach((element) {
+            //                     ageGroup = ageGroup + element + ",";
+            //                   });
+            //                   dc.forEach((element) {
+            //                     discount = discount + element + ",";
+            //                   });
+            //                   print(brand);
+            //                   brandArr = bn;
+            //                   colorArr = cl;
+            //                   sizeArr = sz;
+            //                   genderArr = gd;
+            //                   priceRangeArr = pr;
+            //                   ageGroupArr = ag;
+            //                   discountArr = dc;
+            //                   page = 0;
+            //                   print(brand);
+            //                   _pagingController.refresh();
+            //                 }),
+            //               ));
+            //             },
+            //             child: Container(
+            //                 padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+            //                 child: Icon(
+            //               Icons.filter_alt_outlined,
+            //               size: ScreenUtil().setWidth(22),
+            //               color: Color(0xffee7625),
+            //             )))
+            //         : Container()
+            //   ],
+            // )
+          ],
+        ),
+      ),
+      Container(
+        color: Color(0xfff3f3f3),
+        height: MediaQuery.of(context).size.height * 0.78,
+        //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () {
+              page = 0;
+              _pagingController.refresh();
+            },
+          ),
+          child: PagedGridView(
+            padding: EdgeInsets.all(0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio:
+                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(285),
+                crossAxisCount: 2),
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, item, index) =>
+                    ProductListCard(item ?? ProductListData()),
+                // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
+                //   error: _pagingController.error,
+                //   onTryAgain: () => _pagingController.refresh(),
+                // ),
+                // newPageErrorIndicatorBuilder: (_) => NewPageErrorIndicator(
+                //   error: _pagingController.error,
+                //   onTryAgain: () => _pagingController.retryLastFailedRequest(),
+                // ),
+                firstPageProgressIndicatorBuilder: (_) => Loading(),
+                newPageProgressIndicatorBuilder: (_) => Loading(),
+                noItemsFoundIndicatorBuilder: (_) =>
+                    cartEmptyMessage("search", "No Product Found")),
+            // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
+          ),
+        ),
+      ),
+      count > 0 ? Container(
+          width: double.infinity,
+          height: ScreenUtil().setWidth(50),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Color(0xfff3f3f3)))
+              //borderRadius:BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
+                  ),
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    height: ScreenUtil().setWidth(50),
+                    child: Row(children: [
+                      Icon(
+                        Icons.sort,
+                        color: Color(0xffee7625),
+                      ),
+                      SizedBox(width: 10,),
+                      Text("Sort By",style: TextStyle(color: Color(0xffee7625),fontFamily: 'Montserrat'),)
+                    ],)),
+                onTap: () {
+                  showSortPopup();
+                },
+              ),
+              InkWell(
+                child: Container(
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    height: ScreenUtil().setWidth(50),
+                    child: Row(children: [  Icon(
+                      Icons.filter_alt_outlined,
                       color: Color(0xffee7625),
-                    )))
-                    : Container(),
-                count > 0
-                    ? InkWell(
-                        onTap: () {
-                          // key.currentState.openEndDrawer();
+                    ),
+                      SizedBox(width: 10,),
+                      Text("Filter",style: TextStyle(color: Color(0xffee7625),fontFamily: 'Montserrat'),)
+                    ])),
+                onTap: () {
 
-                          showMaterialModalBottomSheet(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-                                topRight: Radius.circular(ScreenUtil().setWidth(25)),
-                              )
-                            ),
-                            context: context,
-                            builder: (context) => Container(
-                              decoration: BoxDecoration(
+                  showMaterialModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                            topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                          )
+                      ),
+                      context: context,
+                      builder: (context) => Container(
+                        decoration: BoxDecoration(
 
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-                                    topRight: Radius.circular(ScreenUtil().setWidth(25)),
-                                  )
-                              ),
-                              child: ProductFilterDrawer(
-                                facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                              topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                            )
+                        ),
+                        child: ProductFilterDrawer(
+                            facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
                                 (bn, cl, sz,gd,pr,ag,dc) {
                               brand = "";
                               color = "";
                               size = "";
-                               gender = "";
-                               priceRange = "";
-                               ageGroup = "";
-                               discount = "";
+                              gender = "";
+                              priceRange = "";
+                              ageGroup = "";
+                              discount = "";
                               bn.forEach((element) {
                                 brand = brand + element + ",";
                               });
@@ -227,57 +382,10 @@ class _ProductList extends State<ProductList> {
                               print(brand);
                               _pagingController.refresh();
                             }),
-                          ));
-                        },
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-                            child: Icon(
-                          Icons.filter_alt_outlined,
-                          size: ScreenUtil().setWidth(22),
-                          color: Color(0xffee7625),
-                        )))
-                    : Container()
-              ],
-            )
-          ],
-        ),
-      ),
-      Container(
-        color: Color(0xffffffff),
-        height: MediaQuery.of(context).size.height * 0.89,
-        //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: RefreshIndicator(
-          onRefresh: () => Future.sync(
-            () {
-              page = 0;
-              _pagingController.refresh();
-            },
-          ),
-          child: PagedGridView(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio:
-                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(285),
-                crossAxisCount: 2),
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, item, index) =>
-                    ProductListCard(item ?? ProductListData()),
-                // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
-                //   error: _pagingController.error,
-                //   onTryAgain: () => _pagingController.refresh(),
-                // ),
-                // newPageErrorIndicatorBuilder: (_) => NewPageErrorIndicator(
-                //   error: _pagingController.error,
-                //   onTryAgain: () => _pagingController.retryLastFailedRequest(),
-                // ),
-                firstPageProgressIndicatorBuilder: (_) => Loading(),
-                newPageProgressIndicatorBuilder: (_) => Loading(),
-                noItemsFoundIndicatorBuilder: (_) =>
-                    cartEmptyMessage("search", "No Product Found")),
-            // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
-          ),
-        ),
-      ),
+                      ));
+                },
+              ),
+            ],)):Container(),
     ]);
   }
 
