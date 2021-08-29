@@ -829,6 +829,9 @@ class _ProductDetail extends State<ProductDetail> {
                             await Provider.of<WishlistViewModel>(context,
                                 listen: false)
                                 .toggleItem(productData.id);
+                            setState(() {
+
+                            });
                           } else {
                             locator<NavigationService>()
                                 .pushNamed(routes.LoginRoute);
