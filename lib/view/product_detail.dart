@@ -144,16 +144,13 @@ class _ProductDetail extends State<ProductDetail> {
       SingleChildScrollView(
           child: Column(
         children: [
-          SizedBox(
-            height: ScreenUtil().setWidth(40),
-          ),
           Container(
-              color: Color(0xffffffff),
-              child: Stack(
-                children: [
+            height: ScreenUtil().setWidth(105),
+          ),
+
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      height: ScreenUtil().setWidth(500),
+                      height: ScreenUtil().setWidth(550),
                       child: PageView.builder(
                         itemCount: productData.images.length,
                         itemBuilder: (_, int index) {
@@ -168,7 +165,8 @@ class _ProductDetail extends State<ProductDetail> {
                                   .toString()
                                   .trim(),
                               width: MediaQuery.of(context).size.width,
-                              height: ScreenUtil().setWidth(500),
+                              height: ScreenUtil().setWidth(550),
+                              fit: BoxFit.contain,
                             ),
                             resetDuration: const Duration(milliseconds: 100),
                             maxScale: 2.5,
@@ -182,8 +180,7 @@ class _ProductDetail extends State<ProductDetail> {
                         },
                         controller: pageController,
                       )),
-                ],
-              )),
+
           SizedBox(
             height: ScreenUtil().setWidth(27),
           ),
@@ -669,7 +666,7 @@ class _ProductDetail extends State<ProductDetail> {
           child: Container(
             color: Color(0xffffffff),
             width: double.infinity,
-            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(35),
+            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(45),
                 ScreenUtil().setWidth(21.58), 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -702,7 +699,7 @@ class _ProductDetail extends State<ProductDetail> {
                         ),
                         child: Icon(
                           Icons.arrow_back,
-                          size: ScreenUtil().setWidth(20),
+                          size: ScreenUtil().setWidth(18),
                         ))),
                 SizedBox(
                   width: ScreenUtil().setWidth(200),

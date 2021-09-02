@@ -88,12 +88,13 @@ class _Home extends State<Home> {
     // TODO: implement build
     return  Scaffold(
           key: scaffoldKey,
+          drawer: HomeDrawer(),
           appBar: AppBar(
 
               backgroundColor: Colors.white,
               leading: InkWell(
                   onTap: () {
-
+                    scaffoldKey.currentState.openDrawer();
                   },
                   child: Icon(
                     Icons.menu,
@@ -152,8 +153,9 @@ class _Home extends State<Home> {
                       size: 20,
                       color: Colors.black54,
                     )),
+                SizedBox(width: ScreenUtil().setWidth(24),),
+                CartLogo(),
                 SizedBox(width: ScreenUtil().setWidth(12),),
-                CartLogo()
               ],
 
 

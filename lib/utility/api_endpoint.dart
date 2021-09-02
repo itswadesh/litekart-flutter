@@ -15,14 +15,14 @@ class ApiEndpoint {
   String _cashFreeEndpoint ;
   ApiEndpoint() {
     if (kReleaseMode) {
-      _endpoint = "https://api.tablez.com/api/";
-      _url = "https://api.tablez.com";
-      _graphQlUrl = "https://api.tablez.com/graphql";
+      _endpoint = "https://tapi.litekart.in/api/";
+      _url = "https://tapi.litekart.in";
+      _graphQlUrl = "https://tapi.litekart.in/graphql";
     }
     else {
-      _endpoint = "https://stg.tablez.com/api/";
-      _url = "https://stg.tablez.com";
-      _graphQlUrl = "https://stg.tablez.com/graphql";
+      _endpoint = "https://tapi.litekart.in/api/";
+      _url = "https://tapi.litekart.in";
+      _graphQlUrl = "https://tapi.litekart.in/graphql";
     }
     _productList = "${_endpoint}products/es";
     _cashFreeEndpoint = "${_endpoint}pay/capture-cashfree";

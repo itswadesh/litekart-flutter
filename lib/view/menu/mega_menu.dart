@@ -19,10 +19,11 @@ class MegaMenu extends StatefulWidget {
 
 class _MegaMenu extends State<MegaMenu> {
   final List gradientColors = [
-    Color(0xffCCFFE7),
+    Color(0xfff0c68c),
     Color(0xffc5c5c5),
     Color(0xffE1FFB5),
-    Color(0xff98EEFF)
+    Color(0xffffe4b5),
+    Color(0xffe6e6fa)
   ];
   @override
   Widget build(BuildContext context) {
@@ -86,15 +87,16 @@ class _MegaMenu extends State<MegaMenu> {
     return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                gradientColors[Random().nextInt(gradientColors.length)],
-                gradientColors[Random().nextInt(gradientColors.length)],
-                gradientColors[Random().nextInt(gradientColors.length)]
-              ],
-            ),
+            color: gradientColors[Random().nextInt(gradientColors.length)],
+            // gradient: LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [
+            //     gradientColors[Random().nextInt(gradientColors.length)],
+            //     gradientColors[Random().nextInt(gradientColors.length)],
+            //     gradientColors[Random().nextInt(gradientColors.length)]
+            //   ],
+            // ),
           ),
           margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
           child:  ExpansionTile(
