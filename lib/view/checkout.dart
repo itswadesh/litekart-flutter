@@ -1252,7 +1252,7 @@ class _Checkout extends State<Checkout> {
                                     style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(40.0),
+                                            BorderRadius.circular(5),
                                       ),
                                       side: BorderSide(
                                           width: 2,

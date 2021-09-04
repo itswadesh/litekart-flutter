@@ -114,7 +114,37 @@ class _MyProfileState extends State<MyProfile> {
                               color: Color(0xffe1e1e1),
                             ),
                             getTiles("Profile Details","Change Your Profile Details",FontAwesomeIcons.userEdit,routes.ProfileEditRoute),
-                                Divider()
+                                Divider(),
+                                SizedBox(height: ScreenUtil().setWidth(15),),
+                                InkWell(
+                                  onTap: () async {
+                                   await value.removeProfile();
+                                   locator<NavigationService>().pushNamedAndRemoveUntil(routes.HomeRoute);
+                                  },
+                                  child: Container(
+                                    height: 43,
+                                    width: MediaQuery.of(context).size.width * 0.80,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.primaryElement, width: 1),
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Log Out",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: AppColors.primaryElement,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
 ]))]
                         ),
                         ),
@@ -125,7 +155,13 @@ class _MyProfileState extends State<MyProfile> {
   getTiles(String title, String subtitle, IconData icon, String path) {
     return ListTile(
       onTap: (){
-        locator<NavigationService>().pushNamed(path);
+        if(path == routes.Wishlist || path == routes.ManageOrder){
+          locator<NavigationService>().pushNamedAndRemoveUntil(path);
+        }
+        else{
+          locator<NavigationService>().pushNamed(path);
+
+        }
       },
       leading: Icon(icon),
       title: Text(title),

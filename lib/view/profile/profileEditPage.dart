@@ -50,7 +50,14 @@ class _ProfileEditState extends State<ProfileEdit> {
         key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
-
+          automaticallyImplyLeading: false,
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black54,
+            ),
+          ),
           title:  Text(
             "User Profile",
             style: TextStyle(

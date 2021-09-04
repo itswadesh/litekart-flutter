@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../components/widgets/loading.dart';
@@ -21,7 +22,7 @@ class MegaMenu extends StatefulWidget {
 class _MegaMenu extends State<MegaMenu> {
   final List gradientColors = [
     Color(0xfff0c68c),
-    Color(0xffc5c5c5),
+    //Color(0xffc5c5c5),
     Color(0xffE1FFB5),
     Color(0xffffe4b5),
     Color(0xffe6e6fa)
@@ -100,6 +101,7 @@ class _MegaMenu extends State<MegaMenu> {
             // ),
           ),
           margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
+          padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
           child:  ExpansionTile(
               title:  Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

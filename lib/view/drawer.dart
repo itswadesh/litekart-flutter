@@ -28,19 +28,19 @@ class _HomeDrawer extends State<HomeDrawer> {
           _createMenuDrawerItem(
               icon: FontAwesomeIcons.boxes,
               text: "Shop By Categories",
-              index: 1),
+              routePath: routes.MegaMenuRoute),
           Divider(
             height: 0.5,
             thickness: 0.4,
           ),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.shoppingBag, text: "Orders", index: 2),
+              icon: FontAwesomeIcons.shoppingBag, text: "Orders", routePath: routes.ManageOrder),
           Divider(
             height: 0.5,
             thickness: 0.4,
           ),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.heart, text: "Wishlist", index: 3),
+              icon: FontAwesomeIcons.heart, text: "Wishlist", routePath: routes.Wishlist),
           Divider(
             height: 0.5,
             thickness: 0.4,
@@ -48,7 +48,7 @@ class _HomeDrawer extends State<HomeDrawer> {
           _createMenuDrawerItem(
               icon: FontAwesomeIcons.userCircle,
               text: "Profile Information",
-              index: 4),
+              routePath: routes.MyProfile),
         ],
       ),
     );
@@ -125,7 +125,7 @@ class _HomeDrawer extends State<HomeDrawer> {
         ));
   }
 
-  Widget _createMenuDrawerItem({IconData icon, String text, int index}) {
+  Widget _createMenuDrawerItem({IconData icon, String text, String routePath}) {
     return Consumer<MenuViewModel>(builder: (context, model, child) {
       return Container(
           padding: EdgeInsets.only(left: 10),
@@ -141,10 +141,7 @@ class _HomeDrawer extends State<HomeDrawer> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                       textAlign: TextAlign.left),
               onTap: () {
-                setState(() {
-                  model.updateIndex(index);
-                });
-               locator<NavigationService>().pop();
+               locator<NavigationService>().pushNamedAndRemoveUntil(routePath);
                // locator<NavigationService>().pushNamed(routes.HomeRoute);
               }));
     });
