@@ -128,7 +128,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         height: 30,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -420,7 +420,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 margin: EdgeInsets.only(bottom: 0),
                 decoration: BoxDecoration(
                   color: AppColors.primaryElement,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

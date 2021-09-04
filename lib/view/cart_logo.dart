@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,7 +61,7 @@ class _CartLogo extends State<CartLogo> {
                           width: ScreenUtil().radius(15),
                           height: ScreenUtil().radius(15),
                           decoration: new BoxDecoration(
-                            color: Color(0xffbb8738),
+                            color: AppColors.primaryElement,
                             shape: BoxShape.circle,
                           ),
                           child: Center(

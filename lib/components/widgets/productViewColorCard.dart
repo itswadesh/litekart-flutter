@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,7 +97,7 @@ class ProductViewColorCard extends StatelessWidget {
                                 fontSize: ScreenUtil().setSp(
                                   18,
                                 ),
-                                color: Color(0xff009B52),
+                                color: AppColors.primaryElement2,
                                 fontWeight: FontWeight.w600),
                           )),
                     ],

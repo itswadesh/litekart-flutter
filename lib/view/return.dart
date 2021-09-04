@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -285,9 +286,9 @@ class _ReturnPage extends State<ReturnPage> {
             // shape:Border(
             //
             //     top: BorderSide(color: Color(0xff00d832,)),
-            //     bottom: BorderSide(color: Color(0xff00d832)),
-            //     left: BorderSide(color: Color(0xff00d832)),
-            //     right: BorderSide(color: Color(0xff00d832))
+            //     bottom: BorderSide(color: AppColors.primaryElement2),
+            //     left: BorderSide(color: AppColors.primaryElement2),
+            //     right: BorderSide(color: AppColors.primaryElement2)
             // ),
             margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(21), 0,
                 ScreenUtil().setWidth(22), ScreenUtil().setWidth(12)),
@@ -330,10 +331,10 @@ class _ReturnPage extends State<ReturnPage> {
 
           shape:Border(
 
-              top: BorderSide(color: Color(0xff00d832,)),
-              bottom: BorderSide(color: Color(0xff00d832)),
-              left: BorderSide(color: Color(0xff00d832)),
-              right: BorderSide(color: Color(0xff00d832))
+              top: BorderSide(color: AppColors.primaryElement2),
+              bottom: BorderSide(color: AppColors.primaryElement2),
+              left: BorderSide(color: AppColors.primaryElement2),
+              right: BorderSide(color: AppColors.primaryElement2)
           ),
           margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(21), 0,
               ScreenUtil().setWidth(22), ScreenUtil().setWidth(12)),
@@ -372,7 +373,7 @@ class _ReturnPage extends State<ReturnPage> {
                               BorderRadius.circular(ScreenUtil().setWidth(5)),
                             ),
                             textColor: Colors.white,
-                            color: Color(0xffee7625),
+                            color: AppColors.primaryElement,
                             onPressed: () {
                                 locator<NavigationService>().pop();
                             },
@@ -400,9 +401,9 @@ class _ReturnPage extends State<ReturnPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     ScreenUtil().setWidth(5)),
-                                side: BorderSide(color: Color(0xff00c32d))),
+                                side: BorderSide(color: AppColors.primaryElement2)),
                             color: Colors.white,
-                            textColor: Color(0xff00c32d),
+                            textColor: AppColors.primaryElement2,
                             onPressed: () async {
                               TzDialog _dialog = TzDialog(context, TzDialogType.progress);
                               _dialog.show();
@@ -460,7 +461,7 @@ class _ReturnPage extends State<ReturnPage> {
                             width: ScreenUtil().setWidth(55),
                             height: ScreenUtil().setWidth(55),
                             decoration: BoxDecoration(
-                                color: Color(0xff00d832),
+                                color: AppColors.primaryElement2,
                                 borderRadius: BorderRadius.circular(
                                     ScreenUtil().setWidth(40))),
                             child: Icon(
@@ -472,8 +473,7 @@ class _ReturnPage extends State<ReturnPage> {
                         ),
                         SizedBox(height: ScreenUtil().setWidth(33),),
                         Container(
-                          child: Text("Item Returned Successfully",style: TextStyle(color:Color(0xff0CAE00
-                          ),fontSize: ScreenUtil().setWidth(19)),),
+                          child: Text("Item Returned Successfully",style: TextStyle(color:AppColors.primaryElement2,fontSize: ScreenUtil().setWidth(19)),),
                         ),
                         SizedBox(height: ScreenUtil().setWidth(23),),
                         Container(

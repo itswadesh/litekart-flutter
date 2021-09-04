@@ -1,4 +1,5 @@
 import 'package:anne/components/widgets/productListCard.dart';
+import 'package:anne/values/colors.dart';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -301,10 +302,10 @@ class _ProductList extends State<ProductList> {
                     child: Row(children: [
                       Icon(
                         Icons.sort,
-                        color: Color(0xffee7625),
+                        color: AppColors.primaryElement,
                       ),
                       SizedBox(width: 10,),
-                      Text("Sort By",style: TextStyle(color: Color(0xffee7625),fontFamily: 'Montserrat'),)
+                      Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Montserrat'),)
                     ],)),
                 onTap: () {
                   showSortPopup();
@@ -316,10 +317,10 @@ class _ProductList extends State<ProductList> {
                     height: ScreenUtil().setWidth(50),
                     child: Row(children: [  Icon(
                       Icons.filter_alt_outlined,
-                      color: Color(0xffee7625),
+                      color: AppColors.primaryElement,
                     ),
                       SizedBox(width: 10,),
-                      Text("Filter",style: TextStyle(color: Color(0xffee7625),fontFamily: 'Montserrat'),)
+                      Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Montserrat'),)
                     ])),
                 onTap: () {
 
@@ -483,13 +484,13 @@ class _ProductList extends State<ProductList> {
                                                   sort))
                                                   ? Icon(
                                                 Icons.check_box,
-                                                color: Color(0xffee7625),
+                                                color: AppColors.primaryElement,
                                                 size:
                                                 ScreenUtil().setWidth(18),
                                               )
                                                   : Icon(
                                                 Icons.check_box_outline_blank,
-                                                color: Color(0xffee7625),
+                                                color: AppColors.primaryElement,
                                                 size:
                                                 ScreenUtil().setWidth(18),
                                               ),
@@ -498,7 +499,7 @@ class _ProductList extends State<ProductList> {
                                               width: ScreenUtil().setWidth(20),
                                             ),
                                             DottedBorder(
-                                                color: Color(0xffbb8738),
+                                                color: AppColors.primaryElement,
                                                 dashPattern: [
                                                   ScreenUtil().setWidth(4),
                                                   ScreenUtil().setWidth(2)
@@ -510,7 +511,7 @@ class _ProductList extends State<ProductList> {
                                                       child: Text(
                                                         sorts[index]["name"],
                                                         style: TextStyle(
-                                                            color: Color(0xffbb8738),
+                                                            color: AppColors.primaryElement,
                                                             fontSize:
                                                             ScreenUtil().setSp(
                                                               13,

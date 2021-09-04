@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,7 +122,7 @@ class ProductViewColor2Card extends StatelessWidget {
                                         fontSize: ScreenUtil().setSp(
                                           14,
                                         ),
-                                        color: Color(0xff009B52),
+                                        color: AppColors.primaryElement2,
                                       ),
                                     ),
                                     productData.price < productData.mrp

@@ -68,13 +68,13 @@ class _ProductDetail extends State<ProductDetail> {
     var _linkMessage;
     var dynamicUrl;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://tablez.com/',
-      link: Uri.parse('https://www.tablez.com/$id'),
+      uriPrefix: 'https://anne.com/',
+      link: Uri.parse('https://www.anne.com/$id'),
       androidParameters: AndroidParameters(
-        packageName: 'com.tablez.ind',
+        packageName: 'com.anne.ind',
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(bundleId: 'com.tablez.ind'),
+      iosParameters: IosParameters(bundleId: 'com.anne.ind'),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),
@@ -200,7 +200,7 @@ class _ProductDetail extends State<ProductDetail> {
                             ? ""
                             : (productData.brand.name ?? ""),
                         style: TextStyle(
-                            color: Color(0xffba8638),
+                            color: AppColors.primaryElement,
                             fontSize: ScreenUtil().setSp(
                               14,
                             )),
@@ -277,7 +277,7 @@ class _ProductDetail extends State<ProductDetail> {
                                 ? TextSpan(
                                     text: "${productData.stock} in Stock",
                                     style: TextStyle(
-                                        color: Color(0xff00c921),
+                                        color: AppColors.primaryElement2,
                                         fontSize: ScreenUtil().setSp(
                                           15,
                                         )))
@@ -324,7 +324,7 @@ class _ProductDetail extends State<ProductDetail> {
                         child: Text(
                           "Rate This Product",
                           style: TextStyle(
-                              color: Color(0xffba8638),
+                              color: AppColors.primaryElement,
                               fontWeight: FontWeight.w600,
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -420,7 +420,7 @@ class _ProductDetail extends State<ProductDetail> {
                                                                   .name ==
                                                               productData
                                                                   .color.name
-                                                          ? Color(0xffba8638)
+                                                          ? AppColors.primaryElement
                                                           : Colors.grey,
                                                       width: productGroup
                                                                   .colorGroup[
@@ -497,7 +497,7 @@ class _ProductDetail extends State<ProductDetail> {
                                                                 .name ==
                                                             productData
                                                                 .size.name
-                                                        ? Color(0xffba8638)
+                                                        ? AppColors.primaryElement
                                                         : Colors.grey,
                                                     width: productGroup
                                                                 .sizeGroup[
@@ -713,7 +713,7 @@ class _ProductDetail extends State<ProductDetail> {
                      _dialog.close();
                       final RenderBox box = context.findRenderObject();
                       await Share.share(
-                          "Hi, Check out this awesome product on Tablez : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                          "Hi, Check out this awesome product on anne : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
                           sharePositionOrigin:
                               box.localToGlobal(Offset.zero) & box.size);
                     },

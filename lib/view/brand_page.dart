@@ -195,7 +195,7 @@ class SubBrandBrandPage extends StatelessWidget {
                           image: bannerData.data[index].img != null
                               ? NetworkImage(bannerData.data[index].img)
                               : NetworkImage(
-                                  'https://next.tablez.com/icon.png'),
+                                  'https://next.anne.com/icon.png'),
                         ),
                       ),
                     ));

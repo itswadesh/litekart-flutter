@@ -283,7 +283,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               color: AppColors.primaryElement,
                                               width: 1),
                                           borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
+                                          BorderRadius.all(Radius.circular(5)),
                                         ),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,

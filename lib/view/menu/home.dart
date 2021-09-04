@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:anne/components/widgets/productCard.dart';
+import 'package:anne/values/colors.dart';
 import 'package:anne/view/search.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -232,20 +233,20 @@ class _SuggestedClass extends State<SuggestedClass> {
           height: ScreenUtil().setWidth(30),
         ),
         Container(
-          padding: EdgeInsets.only(
-            bottom: ScreenUtil().setWidth(
-                3), // This can be the space you need betweeb text and underline
-          ),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-            color: Color(0xff32AFC8),
-            width: ScreenUtil()
-                .setWidth(2), // This would be the width of the underline
-          ))),
+          // padding: EdgeInsets.only(
+          //   bottom: ScreenUtil().setWidth(
+          //       3), // This can be the space you need betweeb text and underline
+          // ),
+          // decoration: BoxDecoration(
+          //     border: Border(
+          //         bottom: BorderSide(
+          //   color: Color(0xff32AFC8),
+          //   width: ScreenUtil()
+          //       .setWidth(2), // This would be the width of the underline
+          // ))),
           child: Text(
             "Suggested For You",
-            style: ThemeApp().underlineThemeText(Color(0xff32AFC8), 25.0, true),
+            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
           ),
         ),
         SizedBox(
@@ -316,20 +317,20 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
           height: ScreenUtil().setWidth(30),
         ),
         Container(
-          padding: EdgeInsets.only(
-            bottom: ScreenUtil().setWidth(
-                3), // This can be the space you need between text and underline
-          ),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-            color: Color(0xffC53193),
-            width: ScreenUtil()
-                .setWidth(2), // This would be the width of the underline
-          ))),
+          // padding: EdgeInsets.only(
+          //   bottom: ScreenUtil().setWidth(
+          //       3), // This can be the space you need between text and underline
+          // ),
+          // decoration: BoxDecoration(
+          //     border: Border(
+          //         bottom: BorderSide(
+          //   color: Color(0xffC53193),
+          //   width: ScreenUtil()
+          //       .setWidth(2), // This would be the width of the underline
+          // ))),
           child: Text(
             "You May Like",
-            style: ThemeApp().underlineThemeText(Color(0xffC53193), 25.0, true),
+            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
           ),
         ),
         SizedBox(
@@ -403,20 +404,20 @@ class _TrendingClass extends State<TrendingClass> {
           height: ScreenUtil().setWidth(30),
         ),
         Container(
-          padding: EdgeInsets.only(
-            bottom: ScreenUtil().setWidth(
-                3), // This can be the space you need betweeb text and underline
-          ),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-            color: Color(0xffA1CF5F),
-            width: ScreenUtil()
-                .setWidth(2), // This would be the width of the underline
-          ))),
+          // padding: EdgeInsets.only(
+          //   bottom: ScreenUtil().setWidth(
+          //       3), // This can be the space you need betweeb text and underline
+          // ),
+          // decoration: BoxDecoration(
+          //     border: Border(
+          //         bottom: BorderSide(
+          //   color: Color(0xffA1CF5F),
+          //   width: ScreenUtil()
+          //       .setWidth(2), // This would be the width of the underline
+          // ))),
           child: Text(
             "Trending",
-            style: ThemeApp().underlineThemeText(Color(0xffA1CF5F), 25.0, true),
+            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
           ),
         ),
         SizedBox(
@@ -1057,7 +1058,7 @@ class _CategoriesClass extends State<CategoriesClass> {
                                                 left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
                                                 right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1))),
                                             shape: BoxShape.circle,
-                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.tablez.com/icon.png'))))),
+                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -1117,20 +1118,20 @@ class _BrandClass extends State<BrandClass> {
                 height: ScreenUtil().setWidth(30),
               ),
               Container(
-                padding: EdgeInsets.only(
-                  bottom: ScreenUtil().setWidth(
-                      7.5), // This can be the space you need betweeb text and underline
-                ),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                  color: Color(0xff32AFC8),
-                  width: 2.0, // This would be the width of the underline
-                ))),
+                // padding: EdgeInsets.only(
+                //   bottom: ScreenUtil().setWidth(
+                //       7.5), // This can be the space you need betweeb text and underline
+                // ),
+                // decoration: BoxDecoration(
+                //     border: Border(
+                //         bottom: BorderSide(
+                //   color: Color(0xff32AFC8),
+                //   width: 2.0, // This would be the width of the underline
+                // ))),
                 child: Text(
                   "Brands",
                   style: ThemeApp()
-                      .underlineThemeText(Color(0xff32AFC8), 25.0, true),
+                      .homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
                 ),
               ),
               SizedBox(
@@ -1167,7 +1168,7 @@ class _BrandClass extends State<BrandClass> {
                                 image: data.img != null
                                     ? NetworkImage(data.img)
                                     : NetworkImage(
-                                        'https://next.tablez.com/icon.png'),
+                                        'https://next.anne.com/icon.png'),
                               ),
                             ),
                           ),

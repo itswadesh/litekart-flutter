@@ -161,7 +161,7 @@ class ThemeApp {
     return TextStyle(color: Colors.white, fontSize: 12);
   }
 
-  underlineThemeText(colorSelected, size, status) {
+  homeHeaderThemeText(colorSelected, size, status) {
     if (status) {
       return TextStyle(
           color: colorSelected,

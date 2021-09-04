@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:anne/response_handler/wishlistResponse.dart';
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -187,7 +188,7 @@ class _WishCard extends State<WishCard> {
                       fontSize: ScreenUtil().setSp(
                         12,
                       ),
-                      color: Color(0xffBB8738),
+                      color: AppColors.primaryElement,
                     ),
                     textAlign: TextAlign.left,
                   )),
@@ -235,7 +236,7 @@ class _WishCard extends State<WishCard> {
                       ? Text(
                           " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
                           style: TextStyle(
-                              color: Color(0xff00d832),
+                              color: AppColors.primaryElement2,
                               fontSize: ScreenUtil().setSp(
                                 8,
                               )),
@@ -256,7 +257,7 @@ class _WishCard extends State<WishCard> {
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("MOVE TO BAG",style: TextStyle(color: Color(0xffBB8738)),),
+                      child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement),),
                     ),
                   ))
             ],

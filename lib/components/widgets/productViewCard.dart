@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -108,7 +109,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                         fontSize: ScreenUtil().setSp(
                           9,
                         ),
-                        color: Color(0xffBB8738),
+                        color: AppColors.primaryElement,
                       ),
                       textAlign: TextAlign.left,
                     )),
@@ -156,7 +157,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                         ? Text(
                             " (${(100 - ((productData.price / productData.mrp) * 100)).toInt()} % off)",
                             style: TextStyle(
-                                color: Color(0xff00d832),
+                                color: AppColors.primaryElement2,
                                 fontSize: ScreenUtil().setSp(
                                   8,
                                 )),

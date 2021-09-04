@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../service/event/tracking.dart';
@@ -139,7 +140,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     child: Container(
                         width: ScreenUtil().setWidth(206),
                         height: ScreenUtil().setWidth(45),
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         child: Center(
                             child: Text("APPLY",
                                 style: TextStyle(
@@ -183,7 +184,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     child: Text(
                       "Clear All",
                       style: TextStyle(
-                          color: Color(0xffbb8738),
+                          color: AppColors.primaryElement,
                           fontSize: ScreenUtil().setSp(12)),
                     ),
                   )
@@ -223,7 +224,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: brand.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -233,7 +234,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -275,7 +276,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: color.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -285,7 +286,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -326,7 +327,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: size.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -336,7 +337,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -451,7 +452,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: gender.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -461,7 +462,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -502,7 +503,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: priceRange.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -512,7 +513,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -553,7 +554,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: ageGroup.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -563,7 +564,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",
@@ -606,7 +607,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             trailing: discount.contains(item["key"])
                 ? Icon(
                     Icons.check_circle_outline,
-                    color: Color(0xffbb8738),
+                    color: AppColors.primaryElement,
                   )
                 : Icon(
                     Icons.radio_button_unchecked,
@@ -616,7 +617,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ? Text(
                     "${item['key']}",
                     style: TextStyle(
-                        color: Color(0xffbb8738),
+                        color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setWidth(14)),
                   )
                 : Text("${item['key']}",

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -128,7 +129,7 @@ class _MegaMenu extends State<MegaMenu> {
               title: Text(
                 children[index].name,
                 style: TextStyle(
-                    color: Color(0xffEAA13B),
+                    color: AppColors.primaryElement,
                     fontSize: ScreenUtil().setSp(15),
                     fontFamily: "Sofia"),
               ),

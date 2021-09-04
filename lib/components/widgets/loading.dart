@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -11,7 +12,7 @@ class Loading extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SpinKitSquareCircle(
-              color: Color(0xFFb8860b),
+              color: AppColors.primaryElement,
               size: 40.0,
             ),
           ],

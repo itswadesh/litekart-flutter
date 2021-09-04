@@ -108,7 +108,7 @@ class _ManageAddressState extends State<ManageAddress> {
             width: MediaQuery.of(context).size.width * 0.80,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.primaryElement, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -126,6 +126,7 @@ class _ManageAddressState extends State<ManageAddress> {
             ),
           ),
         ),
+        SizedBox(height: ScreenUtil().setWidth(25),)
       ],
     );
   }
@@ -664,7 +665,7 @@ class _ManageAddressState extends State<ManageAddress> {
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: AppColors.primaryElement, width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -945,7 +946,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 width: ScreenUtil().setWidth(150),
                                 height: ScreenUtil().setWidth(30),
                                 child: Center(
-                                  child: Text("EDIT",style: TextStyle(color: Color(0xffBB8738)),),
+                                  child: Text("EDIT",style: TextStyle(color: AppColors.primaryElement),),
                                 ),
                               )),
 
@@ -960,7 +961,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 width: ScreenUtil().setWidth(215),
                                 height: ScreenUtil().setWidth(30),
                                 child: Center(
-                                  child: Text("REMOVE",style: TextStyle(color: Color(0xffBB8738)),),
+                                  child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
                                 ),
                               ))
                         ],

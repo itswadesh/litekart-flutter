@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -238,7 +239,7 @@ class _ManageOrderState extends State<ManageOrder> {
       //     padding: EdgeInsets.all(20),
       //     width: double.infinity,
       //     color: Color(0xffba8638),
-      //     child: Text("© 2020 Tablez India Private Limited",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,)),
+      //     child: Text("© 2020 Anne Private Limited",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,)),
     );
   }
 }
@@ -1063,7 +1064,7 @@ class ListOrderData extends StatelessWidget{
                         Text(
                           orderData.items[0].status,
                           style: TextStyle(
-                            color: Color(0xff00c32d),
+                            color: AppColors.primaryElement2,
                           ),
                         ),
                       ],
@@ -1144,7 +1145,7 @@ class ListOrderData extends StatelessWidget{
                      child: Text(
                        items[index].brandName ?? "",
                        style: TextStyle(
-                         color: Color(0xffba8638),
+                         color: AppColors.primaryElement,
                          fontSize: ScreenUtil().setWidth(13),
                        ),
                        textAlign: TextAlign.start,
@@ -1159,7 +1160,7 @@ class ListOrderData extends StatelessWidget{
                        "Qty : " + items[index].qty.toString(),
                        style: TextStyle(
                            fontWeight: FontWeight.w500,
-                           color: Color(0xff00ba0e),
+                           color: AppColors.primaryElement2,
                            fontSize: ScreenUtil().setSp(
                              14,
                            )),

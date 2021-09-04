@@ -140,7 +140,7 @@ class _AddReviewPage extends State<AddReviewPage> {
                         content: Text(
                           'Review Added Successfully !!',
                           style: TextStyle(
-                              color: Color(0xffee7625),
+                              color: AppColors.primaryElement,
                               fontSize: ScreenUtil().setSp(14)),
                         ),
                       );
@@ -152,7 +152,7 @@ class _AddReviewPage extends State<AddReviewPage> {
                         content: Text(
                           value.message,
                           style: TextStyle(
-                              color: Color(0xffee7625),
+                              color: AppColors.primaryElement,
                               fontSize: ScreenUtil().setSp(14)),
                         ),
                       );
@@ -165,7 +165,7 @@ class _AddReviewPage extends State<AddReviewPage> {
                     margin: EdgeInsets.only(bottom: 0),
                     decoration: BoxDecoration(
                       color: AppColors.primaryElement,
-                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

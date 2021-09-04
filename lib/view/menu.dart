@@ -1,6 +1,7 @@
 
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
+import 'package:anne/values/colors.dart';
 
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:anne/view_model/menu_view_model.dart';
@@ -37,13 +38,15 @@ class _MenuState extends State<Menu>{
                canvasColor: Colors.white,
                textTheme: Theme.of(context).textTheme.copyWith(
                    caption: new TextStyle(
-                       color: Color.fromRGBO(100, 110, 120, 1.0)))),
+                       color: AppColors.primaryElement))),
            child: Consumer<ProfileModel>(builder: (context,value,view){
              return BottomNavigationBar(
-                selectedLabelStyle: TextStyle(color: Color(0xff000000)),
+                selectedLabelStyle: TextStyle(color: AppColors.primaryElement),
                  unselectedLabelStyle: TextStyle(color: Color(0xff656565)),
-                 selectedIconTheme: IconThemeData(color: Color(0xff000000)),
+                 selectedIconTheme: IconThemeData(color: AppColors.primaryElement),
                  unselectedIconTheme: IconThemeData(color: Color(0xff656565)),
+                 selectedItemColor: AppColors.primaryElement,
+                 unselectedItemColor: Color(0xff656565),
                  currentIndex:
                  model.currentIndex,
                  onTap: (int index) {

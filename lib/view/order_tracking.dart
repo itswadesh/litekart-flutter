@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,10 +115,10 @@ class _OrderTracking extends State<OrderTracking> {
 
         shape:Border(
 
-          top: BorderSide(color: Color(0xff00d832,)),
-          bottom: BorderSide(color: Color(0xff00d832)),
-          left: BorderSide(color: Color(0xff00d832)),
-          right: BorderSide(color: Color(0xff00d832))
+          top: BorderSide(color: AppColors.primaryElement2),
+          bottom: BorderSide(color: AppColors.primaryElement2),
+          left: BorderSide(color: AppColors.primaryElement2),
+          right: BorderSide(color: AppColors.primaryElement2)
         ),
       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(21), 0,
       ScreenUtil().setWidth(22), ScreenUtil().setWidth(12)),
@@ -217,7 +218,7 @@ class _OrderTracking extends State<OrderTracking> {
                   lineHeight: ScreenUtil().setWidth(22),
                   percent: progressIndi,
                   backgroundColor: Color(0xfff3f3f3),
-                  progressColor: Color(0xff00c32d),
+                  progressColor: AppColors.primaryElement2,
                 ),
                 SizedBox(
                   height: ScreenUtil().setWidth(25),
@@ -321,7 +322,7 @@ class _OrderTracking extends State<OrderTracking> {
                           child: Text(
                             items.brandName ?? "",
                             style: TextStyle(
-                              color: Color(0xffba8638),
+                              color: AppColors.primaryElement,
                               fontSize: ScreenUtil().setWidth(13),
                             ),
                             textAlign: TextAlign.start,
@@ -336,7 +337,7 @@ class _OrderTracking extends State<OrderTracking> {
                             "Qty : " + items.qty.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xff00ba0e),
+                                color: AppColors.primaryElement2,
                                 fontSize: ScreenUtil().setSp(
                                   14,
                                 )),
@@ -657,7 +658,7 @@ class _OrderTracking extends State<OrderTracking> {
                                 fontSize: ScreenUtil().setSp(
                                   15,
                                 ),
-                                color: Color(0xffee7625),
+                                color: AppColors.primaryElement,
                                 decoration: TextDecoration.underline),
                             textAlign: TextAlign.left),
                       ),
@@ -778,7 +779,7 @@ class _OrderTracking extends State<OrderTracking> {
                         width: double.infinity,
                         child: Text("Type: Basic Delivery",
                             style: TextStyle(
-                                color: Color(0xffee7625),
+                                color: AppColors.primaryElement,
                                 fontSize: ScreenUtil().setSp(
                                   15,
                                 )),
@@ -899,9 +900,9 @@ class _OrderTracking extends State<OrderTracking> {
               child:  Container(
                         padding: EdgeInsets.all(20),
                         width: double.infinity,
-                        color: Color(0xffba8638),
+                        color: AppColors.primaryElement,
                         child: Text(
-                          "© 2020 Tablez India Private Limited",
+                          "© 2020 Anne Private Limited",
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         )),

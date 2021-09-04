@@ -246,7 +246,7 @@ class _Checkout extends State<Checkout> {
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               side: BorderSide(
                                   width: 1, color: AppColors.primaryElement),
@@ -417,7 +417,7 @@ class _Checkout extends State<Checkout> {
                                       : "Not Applied",
                                   style: TextStyle(
                                       color: value.promocodeStatus
-                                          ? Color(0xff00d832)
+                                          ? AppColors.primaryElement2
                                           : Colors.red,
                                       fontSize: ScreenUtil().setSp(
                                         16,
@@ -495,7 +495,7 @@ class _Checkout extends State<Checkout> {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     side: BorderSide(width: 2, color: buttonStatusOrder ? AppColors.primaryElement : Colors.grey),
                   ),
@@ -858,7 +858,7 @@ class _Checkout extends State<Checkout> {
                                     width: ScreenUtil().setWidth(150),
                                     height: ScreenUtil().setWidth(30),
                                     child: Center(
-                                      child: Text("EDIT",style: TextStyle(color: Color(0xffBB8738)),),
+                                      child: Text("EDIT",style: TextStyle(color: AppColors.primaryElement),),
                                     ),
                                   )),
 
@@ -873,7 +873,7 @@ class _Checkout extends State<Checkout> {
                                     width: ScreenUtil().setWidth(215),
                                     height: ScreenUtil().setWidth(30),
                                     child: Center(
-                                      child: Text("REMOVE",style: TextStyle(color: Color(0xffBB8738)),),
+                                      child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
                                     ),
                                   ))
                             ],
@@ -988,13 +988,13 @@ class _Checkout extends State<Checkout> {
                             height: ScreenUtil().setWidth(20),
                             width: ScreenUtil().setWidth(20),
                             decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffba8638)),
+                                border: Border.all(color: AppColors.primaryElement),
                                 borderRadius: BorderRadius.circular(
                                     ScreenUtil().radius(20))),
                             child: Center(
                                 child: Icon(
                               Icons.check_circle,
-                              color: Color(0xffba8638),
+                              color: AppColors.primaryElement,
                               size: ScreenUtil().setWidth(15),
                             )),
                           ),
@@ -1004,7 +1004,7 @@ class _Checkout extends State<Checkout> {
                           Text(
                             "Cart",
                             style: TextStyle(
-                                color: Color(0xffba8638),
+                                color: AppColors.primaryElement,
                                 fontSize: ScreenUtil().setSp(
                                   12,
                                 )),
@@ -1023,7 +1023,7 @@ class _Checkout extends State<Checkout> {
                             lineLength: ScreenUtil().setWidth(105),
                             lineThickness: ScreenUtil().setWidth(0.8),
                             dashLength: ScreenUtil().setWidth(4),
-                            dashColor: Color(0xffba8638),
+                            dashColor: AppColors.primaryElement,
                             dashRadius: 0.0,
                             dashGapLength: ScreenUtil().setWidth(4),
                             dashGapColor: Colors.transparent,
@@ -1049,7 +1049,7 @@ class _Checkout extends State<Checkout> {
                                     height: ScreenUtil().setWidth(20),
                                     width: ScreenUtil().setWidth(20),
                                     decoration: BoxDecoration(
-                                        color: Color(0xffba8638),
+                                        color: AppColors.primaryElement,
                                         borderRadius: BorderRadius.circular(
                                             ScreenUtil().radius(20))),
                                     child: Center(
@@ -1067,13 +1067,13 @@ class _Checkout extends State<Checkout> {
                                     width: ScreenUtil().setWidth(20),
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Color(0xffba8638)),
+                                            color: AppColors.primaryElement),
                                         borderRadius: BorderRadius.circular(
                                             ScreenUtil().radius(20))),
                                     child: Center(
                                         child: Icon(
                                       Icons.check_circle,
-                                      color: Color(0xffba8638),
+                                      color: AppColors.primaryElement,
                                       size: ScreenUtil().setWidth(15),
                                     )),
                                   ),
@@ -1083,7 +1083,7 @@ class _Checkout extends State<Checkout> {
                             Text(
                               "Address",
                               style: TextStyle(
-                                  color: Color(0xffba8638),
+                                  color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setSp(
                                     12,
                                   )),
@@ -1103,7 +1103,7 @@ class _Checkout extends State<Checkout> {
                             lineLength: ScreenUtil().setWidth(105),
                             lineThickness: ScreenUtil().setWidth(0.8),
                             dashLength: ScreenUtil().setWidth(4),
-                            dashColor: Color(0xffba8638),
+                            dashColor: AppColors.primaryElement,
                             dashRadius: 0.0,
                             dashGapLength: ScreenUtil().setWidth(4),
                             dashGapColor: Colors.transparent,
@@ -1135,14 +1135,14 @@ class _Checkout extends State<Checkout> {
                                     width: ScreenUtil().setWidth(20),
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Color(0xffba8638)),
+                                            color: AppColors.primaryElement),
                                         borderRadius: BorderRadius.circular(
                                             ScreenUtil().radius(20))),
                                     child: Center(
                                         child: Text(
                                       "3",
                                       style: TextStyle(
-                                          color: Color(0xffba8638),
+                                          color: AppColors.primaryElement,
                                           fontSize: ScreenUtil().setSp(
                                             12,
                                           )),
@@ -1152,7 +1152,7 @@ class _Checkout extends State<Checkout> {
                                     height: ScreenUtil().setWidth(20),
                                     width: ScreenUtil().setWidth(20),
                                     decoration: BoxDecoration(
-                                        color: Color(0xffba8638),
+                                        color: AppColors.primaryElement,
                                         borderRadius: BorderRadius.circular(
                                             ScreenUtil().radius(20))),
                                     child: Center(
@@ -1171,7 +1171,7 @@ class _Checkout extends State<Checkout> {
                             Text(
                               "Payment",
                               style: TextStyle(
-                                  color: Color(0xffba8638),
+                                  color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setSp(
                                     12,
                                   )),
@@ -1199,7 +1199,7 @@ class _Checkout extends State<Checkout> {
                       width: double.infinity,
                       color: Color(0xffba8638),
                       child: Text(
-                        "© 2020 Tablez India Private Limited",
+                        "© 2020 Anne Private Limited",
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
@@ -1325,7 +1325,7 @@ class _Checkout extends State<Checkout> {
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
+                borderRadius: BorderRadius.circular(5),
               ),
               side: BorderSide(width: 1, color: AppColors.primaryElement),
             ),
@@ -1774,7 +1774,7 @@ class _Checkout extends State<Checkout> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     side: BorderSide(width: 1, color: AppColors.primaryElement),
                   ),
@@ -2737,7 +2737,7 @@ class _Checkout extends State<Checkout> {
                                         width: ScreenUtil().setWidth(20),
                                       ),
                                       DottedBorder(
-                                          color: Color(0xffbb8738),
+                                          color: AppColors.primaryElement,
                                           dashPattern: [
                                             ScreenUtil().setWidth(4),
                                             ScreenUtil().setWidth(2)
@@ -2750,7 +2750,7 @@ class _Checkout extends State<Checkout> {
                                               value.couponResponse.data[index]
                                                   .code,
                                               style: TextStyle(
-                                                  color: Color(0xffbb8738),
+                                                  color: AppColors.primaryElement,
                                                   fontSize: ScreenUtil().setSp(
                                                     13,
                                                   )),

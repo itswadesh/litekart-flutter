@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:anne/model/product.dart';
+import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
@@ -142,7 +143,7 @@ class _ProductCard extends State<ProductCard> {
                           fontSize: ScreenUtil().setSp(
                             12,
                           ),
-                          color: Color(0xffBB8738),
+                          color: AppColors.primaryElement,
                         ),
                         textAlign: TextAlign.left,
                       )),
@@ -190,7 +191,7 @@ class _ProductCard extends State<ProductCard> {
                           ? Text(
                         " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
                         style: TextStyle(
-                            color: Color(0xff00d832),
+                            color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
                               8,
                             )),

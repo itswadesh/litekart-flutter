@@ -117,7 +117,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                   width: ScreenUtil().setWidth(55),
                                   height: ScreenUtil().setWidth(55),
                                   decoration: BoxDecoration(
-                                      color: Color(0xff00d832),
+                                      color: AppColors.primaryElement2,
                                       borderRadius: BorderRadius.circular(
                                           ScreenUtil().setWidth(40))),
                                   child: Icon(
@@ -141,9 +141,9 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     padding: EdgeInsets.all(20),
                     width: double.infinity,
-                    color: Color(0xffba8638),
+                    color: AppColors.primaryElement,
                     child: Text(
-                      "© 2020 Tablez India Private Limited",
+                      "© 2020 Anne Private Limited",
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
@@ -242,7 +242,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             side: BorderSide(
                                 width: 1, color: AppColors.primaryElement),
@@ -268,7 +268,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             side: BorderSide(
                                 width: 1, color: AppColors.primaryElement),
@@ -437,7 +437,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                             fontSize: ScreenUtil().setSp(
                               15,
                             ),
-                            color: Color(0xffee7625),
+                            color: AppColors.primaryElement,
                             decoration: TextDecoration.underline),
                         textAlign: TextAlign.left),
                   ),
@@ -560,7 +560,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                     width: double.infinity,
                     child: Text("Type: Basic Delivery",
                         style: TextStyle(
-                            color: Color(0xffee7625),
+                            color: AppColors.primaryElement,
                             fontSize: ScreenUtil().setSp(
                               15,
                             )),
@@ -696,7 +696,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                               Text(
                                 detail[index].brand,
                                 style: TextStyle(
-                                  color: Color(0xffba8638),
+                                  color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setWidth(13),
                                 ),
                               ),
@@ -719,7 +719,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 "₹ ${detail[index].price}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xff00ba0e),
+                                    color: AppColors.primaryElement2,
                                     fontSize: ScreenUtil().setSp(
                                       14,
                                     )),

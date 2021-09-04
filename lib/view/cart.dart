@@ -159,7 +159,7 @@ class _Cart extends State<Cart> {
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               side: BorderSide(
                                   width: 2, color: AppColors.primaryElement),
@@ -284,7 +284,7 @@ class _CartBillCard extends State<CartBillCard> {
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 side: BorderSide(
                                     width: 1, color: AppColors.primaryElement),
@@ -448,7 +448,7 @@ class _CartBillCard extends State<CartBillCard> {
                                         : "Not Applied",
                                     style: TextStyle(
                                         color: value.promocodeStatus
-                                            ? Color(0xff00d832)
+                                            ? AppColors.primaryElement2
                                             : Colors.red,
                                         fontSize: ScreenUtil().setSp(
                                           16,
@@ -594,13 +594,13 @@ class _CartBillCard extends State<CartBillCard> {
                                                         .data[index].code))
                                                 ? Icon(
                                                     Icons.check_box,
-                                                    color: Color(0xffee7625),
+                                                    color: AppColors.primaryElement,
                                                     size:
                                                         ScreenUtil().setWidth(18),
                                                   )
                                                 : Icon(
                                                     Icons.check_box_outline_blank,
-                                                    color: Color(0xffee7625),
+                                                    color: AppColors.primaryElement,
                                                     size:
                                                         ScreenUtil().setWidth(18),
                                                   ),
@@ -609,7 +609,7 @@ class _CartBillCard extends State<CartBillCard> {
                                             width: ScreenUtil().setWidth(20),
                                           ),
                                           DottedBorder(
-                                              color: Color(0xffbb8738),
+                                              color: AppColors.primaryElement,
                                               dashPattern: [
                                                 ScreenUtil().setWidth(4),
                                                 ScreenUtil().setWidth(2)
@@ -622,7 +622,7 @@ class _CartBillCard extends State<CartBillCard> {
                                                   value.couponResponse.data[index]
                                                       .code,
                                                   style: TextStyle(
-                                                      color: Color(0xffbb8738),
+                                                      color: AppColors.primaryElement,
                                                       fontSize:
                                                           ScreenUtil().setSp(
                                                         13,
@@ -692,7 +692,7 @@ class _CartBillCard extends State<CartBillCard> {
                                 Navigator.pop(context);
                               }
                             },
-                            color: Color(0xff00c32d),
+                            color: AppColors.primaryElement2,
                             child: buttonValueWhite(
                               "Apply Coupon",
                               buttonStatus,
@@ -807,7 +807,7 @@ class _CartCard extends State<CartCard> {
                       child: Text(
                         cartData.brand ?? "",
                         style: TextStyle(
-                          color: Color(0xffba8638),
+                          color: AppColors.primaryElement,
                           fontSize: ScreenUtil().setWidth(13),
                         ),
                         textAlign: TextAlign.start,
@@ -822,7 +822,7 @@ class _CartCard extends State<CartCard> {
                         "₹ " + cartData.price.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff00ba0e),
+                            color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
                               14,
                             )),
@@ -982,7 +982,7 @@ class _CartCard extends State<CartCard> {
                     width: ScreenUtil().setWidth(150),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("REMOVE",style: TextStyle(color: Color(0xffBB8738)),),
+                      child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
                     ),
                   )),
 
@@ -999,7 +999,7 @@ class _CartCard extends State<CartCard> {
                     width: ScreenUtil().setWidth(215),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("MOVE TO WISHLIST",style: TextStyle(color: Color(0xffBB8738)),),
+                      child: Text("MOVE TO WISHLIST",style: TextStyle(color: AppColors.primaryElement),),
                     ),
                   ))
             ],
