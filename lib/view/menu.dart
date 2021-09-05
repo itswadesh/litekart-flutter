@@ -42,11 +42,11 @@ class _MenuState extends State<Menu>{
            child: Consumer<ProfileModel>(builder: (context,value,view){
              return BottomNavigationBar(
                 selectedLabelStyle: TextStyle(color: AppColors.primaryElement),
-                 unselectedLabelStyle: TextStyle(color: Color(0xff656565)),
+                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0)),
                  selectedIconTheme: IconThemeData(color: AppColors.primaryElement),
-                 unselectedIconTheme: IconThemeData(color: Color(0xff656565)),
+                 unselectedIconTheme: IconThemeData(color: Color(0xffd0d0d0)),
                  selectedItemColor: AppColors.primaryElement,
-                 unselectedItemColor: Color(0xff656565),
+                 unselectedItemColor: Color(0xffd0d0d0),
                  currentIndex:
                  model.currentIndex,
                  onTap: (int index) {
@@ -57,7 +57,6 @@ class _MenuState extends State<Menu>{
                     setState(() {
                       model.updateIndex(index);
                     });
-
                   }
                  }, // new
                  items: bottomNavigationItem(model)

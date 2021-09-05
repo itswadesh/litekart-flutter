@@ -100,19 +100,15 @@ class _MyProfileState extends State<MyProfile> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: ScreenUtil().setWidth(25),
-                              color: Color(0xffe1e1e1),
+                              color: Color(0xffe8e8e8),
                             ),
                             getTiles("Orders","Check Your Order Status",FontAwesomeIcons.shoppingBag,routes.ManageOrder),
                             Divider(),
                                 getTiles("Wishlist","Your most Loved Products",FontAwesomeIcons.heart,routes.Wishlist),
                            Divider(),
-                            getTiles("Address","Save Addresses for a hessle-free Checkout",FontAwesomeIcons.mapMarkerAlt,routes.ManageAddress),
+                            getTiles("Address","Save Addresses for Checkout",FontAwesomeIcons.mapMarkerAlt,routes.ManageAddress),
                                 Divider(),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: ScreenUtil().setWidth(25),
-                              color: Color(0xffe1e1e1),
-                            ),
+
                             getTiles("Profile Details","Change Your Profile Details",FontAwesomeIcons.userEdit,routes.ProfileEditRoute),
                                 Divider(),
                                 SizedBox(height: ScreenUtil().setWidth(15),),
@@ -160,13 +156,12 @@ class _MyProfileState extends State<MyProfile> {
         }
         else{
           locator<NavigationService>().pushNamed(path);
-
         }
       },
-      leading: Icon(icon),
+      leading: Icon(icon,color: Color(0xffd0d0d0),),
       title: Text(title),
       subtitle: Text(subtitle),
-      trailing: Icon(FontAwesomeIcons.angleRight),
+      trailing: Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
     );
   }
 }

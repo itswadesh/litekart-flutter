@@ -230,7 +230,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                               ? AppColors.primaryElement
                               : Colors.grey,
                           width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

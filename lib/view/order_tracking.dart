@@ -1,4 +1,5 @@
 import 'package:anne/values/colors.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -586,7 +587,32 @@ class _OrderTracking extends State<OrderTracking> {
                     "Your Order will arrive on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch((int.parse(orderTrackResponse.orderHistory[0].time) * 1000)+(86400000000*7)))}",
                     style: ThemeApp().textThemeGrey(),
                   ),
-                ):Container()
+                ):Container(),
+
+                orderTrackResponse.orderHistory[5].time!=null? InkWell(
+                    onTap: () async {
+                      await locator<NavigationService>().pushNamed(
+                          routes.AddReviewRoute,
+                          args: orderTrackResponse.pid);
+                    },
+                    child: Container(
+                    padding: EdgeInsets.all(14),
+                    color: Color(0xfff3f3f3),
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Icon(FontAwesomeIcons.star,color: Colors.amber,size: ScreenUtil().setWidth(20),),
+                      SizedBox(width: ScreenUtil().setWidth(10),),
+                      Container(
+                    child:  Text(
+                          "Rate This Product",
+                          style: TextStyle(
+                              color: AppColors.primaryElement,
+                              fontWeight: FontWeight.w600,
+                              fontSize: ScreenUtil().setSp(
+                                16,
+                              )),
+                        ))]))):Container(),
               ]),
             ),
           )),

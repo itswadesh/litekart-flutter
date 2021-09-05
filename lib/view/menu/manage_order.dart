@@ -1,4 +1,5 @@
 import 'package:anne/values/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -86,7 +87,7 @@ class _ManageOrderState extends State<ManageOrder> {
     child: CacheProvider(
     child: Container(
         height: MediaQuery.of(context).size.height,
-        color: Color(0xffe5e5e5),
+        color: Color(0xfff3f3f3),
         child: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -953,23 +954,20 @@ class ListOrderData extends StatelessWidget{
   }
 
   getProductCard(OrderData orderData) {
-    return GestureDetector(
-      onTap: () {
-        print("here");
-      },
-      child: Material(
-        color: Color(0xffe5e5e5),
+    return Container(
+        margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(20)),
+        child:  Material(
+        color: Color(0xffffffff),
           // borderRadius: BorderRadius.circular(2),
           child: Card(
-            margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(21), 0,
-                ScreenUtil().setWidth(22), ScreenUtil().setWidth(12)),
+
             elevation: 0,
             child: Container(
               padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(24),
+                  ScreenUtil().setWidth(19),
                   ScreenUtil().setWidth(23),
                   ScreenUtil().setWidth(19),
-                  ScreenUtil().setWidth(24)),
+                  ScreenUtil().setWidth(10)),
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -981,16 +979,15 @@ class ListOrderData extends StatelessWidget{
                       children: <Widget>[
                         Container(
                             width: ScreenUtil().setWidth(200),
-                            child: Text(
-                            "Order ID : ${orderData.orderNo}",
+                            child:
+                            Text(
+                              orderData.items[0].status,
                               style: TextStyle(
-                              fontSize: ScreenUtil().setSp(
-                              13,
+                                color: AppColors.primaryElement2,
                               ),
-                              color: Color(0xff9b9b9b)),
                               textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                             ),
+                            ),
+
                             ),
                         Text(
                             "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt) * 1000))}",
@@ -1062,10 +1059,12 @@ class ListOrderData extends StatelessWidget{
                         //   ),
                         // ),
                         Text(
-                          orderData.items[0].status,
+                          "Order ID : ${orderData.orderNo}",
                           style: TextStyle(
-                            color: AppColors.primaryElement2,
-                          ),
+                              fontSize: ScreenUtil().setSp(
+                                13,
+                              ),
+                              color: Color(0xff9b9b9b)),
                         ),
                       ],
                     )
@@ -1084,7 +1083,9 @@ class ListOrderData extends StatelessWidget{
         shrinkWrap: true,
         itemBuilder:(buildContext, index) {
 
-     return GestureDetector(
+     return Container(
+         margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(2)),
+         child: GestureDetector(
          onTap: (){
            locator<NavigationService>().pushNamed(routes.OrderTrack,args: {"id":items[index].id,"items":items[index],"address":address});
 
@@ -1092,13 +1093,14 @@ class ListOrderData extends StatelessWidget{
          child: Container(
        // height: ScreenUtil().setWidth(126),
       // width: ScreenUtil().setWidth(388),
+
        padding: EdgeInsets.fromLTRB(
            ScreenUtil().setWidth(15),
            ScreenUtil().setWidth(12),
            ScreenUtil().setWidth(15),
            ScreenUtil().setWidth(8)),
        decoration: BoxDecoration(
-         color: Colors.white,
+         color: Color(0xfff3f3f3),
        ),
        child: Row(
          children: <Widget>[
@@ -1118,7 +1120,7 @@ class ListOrderData extends StatelessWidget{
                child: Column(
                  children: <Widget>[
                    Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     mainAxisAlignment: MainAxisAlignment.start,
                      children: <Widget>[
                        Container(
                          width: ScreenUtil().setWidth(188),
@@ -1132,6 +1134,7 @@ class ListOrderData extends StatelessWidget{
                              ),
                            ),
                            overflow: TextOverflow.ellipsis,
+                           textAlign: TextAlign.left,
                          ),
                        ),
 
@@ -1140,6 +1143,9 @@ class ListOrderData extends StatelessWidget{
                    SizedBox(
                      height: ScreenUtil().setWidth(8),
                    ),
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.start,
+                 children: <Widget>[
                    Container(
                      width: ScreenUtil().setWidth(188),
                      child: Text(
@@ -1148,12 +1154,15 @@ class ListOrderData extends StatelessWidget{
                          color: AppColors.primaryElement,
                          fontSize: ScreenUtil().setWidth(13),
                        ),
-                       textAlign: TextAlign.start,
+                       textAlign: TextAlign.left,
                      ),
-                   ),
+                   ),]),
                    SizedBox(
                      height: ScreenUtil().setWidth(11),
                    ),
+       Row(
+         mainAxisAlignment: MainAxisAlignment.start,
+         children: <Widget>[
                    Container(
                      width: ScreenUtil().setWidth(188),
                      child: Text(
@@ -1164,8 +1173,9 @@ class ListOrderData extends StatelessWidget{
                            fontSize: ScreenUtil().setSp(
                              14,
                            )),
+                       textAlign: TextAlign.left,
                      ),
-                   ),
+                   ),]),
                    SizedBox(
                      height: ScreenUtil().setWidth(10),
                    ),
@@ -1176,7 +1186,7 @@ class ListOrderData extends StatelessWidget{
            )
          ],
        ),
-     ));
+     )));
     });
   }
 

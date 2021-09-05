@@ -91,6 +91,20 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     ScreenUtil().setHeight(45)),
                                 child: Column(
                                   children: [
+                                    InkWell(
+                                        onTap: (){
+
+                                        },
+                                        child: Container(
+                                          height: ScreenUtil().setWidth(120),
+                                          width: ScreenUtil().setWidth(120),
+                                          child: Card(
+                                            child: Container(
+                                                height: ScreenUtil().setWidth(120),
+                                                width: ScreenUtil().setWidth(120),
+                                                child: value.user.avatar!=null? Image.network(value.user.avatar):Image.asset("assets/images/user.png")
+                                            ),
+                                          ),)),
                                     Container(
                                         child: TextFormField(
                                           readOnly: true,

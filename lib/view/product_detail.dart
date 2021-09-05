@@ -309,27 +309,27 @@ class _ProductDetail extends State<ProductDetail> {
                             13,
                           )),
                     )),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
-                    width: double.maxFinite,
-                    child: InkWell(
-                        onTap: () async {
-                          await locator<NavigationService>().pushNamed(
-                              routes.AddReviewRoute,
-                              args: productId);
-                        },
-                        child: Text(
-                          "Rate This Product",
-                          style: TextStyle(
-                              color: AppColors.primaryElement,
-                              fontWeight: FontWeight.w600,
-                              fontSize: ScreenUtil().setSp(
-                                14,
-                              )),
-                        ))),
+                // SizedBox(
+                //   height: ScreenUtil().setWidth(15),
+                // ),
+                // Container(
+                //     margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
+                //     width: double.maxFinite,
+                //     child: InkWell(
+                //         onTap: () async {
+                //           await locator<NavigationService>().pushNamed(
+                //               routes.AddReviewRoute,
+                //               args: productId);
+                //         },
+                //         child: Text(
+                //           "Rate This Product",
+                //           style: TextStyle(
+                //               color: AppColors.primaryElement,
+                //               fontWeight: FontWeight.w600,
+                //               fontSize: ScreenUtil().setSp(
+                //                 14,
+                //               )),
+                //         ))),
                 SizedBox(
                   height: ScreenUtil().setWidth(15),
                 ),
