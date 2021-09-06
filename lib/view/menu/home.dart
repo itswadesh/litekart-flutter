@@ -112,8 +112,8 @@ class _Home extends State<Home> {
                       locator<NavigationService>().pushNamed(routes.SearchPage);
                     },
                     child: Icon(
-                      Icons.search,
-                      size: 24,
+                      FontAwesomeIcons.search,
+                      size: 20,
                       color: Colors.black54,
                     )),
                 SizedBox(

@@ -33,7 +33,7 @@ class _CartLogo extends State<CartLogo> {
           Center(
               child:  Icon(
           Icons.shopping_cart,
-          size: ScreenUtil().setWidth(28),
+          size: 20,
           color: Colors.black54,
         //)
           ));
@@ -51,7 +51,7 @@ class _CartLogo extends State<CartLogo> {
               children: [
                 Icon(
                   Icons.shopping_cart,
-                  size: ScreenUtil().setWidth(28),
+                  size: 20,
                   color: Colors.black54,
                 ),
                 value.cartCount > 0

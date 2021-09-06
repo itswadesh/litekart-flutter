@@ -59,14 +59,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
   switch (settings.name) {
     case routes.LoginRoute:
-      return MaterialPageRoute(builder: (context) => Login());
+      return ScaleRoute(page: Login());
       break;
     case routes.OnboardingRoute:
-      return MaterialPageRoute(builder: (context) => Onboarding());
+      return ScaleRoute(page: Onboarding());
       break;
     case routes.HomeRoute:
-      return MaterialPageRoute(
-          builder: (context) => Consumer<MenuViewModel>(
+      return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
                   model.updateIndex(0);
                   return Menu(model);
@@ -74,23 +73,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     // case routes.SplashRoute:
-    //   return MaterialPageRoute(builder: (context) => SplashScreen());
+    //   return ScaleRoute(page: SplashScreen());
     //   break;
     case routes.ProductDetailRoute:
-      return MaterialPageRoute(builder: (context) => ProductDetail(productId));
+      return ScaleRoute(page: ProductDetail(productId));
+     // return ScaleRoute(page: ProductDetail(productId));
       break;
     case routes.OrderConfirm:
-      return MaterialPageRoute(
-          builder: (context) => OrderConfirm(checkoutResponse));
+      return ScaleRoute(page: OrderConfirm(checkoutResponse));
       break;
     case routes.OrderTrack:
-      return MaterialPageRoute(
-          builder: (context) => OrderTracking(orderTrackData["id"],
+      return ScaleRoute(page: OrderTracking(orderTrackData["id"],
               orderTrackData["items"], orderTrackData["address"]));
       break;
     case routes.ProductList:
-      return MaterialPageRoute(
-          builder: (context) => ProductList(
+      return ScaleRoute(page: ProductList(
               productList["searchKey"],
               productList["category"],
               productList["brandName"],
@@ -99,32 +96,30 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               productList["urlLink"]));
       break;
     case routes.ReturnPageRoute:
-      return MaterialPageRoute(
-          builder: (context) => ReturnPage(
+      return ScaleRoute(page: ReturnPage(
               returnData["id"], returnData["pid"], returnData["qty"]));
       break;
     case routes.CartRoute:
-      return MaterialPageRoute(builder: (context) => Cart());
+      return ScaleRoute(page: Cart());
       break;
     case routes.AddReviewRoute:
-      return MaterialPageRoute(builder: (context) => AddReviewPage(productId));
+      return ScaleRoute(page: AddReviewPage(productId));
       break;
     case routes.ZoomImageRoute:
       Map<String, dynamic> zoomArguments =
           settings.arguments as Map<String, dynamic>;
-      return MaterialPageRoute(
-          builder: (context) =>
+      return ScaleRoute(page:
               ZoomImage(zoomArguments['imageLinks'], zoomArguments['index']));
       break;
     case routes.ProfileInfoRoute:
-      return MaterialPageRoute(builder: (context) => ProfilePage());
+      return ScaleRoute(page: ProfilePage());
       break;
     case routes.ProfileEditRoute:
-      return MaterialPageRoute(builder: (context) => ProfileEdit());
+      return ScaleRoute(page: ProfileEdit());
+      //return ScaleRoute(page: ProfileEdit());
       break;
     case routes.MyProfile:
-      return MaterialPageRoute(
-          builder: (context) => Consumer<MenuViewModel>(
+      return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
                   model.updateIndex(4);
                   return Menu(model);
@@ -132,11 +127,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.ManageAddress:
-      return MaterialPageRoute(builder: (context) => ManageAddress());
+      return ScaleRoute(page: ManageAddress());
       break;
     case routes.ManageOrder:
-      return MaterialPageRoute(
-          builder: (context) => Consumer<MenuViewModel>(
+      return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
                   model.updateIndex(2);
                   return Menu(model);
@@ -144,8 +138,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.Wishlist:
-      return MaterialPageRoute(
-          builder: (context) => Consumer<MenuViewModel>(
+      return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
                   model.updateIndex(3);
                   return Menu(model);
@@ -153,14 +146,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.CheckOut:
-      return MaterialPageRoute(builder: (context) => Checkout());
+      return ScaleRoute(page: Checkout());
       break;
     case routes.SearchPage:
-      return MaterialPageRoute(builder: (context) => SearchPage());
+      return ScaleRoute(page: SearchPage());
       break;
     case routes.MegaMenuRoute:
-      return MaterialPageRoute(
-          builder: (context) => Consumer<MenuViewModel>(
+      return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
                   model.updateIndex(1);
                   return Menu(model);
@@ -168,8 +160,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.BrandPage:
-      return MaterialPageRoute(
-          builder: (context) =>
+      return ScaleRoute(page:
               BrandPage(brand: data['brandData'] as BrandData));
       break;
     default:
@@ -195,4 +186,36 @@ MaterialPageRoute<dynamic> errorPageRoute(RouteSettings settings) {
       ),
     );
   }
+}
+
+
+class ScaleRoute extends PageRouteBuilder {
+  final Widget page;
+  ScaleRoute({this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        ScaleTransition(
+          scale: Tween<double>(
+            begin: 0.0,
+            end: 1.0,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.fastOutSlowIn,
+            ),
+          ),
+          child: child,
+        ),
+  );
 }

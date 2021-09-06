@@ -1304,7 +1304,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
               }
               if (result.isLoading) {
                 return Icon(Icons.workspaces_outline,
-                    color: Color(0xffd3d3d3), size: ScreenUtil().setWidth(15));
+                    color: Color(0xffd3d3d3), size: 20);
               }
               if (result.isConcrete) {
                 status = result.data["checkWishlist"];
@@ -1313,14 +1313,14 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                   child: InkWell(
                     child: status == false
                         ? Icon(
-                            Icons.favorite_border,
+                            FontAwesomeIcons.heart,
                             color: Colors.red,
-                            size: ScreenUtil().setWidth(18),
+                            size: 20,
                           )
                         : Icon(
-                            Icons.favorite,
+                      FontAwesomeIcons.heart,
                             color: Colors.red,
-                            size: ScreenUtil().setWidth(18),
+                            size: 20,
                           ),
                     onTap: () async {
                       if (Provider.of<ProfileModel>(context, listen: false)

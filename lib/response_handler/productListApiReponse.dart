@@ -57,5 +57,5 @@ class ProductListData {
           mrp: json["_source"] != null
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
               : "",
-          stock: json["_source"] != null ? json["_source"]["stock"] ?? 0 : "");
+          stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0);
 }

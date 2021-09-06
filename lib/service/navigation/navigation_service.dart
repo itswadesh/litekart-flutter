@@ -47,7 +47,7 @@ class NavigationService<T, U> {
     return navigationKey.currentState.pop();
   }
 
-  bool canPop() => navigationKey.currentState.canPop();
+ // bool canPop() => navigationKey.currentState.canPop();
 
   void goBack({T result}) => navigationKey.currentState.pop<T>(result);
 }
