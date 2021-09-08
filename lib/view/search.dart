@@ -156,9 +156,15 @@ class _SearchPage extends State<SearchPage> {
             child: Column(children: [
               ListTile(
                 onTap: () {
-                  locator<NavigationService>().push(MaterialPageRoute(
-                      builder: (context) => ProductList(item['key'], "", "","","","")));
-                },
+                  locator<NavigationService>().pushNamed(routes.ProductList,args: {
+                    "searchKey":item['key'],
+                    "category":"",
+                    "brandName":"",
+                    "parentBrand":"",
+                    "brand":"",
+                    "urlLink":""
+                  });
+                    },
                 leading: Icon(Icons.search),
                 title: Text(
                   "${item['key']}",
@@ -230,11 +236,14 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                   return Container(
                       child: InkWell(
                           onTap: () {
-                            locator<NavigationService>().push(MaterialPageRoute(
-                                builder: (context) => ProductList(
-                                    "",
-                                    value.categoryResponse.data[index].slug,
-                                    "","","","")));
+                            locator<NavigationService>().pushNamed(routes.ProductList,args: {
+                              "searchKey":"",
+                              "category":value.categoryResponse.data[index].slug,
+                              "brandName":"",
+                              "parentBrand":"",
+                              "brand":"",
+                              "urlLink":""
+                            });
                           },
                           child: Column(
                             children: [

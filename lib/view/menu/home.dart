@@ -126,7 +126,7 @@ class _Home extends State<Home> {
                               locator<NavigationService>().pushNamed(routes.LoginRoute);
                       }
                      else {
-                       locator<NavigationService>().pushNamed(
+                       locator<NavigationService>().pushNamedAndRemoveUntil(
                            routes.ManageOrder);
                      }
                     },
@@ -145,7 +145,7 @@ class _Home extends State<Home> {
                         locator<NavigationService>().pushNamed(routes.LoginRoute);
                       }
                       else {
-                        locator<NavigationService>().pushNamed(
+                        locator<NavigationService>().pushNamedAndRemoveUntil(
                             routes.Wishlist);
                       }
                     },
