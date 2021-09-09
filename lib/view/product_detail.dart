@@ -802,7 +802,7 @@ class _ProductDetail extends State<ProductDetail> {
               child: Container(
                 height: ScreenUtil().setWidth(50),
                   color:Color(0xffffffff),
-                  padding: EdgeInsets.only(top:ScreenUtil().setWidth(8),left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
                   bottom: ScreenUtil().setWidth(5)
                   ),
                   child: Row(
@@ -1249,8 +1249,8 @@ class _RatingClass extends State<RatingClass> {
           }
           return RatingBar.builder(
             itemSize: ScreenUtil().setWidth(18),
-            initialRating: result.data["reviewSummary"]["avg"] ?? 0,
-            minRating: 0,
+            initialRating: double.parse(result.data["reviewSummary"]["avg"]) ?? 0,
+            // minRating: 0,
             direction: Axis.horizontal,
             allowHalfRating: true,
             itemCount: 5,

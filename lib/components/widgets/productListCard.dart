@@ -47,7 +47,7 @@ class _ProductListCard extends State<ProductListCard> {
         child: Container(
           width: ScreenUtil().setWidth(203),
           //     height: ScreenUtil().setWidth(269),
-          height: ScreenUtil().setWidth(285),
+          height: ScreenUtil().setWidth(270),
           child: Column(
             children: [
               Stack(
@@ -181,12 +181,12 @@ class _ProductListCard extends State<ProductListCard> {
                             : Container()
                       ],
                     ),
-                    SizedBox(height: ScreenUtil().setWidth(10),),
+                    SizedBox(height: ScreenUtil().setWidth(5),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         RatingClass(item.id) ,
-                        SizedBox(width: ScreenUtil().setWidth(20),),
+                        SizedBox(width: ScreenUtil().setWidth(10),),
                       ],
                     ),
 

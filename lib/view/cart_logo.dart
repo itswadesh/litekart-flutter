@@ -56,10 +56,10 @@ class _CartLogo extends State<CartLogo> {
                 ),
                 value.cartCount > 0
                     ? Positioned(
-                      left: 6, top: 0,
+                      left: 7, top: 0,
                       child: Container(
-                          width: ScreenUtil().radius(15),
-                          height: ScreenUtil().radius(15),
+                          width: ScreenUtil().radius(12),
+                          height: ScreenUtil().radius(12),
                           decoration: new BoxDecoration(
                             color: AppColors.primaryElement,
                             shape: BoxShape.circle,
@@ -69,7 +69,7 @@ class _CartLogo extends State<CartLogo> {
                               "${value.cartCount}",
                               style: TextStyle(
                                   color: Color(0xffffffff),
-                                  fontSize: ScreenUtil().setSp(8)),
+                                  fontSize: ScreenUtil().setSp(9)),
                             ),
                           ),
                         ),

@@ -59,7 +59,9 @@ class _HomeDrawer extends State<HomeDrawer> {
       return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/backgroundProfile.jpg"))),
+                image: AssetImage("assets/images/backgroundProfile.jpg",),
+            fit: BoxFit.fill
+            )),
         child: Column(children: [
           SizedBox(
             height: ScreenUtil().setWidth(55),

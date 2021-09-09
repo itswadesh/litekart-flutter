@@ -307,7 +307,7 @@ class _ProductList extends State<ProductList> {
             padding: EdgeInsets.all(0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
-                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(285),
+                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(270),
                 crossAxisCount: 2),
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(
@@ -341,9 +341,9 @@ class _ProductList extends State<ProductList> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
              Container(
-             decoration: BoxDecoration(
-             border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
-              ),
+             // decoration: BoxDecoration(
+             // border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
+             //  ),
              child: InkWell(
                 child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -351,6 +351,7 @@ class _ProductList extends State<ProductList> {
                     child: Row(children: [
                       Icon(
                         FontAwesomeIcons.sort,
+                        size: 18,
                         color: AppColors.primaryElement,
                       ),
                       SizedBox(width: 10,),
@@ -366,6 +367,7 @@ class _ProductList extends State<ProductList> {
                     height: ScreenUtil().setWidth(50),
                     child: Row(children: [  Icon(
                       FontAwesomeIcons.filter,
+                      size: 18,
                       color: AppColors.primaryElement,
                     ),
                       SizedBox(width: 10,),
