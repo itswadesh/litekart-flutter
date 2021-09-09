@@ -1,12 +1,17 @@
 import 'package:anne/components/widgets/productListCard.dart';
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view_model/auth_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import '../../repository/products_repository.dart';
 import '../../response_handler/productListApiReponse.dart';
 import '../../utility/query_mutation.dart';
@@ -14,7 +19,7 @@ import '../../view/product_filter_drawer.dart';
 import '../../components/widgets/cartEmptyMessage.dart';
 import '../../components/widgets/loading.dart';
 import '../../components/widgets/productViewCard.dart';
-
+import '../../values/route_path.dart' as routes;
 import '../../view/cart_logo.dart';
 
 class ProductList extends StatefulWidget {
@@ -99,22 +104,65 @@ class _ProductList extends State<ProductList> {
               color: Colors.black54,
             ),
           ),
-          title: Center(
-              // width: MediaQuery.of(context).size.width * 0.39,
-              child: Text(
-            "Product List",
-            style: TextStyle(
-                color: Color(0xff616161),
-                fontSize: ScreenUtil().setSp(
-                  21,
-                )),
-            textAlign: TextAlign.center,
-          )),
+          // title:  Text(
+          //   "Product List",
+          //   style: TextStyle(
+          //       color: Color(0xff616161),
+          //       fontSize: ScreenUtil().setSp(
+          //         21,
+          //       )),
+          // ),
           actions: [
-            Container(
-                padding: EdgeInsets.only(right: 10.0),
-                // width: MediaQuery.of(context).size.width * 0.35,
-                child: CartLogo())
+            InkWell(
+                onTap: () {
+                  locator<NavigationService>().pushNamed(routes.SearchPage);
+                },
+                child: Icon(
+                  FontAwesomeIcons.search,
+                  size: 20,
+                  color: Colors.black54,
+                )),
+            SizedBox(
+              width: ScreenUtil().setWidth(24),
+            ),
+            InkWell(
+                onTap: () {
+                  if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                  {
+                    locator<NavigationService>().pushNamed(routes.LoginRoute);
+                  }
+                  else {
+                    locator<NavigationService>().pushNamedAndRemoveUntil(
+                        routes.ManageOrder);
+                  }
+                },
+                child: Icon(
+                  FontAwesomeIcons.shoppingBag,
+                  size: 20,
+                  color: Colors.black54,
+                )),
+            SizedBox(
+              width: ScreenUtil().setWidth(24),
+            ),
+            InkWell(
+                onTap: () {
+                  if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                  {
+                    locator<NavigationService>().pushNamed(routes.LoginRoute);
+                  }
+                  else {
+                    locator<NavigationService>().pushNamedAndRemoveUntil(
+                        routes.Wishlist);
+                  }
+                },
+                child: Icon(
+                  FontAwesomeIcons.heart,
+                  size: 20,
+                  color: Colors.black54,
+                )),
+            SizedBox(width: ScreenUtil().setWidth(24),),
+            CartLogo(),
+            SizedBox(width: ScreenUtil().setWidth(12),),
           ],
         ),
         body: Container(
@@ -292,35 +340,36 @@ class _ProductList extends State<ProductList> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InkWell(
+             Container(
+             decoration: BoxDecoration(
+             border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
+              ),
+             child: InkWell(
                 child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
-                  ),
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     height: ScreenUtil().setWidth(50),
                     child: Row(children: [
                       Icon(
-                        Icons.sort,
+                        FontAwesomeIcons.sort,
                         color: AppColors.primaryElement,
                       ),
                       SizedBox(width: 10,),
-                      Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Montserrat'),)
+                      Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
                     ],)),
                 onTap: () {
                   showSortPopup();
                 },
-              ),
+              )),
               InkWell(
                 child: Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     height: ScreenUtil().setWidth(50),
                     child: Row(children: [  Icon(
-                      Icons.filter_alt_outlined,
+                      FontAwesomeIcons.filter,
                       color: AppColors.primaryElement,
                     ),
                       SizedBox(width: 10,),
-                      Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Montserrat'),)
+                      Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
                     ])),
                 onTap: () {
 
@@ -425,7 +474,7 @@ class _ProductList extends State<ProductList> {
       { "name": 'Price high to low', "val": '-price' },
     ];
     showDialog(
-        barrierDismissible: false,
+
         context: context,
         builder: (context) {
           return AlertDialog(

@@ -102,7 +102,9 @@ class _MegaMenu extends State<MegaMenu> {
           ),
           margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
           padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
-          child:  ExpansionTile(
+          child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+    child: ExpansionTile(
               title:  Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -113,7 +115,7 @@ class _MegaMenu extends State<MegaMenu> {
             : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(100),height: ScreenUtil().setWidth(100))],
           ),
             children: getMenuCard(megamenu.children),
-          ),
+          )),
 
     );
   }
@@ -127,7 +129,9 @@ class _MegaMenu extends State<MegaMenu> {
           elevation: 2,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
-          child: ExpansionTile(
+          child:  Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child:  ExpansionTile(
               title: Text(
                 children[index].name,
                 style: TextStyle(
@@ -135,7 +139,7 @@ class _MegaMenu extends State<MegaMenu> {
                     fontSize: ScreenUtil().setSp(15),
                     fontFamily: "Sofia"),
               ),
-              children: getExpansionTileChild(children[index].children)),
+              children: getExpansionTileChild(children[index].children))),
         ));
       }
 

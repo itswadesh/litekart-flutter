@@ -800,8 +800,9 @@ class _ProductDetail extends State<ProductDetail> {
           : Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                  color:Color(0xfff3f3f3),
-                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
+                height: ScreenUtil().setWidth(50),
+                  color:Color(0xffffffff),
+                  padding: EdgeInsets.only(top:ScreenUtil().setWidth(8),left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
                   bottom: ScreenUtil().setWidth(5)
                   ),
                   child: Row(
@@ -1318,7 +1319,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                             size: 20,
                           )
                         : Icon(
-                      FontAwesomeIcons.heart,
+                      FontAwesomeIcons.solidHeart,
                             color: Colors.red,
                             size: 20,
                           ),

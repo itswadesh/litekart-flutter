@@ -58,7 +58,7 @@ class _ProductListCard extends State<ProductListCard> {
                       placeholder: 'assets/images/loading.gif',
                       image: item.images[0],
                       height: ScreenUtil().setWidth(203),
-                      width: ScreenUtil().setWidth(193),
+                      width: ScreenUtil().setWidth(203),
                     ),
                   ),
         Row(
@@ -147,8 +147,9 @@ class _ProductListCard extends State<ProductListCard> {
                       height: ScreenUtil().setWidth(7),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        SizedBox(width: ScreenUtil().setWidth(20),),
                         Text(
                           "₹ " + item.price.toString() + " ",
                           style: TextStyle(
@@ -180,23 +181,32 @@ class _ProductListCard extends State<ProductListCard> {
                             : Container()
                       ],
                     ),
-                   // SizedBox(height: ScreenUtil().setWidth(19),),
-                    Divider(height: ScreenUtil().setWidth(10),),
-                    InkWell(
-                        onTap: () async {
-                          if(item.stock>0) {
-                            await Provider.of<CartViewModel>(
-                                context, listen: false)
-                                .cartAddItem(item.id, item.id, 1, false);
-                          }
-                        },
-                        child: Container(
-                          width: ScreenUtil().setWidth(183),
-                          height: ScreenUtil().setWidth(29),
-                          child: Center(
-                            child: Text(item.stock>0?"MOVE TO BAG":"OUT OF STOCK",style: TextStyle(color: AppColors.primaryElement),),
-                          ),
-                        ))
+                    SizedBox(height: ScreenUtil().setWidth(10),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        RatingClass(item.id) ,
+                        SizedBox(width: ScreenUtil().setWidth(20),),
+                      ],
+                    ),
+
+                    // SizedBox(height: ScreenUtil().setWidth(19),),
+                   //  Divider(height: ScreenUtil().setWidth(10),),
+                   //  InkWell(
+                   //      onTap: () async {
+                   //        if(item.stock>0) {
+                   //          await Provider.of<CartViewModel>(
+                   //              context, listen: false)
+                   //              .cartAddItem(item.id, item.id, 1, false);
+                   //        }
+                   //      },
+                   //      child: Container(
+                   //        width: ScreenUtil().setWidth(183),
+                   //        height: ScreenUtil().setWidth(29),
+                   //        child: Center(
+                   //          child: Text(item.stock>0?"MOVE TO BAG":"OUT OF STOCK",style: TextStyle(color: AppColors.primaryElement),),
+                   //        ),
+                   //      ))
                   ],
                 ),)
 

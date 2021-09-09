@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/search.dart';
@@ -168,9 +167,6 @@ class _Home extends State<Home> {
                     children: [
                       SearchCategoriesClass(),
                       BannersSliderClass(),
-                      SizedBox(
-                        height: 10,
-                      ),
                       ListDealsClass(),
                       YouMayLikeClass(),
                       BannersClass(),
@@ -230,7 +226,7 @@ class _SuggestedClass extends State<SuggestedClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(30),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           // padding: EdgeInsets.only(
@@ -250,7 +246,7 @@ class _SuggestedClass extends State<SuggestedClass> {
           ),
         ),
         SizedBox(
-          height: ScreenUtil().setWidth(43.5),
+          height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -314,7 +310,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(30),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           // padding: EdgeInsets.only(
@@ -334,7 +330,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
           ),
         ),
         SizedBox(
-          height: ScreenUtil().setWidth(40),
+          height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -401,7 +397,7 @@ class _TrendingClass extends State<TrendingClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(30),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           // padding: EdgeInsets.only(
@@ -421,7 +417,7 @@ class _TrendingClass extends State<TrendingClass> {
           ),
         ),
         SizedBox(
-          height: ScreenUtil().setWidth(40),
+          height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -746,7 +742,7 @@ class _ListDealsClass extends State<ListDealsClass> {
           child: Column(
             children: [
               SizedBox(
-                height: ScreenUtil().setWidth(38),
+                height: ScreenUtil().setWidth(20),
               ),
               Text(
                 "Deals of",
@@ -1115,7 +1111,7 @@ class _BrandClass extends State<BrandClass> {
           return Column(
             children: [
               SizedBox(
-                height: ScreenUtil().setWidth(30),
+                height: ScreenUtil().setWidth(15),
               ),
               Container(
                 // padding: EdgeInsets.only(
@@ -1135,7 +1131,7 @@ class _BrandClass extends State<BrandClass> {
                 ),
               ),
               SizedBox(
-                height: ScreenUtil().setWidth(44.5),
+                height: ScreenUtil().setWidth(25),
               ),
               Container(
                 //  color: Colors.white,
