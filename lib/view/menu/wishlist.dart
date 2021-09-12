@@ -6,7 +6,9 @@ import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -85,12 +87,13 @@ class _WishlistState extends State<Wishlist> {
 
       return
         Container(
+          padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
             child:  Consumer<WishlistViewModel>(
                 builder: (BuildContext context, value, Widget child) {
               return PagedGridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio:
-                        ScreenUtil().setWidth(183) / ScreenUtil().setWidth(280),
+                        ScreenUtil().setWidth(183) / ScreenUtil().setWidth(290),
                     crossAxisCount: 2),
                 pagingController: value.pagingController,
                 builderDelegate: PagedChildBuilderDelegate(
@@ -147,7 +150,7 @@ class _WishCard extends State<WishCard> {
         child: Container(
           width: ScreenUtil().setWidth(183),
           //     height: ScreenUtil().setWidth(269),
-          height: ScreenUtil().setWidth(280),
+          height: ScreenUtil().setWidth(290),
           child: Column(
             children: [
               Stack(
@@ -156,7 +159,7 @@ class _WishCard extends State<WishCard> {
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
                       image: item.product.img,
-                      height: ScreenUtil().setWidth(193),
+                      height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.cover,
                     ),
@@ -174,8 +177,34 @@ class _WishCard extends State<WishCard> {
                                     listen: false)
                                 .toggleItem(item.product.id);
                           },
-                          child: Icon(Icons.cancel,size: ScreenUtil().setWidth(25),color: Color(0xffe1e1e1),),
-                        )
+                          child: Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  0, 0, ScreenUtil().setWidth(0), 0),
+                              width: ScreenUtil().radius(30),
+                              height: ScreenUtil().radius(30),
+                              decoration: new BoxDecoration(
+                                color: Color(0xffd3d3d3),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    top: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    left: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    right: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4))),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.close,
+                                color: Color(0xff454545),
+                                size: ScreenUtil().setWidth(18),
+                              ))),
+
                       ],
                     ),
                   )
@@ -183,39 +212,41 @@ class _WishCard extends State<WishCard> {
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(10),
+                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
                     item.product.brand,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(
-                        12,
+                        14,
                       ),
-                      color: AppColors.primaryElement,
+                      color: Color(0xff616161),
+                      fontWeight: FontWeight.w600
                     ),
                     textAlign: TextAlign.left,
                   )),
-              SizedBox(
-                height: ScreenUtil().setWidth(9),
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
-                      ScreenUtil().setWidth(20), 0),
-                  child: Text(item.product.name,
-                      style: TextStyle(
-                          color: Color(0xff5f5f5f),
-                          fontSize: ScreenUtil().setSp(
-                            14,
-                          )),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1)),
+              // SizedBox(
+              //   height: ScreenUtil().setWidth(9),
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
+              //         ScreenUtil().setWidth(20), 0),
+              //     child: Text(item.product.name,
+              //         style: TextStyle(
+              //             color: Color(0xff5f5f5f),
+              //             fontSize: ScreenUtil().setSp(
+              //               14,
+              //             )),
+              //         overflow: TextOverflow.ellipsis,
+              //         maxLines: 1)),
               SizedBox(
                 height: ScreenUtil().setWidth(7),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SizedBox(width: ScreenUtil().setWidth(10),),
                   Text(
                     "₹ " + item.product.price.toString() + " ",
                     style: TextStyle(
@@ -248,7 +279,7 @@ class _WishCard extends State<WishCard> {
                       : Container()
                 ],
               ),
-              SizedBox(height: ScreenUtil().setWidth(5),),
+              SizedBox(height: ScreenUtil().setWidth(15),),
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
@@ -261,7 +292,7 @@ class _WishCard extends State<WishCard> {
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement),),
+                      child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),),
                     ),
                   ))
             ],
