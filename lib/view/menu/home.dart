@@ -25,7 +25,6 @@ import '../../../view_model/auth_view_model.dart';
 import '../../../view_model/banner_view_model.dart';
 import '../../../view_model/brand_view_model.dart';
 import '../../../view_model/category_view_model.dart';
-import '../../../view_model/home_view_model.dart';
 import '../../../view_model/list_details_view_model.dart';
 import '../../../view_model/product_view_model.dart';
 import '../../../utility/theme.dart';
@@ -33,7 +32,6 @@ import '../../../view/drawer.dart';
 import '../cart_logo.dart';
 import '../product_list.dart';
 import '../../../components/widgets/loading.dart';
-import '../../../components/widgets/productViewColor2Card.dart';
 import '../../../components/widgets/productViewColorCard.dart';
 import '../../../values/route_path.dart' as routes;
 
@@ -42,14 +40,22 @@ class Home extends StatefulWidget {
   _Home createState() => _Home();
 }
 
-class _Home extends State<Home> {
+class _Home extends State<Home> with TickerProviderStateMixin{
   var counter = 4;
   var searchVisible = false;
   QueryMutation addMutation = QueryMutation();
+  Animation<Offset> _transTween;
+  AnimationController _TextAnimationController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-
+ // double bottomAppSize = ScreenUtil().setWidth(130);
+  ScrollController scrollController = ScrollController();
+ bool bottomVisible = true;
   @override
   void initState() {
+    _TextAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _transTween = Tween(begin: Offset(0, 90), end: Offset(0, -40))
+        .animate(_TextAnimationController);
     this.initDynamicLinks();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       try {
@@ -58,7 +64,19 @@ class _Home extends State<Home> {
         print(e);
       }
     });
+    scrollController.addListener((){_scrollListener();});
     super.initState();
+  }
+
+  bool _scrollListener() {
+    if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      _TextAnimationController.animateTo(90);
+      return true;
+    }
+    if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      _TextAnimationController.animateTo(-90);
+      return true;
+    }
   }
 
   void initDynamicLinks() async {
@@ -87,96 +105,201 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-          key: scaffoldKey,
+      key: scaffoldKey,
           drawer: HomeDrawer(),
-          appBar: AppBar(
-
-              backgroundColor: Colors.white,
-              leading: InkWell(
-                  onTap: () {
-                    scaffoldKey.currentState.openDrawer();
-                  },
-                  child: Icon(
-                    Icons.menu,
-                    color: Colors.black54,
-                  )),
-              title: Container(
-                  height: 45,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                  )),
-              actions: [
-                InkWell(
-                    onTap: () {
-                      locator<NavigationService>().pushNamed(routes.SearchPage);
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.search,
-                      size: 20,
-                      color: Colors.black54,
-                    )),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                InkWell(
-                    onTap: () {
-                     if (Provider.of<ProfileModel>(context, listen: false).user == null)
-                            {
-                              locator<NavigationService>().pushNamed(routes.LoginRoute);
-                      }
-                     else {
-                       locator<NavigationService>().pushNamedAndRemoveUntil(
-                           routes.ManageOrder);
-                     }
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.shoppingBag,
-                      size: 20,
-                      color: Colors.black54,
-                    )),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                InkWell(
-                    onTap: () {
-                      if (Provider.of<ProfileModel>(context, listen: false).user == null)
-                      {
-                        locator<NavigationService>().pushNamed(routes.LoginRoute);
-                      }
-                      else {
-                        locator<NavigationService>().pushNamedAndRemoveUntil(
-                            routes.Wishlist);
-                      }
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.heart,
-                      size: 20,
-                      color: Colors.black54,
-                    )),
-                SizedBox(width: ScreenUtil().setWidth(24),),
-                CartLogo(),
-                SizedBox(width: ScreenUtil().setWidth(20),),
-              ],
-
-
-          ),
-          body: Container(
-            child:
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SearchCategoriesClass(),
-                      BannersSliderClass(),
-                      ListDealsClass(),
-                      YouMayLikeClass(),
-                      BannersClass(),
-                      SuggestedClass(),
-                      TrendingClass(),
-                      BrandClass()
-                    ],
-                  ),
-                ),
-          ),
+          // appBar: AppBar(
+          //     backgroundColor: Colors.white,
+          //     leading: InkWell(
+          //         onTap: () {
+          //           scaffoldKey.currentState.openDrawer();
+          //         },
+          //         child: Icon(
+          //           Icons.menu,
+          //           color: Colors.black54,
+          //         )),
+          //     title: Container(
+          //         height: 45,
+          //         child: Image.asset(
+          //           'assets/images/logo.png',
+          //         )),
+          //     bottom:  PreferredSize(
+          //       preferredSize: Size(MediaQuery.of(context).size.width,bottomVisible? bottomAppSize:0),
+          //       child: bottomVisible? SearchCategoriesClass():Container(),
+          //     ),
+          //     actions: [
+          //       InkWell(
+          //           onTap: () {
+          //             locator<NavigationService>().pushNamed(routes.SearchPage);
+          //           },
+          //           child: Icon(
+          //             FontAwesomeIcons.search,
+          //             size: 20,
+          //             color: Colors.black54,
+          //           )),
+          //       SizedBox(
+          //         width: ScreenUtil().setWidth(24),
+          //       ),
+          //       InkWell(
+          //           onTap: () {
+          //            if (Provider.of<ProfileModel>(context, listen: false).user == null)
+          //                   {
+          //                     locator<NavigationService>().pushNamed(routes.LoginRoute);
+          //             }
+          //            else {
+          //              locator<NavigationService>().pushNamedAndRemoveUntil(
+          //                  routes.ManageOrder);
+          //            }
+          //           },
+          //           child: Icon(
+          //             FontAwesomeIcons.shoppingBag,
+          //             size: 20,
+          //             color: Colors.black54,
+          //           )),
+          //       SizedBox(
+          //         width: ScreenUtil().setWidth(24),
+          //       ),
+          //       InkWell(
+          //           onTap: () {
+          //             if (Provider.of<ProfileModel>(context, listen: false).user == null)
+          //             {
+          //               locator<NavigationService>().pushNamed(routes.LoginRoute);
+          //             }
+          //             else {
+          //               locator<NavigationService>().pushNamedAndRemoveUntil(
+          //                   routes.Wishlist);
+          //             }
+          //           },
+          //           child: Icon(
+          //             FontAwesomeIcons.heart,
+          //             size: 20,
+          //             color: Colors.black54,
+          //           )),
+          //       SizedBox(width: ScreenUtil().setWidth(24),),
+          //       CartLogo(),
+          //       SizedBox(width: ScreenUtil().setWidth(20),),
+          //     ],
+          // ),
+          body:
+               Stack(children: [
+                 Container(
+                   child:
+                   SingleChildScrollView(
+                     controller: scrollController,
+                     child: Column(
+                       children: [
+                         SizedBox(height: ScreenUtil().setWidth(240),),
+                         //  SearchCategoriesClass(),
+                         BannersSliderClass(),
+                         ListDealsClass(),
+                         YouMayLikeClass(),
+                         BannersClass(),
+                         SuggestedClass(),
+                         TrendingClass(),
+                         BrandClass()
+                       ],
+                     ),
+                   ),
+                 ),
+                 Align(
+                   alignment: Alignment.topCenter,
+                   child: AnimatedBuilder(
+    animation: _TextAnimationController,
+    builder: (context, child) => Transform.translate(
+                     offset: _transTween.value,
+                     child:Container(
+      height: ScreenUtil().setWidth(140),
+      color: Color(0xffffffff),
+     // height: categoryHeight,
+      child: SearchCategoriesClass(),
+    ),
+                 ))),
+                 Align(
+                   alignment: Alignment.topCenter,
+                   child: Container(
+                     height: ScreenUtil().setWidth(110),
+                     color: Color(0xffffffff),
+                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(25), ScreenUtil().setWidth(20), ScreenUtil().setWidth(10)),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             InkWell(
+                                       onTap: () {
+                                         scaffoldKey.currentState.openDrawer();
+                                       },
+                                       child: Icon(
+                                         Icons.menu,
+                                         color: Colors.black54,
+                                       )),
+                             SizedBox(width: ScreenUtil().setWidth(15),),
+                             Container(
+                                       height: 45,
+                                       child: Image.asset(
+                                         'assets/images/logo.png',
+                                       )),
+                           ],
+                         ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.end,
+                           children: [
+                                   InkWell(
+                                       onTap: () {
+                                         locator<NavigationService>().pushNamed(routes.SearchPage);
+                                       },
+                                       child: Icon(
+                                         FontAwesomeIcons.search,
+                                         size: 20,
+                                         color: Colors.black54,
+                                       )),
+                                   SizedBox(
+                                     width: ScreenUtil().setWidth(24),
+                                   ),
+                                   InkWell(
+                                       onTap: () {
+                                        if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                                               {
+                                                 locator<NavigationService>().pushNamed(routes.LoginRoute);
+                                         }
+                                        else {
+                                          locator<NavigationService>().pushNamedAndRemoveUntil(
+                                              routes.ManageOrder);
+                                        }
+                                       },
+                                       child: Icon(
+                                         FontAwesomeIcons.shoppingBag,
+                                         size: 20,
+                                         color: Colors.black54,
+                                       )),
+                                   SizedBox(
+                                     width: ScreenUtil().setWidth(24),
+                                   ),
+                                   InkWell(
+                                       onTap: () {
+                                         if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                                         {
+                                           locator<NavigationService>().pushNamed(routes.LoginRoute);
+                                         }
+                                         else {
+                                           locator<NavigationService>().pushNamedAndRemoveUntil(
+                                               routes.Wishlist);
+                                         }
+                                       },
+                                       child: Icon(
+                                         FontAwesomeIcons.heart,
+                                         size: 20,
+                                         color: Colors.black54,
+                                       )),
+                                   SizedBox(width: ScreenUtil().setWidth(24),),
+                                   CartLogo(),
+                           ],
+                         )
+                       ],
+                     ),
+                   ),
+                 ),
+               ],)
         );
   }
 }

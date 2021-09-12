@@ -46,8 +46,9 @@ class TzDialog extends ChangeNotifier {
     if (Platform.isAndroid) {
       return Dialog(
         child: Container(
-          height: 100.0,
-          child: new Column(
+          height: 100,
+          child:
+          new Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(

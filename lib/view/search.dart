@@ -201,9 +201,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
     // TODO: implement build
     return Column(
       children: [
-        SizedBox(
-          height: ScreenUtil().setWidth(10),
-        ),
+        // SizedBox(
+        //   height: ScreenUtil().setWidth(10),
+        // ),
         getCategoriesList()
       ],
     );
@@ -218,7 +218,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
           if (Provider.of<ProfileModel>(context).user == null) {
             Provider.of<ProfileModel>(context, listen: false).getProfile();
           }
-          return Loading();
+          return Container();
         } else if (value.status == "empty") {
           return SizedBox.shrink();
         } else if (value.status == "error") {
@@ -273,7 +273,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
                               SizedBox(
-                                height: ScreenUtil().setWidth(15),
+                                height: ScreenUtil().setWidth(5),
                               ),
                               Text(
                                 value.categoryResponse.data[index].name,

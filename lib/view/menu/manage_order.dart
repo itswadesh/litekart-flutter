@@ -67,13 +67,13 @@ class _ManageOrderState extends State<ManageOrder> {
         backgroundColor: Colors.white,
 
         title:  Text(
-          "My Orders",
+          "ORDERS",
           style: TextStyle(
               color: Color(0xff616161),
               fontSize: ScreenUtil().setSp(
                 21,
-              )),
-          textAlign: TextAlign.center,
+              ),
+          fontWeight: FontWeight.w600),
         ),
         actions: [
           Container(
@@ -966,7 +966,7 @@ class ListOrderData extends StatelessWidget{
             child: Container(
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(19),
-                  ScreenUtil().setWidth(23),
+                  ScreenUtil().setWidth(0),
                   ScreenUtil().setWidth(19),
                   ScreenUtil().setWidth(10)),
               decoration: BoxDecoration(
@@ -974,34 +974,49 @@ class ListOrderData extends StatelessWidget{
               ),
               child: Container(
                 child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                            width: ScreenUtil().setWidth(200),
-                            child:
-                            Text(
-                              orderData.items[0].status,
-                              style: TextStyle(
-                                color: AppColors.primaryElement2,
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
-
-                            ),
-                        Text(
-                            "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt) * 1000))}",
-                            style: TextStyle(
-                                color: Color(0xff9b9b9b),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                )))
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ),
+                   children: <Widget>[
+                     ListTile(
+                       title:   Text(
+                                   orderData.items[0].status,
+                                   style: TextStyle(
+                                     color: AppColors.primaryElement2,
+                                   ),
+                                   textAlign: TextAlign.start,
+                                 ),
+                       subtitle: Text(
+                                 "on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt) * 1000))}",
+                                 style: TextStyle(
+                                     color: Color(0xff9b9b9b),
+                                 fontSize: ScreenUtil().setSp(14)
+                                 ))
+                     ),
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: <Widget>[
+                  //       Container(
+                  //           width: ScreenUtil().setWidth(200),
+                  //           child:
+                  //           Text(
+                  //             orderData.items[0].status,
+                  //             style: TextStyle(
+                  //               color: AppColors.primaryElement2,
+                  //             ),
+                  //             textAlign: TextAlign.start,
+                  //           ),
+                  //
+                  //           ),
+                  //       Text(
+                  //           "${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt) * 1000))}",
+                  //           style: TextStyle(
+                  //               color: Color(0xff9b9b9b),
+                  //               fontSize: ScreenUtil().setSp(
+                  //                 16,
+                  //               )))
+                  //     ],
+                  //   ),
+                  //   SizedBox(
+                  //     height: ScreenUtil().setWidth(16),
+                  //   ),
                     getOrderItems(orderData.items,orderData.address),
 
                     SizedBox(
@@ -1101,7 +1116,7 @@ class ListOrderData extends StatelessWidget{
            ScreenUtil().setWidth(15),
            ScreenUtil().setWidth(8)),
        decoration: BoxDecoration(
-         color: Color(0xfff3f3f3),
+         color: Color(0xfff7f7f7),
        ),
        child: Row(
          children: <Widget>[
@@ -1109,9 +1124,9 @@ class ListOrderData extends StatelessWidget{
                child: FadeInImage.assetNetwork(
                  placeholder: 'assets/images/loading.gif',
                  image: items[index].img,
-                 fit: BoxFit.contain,
+                 fit: BoxFit.cover,
                  width: ScreenUtil().setWidth(92),
-                 height: ScreenUtil().setWidth(102),
+                 height: ScreenUtil().setWidth(112),
                )),
            Padding(
              padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
@@ -1120,6 +1135,24 @@ class ListOrderData extends StatelessWidget{
              child: Expanded(
                child: Column(
                  children: <Widget>[
+                   Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       children: <Widget>[
+                         Container(
+                           width: ScreenUtil().setWidth(188),
+                           child: Text(
+                             items[index].brandName ?? "",
+                             style: TextStyle(
+                               color: Color(0xff454545),
+                               fontWeight: FontWeight.w600,
+                               fontSize: ScreenUtil().setSp(17),
+                             ),
+                             textAlign: TextAlign.left,
+                           ),
+                         ),]),
+                   SizedBox(
+                     height: ScreenUtil().setWidth(8),
+                   ),
                    Row(
                      mainAxisAlignment: MainAxisAlignment.start,
                      children: <Widget>[
@@ -1141,23 +1174,7 @@ class ListOrderData extends StatelessWidget{
 
                      ],
                    ),
-                   SizedBox(
-                     height: ScreenUtil().setWidth(8),
-                   ),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     width: ScreenUtil().setWidth(188),
-                     child: Text(
-                       items[index].brandName ?? "",
-                       style: TextStyle(
-                         color: AppColors.primaryElement,
-                         fontSize: ScreenUtil().setWidth(13),
-                       ),
-                       textAlign: TextAlign.left,
-                     ),
-                   ),]),
+
                    SizedBox(
                      height: ScreenUtil().setWidth(11),
                    ),

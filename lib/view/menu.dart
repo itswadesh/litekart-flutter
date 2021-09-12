@@ -7,6 +7,7 @@ import 'package:anne/view_model/auth_view_model.dart';
 import 'package:anne/view_model/menu_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:anne/values/route_path.dart' as routes;
 
@@ -41,8 +42,8 @@ class _MenuState extends State<Menu>{
                        color: AppColors.primaryElement))),
            child: Consumer<ProfileModel>(builder: (context,value,view){
              return BottomNavigationBar(
-                selectedLabelStyle: TextStyle(color: AppColors.primaryElement),
-                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0)),
+                selectedLabelStyle: TextStyle(color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(13)),
+                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0),fontSize: ScreenUtil().setSp(13)),
                  selectedIconTheme: IconThemeData(color: AppColors.primaryElement),
                  unselectedIconTheme: IconThemeData(color: Color(0xffd0d0d0)),
                  selectedItemColor: AppColors.primaryElement,
@@ -70,7 +71,7 @@ class _MenuState extends State<Menu>{
   List<BottomNavigationBarItem> bottomNavigationItem(MenuViewModel model){
     List<BottomNavigationBarItem> menu  = [];
     for(int i=0; i< model.menus.length;i++){
-        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset),label: model.menus[i].title,));
+        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset,size: 20,),label: model.menus[i].title,));
     }
     return menu;
   }
