@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
 import '../../repository/cashfree_repository.dart';
 import '../../repository/checkout_repository.dart';
@@ -185,9 +186,9 @@ class _Checkout extends State<Checkout> {
           // borderRadius: BorderRadius.circular(2),
           child: Card(
             margin: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(11),
+                ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(5),
-                ScreenUtil().setWidth(15),
+                ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(65)),
             elevation: 0,
             child: Container(
@@ -202,69 +203,69 @@ class _Checkout extends State<Checkout> {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            height: ScreenUtil().setWidth(35),
-                            width: ScreenUtil().setWidth(231),
-                            child: TextFormField(
-                              onTap: () async {
-                                await Provider.of<CartViewModel>(context,
-                                        listen: false)
-                                    .changePromoStatus("loading");
-                                showCoupon();
-                              },
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                  fillColor: Color(0xfff3f3f3),
-                                  filled: true,
-                                  contentPadding:
-                                      EdgeInsets.all(ScreenUtil().setWidth(10)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffb4b4b4),
-                                        width: ScreenUtil().setWidth(0.4)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffb4b4b4),
-                                        width: ScreenUtil().setWidth(0.4)),
-                                  ),
-                                  hintText: value.promocodeStatus
-                                      ? value.promocode
-                                      : "Promocode",
-                                  hintStyle: TextStyle(
-                                      color: Color(0xffb9b9b9),
-                                      fontSize: ScreenUtil().setSp(
-                                        15,
-                                      ))),
-                            )),
-                        Container(
-                          width: ScreenUtil().setWidth(91),
-                          height: ScreenUtil().setWidth(35),
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              side: BorderSide(
-                                  width: 1, color: AppColors.primaryElement),
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              value.promocodeStatus ? "Applied" : "Apply",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: AppColors.primaryElement),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(28),
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Container(
+                    //         height: ScreenUtil().setWidth(35),
+                    //         width: ScreenUtil().setWidth(231),
+                    //         child: TextFormField(
+                    //           onTap: () async {
+                    //             await Provider.of<CartViewModel>(context,
+                    //                     listen: false)
+                    //                 .changePromoStatus("loading");
+                    //             showCoupon();
+                    //           },
+                    //           readOnly: true,
+                    //           decoration: InputDecoration(
+                    //               fillColor: Color(0xfff3f3f3),
+                    //               filled: true,
+                    //               contentPadding:
+                    //                   EdgeInsets.all(ScreenUtil().setWidth(10)),
+                    //               enabledBorder: OutlineInputBorder(
+                    //                 borderSide: BorderSide(
+                    //                     color: Color(0xffb4b4b4),
+                    //                     width: ScreenUtil().setWidth(0.4)),
+                    //               ),
+                    //               focusedBorder: OutlineInputBorder(
+                    //                 borderSide: BorderSide(
+                    //                     color: Color(0xffb4b4b4),
+                    //                     width: ScreenUtil().setWidth(0.4)),
+                    //               ),
+                    //               hintText: value.promocodeStatus
+                    //                   ? value.promocode
+                    //                   : "Promocode",
+                    //               hintStyle: TextStyle(
+                    //                   color: Color(0xffb9b9b9),
+                    //                   fontSize: ScreenUtil().setSp(
+                    //                     15,
+                    //                   ))),
+                    //         )),
+                    //     Container(
+                    //       width: ScreenUtil().setWidth(91),
+                    //       height: ScreenUtil().setWidth(35),
+                    //       child: OutlinedButton(
+                    //         style: OutlinedButton.styleFrom(
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(5),
+                    //           ),
+                    //           side: BorderSide(
+                    //               width: 1, color: AppColors.primaryElement),
+                    //         ),
+                    //         onPressed: () {},
+                    //         child: Text(
+                    //           value.promocodeStatus ? "Applied" : "Apply",
+                    //           style: TextStyle(
+                    //               fontFamily: 'Montserrat',
+                    //               color: AppColors.primaryElement),
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: ScreenUtil().setWidth(28),
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -1186,6 +1187,49 @@ class _Checkout extends State<Checkout> {
               addressPage
                   ? (newAddress ? getExistingAddress() : addNewAddress())
                   : getPaymentOption(),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(
+                    ScreenUtil().setWidth(20),
+                    ScreenUtil().setWidth(15),
+                    20,
+                    ScreenUtil().setWidth(15)),
+                child: Text(
+                  "COUPONS",
+                  style: TextStyle(
+                      color: Color(0xff616161),
+                      fontSize: ScreenUtil().setSp(
+                        16,
+                      )),
+                ),
+              ),
+    Consumer<CartViewModel>(
+    builder: (BuildContext context, value, Widget child) {
+             return Container(
+                  color: Color(0xffffffff),
+                  child:
+                  InkWell(
+                      onTap: () async{
+                        await Provider.of<CartViewModel>(context,
+                            listen: false)
+                            .changePromoStatus("loading");
+                        showCoupon();
+                      },
+                      child:
+                      Container(
+                          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right:ScreenUtil().setWidth(20),top:ScreenUtil().setWidth(20),bottom: ScreenUtil().setWidth(20) ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(value.promocodeStatus
+                                  ?"Applied Promocode ("+ value.promocode+")"
+                                  : "Apply Promocode"),
+                              Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
+                            ],
+                          )
+                      )
+                  ));}),
+              SizedBox(height: ScreenUtil().setWidth(15),),
               Container(
                 child: getBillCard(),
               ),

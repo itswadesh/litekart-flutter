@@ -53,7 +53,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
   @override
   void initState() {
     _TextAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
     _transTween = Tween(begin: Offset(0, 90), end: Offset(0, -40))
         .animate(_TextAnimationController);
     this.initDynamicLinks();

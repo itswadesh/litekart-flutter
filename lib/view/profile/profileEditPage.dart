@@ -315,7 +315,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     width: double.infinity,
                                     color: Color(0xffffffff),
                                     child: Container(
-                                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(8)),
+                                  margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(8),left: ScreenUtil().setWidth(25),right: ScreenUtil().setWidth(25)),
                                   height: 43,
                                   width: MediaQuery.of(context).size.width * 0.80,
                                   decoration: BoxDecoration(
