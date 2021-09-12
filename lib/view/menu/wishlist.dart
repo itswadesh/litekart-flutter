@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:anne/response_handler/wishlistResponse.dart';
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ import '../../view_model/cart_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
 import '../../view/cart_logo.dart';
 import '../../view/product_detail.dart';
-
+import '../../values/route_path.dart' as routes;
 class Wishlist extends StatefulWidget {
   @override
   _WishlistState createState() => _WishlistState();
@@ -50,7 +52,8 @@ class _WishlistState extends State<Wishlist> {
           Container(
               padding: EdgeInsets.only(right: 10.0),
               // width: MediaQuery.of(context).size.width * 0.35,
-              child: CartLogo())
+              child: CartLogo()),
+          SizedBox(width: ScreenUtil().setWidth(20),)
         ],
       ),
       body: GraphQLProvider(
@@ -139,8 +142,7 @@ class _WishCard extends State<WishCard> {
       ),
       child: InkWell(
         onTap: () async {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ProductDetail(item.id)));
+          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product.id);
         },
         child: Container(
           width: ScreenUtil().setWidth(183),
@@ -156,6 +158,7 @@ class _WishCard extends State<WishCard> {
                       image: item.product.img,
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Container(
@@ -219,6 +222,7 @@ class _WishCard extends State<WishCard> {
                         fontSize: ScreenUtil().setSp(
                           14,
                         ),
+                        fontWeight: FontWeight.w600,
                         color: Color(0xff4a4a4a)),
                   ),
                   item.product.price < item.product.mrp
@@ -227,7 +231,7 @@ class _WishCard extends State<WishCard> {
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               fontSize: ScreenUtil().setSp(
-                                9,
+                                12,
                               ),
                               color: Color(0xff4a4a4a)),
                         )
@@ -238,7 +242,7 @@ class _WishCard extends State<WishCard> {
                           style: TextStyle(
                               color: AppColors.primaryElement2,
                               fontSize: ScreenUtil().setSp(
-                                8,
+                                12,
                               )),
                         )
                       : Container()

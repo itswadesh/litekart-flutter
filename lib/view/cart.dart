@@ -1,5 +1,6 @@
 import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../components/widgets/buttonValue.dart';
 import '../../response_handler/cartResponse.dart';
 import '../../service/event/tracking.dart';
@@ -119,6 +120,47 @@ class _Cart extends State<Cart> {
                   ),
                   Container(child: CartCard()),
                   Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(20),
+                        ScreenUtil().setWidth(15),
+                        20,
+                        ScreenUtil().setWidth(15)),
+                    child: Text(
+                      "COUPONS",
+                      style: TextStyle(
+                          color: Color(0xff616161),
+                          fontSize: ScreenUtil().setSp(
+                            16,
+                          )),
+                    ),
+                  ),
+                  Container(
+                      color: Color(0xffffffff),
+                      child:
+                  InkWell(
+                      onTap: () async{
+                        await Provider.of<CartViewModel>(context,
+                            listen: false)
+                            .changePromoStatus("loading");
+                        showCoupon();
+                      },
+                      child:
+                  Container(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right:ScreenUtil().setWidth(20),top:ScreenUtil().setWidth(20),bottom: ScreenUtil().setWidth(20) ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(value.promocodeStatus
+                            ?"Applied Promocode ("+ value.promocode+")"
+                            : "Apply Promocode"),
+                        Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
+                      ],
+                    )
+                  )
+                  )),
+                  SizedBox(height: ScreenUtil().setWidth(15),),
+                  Container(
                     child: CartBillCard(),
                   ),
                   SizedBox(
@@ -141,7 +183,7 @@ class _Cart extends State<Cart> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Order Total: ₹ ${value.cartResponse.total}",
+                  Text("Total : ₹ ${value.cartResponse.total}",
                       style: TextStyle(
                           color: Color(0xff383838),
                           fontSize: ScreenUtil().setSp(
@@ -154,13 +196,14 @@ class _Cart extends State<Cart> {
                     child: Consumer<ProfileModel>(
                       builder: (context, user, child) {
                         return Container(
-                          width: ScreenUtil().setWidth(150),
+                          width: ScreenUtil().setWidth(170),
                           height: ScreenUtil().setHeight(42),
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
+                              backgroundColor: AppColors.primaryElement,
                               side: BorderSide(
                                   width: 2, color: AppColors.primaryElement),
                             ),
@@ -172,13 +215,13 @@ class _Cart extends State<Cart> {
                               }
                             },
                             child: Text(
-                              "Checkout",
+                              "PLACE ORDER",
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ),
-                                fontWeight: FontWeight.w500,
-                                  color: AppColors.primaryElement,
+                                fontWeight: FontWeight.w600,
+                                  color: Color(0xffffffff),
                                   fontFamily: 'Montserrat'),
                             ),
                           ),
@@ -193,6 +236,210 @@ class _Cart extends State<Cart> {
         ],
       );
     });
+  }
+
+  void showCoupon() {
+    bool buttonStatus = true;
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Apply Coupon",
+                    style: TextStyle(
+                        color: Color(0xff3a3a3a),
+                        fontSize: ScreenUtil().setSp(17)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      size: ScreenUtil().setWidth(20),
+                      color: Color(0xff3a3a3a),
+                    ),
+                  ),
+                ],
+              ),
+              content: Container(
+                child: Consumer<CartViewModel>(
+                    builder: (BuildContext context, value, Widget child) {
+                      if (value.statusPromo == "loading") {
+                        Provider.of<CartViewModel>(context, listen: false)
+                            .listCoupons();
+                        return Container(
+                            height: ScreenUtil().setWidth(340),
+                            width: ScreenUtil().setWidth(386),
+                            child: Loading());
+                      } else if (value.statusPromo == "empty") {
+                        return Center(
+                          child: Container(
+                              height: ScreenUtil().setHeight(100),
+                              width: ScreenUtil().setWidth(386),
+                              child: Center(child: Text("No Coupon Code"))
+                          ),
+                        );
+                      } else if (value.statusPromo == "error") {
+                        return Container(
+                            height: ScreenUtil().setWidth(350),
+                            width: ScreenUtil().setWidth(386),
+                            child: errorMessage());
+                      }
+                      print(value.couponResponse.data[0].code);
+                      return Container(
+                        height: ScreenUtil().setWidth(350),
+                        width: ScreenUtil().setWidth(386),
+                        child: Column(
+                          children: [
+                            Divider(
+                              height: ScreenUtil().setWidth(0.4),
+                              thickness: ScreenUtil().setWidth(0.4),
+                              color: Color(0xff707070),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(25),
+                            ),
+                            Container(
+                              height: ScreenUtil().setWidth(250),
+                              child: ListView.builder(
+                                  itemCount: value.couponResponse.data.length,
+                                  itemBuilder: (BuildContext build, index) {
+                                    return Container(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  await Provider.of<CartViewModel>(
+                                                      context,
+                                                      listen: false)
+                                                      .selectPromoCode(value
+                                                      .couponResponse
+                                                      .data[index]
+                                                      .code);
+                                                },
+                                                child: ((value.promocode ==
+                                                    value.couponResponse
+                                                        .data[index].code))
+                                                    ? Icon(
+                                                  Icons.check_box,
+                                                  color: AppColors.primaryElement,
+                                                  size:
+                                                  ScreenUtil().setWidth(18),
+                                                )
+                                                    : Icon(
+                                                  Icons.check_box_outline_blank,
+                                                  color: AppColors.primaryElement,
+                                                  size:
+                                                  ScreenUtil().setWidth(18),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: ScreenUtil().setWidth(20),
+                                              ),
+                                              DottedBorder(
+                                                  color: AppColors.primaryElement,
+                                                  dashPattern: [
+                                                    ScreenUtil().setWidth(4),
+                                                    ScreenUtil().setWidth(2)
+                                                  ],
+                                                  child: Container(
+                                                    height: ScreenUtil().setWidth(28),
+                                                    width: ScreenUtil().setWidth(96),
+                                                    child: Center(
+                                                        child: Text(
+                                                          value.couponResponse.data[index]
+                                                              .code,
+                                                          style: TextStyle(
+                                                              color: AppColors.primaryElement,
+                                                              fontSize:
+                                                              ScreenUtil().setSp(
+                                                                13,
+                                                              )),
+                                                        )),
+                                                  ))
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(15),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: ScreenUtil().setWidth(35)),
+                                            width: double.infinity,
+                                            child: Text(
+                                              "Saves upto ₹ ${value.couponResponse.data[index].maxAmount}",
+                                              style: TextStyle(
+                                                  color: Color(0xff3a3a3a),
+                                                  fontSize: ScreenUtil().setSp(14)),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(9),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: ScreenUtil().setWidth(35)),
+                                            width: double.infinity,
+                                            child: Text(
+                                              "${value.couponResponse.data[index].text}",
+                                              style: TextStyle(
+                                                  color: Color(0xff3a3a3a),
+                                                  fontSize: ScreenUtil().setSp(14)),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: ScreenUtil().setWidth(38),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(14),
+                            ),
+                            // Text("Maximum saving : ₹ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
+                            // SizedBox(height: ScreenUtil().setWidth(9),),
+                            Container(
+                              height: ScreenUtil().setWidth(36),
+                              width: ScreenUtil().setWidth(224),
+                              child: RaisedButton(
+                                padding: EdgeInsets.fromLTRB(
+                                    0,
+                                    ScreenUtil().setWidth(9),
+                                    0,
+                                    ScreenUtil().setWidth(9)),
+                                onPressed: () async {
+                                  if (value.promocode != "") {
+                                    setState(() {
+                                      buttonStatus = !buttonStatus;
+                                    });
+                                    await Provider.of<CartViewModel>(context,
+                                        listen: false)
+                                        .applyCoupon();
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                color: AppColors.primaryElement2,
+                                child: buttonValueWhite(
+                                  "Apply Coupon",
+                                  buttonStatus,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              ));
+        });
   }
 
   refreshCart() async {
@@ -223,9 +470,9 @@ class _CartBillCard extends State<CartBillCard> {
           // borderRadius: BorderRadius.circular(2),
           child: Card(
             margin: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(11),
+                ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(5),
-                ScreenUtil().setWidth(15),
+                ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(65)),
             elevation: 0,
             child: Container(
@@ -240,68 +487,44 @@ class _CartBillCard extends State<CartBillCard> {
                 child: Container(
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              height: ScreenUtil().setWidth(35),
-                              width: ScreenUtil().setWidth(231),
-                              child: TextFormField(
-                                onTap: () async {
-                                  await Provider.of<CartViewModel>(context,
-                                          listen: false)
-                                      .changePromoStatus("loading");
-                                  showCoupon();
-                                },
-                                readOnly: true,
-                                decoration: InputDecoration(
-                                    fillColor: Color(0xfff3f3f3),
-                                    filled: true,
-                                    contentPadding: EdgeInsets.all(
-                                        ScreenUtil().setWidth(10)),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffb4b4b4),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffb4b4b4),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                    ),
-                                    hintText: value.promocodeStatus
-                                        ? value.promocode
-                                        : "Promocode",
-                                    hintStyle: TextStyle(
-                                        color: Color(0xffb9b9b9),
-                                        fontSize: ScreenUtil().setSp(
-                                          15,
-                                        ))),
-                              )),
-                          Container(
-                            width: ScreenUtil().setWidth(91),
-                            height: ScreenUtil().setWidth(35),
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                side: BorderSide(
-                                    width: 1, color: AppColors.primaryElement),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                value.promocodeStatus ? "Applied" : "Apply",
-                                style:
-                                    TextStyle(color: AppColors.primaryElement),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setWidth(28),
-                      ),
+
+                      //     Container(
+                      //         height: ScreenUtil().setWidth(45),
+                      //         child: TextFormField(
+                      //           onTap: () async {
+                      //             await Provider.of<CartViewModel>(context,
+                      //                     listen: false)
+                      //                 .changePromoStatus("loading");
+                      //             showCoupon();
+                      //           },
+                      //           readOnly: true,
+                      //           decoration: InputDecoration(
+                      //               fillColor: Color(0xfff3f3f3),
+                      //               filled: true,
+                      //               contentPadding: EdgeInsets.all(
+                      //                   ScreenUtil().setWidth(10)),
+                      //               enabledBorder: OutlineInputBorder(
+                      //                 borderSide: BorderSide(
+                      //                     color: Color(0xffb4b4b4),
+                      //                     width: ScreenUtil().setWidth(0.4)),
+                      //               ),
+                      //               focusedBorder: OutlineInputBorder(
+                      //                 borderSide: BorderSide(
+                      //                     color: Color(0xffb4b4b4),
+                      //                     width: ScreenUtil().setWidth(0.4)),
+                      //               ),
+                      //               hintText: value.promocodeStatus
+                      //                   ? value.promocode
+                      //                   : "Apply Promocode",
+                      //               hintStyle: TextStyle(
+                      //                   color: Color(0xffb9b9b9),
+                      //                   fontSize: ScreenUtil().setSp(
+                      //                     15,
+                      //                   ))),
+                      //         )),
+                      // SizedBox(
+                      //   height: ScreenUtil().setWidth(28),
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[

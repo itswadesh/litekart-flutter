@@ -17,6 +17,6 @@ class MenuItem {
     MenuItemSource.shop_by_category: 'Categories',
     MenuItemSource.manage_order: 'Orders',
     MenuItemSource.wishlist: 'Wishlist',
-    MenuItemSource.profile:'My Profile'
+    MenuItemSource.profile:'Profile'
   };
 }

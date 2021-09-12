@@ -33,7 +33,7 @@ class _ProductCard extends State<ProductCard> {
   final List gradientColors = [
     Color(0xfff0c68c),
    // Color(0xffc5c5c5),
-    Color(0xffE1FFB5),
+    Color(0xffd8bfd8),
     Color(0xffffe4b5),
     Color(0xffe6e6fa)
   ];
@@ -67,6 +67,7 @@ class _ProductCard extends State<ProductCard> {
                       image: item.img,
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Row(
@@ -170,14 +171,16 @@ class _ProductCard extends State<ProductCard> {
                     height: ScreenUtil().setWidth(7),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
                         "₹ " + item.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
                             ),
+                            fontWeight: FontWeight.w600,
                             color: Color(0xff4a4a4a)),
                       ),
                       item.price < item.mrp
@@ -186,7 +189,7 @@ class _ProductCard extends State<ProductCard> {
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
-                              9,
+                              12,
                             ),
                             color: Color(0xff4a4a4a)),
                       )
@@ -197,7 +200,7 @@ class _ProductCard extends State<ProductCard> {
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
-                              8,
+                              12,
                             )),
                       )
                           : Container()

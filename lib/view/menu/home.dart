@@ -155,7 +155,7 @@ class _Home extends State<Home> {
                     )),
                 SizedBox(width: ScreenUtil().setWidth(24),),
                 CartLogo(),
-                SizedBox(width: ScreenUtil().setWidth(12),),
+                SizedBox(width: ScreenUtil().setWidth(20),),
               ],
 
 

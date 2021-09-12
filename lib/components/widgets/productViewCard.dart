@@ -97,6 +97,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                     image: images.first,
                     height: ScreenUtil().setWidth(110),
                     width: ScreenUtil().setWidth(111),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Container(
@@ -132,14 +133,16 @@ class _ProductViewCardState extends State<ProductViewCard> {
                   height: ScreenUtil().setWidth(7),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width: ScreenUtil().setWidth(20),),
                     Text(
                       "₹ " + productData.price.toString() + " ",
                       style: TextStyle(
                           fontSize: ScreenUtil().setSp(
                             14,
                           ),
+                          fontWeight: FontWeight.w600,
                           color: Color(0xff4a4a4a)),
                     ),
                     productData.price < productData.mrp
@@ -148,7 +151,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: ScreenUtil().setSp(
-                                  9,
+                                  12,
                                 ),
                                 color: Color(0xff4a4a4a)),
                           )
@@ -159,7 +162,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                             style: TextStyle(
                                 color: AppColors.primaryElement2,
                                 fontSize: ScreenUtil().setSp(
-                                  8,
+                                  12,
                                 )),
                           )
                         : Container()

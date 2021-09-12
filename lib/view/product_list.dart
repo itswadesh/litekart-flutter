@@ -104,14 +104,18 @@ class _ProductList extends State<ProductList> {
               color: Colors.black54,
             ),
           ),
-          // title:  Text(
-          //   "Product List",
-          //   style: TextStyle(
-          //       color: Color(0xff616161),
-          //       fontSize: ScreenUtil().setSp(
-          //         21,
-          //       )),
-          // ),
+          title: Column(
+            children: [
+              Text(
+                "$count products",
+                style: TextStyle(
+                    color: Color(0xff616161),
+                    fontSize: ScreenUtil().setSp(
+                      16,
+                    )),
+              )
+            ],
+          ) ,
           actions: [
             InkWell(
                 onTap: () {
@@ -176,125 +180,125 @@ class _ProductList extends State<ProductList> {
 
   Widget getProductList() {
     return Column(children: [
-      Container(
-        height: ScreenUtil().setWidth(43),
-        color: Colors.white,
-        width: double.infinity,
-        padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(27),
-            ScreenUtil().setWidth(5),
-            ScreenUtil().setWidth(16),
-            ScreenUtil().setWidth(12)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-                padding:EdgeInsets.only(top: ScreenUtil().setWidth(10)),
-                child:
-            Text(
-              "$count Products Found",
-              style: TextStyle(
-                  color: Color(0xff616161),
-                  fontSize: ScreenUtil().setWidth(16)),
-            )),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     count > 0
-            //         ? InkWell(
-            //         onTap: () {
-            //           showSortPopup();
-            //         },
-            //         child: Container(
-            //             padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-            //             child: Icon(
-            //           Icons.sort,
-            //           size: ScreenUtil().setWidth(22),
-            //           color: Color(0xffee7625),
-            //         )))
-            //         : Container(),
-            //     count > 0
-            //         ? InkWell(
-            //             onTap: () {
-            //               // key.currentState.openEndDrawer();
-            //
-            //               showMaterialModalBottomSheet(
-            //                 shape: RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.only(
-            //                     topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-            //                     topRight: Radius.circular(ScreenUtil().setWidth(25)),
-            //                   )
-            //                 ),
-            //                 context: context,
-            //                 builder: (context) => Container(
-            //                   decoration: BoxDecoration(
-            //
-            //                       borderRadius: BorderRadius.only(
-            //                         topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-            //                         topRight: Radius.circular(ScreenUtil().setWidth(25)),
-            //                       )
-            //                   ),
-            //                   child: ProductFilterDrawer(
-            //                     facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
-            //                     (bn, cl, sz,gd,pr,ag,dc) {
-            //                   brand = "";
-            //                   color = "";
-            //                   size = "";
-            //                    gender = "";
-            //                    priceRange = "";
-            //                    ageGroup = "";
-            //                    discount = "";
-            //                   bn.forEach((element) {
-            //                     brand = brand + element + ",";
-            //                   });
-            //                   cl.forEach((element) {
-            //                     color = color + element + ",";
-            //                   });
-            //                   sz.forEach((element) {
-            //                     size = size + element + ",";
-            //                   });
-            //                   gd.forEach((element) {
-            //                     gender = gender + element + ",";
-            //                   });
-            //                   pr.forEach((element) {
-            //                     priceRange = priceRange + element + ",";
-            //                   });
-            //                   ag.forEach((element) {
-            //                     ageGroup = ageGroup + element + ",";
-            //                   });
-            //                   dc.forEach((element) {
-            //                     discount = discount + element + ",";
-            //                   });
-            //                   print(brand);
-            //                   brandArr = bn;
-            //                   colorArr = cl;
-            //                   sizeArr = sz;
-            //                   genderArr = gd;
-            //                   priceRangeArr = pr;
-            //                   ageGroupArr = ag;
-            //                   discountArr = dc;
-            //                   page = 0;
-            //                   print(brand);
-            //                   _pagingController.refresh();
-            //                 }),
-            //               ));
-            //             },
-            //             child: Container(
-            //                 padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-            //                 child: Icon(
-            //               Icons.filter_alt_outlined,
-            //               size: ScreenUtil().setWidth(22),
-            //               color: Color(0xffee7625),
-            //             )))
-            //         : Container()
-            //   ],
-            // )
-          ],
-        ),
-      ),
+      // Container(
+      //   height: ScreenUtil().setWidth(43),
+      //   color: Colors.white,
+      //   width: double.infinity,
+      //   padding: EdgeInsets.fromLTRB(
+      //       ScreenUtil().setWidth(27),
+      //       ScreenUtil().setWidth(5),
+      //       ScreenUtil().setWidth(16),
+      //       ScreenUtil().setWidth(12)),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: [
+      //       Container(
+      //           padding:EdgeInsets.only(top: ScreenUtil().setWidth(10)),
+      //           child:
+      //       Text(
+      //         "$count Products Found",
+      //         style: TextStyle(
+      //             color: Color(0xff616161),
+      //             fontSize: ScreenUtil().setWidth(16)),
+      //       )),
+      //       // Row(
+      //       //   mainAxisAlignment: MainAxisAlignment.end,
+      //       //   children: [
+      //       //     count > 0
+      //       //         ? InkWell(
+      //       //         onTap: () {
+      //       //           showSortPopup();
+      //       //         },
+      //       //         child: Container(
+      //       //             padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+      //       //             child: Icon(
+      //       //           Icons.sort,
+      //       //           size: ScreenUtil().setWidth(22),
+      //       //           color: Color(0xffee7625),
+      //       //         )))
+      //       //         : Container(),
+      //       //     count > 0
+      //       //         ? InkWell(
+      //       //             onTap: () {
+      //       //               // key.currentState.openEndDrawer();
+      //       //
+      //       //               showMaterialModalBottomSheet(
+      //       //                 shape: RoundedRectangleBorder(
+      //       //                   borderRadius: BorderRadius.only(
+      //       //                     topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+      //       //                     topRight: Radius.circular(ScreenUtil().setWidth(25)),
+      //       //                   )
+      //       //                 ),
+      //       //                 context: context,
+      //       //                 builder: (context) => Container(
+      //       //                   decoration: BoxDecoration(
+      //       //
+      //       //                       borderRadius: BorderRadius.only(
+      //       //                         topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+      //       //                         topRight: Radius.circular(ScreenUtil().setWidth(25)),
+      //       //                       )
+      //       //                   ),
+      //       //                   child: ProductFilterDrawer(
+      //       //                     facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+      //       //                     (bn, cl, sz,gd,pr,ag,dc) {
+      //       //                   brand = "";
+      //       //                   color = "";
+      //       //                   size = "";
+      //       //                    gender = "";
+      //       //                    priceRange = "";
+      //       //                    ageGroup = "";
+      //       //                    discount = "";
+      //       //                   bn.forEach((element) {
+      //       //                     brand = brand + element + ",";
+      //       //                   });
+      //       //                   cl.forEach((element) {
+      //       //                     color = color + element + ",";
+      //       //                   });
+      //       //                   sz.forEach((element) {
+      //       //                     size = size + element + ",";
+      //       //                   });
+      //       //                   gd.forEach((element) {
+      //       //                     gender = gender + element + ",";
+      //       //                   });
+      //       //                   pr.forEach((element) {
+      //       //                     priceRange = priceRange + element + ",";
+      //       //                   });
+      //       //                   ag.forEach((element) {
+      //       //                     ageGroup = ageGroup + element + ",";
+      //       //                   });
+      //       //                   dc.forEach((element) {
+      //       //                     discount = discount + element + ",";
+      //       //                   });
+      //       //                   print(brand);
+      //       //                   brandArr = bn;
+      //       //                   colorArr = cl;
+      //       //                   sizeArr = sz;
+      //       //                   genderArr = gd;
+      //       //                   priceRangeArr = pr;
+      //       //                   ageGroupArr = ag;
+      //       //                   discountArr = dc;
+      //       //                   page = 0;
+      //       //                   print(brand);
+      //       //                   _pagingController.refresh();
+      //       //                 }),
+      //       //               ));
+      //       //             },
+      //       //             child: Container(
+      //       //                 padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
+      //       //                 child: Icon(
+      //       //               Icons.filter_alt_outlined,
+      //       //               size: ScreenUtil().setWidth(22),
+      //       //               color: Color(0xffee7625),
+      //       //             )))
+      //       //         : Container()
+      //       //   ],
+      //       // )
+      //     ],
+      //   ),
+      // ),
       Container(
         color: Color(0xfff3f3f3),
-        height: MediaQuery.of(context).size.height * 0.78,
+        height: ScreenUtil().setWidth(720),
         //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: RefreshIndicator(
           onRefresh: () => Future.sync(

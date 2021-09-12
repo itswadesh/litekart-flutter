@@ -147,40 +147,40 @@ class _ProductDetail extends State<ProductDetail> {
           Container(
             height: ScreenUtil().setWidth(105),
           ),
-
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: ScreenUtil().setWidth(550),
-                      child: PageView.builder(
-                        itemCount: productData.images.length,
-                        itemBuilder: (_, int index) {
-                          return InkWell(
-                              onTap: (){
-                                locator<NavigationService>().pushNamed(routes.ZoomImageRoute, args: {"imageLinks":productData.images,"index":index});
-                              },
-                              child: PinchZoom(
-                            child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/images/loading.gif',
-                              image: productData.images[index]
-                                  .toString()
-                                  .trim(),
-                              width: MediaQuery.of(context).size.width,
-                              height: ScreenUtil().setWidth(550),
-                              fit: BoxFit.contain,
-                            ),
-                            resetDuration: const Duration(milliseconds: 100),
-                            maxScale: 2.5,
-                            onZoomStart: () {
-                              print('Start zooming');
-                            },
-                            onZoomEnd: () {
-                              print('Stop zooming');
-                            },
-                          ));
+          Container(
+              width: MediaQuery.of(context).size.width,
+              height: ScreenUtil().setWidth(550),
+              child: PageView.builder(
+                itemCount: productData.images.length,
+                itemBuilder: (_, int index) {
+                  return InkWell(
+                      onTap: () {
+                        locator<NavigationService>()
+                            .pushNamed(routes.ZoomImageRoute, args: {
+                          "imageLinks": productData.images,
+                          "index": index
+                        });
+                      },
+                      child: PinchZoom(
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/loading.gif',
+                          image: productData.images[index].toString().trim(),
+                          width: MediaQuery.of(context).size.width,
+                          height: ScreenUtil().setWidth(550),
+                          fit: BoxFit.contain,
+                        ),
+                        resetDuration: const Duration(milliseconds: 100),
+                        maxScale: 2.5,
+                        onZoomStart: () {
+                          print('Start zooming');
                         },
-                        controller: pageController,
-                      )),
-
+                        onZoomEnd: () {
+                          print('Stop zooming');
+                        },
+                      ));
+                },
+                controller: pageController,
+              )),
           SizedBox(
             height: ScreenUtil().setWidth(27),
           ),
@@ -420,7 +420,8 @@ class _ProductDetail extends State<ProductDetail> {
                                                                   .name ==
                                                               productData
                                                                   .color.name
-                                                          ? AppColors.primaryElement
+                                                          ? AppColors
+                                                              .primaryElement
                                                           : Colors.grey,
                                                       width: productGroup
                                                                   .colorGroup[
@@ -497,7 +498,8 @@ class _ProductDetail extends State<ProductDetail> {
                                                                 .name ==
                                                             productData
                                                                 .size.name
-                                                        ? AppColors.primaryElement
+                                                        ? AppColors
+                                                            .primaryElement
                                                         : Colors.grey,
                                                     width: productGroup
                                                                 .sizeGroup[
@@ -564,9 +566,10 @@ class _ProductDetail extends State<ProductDetail> {
                 ),
                 productData.description != null
                     ? Container(
-                  color: Color(0xfff3f3f3),
-                  height: ScreenUtil().setWidth(25),
-                ):Container(),
+                        color: Color(0xfff3f3f3),
+                        height: ScreenUtil().setWidth(25),
+                      )
+                    : Container(),
                 productData.description != null
                     ? Container(
                         width: double.infinity,
@@ -578,7 +581,6 @@ class _ProductDetail extends State<ProductDetail> {
                             ScreenUtil().setWidth(28)),
                         child: Column(
                           children: [
-
                             Container(
                               color: Color(0xffffffff),
                               height: ScreenUtil().setWidth(25),
@@ -586,16 +588,17 @@ class _ProductDetail extends State<ProductDetail> {
                             Container(
                                 color: Color(0xffffffff),
                                 width: double.infinity,
-                                child:  Text(
+                                child: Text(
                                   "Description",
                                   style: TextStyle(
-                                    color: Color(0xff4a4a4a),
-                                    fontSize: ScreenUtil().setSp(20),
-                                      fontWeight: FontWeight.w600
-                                  ),
+                                      color: Color(0xff4a4a4a),
+                                      fontSize: ScreenUtil().setSp(20),
+                                      fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.left,
                                 )),
-                            SizedBox(height: ScreenUtil().setWidth(10),),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(10),
+                            ),
                             Text(productData.description,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -667,9 +670,9 @@ class _ProductDetail extends State<ProductDetail> {
             color: Color(0xffffffff),
             width: double.infinity,
             padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(45),
-                ScreenUtil().setWidth(21.58), 20),
+                ScreenUtil().setWidth(20), 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                     onTap: () {
@@ -701,9 +704,6 @@ class _ProductDetail extends State<ProductDetail> {
                           Icons.arrow_back,
                           size: ScreenUtil().setWidth(18),
                         ))),
-                SizedBox(
-                  width: ScreenUtil().setWidth(200),
-                ),
                 /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
@@ -721,21 +721,53 @@ class _ProductDetail extends State<ProductDetail> {
                       Icons.share,
                       size: 20,
                     )),*/
-                SizedBox(
-                  width: ScreenUtil().setWidth(15),
-                ),
-                InkWell(
-                  onTap: () {
-                    Map<String, dynamic> data = {
-                      "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                      "itemId": productId,
-                      "event": "tap"
-                    };
-                    Tracking(
-                        event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                        data: data);
-                  },
-                  child: Container(
+                // SizedBox(
+                //   width: ScreenUtil().setWidth(15),
+                // ),
+                Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Map<String, dynamic> data = {
+                          "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                          "itemId": productId,
+                          "event": "tap"
+                        };
+                        Tracking(
+                            event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                            data: data);
+                      },
+                      child: Container(
+                          margin: EdgeInsets.fromLTRB(
+                              0, 0, ScreenUtil().setWidth(8), 0),
+                          width: ScreenUtil().radius(35),
+                          height: ScreenUtil().radius(35),
+                          decoration: new BoxDecoration(
+                            color: Color(0xfff3f3f3),
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Color(0xfff3f3f3),
+                                    width: ScreenUtil().setWidth(0.4)),
+                                top: BorderSide(
+                                    color: Color(0xfff3f3f3),
+                                    width: ScreenUtil().setWidth(0.4)),
+                                left: BorderSide(
+                                    color: Color(0xfff3f3f3),
+                                    width: ScreenUtil().setWidth(0.4)),
+                                right: BorderSide(
+                                    color: Color(0xfff3f3f3),
+                                    width: ScreenUtil().setWidth(0.4))),
+                            shape: BoxShape.circle,
+                          ),
+                          child: CheckWishListClass(
+                              productData.id, productData.id)),
+                    ),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(15),
+                    ),
+                    Container(
                       margin: EdgeInsets.fromLTRB(
                           0, 0, ScreenUtil().setWidth(8), 0),
                       width: ScreenUtil().radius(35),
@@ -758,40 +790,14 @@ class _ProductDetail extends State<ProductDetail> {
                         shape: BoxShape.circle,
                       ),
                       child:
-                          CheckWishListClass(productData.id, productData.id)),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin:
-                        EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
-                    width: ScreenUtil().radius(35),
-                    height: ScreenUtil().radius(35),
-                    decoration: new BoxDecoration(
-                      color: Color(0xfff3f3f3),
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Color(0xfff3f3f3),
-                              width: ScreenUtil().setWidth(0.4)),
-                          top: BorderSide(
-                              color: Color(0xfff3f3f3),
-                              width: ScreenUtil().setWidth(0.4)),
-                          left: BorderSide(
-                              color: Color(0xfff3f3f3),
-                              width: ScreenUtil().setWidth(0.4)),
-                          right: BorderSide(
-                              color: Color(0xfff3f3f3),
-                              width: ScreenUtil().setWidth(0.4))),
-                      shape: BoxShape.circle,
+                          // Transform.translate(
+                          //   offset: Offset(-10, 0),
+                          //   child:
+                          CartLogo(),
+                    )
+                  ],
+                )
                     ),
-                    child:
-                    // Transform.translate(
-                    //   offset: Offset(-10, 0),
-                    //   child:
-                      CartLogo(),
-      //              )
-      ),
               ],
             ),
           )),
@@ -800,154 +806,159 @@ class _ProductDetail extends State<ProductDetail> {
           : Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: ScreenUtil().setWidth(50),
-                  color:Color(0xffffffff),
-                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20),
-                  bottom: ScreenUtil().setWidth(5)
-                  ),
+                  height: ScreenUtil().setWidth(65),
+                  color: Color(0xffffffff),
+                  padding: EdgeInsets.only(
+                    top: ScreenUtil().setWidth(10),
+                      left: ScreenUtil().setWidth(20),
+                      right: ScreenUtil().setWidth(20),
+                      bottom: ScreenUtil().setWidth(10)),
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      width: ScreenUtil().setWidth(180),
-                      height: ScreenUtil().setHeight(42),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          side: BorderSide(
-                              width: 2, color: Color(0xffdd0000)),
-                        ),
-                        onPressed: () async {
-
-                          if (Provider.of<ProfileModel>(context, listen: false)
-                              .user !=
-                              null) {
-                            await Provider.of<WishlistViewModel>(context,
-                                listen: false)
-                                .toggleItem(productData.id);
-                            setState(() {
-
-                            });
-                          } else {
-                            locator<NavigationService>()
-                                .pushNamed(routes.LoginRoute);
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                         
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CheckWishListClass(productData.id, productData.id),
-                              SizedBox(
-                                width: ScreenUtil().setWidth(16),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          width: ScreenUtil().setWidth(170),
+                          height: ScreenUtil().setHeight(45),
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
                               ),
-                              Text(
-                                "WISHLIST",
-                                style: TextStyle(
-                                    color: Color(0xff646464),
-                                    fontSize: ScreenUtil().setSp(
-                                      20,
-                                    ),
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                      )),
-                  Container(
-                    decoration: BoxDecoration(
-                      color:  Color(0xffdd0000),
-                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5))                      
-                    ),
-                      width: ScreenUtil().setWidth(180),
-                      height: ScreenUtil().setHeight(42),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                        onPressed: () async {
-                          Map<String, dynamic> data = {
-                            "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
-                            "itemId": productId,
-                            "event": "click"
-                          };
-                          Tracking(
-                              event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
-                              data: data);
-                          if (cartStatusButton == "Not Available") {
-                          } else {
-                            if (cartStatusButton == "Add to cart") {
-                              setState(() {
-                                cartStatusButton = "Go to cart";
-                              });
-                              Provider.of<CartViewModel>(context, listen: false)
-                                  .cartAddItem(
-                                      productData.id, productData.id, 1, false);
-                            } else {
-                              _navigationService.pushNamed(routes.CartRoute);
-                            }
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                          color: cartStatusButton == "Not Available"
-                              ? Color(0xffdd0000).withOpacity(0.8)
-                              : Color(0xffdd0000),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              cartStatusButton == "Not Available"
-                                  ? SizedBox.shrink()
-                                  : Icon(
-                                      Icons.shopping_cart,
-                                      color: Color(0xffffffff),
-                                      size: ScreenUtil().setWidth(22),
-                                    ),
-                              SizedBox(
-                                width: ScreenUtil().setWidth(16),
+                              side: BorderSide(
+                                  width: 2, color: AppColors.primaryElement),
+                            ),
+                            onPressed: () async {
+                              if (Provider.of<ProfileModel>(context,
+                                          listen: false)
+                                      .user !=
+                                  null) {
+                                await Provider.of<WishlistViewModel>(context,
+                                        listen: false)
+                                    .toggleItem(productData.id);
+                                setState(() {});
+                              } else {
+                                locator<NavigationService>()
+                                    .pushNamed(routes.LoginRoute);
+                              }
+                            },
+                            child: Container(
+                             // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CheckWishListClass(
+                                      productData.id, productData.id),
+                                  SizedBox(
+                                    width: ScreenUtil().setWidth(16),
+                                  ),
+                                  Text(
+                                    "WISHLIST",
+                                    style: TextStyle(
+                                        color: Color(0xff646464),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        ),
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
-                              Text(
-                                cartStatusButton,
-                                style: TextStyle(
-                                    color: Color(0xffffffff),
-                                    fontSize: ScreenUtil().setSp(
-                                      20,
-                                    ),
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                      ))
-                ],
-              ))),
+                            ),
+                          )),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.primaryElement,
+                              borderRadius: BorderRadius.circular(
+                                  ScreenUtil().setWidth(5))),
+                          width: ScreenUtil().setWidth(170),
+                          height: ScreenUtil().setHeight(45),
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            onPressed: () async {
+                              Map<String, dynamic> data = {
+                                "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                                "itemId": productId,
+                                "event": "click"
+                              };
+                              Tracking(
+                                  event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                                  data: data);
+                              if (cartStatusButton == "Not Available") {
+                              } else {
+                                if (cartStatusButton == "Add to cart") {
+                                  setState(() {
+                                    cartStatusButton = "Go to cart";
+                                  });
+                                  Provider.of<CartViewModel>(context,
+                                          listen: false)
+                                      .cartAddItem(productData.id,
+                                          productData.id, 1, false);
+                                } else {
+                                  _navigationService
+                                      .pushNamed(routes.CartRoute);
+                                }
+                              }
+                            },
+                            child: Container(
+                             
+                              //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                              color: cartStatusButton == "Not Available"
+                                  ? AppColors.primaryElement
+                                  : AppColors.primaryElement,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  cartStatusButton == "Not Available"
+                                      ? SizedBox.shrink()
+                                      : Icon(
+                                          Icons.shopping_cart,
+                                          color: Color(0xffffffff),
+                                          size: ScreenUtil().setWidth(22),
+                                        ),
+                                  SizedBox(
+                                    width: ScreenUtil().setWidth(16),
+                                  ),
+                                  Text(
+                                    cartStatusButton,
+                                    style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        ),
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ))
+                    ],
+                  ))),
     ]);
   }
 
   getSpecificationChildren(List<Specifications> specifications) {
     List<Widget> children = [];
     if (specifications.length != 0) {
-      children.add( Container(
-        padding: EdgeInsets.only(left: ScreenUtil().setWidth(30),top: ScreenUtil().setWidth(15)),
-        height: ScreenUtil().setWidth(50),
-          color: Color(0xffffffff),
-          width: double.infinity,
-          child:  Text(
-            "Product Specification",
-            style: TextStyle(
-              color: Color(0xff4a4a4a),
-              fontSize: ScreenUtil().setSp(20),
-              fontWeight: FontWeight.w600
-            ),
-            textAlign: TextAlign.left,
-          )),);
+      children.add(
+        Container(
+            padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(30),
+                top: ScreenUtil().setWidth(15)),
+            height: ScreenUtil().setWidth(50),
+            color: Color(0xffffffff),
+            width: double.infinity,
+            child: Text(
+              "Product Specification",
+              style: TextStyle(
+                  color: Color(0xff4a4a4a),
+                  fontSize: ScreenUtil().setSp(20),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.left,
+            )),
+      );
     }
     for (int i = 0; i < specifications.length; i++) {
       children.add(Container(
@@ -1081,17 +1092,18 @@ class _ProductDetail extends State<ProductDetail> {
       children.insert(
         0,
         Container(
-            padding: EdgeInsets.only(left: ScreenUtil().setWidth(30),top: ScreenUtil().setWidth(15)),
+            padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(30),
+                top: ScreenUtil().setWidth(15)),
             height: ScreenUtil().setWidth(50),
             color: Color(0xffffffff),
             width: double.infinity,
-            child:  Text(
+            child: Text(
               "Product Details",
               style: TextStyle(
-                color: Color(0xff4a4a4a),
-                fontSize: ScreenUtil().setSp(20),
-                  fontWeight: FontWeight.w600
-              ),
+                  color: Color(0xff4a4a4a),
+                  fontSize: ScreenUtil().setSp(20),
+                  fontWeight: FontWeight.w600),
               textAlign: TextAlign.left,
             )),
       );
@@ -1102,26 +1114,29 @@ class _ProductDetail extends State<ProductDetail> {
   getKeyFeatureChildren(List<String> keyFeature) {
     List<Widget> children = [];
     if (keyFeature.length != 0) {
-      children.add(Container(
-        color: Color(0xfff3f3f3),
-        height: ScreenUtil().setWidth(25),
-      ),);
-      children.add(Container(
-        color: Color(0xffffffff),
-        height: ScreenUtil().setWidth(20),
-      ),);
+      children.add(
+        Container(
+          color: Color(0xfff3f3f3),
+          height: ScreenUtil().setWidth(25),
+        ),
+      );
+      children.add(
+        Container(
+          color: Color(0xffffffff),
+          height: ScreenUtil().setWidth(20),
+        ),
+      );
       children.add(Container(
           padding: EdgeInsets.only(left: ScreenUtil().setWidth(25)),
           color: Color(0xffffffff),
           width: double.infinity,
-          child:  Text(
-              "Key Features",
-              style: TextStyle(
+          child: Text(
+            "Key Features",
+            style: TextStyle(
                 color: Color(0xff4a4a4a),
                 fontSize: ScreenUtil().setSp(20),
-                  fontWeight: FontWeight.w600
-              ),
-              textAlign: TextAlign.left,
+                fontWeight: FontWeight.w600),
+            textAlign: TextAlign.left,
           )));
     }
     for (int i = 0; i < keyFeature.length; i++) {
@@ -1214,54 +1229,82 @@ class _RatingClass extends State<RatingClass> {
           }
           print(jsonEncode(result.data["reviewSummary"]));
           if (result.data == null) {
-            return RatingBar.builder(
-              itemSize: ScreenUtil().setWidth(18),
-              initialRating: 0,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Color(0xfff2b200),
-              ),
-              ignoreGestures: true,
-              onRatingUpdate: (double value) {},
-            );
+            return Row(children: [
+            Container(
+            padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+          child: Text("0",style: TextStyle(color: Color(0xff6d6d6d),fontSize: ScreenUtil().setWidth(18)),)),
+              SizedBox(width: ScreenUtil().setWidth(3),),
+              Icon(FontAwesomeIcons.solidStar,size: ScreenUtil().setWidth(14),color: Colors.amber,)
+            ],);
           }
-          if (result.data["reviewSummary"] == null) {
-            return RatingBar.builder(
-              itemSize: ScreenUtil().setWidth(18),
-              initialRating: 0,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Color(0xfff2b200),
+          if(result.data["reviewSummary"] == null){
+            return Row(children: [
+              Container(
+                padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+                child:Text("0",style: TextStyle(color: Color(0xff6d6d6d),fontSize: ScreenUtil().setWidth(18)),),
+
               ),
-              ignoreGestures: true,
-              onRatingUpdate: (double value) {},
-            );
+              SizedBox(width: ScreenUtil().setWidth(3),),
+              Icon(FontAwesomeIcons.solidStar,size: ScreenUtil().setWidth(14),color: Colors.amber,)
+            ],);
           }
-          return RatingBar.builder(
-            itemSize: ScreenUtil().setWidth(18),
-            initialRating: double.parse(result.data["reviewSummary"]["avg"]) ?? 0,
-            // minRating: 0,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: Color(0xfff2b200),
-            ),
-            ignoreGestures: true,
-            onRatingUpdate: (double value) {},
-          );
+          return Row(children: [
+          Container(
+          padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+          child:
+            Text(result.data["reviewSummary"]["avg"].toString()??"0",style: TextStyle(color: Color(0xff6d6d6d),fontSize: ScreenUtil().setWidth(18)),)),
+            SizedBox(width: ScreenUtil().setWidth(3),),
+            Icon(FontAwesomeIcons.solidStar,size: ScreenUtil().setWidth(14),color: Colors.amber,)
+          ],);
+          //   return RatingBar.builder(
+          //     itemSize: ScreenUtil().setWidth(18),
+          //     initialRating: 0,
+          //     minRating: 0,
+          //     direction: Axis.horizontal,
+          //     allowHalfRating: true,
+          //     itemCount: 5,
+          //     itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+          //     itemBuilder: (context, _) => Icon(
+          //       Icons.star,
+          //       color: Color(0xfff2b200),
+          //     ),
+          //     ignoreGestures: true,
+          //     onRatingUpdate: (double value) {},
+          //   );
+          // }
+          // if (result.data["reviewSummary"] == null) {
+          //   return RatingBar.builder(
+          //     itemSize: ScreenUtil().setWidth(18),
+          //     initialRating: 0,
+          //     minRating: 0,
+          //     direction: Axis.horizontal,
+          //     allowHalfRating: true,
+          //     itemCount: 5,
+          //     itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+          //     itemBuilder: (context, _) => Icon(
+          //       Icons.star,
+          //       color: Color(0xfff2b200),
+          //     ),
+          //     ignoreGestures: true,
+          //     onRatingUpdate: (double value) {},
+          //   );
+          // }
+          // return RatingBar.builder(
+          //   itemSize: ScreenUtil().setWidth(18),
+          //   initialRating:
+          //       double.parse(result.data["reviewSummary"]["avg"]) ?? 0,
+          //   // minRating: 0,
+          //   direction: Axis.horizontal,
+          //   allowHalfRating: true,
+          //   itemCount: 5,
+          //   itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+          //   itemBuilder: (context, _) => Icon(
+          //     Icons.star,
+          //     color: Color(0xfff2b200),
+          //   ),
+          //   ignoreGestures: true,
+          //   onRatingUpdate: (double value) {},
+          // );
         });
   }
 }
@@ -1319,7 +1362,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                             size: 20,
                           )
                         : Icon(
-                      FontAwesomeIcons.solidHeart,
+                            FontAwesomeIcons.solidHeart,
                             color: Colors.red,
                             size: 20,
                           ),

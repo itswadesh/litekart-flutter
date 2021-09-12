@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:anne/values/colors.dart';
+import 'package:anne/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../components/widgets/loading.dart';
 import '../../response_handler/megaMenuResponse.dart';
@@ -11,6 +13,7 @@ import '../../service/navigation/navigation_service.dart';
 import '../../utility/locator.dart';
 import '../../view_model/megamenu_view_model.dart';
 import '../../values/route_path.dart' as routes;
+import '../cart_logo.dart';
 
 class MegaMenu extends StatefulWidget {
   @override
@@ -23,7 +26,7 @@ class _MegaMenu extends State<MegaMenu> {
   final List gradientColors = [
     Color(0xfff0c68c),
     //Color(0xffc5c5c5),
-    Color(0xffE1FFB5),
+    Color(0xffd8bfd8),
     Color(0xffffe4b5),
     Color(0xffe6e6fa)
   ];
@@ -39,6 +42,27 @@ class _MegaMenu extends State<MegaMenu> {
                 fontSize: ScreenUtil().setSp(
                   21,
                 ))),
+        actions: [
+          InkWell(
+              onTap: () {
+                if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                {
+                  locator<NavigationService>().pushNamed(routes.LoginRoute);
+                }
+                else {
+                  locator<NavigationService>().pushNamedAndRemoveUntil(
+                      routes.Wishlist);
+                }
+              },
+              child: Icon(
+                FontAwesomeIcons.heart,
+                size: 20,
+                color: Colors.black54,
+              )),
+          SizedBox(width: ScreenUtil().setWidth(24),),
+          CartLogo(),
+          SizedBox(width: ScreenUtil().setWidth(20),),
+        ],
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -86,10 +110,11 @@ class _MegaMenu extends State<MegaMenu> {
   }
 
   topMenuCard(MegaMenuResponse megamenu, bool colorStatus) {
+    Color color = gradientColors[Random().nextInt(gradientColors.length)];
     return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
-            color: gradientColors[Random().nextInt(gradientColors.length)],
+
             // gradient: LinearGradient(
             //   begin: Alignment.topRight,
             //   end: Alignment.bottomLeft,
@@ -100,20 +125,26 @@ class _MegaMenu extends State<MegaMenu> {
             //   ],
             // ),
           ),
-          margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
-          padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
+          margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(3)),
+        //  padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
           child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
     child: ExpansionTile(
-              title:  Row(
+      collapsedBackgroundColor:  color,
+              title: Container(
+                  //padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
+    ),
+    child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
              Container(
                  width: ScreenUtil().setWidth(155),
-                 child: Text(megamenu.name, style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(30)),)),
-            megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(100),height: ScreenUtil().setWidth(100),)
-            : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(100),height: ScreenUtil().setWidth(100))],
-          ),
+                 child: Text(megamenu.name, style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(30),fontWeight:FontWeight.w600),)),
+            megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
+            : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))],
+          )),
             children: getMenuCard(megamenu.children),
           )),
 
@@ -125,22 +156,17 @@ class _MegaMenu extends State<MegaMenu> {
 
     for(int index=0;index<children.length;index++)
       {
-        childrenList.add(Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(ScreenUtil().radius(10))),
-          child:  Theme(
+        childrenList.add(  Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child:  ExpansionTile(
               title: Text(
                 children[index].name,
                 style: TextStyle(
-                    color: AppColors.primaryElement,
-                    fontSize: ScreenUtil().setSp(15),
+                    color: Color(0xff6d6d6d),
+                    fontSize: ScreenUtil().setSp(20),
                     fontFamily: "Sofia"),
               ),
-              children: getExpansionTileChild(children[index].children))),
-        ));
+              children: getExpansionTileChild(children[index].children))));
       }
 
     return childrenList;
@@ -150,11 +176,12 @@ class _MegaMenu extends State<MegaMenu> {
     List<Widget> list = [];
     for (int i = 0; i < children.length; i++) {
       list.add(Container(
-        decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(
-                    color: Color(0xffd0d0d0),
-                    width: ScreenUtil().setWidth(0.5)))),
+        // decoration: BoxDecoration(
+        //     border: Border(
+        //         top: BorderSide(
+        //             color: Color(0xffd0d0d0),
+        //             width: ScreenUtil().setWidth(0.5))
+        //     )),
         child: ListTile(
             onTap: () {
               locator<NavigationService>().pushNamed(routes.ProductList, args: {
@@ -167,7 +194,7 @@ class _MegaMenu extends State<MegaMenu> {
             title: Text(children[i].name,
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
-                    fontSize: ScreenUtil().setSp(15),
+                    fontSize: ScreenUtil().setSp(20),
                     fontFamily: "Sofia"))),
       ));
     }

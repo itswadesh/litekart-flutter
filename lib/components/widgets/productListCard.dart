@@ -1,4 +1,3 @@
-
 import 'package:anne/response_handler/productListApiReponse.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../values/route_path.dart' as routes;
+
 class ProductListCard extends StatefulWidget {
   final item;
   ProductListCard(this.item);
@@ -19,7 +19,7 @@ class ProductListCard extends StatefulWidget {
 }
 
 class _ProductListCard extends State<ProductListCard> {
-  ProductListData  item;
+  ProductListData item;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _ProductListCard extends State<ProductListCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:Color(0xffffffff),
+      color: Color(0xffffffff),
       margin: EdgeInsets.all(ScreenUtil().setWidth(2)),
       // decoration: BoxDecoration(
       //   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
@@ -40,7 +40,8 @@ class _ProductListCard extends State<ProductListCard> {
       // ),
       child: InkWell(
         onTap: () async {
-          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.id);
+          locator<NavigationService>()
+              .pushNamed(routes.ProductDetailRoute, args: item.id);
           // Navigator.of(context).push(
           //     MaterialPageRoute(builder: (context) => ProductDetail(item.id)));
         },
@@ -53,41 +54,42 @@ class _ProductListCard extends State<ProductListCard> {
               Stack(
                 children: [
                   Container(
-                    color:Color(0xffffffff),
+                    color: Color(0xffffffff),
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
                       image: item.images[0],
                       height: ScreenUtil().setWidth(203),
                       width: ScreenUtil().setWidth(203),
+                      fit: BoxFit.cover,
                     ),
                   ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, ScreenUtil().setWidth(5), ScreenUtil().setWidth(5), 0),
-                      width: ScreenUtil().radius(35),
-                      height: ScreenUtil().radius(35),
-                      decoration: new BoxDecoration(
-                        color: Color(0xfff3f3f3),
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            top: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            left: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            right: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4))),
-                        shape: BoxShape.circle,
-                      ),
-                      child:
-                      CheckWishListClass(item.id, item.id))]),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     Container(
+                  //         margin: EdgeInsets.fromLTRB(
+                  //             0, ScreenUtil().setWidth(5), ScreenUtil().setWidth(5), 0),
+                  //               width: ScreenUtil().radius(35),
+                  //               height: ScreenUtil().radius(35),
+                  //               decoration: new BoxDecoration(
+                  //                 color: Color(0xfff3f3f3),
+                  //                 border: Border(
+                  //                     bottom: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     top: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     left: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     right: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4))),
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child:
+                  //               CheckWishListClass(item.id, item.id))]),
                   // Container(
                   //   padding: EdgeInsets.only(
                   //       right: ScreenUtil().setWidth(10),
@@ -109,37 +111,43 @@ class _ProductListCard extends State<ProductListCard> {
                 ],
               ),
               Container(
-
                 child: Column(
                   children: [
                     Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(10),
-                            ScreenUtil().setWidth(20), 0),
-                        child: Text(
-                          item.brand == null
-                              ? ""
-                              : (item.brand ?? ""),
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(
-                              12,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.fromLTRB(
+                          ScreenUtil().setWidth(15),
+                          ScreenUtil().setWidth(8),
+                          ScreenUtil().setWidth(15),
+                          0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              item.brand == null ? "" : (item.brand ?? ""),
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(
+                                  16,
+                                ),
+                                color: Color(0xff5d5d5d),
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            color: AppColors.primaryElement,
-                          ),
-                          textAlign: TextAlign.left,
-                        )),
+                            CheckWishListClass(item.id, item.id)
+                          ]),
+                    ),
                     SizedBox(
-                      height: ScreenUtil().setWidth(9),
+                      height: ScreenUtil().setWidth(5),
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
-                            ScreenUtil().setWidth(20), 0),
+                        padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15),
+                            0, ScreenUtil().setWidth(15), 0),
                         child: Text(item.name,
                             style: TextStyle(
-                                color: Color(0xff5f5f5f),
+                                color: Color(0xff7f7f7f),
                                 fontSize: ScreenUtil().setSp(
-                                  14,
+                                  13,
                                 )),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1)),
@@ -149,67 +157,74 @@ class _ProductListCard extends State<ProductListCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: ScreenUtil().setWidth(20),),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(15),
+                        ),
                         Text(
                           "₹ " + item.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
                               ),
+                              fontWeight: FontWeight.w600,
                               color: Color(0xff4a4a4a)),
                         ),
                         item.price < item.mrp
                             ? Text(
-                          " ₹ " + item.mrp.toString(),
-                          style: TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              fontSize: ScreenUtil().setSp(
-                                9,
-                              ),
-                              color: Color(0xff4a4a4a)),
-                        )
+                                " ₹ " + item.mrp.toString(),
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: ScreenUtil().setSp(
+                                      12,
+                                    ),
+                                    color: Color(0xff4a4a4a)),
+                              )
                             : Container(),
                         item.price < item.mrp
                             ? Text(
-                          " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
-                          style: TextStyle(
-                              color: AppColors.primaryElement2,
-                              fontSize: ScreenUtil().setSp(
-                                8,
-                              )),
-                        )
+                                " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
+                                style: TextStyle(
+                                    color: AppColors.primaryElement2,
+                                    fontSize: ScreenUtil().setSp(
+                                      12,
+                                    )),
+                              )
                             : Container()
                       ],
                     ),
-                    SizedBox(height: ScreenUtil().setWidth(5),),
+                    SizedBox(
+                      height: ScreenUtil().setWidth(5),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        RatingClass(item.id) ,
-                        SizedBox(width: ScreenUtil().setWidth(10),),
+                        RatingClass(item.id),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(10),
+                        ),
                       ],
                     ),
 
                     // SizedBox(height: ScreenUtil().setWidth(19),),
-                   //  Divider(height: ScreenUtil().setWidth(10),),
-                   //  InkWell(
-                   //      onTap: () async {
-                   //        if(item.stock>0) {
-                   //          await Provider.of<CartViewModel>(
-                   //              context, listen: false)
-                   //              .cartAddItem(item.id, item.id, 1, false);
-                   //        }
-                   //      },
-                   //      child: Container(
-                   //        width: ScreenUtil().setWidth(183),
-                   //        height: ScreenUtil().setWidth(29),
-                   //        child: Center(
-                   //          child: Text(item.stock>0?"MOVE TO BAG":"OUT OF STOCK",style: TextStyle(color: AppColors.primaryElement),),
-                   //        ),
-                   //      ))
+                    //  Divider(height: ScreenUtil().setWidth(10),),
+                    //  InkWell(
+                    //      onTap: () async {
+                    //        if(item.stock>0) {
+                    //          await Provider.of<CartViewModel>(
+                    //              context, listen: false)
+                    //              .cartAddItem(item.id, item.id, 1, false);
+                    //        }
+                    //      },
+                    //      child: Container(
+                    //        width: ScreenUtil().setWidth(183),
+                    //        height: ScreenUtil().setWidth(29),
+                    //        child: Center(
+                    //          child: Text(item.stock>0?"MOVE TO BAG":"OUT OF STOCK",style: TextStyle(color: AppColors.primaryElement),),
+                    //        ),
+                    //      ))
                   ],
-                ),)
-
+                ),
+              )
             ],
           ),
         ),

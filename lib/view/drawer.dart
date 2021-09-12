@@ -86,17 +86,29 @@ class _HomeDrawer extends State<HomeDrawer> {
                             width: ScreenUtil().setWidth(90),)),
                     ),
                   )),
-              SizedBox(width: ScreenUtil().setWidth(20),),
-              Container(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
-                width: double.infinity,
-                child: Text(
-                  "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
-                  style: TextStyle(color: Color(0xff454545), fontSize: 15,fontWeight: FontWeight.w600,fontFamily: 'Sofia'),
-                  textAlign: TextAlign.left,
-                ),
-              ),
+
             ],
+          ),
+          SizedBox(height: ScreenUtil().setWidth(20),),
+          InkWell(
+            onTap: (){
+              locator<NavigationService>().pushNamedAndRemoveUntil(routes.MyProfile);
+            },
+            child:  Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
+
+                  child: Text(
+                    "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
+                    style: TextStyle(color: Color(0xff454545), fontSize: 15,fontWeight: FontWeight.w600,fontFamily: 'Sofia'),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Icon(FontAwesomeIcons.angleRight,color: Color(0xff000000),size: ScreenUtil().setWidth(14),),
+              ],),
+
           ),
 
           SizedBox(

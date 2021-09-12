@@ -43,18 +43,14 @@ class _MyProfileState extends State<MyProfile> {
           title:  Text(
             "Profile",
             style: TextStyle(
-                color: Color(0xff616161),
+                color: Color(0xff757575),
                 fontSize: ScreenUtil().setSp(
                   21,
-                )),
+                ),
+                fontWeight:FontWeight.w600
+            ),
             textAlign: TextAlign.center,
-          ),
-          actions: [
-            Container(
-                padding: EdgeInsets.only(right: 10.0),
-                // width: MediaQuery.of(context).size.width * 0.35,
-                child: CartLogo())
-          ],
+          )
         ),
         body: GraphQLProvider(
             client: graphQLConfiguration.initailizeClient(),

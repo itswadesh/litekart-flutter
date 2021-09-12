@@ -47,6 +47,8 @@ class _MenuState extends State<Menu>{
                  unselectedIconTheme: IconThemeData(color: Color(0xffd0d0d0)),
                  selectedItemColor: AppColors.primaryElement,
                  unselectedItemColor: Color(0xffd0d0d0),
+                 showSelectedLabels: true,
+                 showUnselectedLabels: true,
                  currentIndex:
                  model.currentIndex,
                  onTap: (int index) {
