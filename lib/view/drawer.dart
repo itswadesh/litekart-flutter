@@ -26,7 +26,7 @@ class _HomeDrawer extends State<HomeDrawer> {
         children: <Widget>[
           _createHeader(),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.boxes,
+              icon: Icons.category_outlined,
               text: "Shop By Categories",
               routePath: routes.MegaMenuRoute),
           Divider(
@@ -34,19 +34,19 @@ class _HomeDrawer extends State<HomeDrawer> {
             thickness: 0.4,
           ),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.shoppingBag, text: "Orders", routePath: routes.ManageOrder),
+              icon: Icons.shopping_bag_outlined, text: "Orders", routePath: routes.ManageOrder),
           Divider(
             height: 0.5,
             thickness: 0.4,
           ),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.heart, text: "Wishlist", routePath: routes.Wishlist),
+              icon: Icons.favorite_border_outlined, text: "Wishlist", routePath: routes.Wishlist),
           Divider(
             height: 0.5,
             thickness: 0.4,
           ),
           _createMenuDrawerItem(
-              icon: FontAwesomeIcons.userCircle,
+              icon: Icons.person_outline,
               text: "Profile Information",
               routePath: routes.MyProfile),
         ],

@@ -55,8 +55,8 @@ class _MegaMenu extends State<MegaMenu> {
                 }
               },
               child: Icon(
-                FontAwesomeIcons.heart,
-                size: 20,
+                Icons.favorite_border_outlined,
+                size: 21,
                 color: Colors.black54,
               )),
           SizedBox(width: ScreenUtil().setWidth(24),),

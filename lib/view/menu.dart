@@ -42,8 +42,8 @@ class _MenuState extends State<Menu>{
                        color: AppColors.primaryElement))),
            child: Consumer<ProfileModel>(builder: (context,value,view){
              return BottomNavigationBar(
-                selectedLabelStyle: TextStyle(color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(13)),
-                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0),fontSize: ScreenUtil().setSp(13)),
+                selectedLabelStyle: TextStyle(color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(14)),
+                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0),fontSize: ScreenUtil().setSp(14)),
                  selectedIconTheme: IconThemeData(color: AppColors.primaryElement),
                  unselectedIconTheme: IconThemeData(color: Color(0xffd0d0d0)),
                  selectedItemColor: AppColors.primaryElement,

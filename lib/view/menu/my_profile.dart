@@ -98,14 +98,14 @@ class _MyProfileState extends State<MyProfile> {
                               height: ScreenUtil().setWidth(25),
                               color: Color(0xffe8e8e8),
                             ),
-                            getTiles("Orders","Check Your Order Status",FontAwesomeIcons.shoppingBag,routes.ManageOrder),
+                            getTiles("Orders","Check Your Order Status",Icons.shopping_bag_outlined,routes.ManageOrder),
                             Divider(),
-                                getTiles("Wishlist","Your most Loved Products",FontAwesomeIcons.heart,routes.Wishlist),
+                                getTiles("Wishlist","Your most Loved Products",Icons.favorite_border_outlined,routes.Wishlist),
                            Divider(),
-                            getTiles("Address","Save Addresses for Checkout",FontAwesomeIcons.mapMarkerAlt,routes.ManageAddress),
+                            getTiles("Address","Save Addresses for Checkout",Icons.add_location_outlined,routes.ManageAddress),
                                 Divider(),
 
-                            getTiles("Profile Details","Change Your Profile Details",FontAwesomeIcons.userEdit,routes.ProfileEditRoute),
+                            getTiles("Profile Details","Change Your Profile Details",Icons.edit,routes.ProfileEditRoute),
                                 Divider(),
                                 SizedBox(height: ScreenUtil().setWidth(15),),
                                 InkWell(

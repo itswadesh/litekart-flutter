@@ -123,8 +123,8 @@ class _ProductList extends State<ProductList> {
                   locator<NavigationService>().pushNamed(routes.SearchPage);
                 },
                 child: Icon(
-                  FontAwesomeIcons.search,
-                  size: 20,
+                  Icons.search,
+                  size: 21,
                   color: Colors.black54,
                 )),
             SizedBox(
@@ -142,8 +142,8 @@ class _ProductList extends State<ProductList> {
                   }
                 },
                 child: Icon(
-                  FontAwesomeIcons.shoppingBag,
-                  size: 20,
+                    Icons.shopping_bag_outlined,
+                  size: 21,
                   color: Colors.black54,
                 )),
             SizedBox(
@@ -161,8 +161,8 @@ class _ProductList extends State<ProductList> {
                   }
                 },
                 child: Icon(
-                  FontAwesomeIcons.heart,
-                  size: 20,
+                  Icons.favorite_border_outlined,
+                  size: 21,
                   color: Colors.black54,
                 )),
             SizedBox(width: ScreenUtil().setWidth(24),),

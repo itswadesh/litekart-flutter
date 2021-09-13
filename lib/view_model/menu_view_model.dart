@@ -14,11 +14,11 @@ class MenuViewModel extends ChangeNotifier {
 
 
   List<MenuItem> _menus = [
-  MenuItem(MenuItemSource.home, FontAwesomeIcons.home),
-  MenuItem(MenuItemSource.shop_by_category, FontAwesomeIcons.boxes),
-  MenuItem(MenuItemSource.manage_order, FontAwesomeIcons.shoppingBag,),
-  MenuItem(MenuItemSource.wishlist, FontAwesomeIcons.heart,),
-  MenuItem(MenuItemSource.profile, FontAwesomeIcons.userCircle),
+  MenuItem(MenuItemSource.home, Icons.home_outlined),
+  MenuItem(MenuItemSource.shop_by_category, Icons.category_outlined),
+  MenuItem(MenuItemSource.manage_order, Icons.shopping_bag_outlined,),
+  MenuItem(MenuItemSource.wishlist, Icons.favorite_border_outlined,),
+  MenuItem(MenuItemSource.profile, Icons.person_outline),
   ];
   int _currentIndex = 0;
 
