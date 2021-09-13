@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view/menu/wishlist.dart';
+import 'package:anne/view_model/product_view_model.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,7 +52,7 @@ class _ProductDetail extends State<ProductDetail>
   QueryMutation addMutation = QueryMutation();
   final NavigationService _navigationService = locator<NavigationService>();
   var indexImage = 0;
-  var cartStatusButton = "ADD TO BAG";
+  //var cartStatusButton = "ADD TO BAG";
   var icon;
   String productId;
   PageController pageController;
@@ -125,18 +126,7 @@ class _ProductDetail extends State<ProductDetail>
 
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<CartViewModel>(context).cartResponse != null) {
-      for (int i = 0;
-          i < Provider.of<CartViewModel>(context).cartResponse.items.length;
-          i++) {
-        if (Provider.of<CartViewModel>(context).cartResponse.items[i].pid ==
-            productId) {
-          setState(() {
-            cartStatusButton = "GO TO CART";
-          });
-        }
-      }
-    }
+
     // TODO: implement build
     return Scaffold(
       backgroundColor: Color(0xfff3f3f3),
@@ -145,6 +135,7 @@ class _ProductDetail extends State<ProductDetail>
             child: Consumer<ProductDetailViewModel>(
                     builder: (BuildContext context, value, Widget child) {
                   if (value.status == "loading") {
+                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG") ;
                     Provider.of<ProductDetailViewModel>(context, listen: false)
                         .fetchProductDetailData(productId);
                     return Loading();
@@ -157,7 +148,17 @@ class _ProductDetail extends State<ProductDetail>
                     return errorMessage();
                   }
                   if (value.productDetailResponse.stock <= 0) {
-                    cartStatusButton = "Not Available";
+                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("Not Available") ;
+                  }
+                  if (Provider.of<CartViewModel>(context).cartResponse != null) {
+                    for (int i = 0;
+                    i < Provider.of<CartViewModel>(context).cartResponse.items.length;
+                    i++) {
+                      if (Provider.of<CartViewModel>(context).cartResponse.items[i].pid ==
+                          productId) {
+                        Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("GO TO CART");
+                      }
+                    }
                   }
                   return getProductDetails(value.productDetailResponse);
                 })));
@@ -240,7 +241,7 @@ class _ProductDetail extends State<ProductDetail>
                         style: TextStyle(
                             color: AppColors.primaryElement,
                             fontSize: ScreenUtil().setSp(
-                              22,
+                              21,
                             )),
                       ),
                       //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
@@ -250,7 +251,7 @@ class _ProductDetail extends State<ProductDetail>
                   ),
                 ),
                 SizedBox(
-                  height: ScreenUtil().setWidth(25),
+                  height: ScreenUtil().setWidth(15),
                 ),
                 Container(
                     margin: EdgeInsets.only(
@@ -262,12 +263,12 @@ class _ProductDetail extends State<ProductDetail>
                       style: TextStyle(
                           color: Color(0xff4a4a4a),
                           fontSize: ScreenUtil().setSp(
-                            21,
+                            19,
                           ),
                           fontWeight: FontWeight.w500),
                     )),
                 SizedBox(
-                  height: ScreenUtil().setWidth(25),
+                  height: ScreenUtil().setWidth(15),
                 ),
                 Container(
                     margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
@@ -279,7 +280,7 @@ class _ProductDetail extends State<ProductDetail>
                           "₹ " + productData.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
-                                20,
+                                18,
                               ),
                               fontWeight: FontWeight.w500),
                         ),
@@ -290,7 +291,7 @@ class _ProductDetail extends State<ProductDetail>
                                     color: Color(0xffb0b0b0),
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(
-                                      15,
+                                      17,
                                     )),
                               )
                             : Container()
@@ -958,8 +959,10 @@ class _ProductDetail extends State<ProductDetail>
               ],
             ),
           ))),
-      cartStatusButton == "Not Available"
-          ? SizedBox.shrink()
+    Consumer<ProductDetailViewModel>(
+    builder: (BuildContext context, value, Widget child) { return
+    value.buttonStatus == "Not Available"
+          ?  SizedBox.shrink()
           : Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -1021,7 +1024,7 @@ class _ProductDetail extends State<ProductDetail>
                               ),
                             ),
                           )),
-                      Container(
+      Container(
                           decoration: BoxDecoration(
                               color: AppColors.primaryElement,
                               borderRadius: BorderRadius.circular(
@@ -1043,12 +1046,11 @@ class _ProductDetail extends State<ProductDetail>
                               Tracking(
                                   event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
                                   data: data);
-                              if (cartStatusButton == "Not Available") {
+                              if (value.buttonStatus == "Not Available") {
                               } else {
-                                if (cartStatusButton == "ADD TO BAG") {
-                                  setState(() {
-                                    cartStatusButton = "GO TO CART";
-                                  });
+                                if (value.buttonStatus == "ADD TO BAG") {
+
+                                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("GO TO CART") ;
                                   Provider.of<CartViewModel>(context,
                                           listen: false)
                                       .cartAddItem(productData.id,
@@ -1059,15 +1061,15 @@ class _ProductDetail extends State<ProductDetail>
                                 }
                               }
                             },
-                            child: Container(
+                            child:  Container(
                               //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                              color: cartStatusButton == "Not Available"
+                              color: value.buttonStatus == "Not Available"
                                   ? AppColors.primaryElement
                                   : AppColors.primaryElement,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  cartStatusButton == "Not Available"
+                                  value.buttonStatus == "Not Available"
                                       ? SizedBox.shrink()
                                       : Icon(
                                           Icons.shopping_cart,
@@ -1078,7 +1080,7 @@ class _ProductDetail extends State<ProductDetail>
                                     width: ScreenUtil().setWidth(12),
                                   ),
                                   Text(
-                                    cartStatusButton,
+                                    value.buttonStatus,
                                     style: TextStyle(
                                         color: Color(0xffffffff),
                                         fontSize: ScreenUtil().setSp(
@@ -1088,10 +1090,10 @@ class _ProductDetail extends State<ProductDetail>
                                   )
                                 ],
                               ),
-                            ),
-                          ))
+                            )),
+                        )
                     ],
-                  ))),
+                  )));}),
     ]);
   }
 

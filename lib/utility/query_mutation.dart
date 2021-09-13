@@ -284,6 +284,16 @@ getOtp(phone: \$phone){
       active
       sort
     }
+    channels {
+      id
+      title
+      img
+      scheduleDateTime
+      user {
+        firstName
+        lastName
+      }
+    }
     brand {
       id
       name

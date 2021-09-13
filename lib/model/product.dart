@@ -27,7 +27,7 @@ class ProductData {
   BrandData brand;
   String description;
   String barcode;
-
+  List<LiveStream> channels;
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
   ProductColor color;
@@ -69,7 +69,8 @@ class ProductData {
       // this.colorGroup,
       // this.sizeGroup,
       this.color,
-      this.size
+      this.size,
+        this.channels
       // this.variants,
       // this.vendor
       });
@@ -117,7 +118,11 @@ class ProductData {
           : ProductColor(),
       size: json["size"] != null
           ? ProductSize.fromJson(json["size"])
-          : ProductSize()
+          : ProductSize(),
+      channels: json["channels"] != null
+          ? List<LiveStream>.from(
+          json["channels"].map((x) => LiveStream.fromJson(x)))
+          : [LiveStream()],
       // variants: List<ProductVariant>.from(json["variants"].map((x)=>ProductVariant.fromJson(x))),
       // vendor: Vendor.fromJson(json["vendor"])
       );
@@ -436,4 +441,43 @@ class ProductDetails {
 
   factory ProductDetails.fromJson(Map<String, dynamic> json) => ProductDetails(
       id: json["id"], name: json["name"] ?? "", value: json["value"] ?? "");
+}
+
+
+class LiveStream {
+
+ String id;
+ String title;
+ String img;
+ String scheduleDateTime;
+ StreamUser user ;
+
+ LiveStream({
+   this.id,this.img,this.title,this.user,this.scheduleDateTime
+});
+
+ factory LiveStream.fromJson(Map<String, dynamic> json) => LiveStream(
+   id: json["id"],
+   title: json["title"],
+   img: json["img"],
+   scheduleDateTime: json["img"],
+   user: json["user"]!=null?StreamUser.fromJson(json["user"]):StreamUser()
+ );
+
+}
+
+class StreamUser {
+
+  String firstName;
+  String lastName;
+
+  StreamUser({
+    this.firstName,this.lastName
+});
+
+  factory StreamUser.fromJson(Map<String, dynamic> json) => StreamUser(
+    firstName: json["firstName"],
+    lastName: json["lastName"]
+  );
+
 }

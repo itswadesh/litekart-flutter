@@ -1,3 +1,4 @@
+import 'package:anne/view_model/product_detail_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -1068,6 +1069,9 @@ class _CartCard extends State<CartCard> {
                           cartData.qty != 0
                               ? new InkWell(
                                   onTap: () async {
+                                    if(cartData.qty==1){
+                                    await  Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
+                                    }
                                     Provider.of<CartViewModel>(context,
                                             listen: false)
                                         .cartAddItem(cartData.pid, cartData.pid,
@@ -1128,6 +1132,7 @@ class _CartCard extends State<CartCard> {
                           ),
                           new InkWell(
                               onTap: () async {
+
                                 Provider.of<CartViewModel>(context,
                                         listen: false)
                                     .cartAddItem(
@@ -1191,6 +1196,7 @@ class _CartCard extends State<CartCard> {
 
               InkWell(
                   onTap: () async {
+                   await Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
                   await  Provider.of<CartViewModel>(context,
                         listen: false)
                         .cartAddItem(cartData.pid, cartData.pid,

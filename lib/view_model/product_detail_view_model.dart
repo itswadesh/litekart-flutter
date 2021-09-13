@@ -5,7 +5,7 @@ import '../../utility/query_mutation.dart';
 
 class ProductDetailViewModel with ChangeNotifier {
   var status = "loading";
-
+  var buttonStatus  = "ADD TO BAG";
   QueryMutation addMutation = QueryMutation();
   ProductsRepository productsRepository = ProductsRepository();
   ProductDetailData _productDetailResponse;
@@ -17,6 +17,7 @@ class ProductDetailViewModel with ChangeNotifier {
     var resultData = await productsRepository.fetchProductDetailApi(productId);
     status = resultData["status"];
     if (status == "completed") {
+
       _productDetailResponse = ProductDetailData.fromJson(resultData["value"]);
     }
     notifyListeners();
@@ -24,5 +25,9 @@ class ProductDetailViewModel with ChangeNotifier {
 
   changeStatus(statusData) {
     status = statusData;
+  }
+
+  changeButtonStatus(statusData){
+    buttonStatus = statusData;
   }
 }
