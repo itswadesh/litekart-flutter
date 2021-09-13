@@ -1,4 +1,5 @@
 import 'package:anne/values/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../service/event/tracking.dart';
@@ -101,7 +102,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 Container(
                   width: ScreenUtil().setWidth(238),
                   height: ScreenUtil().setWidth(412),
-                  child: getSecondColumn(),
+                  child: getSecondColumn() ,
                 )
               ],
             ),
@@ -198,6 +199,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["brands"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
@@ -250,6 +252,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["colors"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
@@ -302,6 +305,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["sizes"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["sizes"]["all"]["buckets"][index];
@@ -374,51 +378,51 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
     if (current == "Brand") {
       return Container(
         height: ScreenUtil().setWidth(412),
-        child: brandFetch(),
+        child:  brandFetch(),
       );
     }
-    if (current == "Color") {
+   else if (current == "Color") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: colorFetch(),
       );
     }
-    if (current == "Size") {
+    else if (current == "Size") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: sizeFetch(),
       );
     }
 
-    if (current == "Gender") {
+    else if (current == "Gender") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: genderFetch(),
       );
     }
 
-    if (current == "Price Range") {
+    else if (current == "Price Range") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: priceRangeFetch(),
       );
     }
 
-    if (current == "Age Group") {
+    else if (current == "Age Group") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: ageGroupFetch(),
       );
     }
 
-    if (current == "Discount") {
+    else if (current == "Discount") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: discountFetch(),
       );
     }
 
-    return Container();
+    else return Container();
   }
 
   genderFetch() {
@@ -426,6 +430,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+      padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["genders"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
@@ -478,6 +483,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["price"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["price"]["all"]["buckets"][index];
@@ -529,6 +535,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount: widget.facet["all_aggs"]["age"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["age"]["all"]["buckets"][index];
@@ -580,6 +587,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         itemCount:
             widget.facet["all_aggs"]["discount"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {

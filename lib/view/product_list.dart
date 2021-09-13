@@ -2,6 +2,7 @@ import 'package:anne/components/widgets/productListCard.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view/product_sort_drawer.dart';
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -169,136 +170,156 @@ class _ProductList extends State<ProductList> {
             SizedBox(width: ScreenUtil().setWidth(12),),
           ],
         ),
-        body: Container(
+        body: Stack(children:[Container(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
               child: Container(
                   color: Color(0xfff3f3f3),
                   child: Container(child: getProductList()))),
-        ));
+        ),
+          count > 0 ? Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  width: double.infinity,
+                  height: ScreenUtil().setWidth(50),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border(top: BorderSide(color: Color(0xfff3f3f3)))
+                    //borderRadius:BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        // decoration: BoxDecoration(
+                        // border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
+                        //  ),
+                          child: InkWell(
+                            child: Container(
+                                margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                height: ScreenUtil().setWidth(50),
+                                child: Row(children: [
+                                  Icon(
+                                    FontAwesomeIcons.sort,
+                                    size: 18,
+                                    color: AppColors.primaryElement,
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
+                                ],)),
+                            onTap: () {
+                              showMaterialModalBottomSheet(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                        topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                                      )
+                                  ),
+                                  context: context,
+                                  builder: (context) => Container(
+                                    decoration: BoxDecoration(
+
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                          topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                                        )
+                                    ),
+                                    child: ProductSortDrawer(
+                                        sort,
+                                            (st) {
+                                          sort = st;
+                                          page = 0;
+                                          _pagingController.refresh();
+                                        }),
+                                  ));
+                             // showSortPopup();
+                            },
+                          )),
+                      InkWell(
+                        child: Container(
+                            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            height: ScreenUtil().setWidth(50),
+                            child: Row(children: [  Icon(
+                              FontAwesomeIcons.filter,
+                              size: 18,
+                              color: AppColors.primaryElement,
+                            ),
+                              SizedBox(width: 10,),
+                              Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
+                            ])),
+                        onTap: () {
+
+                          showMaterialModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                    topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                                  )
+                              ),
+                              context: context,
+                              builder: (context) => Container(
+                                decoration: BoxDecoration(
+
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                                      topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                                    )
+                                ),
+                                child: ProductFilterDrawer(
+                                    facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+                                        (bn, cl, sz,gd,pr,ag,dc) {
+                                      brand = "";
+                                      color = "";
+                                      size = "";
+                                      gender = "";
+                                      priceRange = "";
+                                      ageGroup = "";
+                                      discount = "";
+                                      bn.forEach((element) {
+                                        brand = brand + element + ",";
+                                      });
+                                      cl.forEach((element) {
+                                        color = color + element + ",";
+                                      });
+                                      sz.forEach((element) {
+                                        size = size + element + ",";
+                                      });
+                                      gd.forEach((element) {
+                                        gender = gender + element + ",";
+                                      });
+                                      pr.forEach((element) {
+                                        priceRange = priceRange + element + ",";
+                                      });
+                                      ag.forEach((element) {
+                                        ageGroup = ageGroup + element + ",";
+                                      });
+                                      dc.forEach((element) {
+                                        discount = discount + element + ",";
+                                      });
+                                      print(brand);
+                                      brandArr = bn;
+                                      colorArr = cl;
+                                      sizeArr = sz;
+                                      genderArr = gd;
+                                      priceRangeArr = pr;
+                                      ageGroupArr = ag;
+                                      discountArr = dc;
+                                      page = 0;
+                                      print(brand);
+                                      _pagingController.refresh();
+                                    }),
+                              ));
+                        },
+                      ),
+                    ],))):SizedBox.shrink()
+        ]));
   }
 
   Widget getProductList() {
     return Column(children: [
-      // Container(
-      //   height: ScreenUtil().setWidth(43),
-      //   color: Colors.white,
-      //   width: double.infinity,
-      //   padding: EdgeInsets.fromLTRB(
-      //       ScreenUtil().setWidth(27),
-      //       ScreenUtil().setWidth(5),
-      //       ScreenUtil().setWidth(16),
-      //       ScreenUtil().setWidth(12)),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     children: [
-      //       Container(
-      //           padding:EdgeInsets.only(top: ScreenUtil().setWidth(10)),
-      //           child:
-      //       Text(
-      //         "$count Products Found",
-      //         style: TextStyle(
-      //             color: Color(0xff616161),
-      //             fontSize: ScreenUtil().setWidth(16)),
-      //       )),
-      //       // Row(
-      //       //   mainAxisAlignment: MainAxisAlignment.end,
-      //       //   children: [
-      //       //     count > 0
-      //       //         ? InkWell(
-      //       //         onTap: () {
-      //       //           showSortPopup();
-      //       //         },
-      //       //         child: Container(
-      //       //             padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-      //       //             child: Icon(
-      //       //           Icons.sort,
-      //       //           size: ScreenUtil().setWidth(22),
-      //       //           color: Color(0xffee7625),
-      //       //         )))
-      //       //         : Container(),
-      //       //     count > 0
-      //       //         ? InkWell(
-      //       //             onTap: () {
-      //       //               // key.currentState.openEndDrawer();
-      //       //
-      //       //               showMaterialModalBottomSheet(
-      //       //                 shape: RoundedRectangleBorder(
-      //       //                   borderRadius: BorderRadius.only(
-      //       //                     topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-      //       //                     topRight: Radius.circular(ScreenUtil().setWidth(25)),
-      //       //                   )
-      //       //                 ),
-      //       //                 context: context,
-      //       //                 builder: (context) => Container(
-      //       //                   decoration: BoxDecoration(
-      //       //
-      //       //                       borderRadius: BorderRadius.only(
-      //       //                         topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-      //       //                         topRight: Radius.circular(ScreenUtil().setWidth(25)),
-      //       //                       )
-      //       //                   ),
-      //       //                   child: ProductFilterDrawer(
-      //       //                     facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
-      //       //                     (bn, cl, sz,gd,pr,ag,dc) {
-      //       //                   brand = "";
-      //       //                   color = "";
-      //       //                   size = "";
-      //       //                    gender = "";
-      //       //                    priceRange = "";
-      //       //                    ageGroup = "";
-      //       //                    discount = "";
-      //       //                   bn.forEach((element) {
-      //       //                     brand = brand + element + ",";
-      //       //                   });
-      //       //                   cl.forEach((element) {
-      //       //                     color = color + element + ",";
-      //       //                   });
-      //       //                   sz.forEach((element) {
-      //       //                     size = size + element + ",";
-      //       //                   });
-      //       //                   gd.forEach((element) {
-      //       //                     gender = gender + element + ",";
-      //       //                   });
-      //       //                   pr.forEach((element) {
-      //       //                     priceRange = priceRange + element + ",";
-      //       //                   });
-      //       //                   ag.forEach((element) {
-      //       //                     ageGroup = ageGroup + element + ",";
-      //       //                   });
-      //       //                   dc.forEach((element) {
-      //       //                     discount = discount + element + ",";
-      //       //                   });
-      //       //                   print(brand);
-      //       //                   brandArr = bn;
-      //       //                   colorArr = cl;
-      //       //                   sizeArr = sz;
-      //       //                   genderArr = gd;
-      //       //                   priceRangeArr = pr;
-      //       //                   ageGroupArr = ag;
-      //       //                   discountArr = dc;
-      //       //                   page = 0;
-      //       //                   print(brand);
-      //       //                   _pagingController.refresh();
-      //       //                 }),
-      //       //               ));
-      //       //             },
-      //       //             child: Container(
-      //       //                 padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
-      //       //                 child: Icon(
-      //       //               Icons.filter_alt_outlined,
-      //       //               size: ScreenUtil().setWidth(22),
-      //       //               color: Color(0xffee7625),
-      //       //             )))
-      //       //         : Container()
-      //       //   ],
-      //       // )
-      //     ],
-      //   ),
-      // ),
       Container(
         color: Color(0xfff3f3f3),
-        height: ScreenUtil().setWidth(720),
+        height: ScreenUtil().setWidth(740),
         //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
@@ -333,115 +354,6 @@ class _ProductList extends State<ProductList> {
           ),
         ),
       ),
-      count > 0 ? Container(
-          width: double.infinity,
-          height: ScreenUtil().setWidth(50),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(top: BorderSide(color: Color(0xfff3f3f3)))
-              //borderRadius:BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-             Container(
-             // decoration: BoxDecoration(
-             // border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
-             //  ),
-             child: InkWell(
-                child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    height: ScreenUtil().setWidth(50),
-                    child: Row(children: [
-                      Icon(
-                        FontAwesomeIcons.sort,
-                        size: 18,
-                        color: AppColors.primaryElement,
-                      ),
-                      SizedBox(width: 10,),
-                      Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
-                    ],)),
-                onTap: () {
-                  showSortPopup();
-                },
-              )),
-              InkWell(
-                child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    height: ScreenUtil().setWidth(50),
-                    child: Row(children: [  Icon(
-                      FontAwesomeIcons.filter,
-                      size: 18,
-                      color: AppColors.primaryElement,
-                    ),
-                      SizedBox(width: 10,),
-                      Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
-                    ])),
-                onTap: () {
-
-                  showMaterialModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-                            topRight: Radius.circular(ScreenUtil().setWidth(25)),
-                          )
-                      ),
-                      context: context,
-                      builder: (context) => Container(
-                        decoration: BoxDecoration(
-
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-                              topRight: Radius.circular(ScreenUtil().setWidth(25)),
-                            )
-                        ),
-                        child: ProductFilterDrawer(
-                            facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
-                                (bn, cl, sz,gd,pr,ag,dc) {
-                              brand = "";
-                              color = "";
-                              size = "";
-                              gender = "";
-                              priceRange = "";
-                              ageGroup = "";
-                              discount = "";
-                              bn.forEach((element) {
-                                brand = brand + element + ",";
-                              });
-                              cl.forEach((element) {
-                                color = color + element + ",";
-                              });
-                              sz.forEach((element) {
-                                size = size + element + ",";
-                              });
-                              gd.forEach((element) {
-                                gender = gender + element + ",";
-                              });
-                              pr.forEach((element) {
-                                priceRange = priceRange + element + ",";
-                              });
-                              ag.forEach((element) {
-                                ageGroup = ageGroup + element + ",";
-                              });
-                              dc.forEach((element) {
-                                discount = discount + element + ",";
-                              });
-                              print(brand);
-                              brandArr = bn;
-                              colorArr = cl;
-                              sizeArr = sz;
-                              genderArr = gd;
-                              priceRangeArr = pr;
-                              ageGroupArr = ag;
-                              discountArr = dc;
-                              page = 0;
-                              print(brand);
-                              _pagingController.refresh();
-                            }),
-                      ));
-                },
-              ),
-            ],)):Container(),
     ]);
   }
 
