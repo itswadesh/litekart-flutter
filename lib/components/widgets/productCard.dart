@@ -170,7 +170,9 @@ class _ProductCard extends State<ProductCard> {
                   SizedBox(
                     height: ScreenUtil().setWidth(7),
                   ),
-                  Row(
+                Container(
+                    width: ScreenUtil().setWidth(183),
+                    child:  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
@@ -195,17 +197,20 @@ class _ProductCard extends State<ProductCard> {
                       )
                           : Container(),
                       item.price < item.mrp
-                          ? Text(
+                          ? Flexible(child: Text(
                         " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
                               12,
-                            )),
-                      )
-                          : Container()
+                            ),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ))
+                          : Container(),
+                      SizedBox(width: ScreenUtil().setWidth(5),),
                     ],
-                  ),
+                  )),
                   SizedBox(height: ScreenUtil().setWidth(19),),
                   // Divider(height: ScreenUtil().setWidth(5),),
                   // InkWell(

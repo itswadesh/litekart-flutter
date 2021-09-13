@@ -243,7 +243,9 @@ class _WishCard extends State<WishCard> {
               SizedBox(
                 height: ScreenUtil().setWidth(7),
               ),
-              Row(
+      Container(
+        width: ScreenUtil().setWidth(183),
+        child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(width: ScreenUtil().setWidth(10),),
@@ -268,17 +270,17 @@ class _WishCard extends State<WishCard> {
                         )
                       : Container(),
                   item.product.price < item.product.mrp
-                      ? Text(
+                      ? Flexible(child: Text(
                           " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
                           style: TextStyle(
                               color: AppColors.primaryElement2,
                               fontSize: ScreenUtil().setSp(
                                 12,
                               )),
-                        )
+                        ))
                       : Container()
                 ],
-              ),
+              )),
               SizedBox(height: ScreenUtil().setWidth(15),),
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(

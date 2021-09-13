@@ -610,7 +610,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
         return Container();
       } else {
         log("This is Slider length"+value.sliderResponse.data.length.toString());
-        return Container(
+        return value.sliderResponse.data.length>0? Container(
           child: CarouselSlider.builder(
             itemCount: value.sliderResponse.data.length,
             options: CarouselOptions(
@@ -679,7 +679,7 @@ print("link ${value.sliderResponse.data[index].link}");
               }
             },
           ),
-        );
+        ):Container();
       }
     });
   }
