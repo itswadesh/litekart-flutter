@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/base/data_loading_indicator.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/graphQl.dart';
@@ -27,7 +29,6 @@ class _LoginState extends State<Login> with CodeAutoFill {
   bool _phoneFieldValidate = false;
   TextEditingController _mobileController;
   FocusNode _focusNode;
-  var onTapRecognizer;
   String appSignature;
   String otpCode;
   int otpResendLimit = 5;
@@ -45,10 +46,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
   @override
   void initState() {
     _mobileController = TextEditingController();
-    onTapRecognizer = TapGestureRecognizer()
-      ..onTap = () {
-        Navigator.pop(context);
-      };
+
     errorController = StreamController<ErrorAnimationType>();
     _focusNode = FocusNode();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -83,200 +81,330 @@ class _LoginState extends State<Login> with CodeAutoFill {
     return ChangeNotifierProvider(
       create: (BuildContext context) => LoginViewModel(),
       child: Consumer<LoginViewModel>(
-        builder: (context, model, child) => WillPopScope(
-            child: Scaffold(
+        builder: (context, model, child) =>  Scaffold(
               key: scaffoldKey,
               body: loadUi(model),
             ),
-            onWillPop: () async {
-              locator<NavigationService>()
-                  .pushNamedAndRemoveUntil(routes.HomeRoute);
-              return true;
-            }),
       ),
     );
   }
 
   Widget loadUi(LoginViewModel model) {
-    return Container(
-      constraints: BoxConstraints.expand(),
+    return SingleChildScrollView(child: Container(
       decoration: BoxDecoration(color: Color(0xFFF6F6f6)),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            left: 26,
-            top: 70,
-            right: 26,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                        height: 35,
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                        )),
-                    GestureDetector(
-                      onTap: () {
-                        locator<NavigationService>()
-                            .pushNamedAndRemoveUntil(routes.HomeRoute);
-                      },
-                      child: Container(
-                        width: 78,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Skip",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 69),
-                    child: Text(
-                      'Login with mobile number',
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    )),
-                Container(
-                    margin: EdgeInsets.only(top: 0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      focusNode: _focusNode,
-                      controller: _mobileController,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24,
-                      ),
-                      maxLength: 10,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black54),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black54),
-                        ),
-                        errorText: _phoneFieldValidate
-                            ? "Please enter valid mobile number"
-                            : null,
-                        prefix: Opacity(
-                          opacity: 0.4986,
-                          child: Text(
-                            "+91 ",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onChanged: (value) async {
-                        if (value.length == 10) {
-                          _phoneFieldValidate = false;
-                        }
-                      },
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () async {
-                    if (model.resendEnable &&
-                        model.resendTrial < otpResendLimit) {
-                      if (_mobileController.text.isEmpty) {
-                        setState(() {
-                          _phoneFieldValidate = true;
-                        });
-                      } else {
-                        if (_mobileController.text.length < otpResendLimit) {
-                          setState(() {
-                            _phoneFieldValidate = true;
-                          });
-                        } else {
-                          _focusNode.unfocus();
-                          model.sendOtp(_mobileController.text);
-                        }
-                      }
-                      listenForCode();
-                    }
-                  },
-                  child: Container(
-                    height: 43,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: model.resendEnable
-                              ? AppColors.primaryElement
-                              : Colors.grey,
-                          width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+     child: Container(
+        padding: EdgeInsets.only(left:ScreenUtil().setWidth(20), right: ScreenUtil().setWidth(20)),
+        //  color: Colors.white70,
+        child: Column(children:[
+          SizedBox(height: ScreenUtil().setWidth(100),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Get OTP",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: model.resendEnable
-                                ? AppColors.primaryElement
-                                : Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                        Container(),
+                        GestureDetector(
+                          onTap: () {
+                            locator<NavigationService>()
+                                .pushNamedAndRemoveUntil(routes.HomeRoute);
+                          },
+                          child: Container(
+                            width: ScreenUtil().setWidth(85),
+                            height: ScreenUtil().setWidth(35),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Skip",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: ScreenUtil().setSp(14),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                ),
-                Visibility(
-                  visible: model.showOtpUi,
-                  child: Container(
-                    child: otpUi(model),
-                  ),
+          SizedBox(height: ScreenUtil().setWidth(40),),
+          Card(
+          elevation: 2,
+          color: Color(0xe0ffffff),
+          child: Column(children: [
+            SizedBox(height: ScreenUtil().setWidth(25)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/logo.png",
+                  height: ScreenUtil().setWidth(60),
+                  width: ScreenUtil().setWidth(60),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+            SizedBox(
+              height: ScreenUtil().setWidth(20),
+            ),
+            Text(
+              "Sign in With Mobile Number",
+              style:
+              TextStyle(color: AppColors.primaryElement, fontSize: 18),
+            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Image.asset("assets/images/facebook.png"),
+            //     SizedBox(
+            //       width: 15,
+            //     ),
+            //     Image.asset("assets/images/linkedin.png"),
+            //     SizedBox(
+            //       width: 15,
+            //     ),
+            //     Image.asset("assets/images/google.png"),
+            //   ],
+            // ),
+            SizedBox(
+              height: ScreenUtil().setWidth(35),
+            ),
+                      Container(
+                        height: ScreenUtil().setWidth(80),
+                          margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            focusNode: _focusNode,
+                            controller: _mobileController,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: ScreenUtil().setSp(20),
+                            ),
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black54),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black54),
+                              ),
+                              errorText: _phoneFieldValidate
+                                  ? "Please enter valid mobile number"
+                                  : null,
+                              prefix: Opacity(
+                                opacity: 0.4986,
+                                child: Text(
+                                  "+91 ",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: ScreenUtil().setSp(20),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) async {
+                              if (value.length == 10) {
+                                _phoneFieldValidate = false;
+                              }
+                            },
+                          )),
+
+            SizedBox(
+              height: ScreenUtil().setWidth(25),
+            ),
+                      InkWell(
+                        onTap: () async {
+                          if (model.resendEnable &&
+                              model.resendTrial < otpResendLimit) {
+                            if (_mobileController.text.isEmpty) {
+                              setState(() {
+                                _phoneFieldValidate = true;
+                              });
+                            } else {
+                              if (_mobileController.text.length < otpResendLimit) {
+                                setState(() {
+                                  _phoneFieldValidate = true;
+                                });
+                              } else {
+                                _focusNode.unfocus();
+                                model.sendOtp(_mobileController.text);
+                              }
+                            }
+                            listenForCode();
+                          }
+                        },
+                        child: Container(
+                          height: ScreenUtil().setWidth(43),
+                          width: ScreenUtil().setWidth(150),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: model.resendEnable
+                                    ? AppColors.primaryElement
+                                    : Colors.grey,
+                                width: 1),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Get OTP",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: model.resendEnable
+                                      ? AppColors.primaryElement
+                                      : Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: model.showOtpUi,
+                        child: Container(
+                          child: otpUi(model),
+                        ),
+                      ),
+            SizedBox(
+              height: ScreenUtil().setWidth(30),
+            ),
+                Container(
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(10),right: ScreenUtil().setWidth(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(width: ScreenUtil().setWidth(100),
+                      child: Divider(),
+                      ),
+                      Text("   OR   ",style: TextStyle(fontSize: ScreenUtil().setSp(17)),),
+                      Container(width: ScreenUtil().setWidth(100),
+                        child: Divider(),
+                      ),
+                    ],
+                  ),
+                ),
+            SizedBox(
+              height: ScreenUtil().setWidth(30),
+            ),
+                Container(
+                    width: ScreenUtil().setWidth(300),
+                    height: ScreenUtil().setHeight(45),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        side: BorderSide(
+                            width: 2, color: Color(0xffe3e3e3)),
+                      ),
+                      onPressed: () async {
+                        locator<NavigationService>()
+                            .pushReplacementNamed(routes.EmailLoginRoute);
+                      },
+                      child: Container(
+                        // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.email_outlined,
+                              color: Color(0xff414141),
+                              size: ScreenUtil().setWidth(22),
+                            ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(12),
+                            ),
+                            Text(
+                              "EMAIL LOGIN",
+                              style: TextStyle(
+                                  color: Color(0xff414141),
+                                  fontSize: ScreenUtil().setSp(
+                                    16,
+                                  ),
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
+                SizedBox(height: ScreenUtil().setWidth(25),),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.primaryElement,
+                      borderRadius: BorderRadius.circular(
+                          ScreenUtil().setWidth(5))),
+                  width: ScreenUtil().setWidth(300),
+                  height: ScreenUtil().setHeight(45),
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      onPressed: () async {
+                        locator<NavigationService>()
+                            .pushReplacementNamed(routes.RegisterRoute);
+                      },
+                      child:  Container(
+                        //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                        color:  AppColors.primaryElement,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.app_registration,
+                              color: Color(0xffffffff),
+                              size: ScreenUtil().setWidth(22),
+                            ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(12),
+                            ),
+                            Text(
+                              "REGISTER",
+                              style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: ScreenUtil().setSp(
+                                    16,
+                                  ),
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+            SizedBox(height: ScreenUtil().setWidth(25),)
+          ]),
+        )
+    ] ),
+     ),
+    ));
+
   }
 
   Widget otpUi(LoginViewModel model) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
       width: double.infinity,
-      margin: EdgeInsets.only(top: 0),
       child: Column(
         children: [
-          Flexible(
-            flex: 1,
-            child: Container(),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
+          SizedBox(height: ScreenUtil().setWidth(30),),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
             child: Text(
               "Enter OTP",
               textAlign: TextAlign.left,
@@ -288,10 +416,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              margin: EdgeInsets.only(right: 20),
+           Container(
+             
               child: PinCodeTextField(
                 length: 4,
                 textInputType: TextInputType.number,
@@ -319,7 +445,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 },
               ),
             ),
-          ),
+          SizedBox(height: ScreenUtil().setWidth(25),),
           GestureDetector(
             onTap: () {
               if (model.resendEnable && model.resendTrial < otpResendLimit) {
@@ -332,10 +458,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 }
               }
             },
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 2, top: 28, bottom: 0),
+            child: Container(
+                margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -353,39 +477,36 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       ),
                     ),
                     !model.resendEnable &&
-                            (model?.resendTrial ?? 0) < otpResendLimit
+                        (model?.resendTrial ?? 0) < otpResendLimit
                         ? CountdownTimer(
-                            widgetBuilder: ((BuildContext context,
-                                CurrentRemainingTime time) {
-                              return Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  "wait ${time.sec.toString()} second",
-                                  style: TextStyle(
-                                    color: AppColors.primaryElement,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    height: 3.41667,
-                                  ),
-                                ),
-                              );
-                            }),
-                            endTime: DateTime.now().millisecondsSinceEpoch +
-                                1000 * 30,
-                            onEnd: () {
-                              model.changeResendEnable();
-                            },
-                          )
+                      widgetBuilder: ((BuildContext context,
+                          CurrentRemainingTime time) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "wait ${time.sec.toString()} second",
+                            style: TextStyle(
+                              color: AppColors.primaryElement,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              height: 3.41667,
+                            ),
+                          ),
+                        );
+                      }),
+                      endTime: DateTime.now().millisecondsSinceEpoch +
+                          1000 * 30,
+                      onEnd: () {
+                        model.changeResendEnable();
+                      },
+                    )
                         : SizedBox.shrink()
                   ],
                 ),
               ),
             ),
-          ),
-          Flexible(flex: 1, child: Container()),
-          Align(
-            alignment: Alignment.topLeft,
-            child: GestureDetector(
+           SizedBox(height: ScreenUtil().setWidth(30),),
+           GestureDetector(
               onTap: () async {
                 onLoading(context);
                 if (currentText.length != 4) {
@@ -415,8 +536,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 }
               },
               child: Container(
-                width: 176,
-                height: 50,
+                height: ScreenUtil().setWidth(43),
+                width: ScreenUtil().setWidth(150),
                 margin: EdgeInsets.only(bottom: 0),
                 decoration: BoxDecoration(
                   color: AppColors.primaryElement,
@@ -438,12 +559,12 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 ),
               ),
             ),
-          ),
-          Expanded(child: Container()),
         ],
       ),
     );
   }
+
+
 
   void _autoLogin(LoginViewModel model) async {
     if (tryAutoLogin && _otpController.text.length == 4 && model != null) {

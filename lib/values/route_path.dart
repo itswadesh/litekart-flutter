@@ -1,5 +1,7 @@
 const String HomeRoute = '/';
 const String LoginRoute = 'Login';
+const String EmailLoginRoute = 'EmailLogin';
+const String RegisterRoute = 'Register';
 const String OnboardingRoute = 'Onboarding';
 const String BusinessPartnerRoute = 'BusinessPartner';
 const String DailyActivityRoute = 'DailyActivity';

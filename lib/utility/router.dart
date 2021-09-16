@@ -1,3 +1,5 @@
+import 'package:anne/view/common/emailLogin.dart';
+import 'package:anne/view/common/register.dart';
 import 'package:anne/view/menu.dart';
 import 'package:anne/view/profile/profileEditPage.dart';
 import 'package:anne/view_model/menu_view_model.dart';
@@ -60,6 +62,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case routes.LoginRoute:
       return ScaleRoute(page: Login());
+      break;
+    case routes.EmailLoginRoute:
+      return ScaleRoute(page: EmailLogin());
+      break;
+    case routes.RegisterRoute:
+      return ScaleRoute(page: Register());
       break;
     case routes.OnboardingRoute:
       return ScaleRoute(page: Onboarding());

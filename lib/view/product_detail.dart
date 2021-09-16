@@ -1093,7 +1093,8 @@ class _ProductDetail extends State<ProductDetail>
                             )),
                         )
                     ],
-                  )));}),
+                  ))
+    );}),
     ]);
   }
 

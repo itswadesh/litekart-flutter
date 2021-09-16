@@ -1,4 +1,61 @@
 class QueryMutation {
+
+  login() {
+    return """
+    mutation login(\$email: String!, \$password: String!) {
+  login(email: \$email, password: \$password) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    avatar
+    role
+    verified
+    active
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
+  register() {
+    return """
+    mutation register(
+  \$email: String!
+  \$password: String!
+  \$passwordConfirmation: String!
+  \$firstName: String
+  \$lastName: String
+  \$referrer: String
+) {
+  register(
+    email: \$email
+    password: \$password
+    passwordConfirmation: \$passwordConfirmation
+    firstName: \$firstName
+    lastName: \$lastName
+    referrer: \$referrer
+  ) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    role
+    verified
+    active
+    avatar
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
   getOtp() {
     return """
 mutation getOtp(\$phone: String!) {
