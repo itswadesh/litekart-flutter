@@ -20,6 +20,8 @@ import '../../view_model/login_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+bool skipStatus = true;
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -100,8 +102,38 @@ class _LoginState extends State<Login> with CodeAutoFill {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(),
-                        GestureDetector(
+                        skipStatus?
+                        Container(): InkWell(
+        onTap: () {
+    locator<NavigationService>().pop();
+    },
+        child: Container(
+            margin: EdgeInsets.fromLTRB(
+                0, 0, ScreenUtil().setWidth(8), 0),
+            width: ScreenUtil().radius(45),
+            height: ScreenUtil().radius(45),
+            decoration: new BoxDecoration(
+              color: Color(0xffd3d3d3),
+              border: Border(
+                  bottom: BorderSide(
+                      color: Color(0xfff3f3f3),
+                      width: ScreenUtil().setWidth(0.4)),
+                  top: BorderSide(
+                      color: Color(0xfff3f3f3),
+                      width: ScreenUtil().setWidth(0.4)),
+                  left: BorderSide(
+                      color: Color(0xfff3f3f3),
+                      width: ScreenUtil().setWidth(0.4)),
+                  right: BorderSide(
+                      color: Color(0xfff3f3f3),
+                      width: ScreenUtil().setWidth(0.4))),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.arrow_back,
+              size: ScreenUtil().setWidth(18),
+            ))),
+                      skipStatus?  GestureDetector(
                           onTap: () {
                             locator<NavigationService>()
                                 .pushNamedAndRemoveUntil(routes.HomeRoute);
@@ -128,12 +160,12 @@ class _LoginState extends State<Login> with CodeAutoFill {
                               ],
                             ),
                           ),
-                        )
+                        ):Container()
                       ],
                     ),
           SizedBox(height: ScreenUtil().setWidth(40),),
           Card(
-          elevation: 2,
+          elevation: 0,
           color: Color(0xe0ffffff),
           child: Column(children: [
             SizedBox(height: ScreenUtil().setWidth(25)),

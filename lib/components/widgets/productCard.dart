@@ -30,13 +30,7 @@ class _ProductCard extends State<ProductCard> {
     super.initState();
   }
 
-  final List gradientColors = [
-    Color(0xfff0c68c),
-   // Color(0xffc5c5c5),
-    Color(0xffd8bfd8),
-    Color(0xffffe4b5),
-    Color(0xffe6e6fa)
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,34 +64,34 @@ class _ProductCard extends State<ProductCard> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                    Container(
-                        margin: EdgeInsets.fromLTRB(
-                            0, ScreenUtil().setWidth(5), ScreenUtil().setWidth(5), 0),
-                        width: ScreenUtil().radius(35),
-                        height: ScreenUtil().radius(35),
-                        decoration: new BoxDecoration(
-                          color: Color(0xfff3f3f3),
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              top: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              left: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              right: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4))),
-                          shape: BoxShape.circle,
-                        ),
-                        child:
-                        CheckWishListClass(item.id, item.id)),
-                  ],)
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //   Container(
+                  //       margin: EdgeInsets.fromLTRB(
+                  //           0, ScreenUtil().setWidth(5), ScreenUtil().setWidth(5), 0),
+                  //       width: ScreenUtil().radius(35),
+                  //       height: ScreenUtil().radius(35),
+                  //       decoration: new BoxDecoration(
+                  //         color: Color(0xfff3f3f3),
+                  //         border: Border(
+                  //             bottom: BorderSide(
+                  //                 color: Color(0xfff3f3f3),
+                  //                 width: ScreenUtil().setWidth(0.4)),
+                  //             top: BorderSide(
+                  //                 color: Color(0xfff3f3f3),
+                  //                 width: ScreenUtil().setWidth(0.4)),
+                  //             left: BorderSide(
+                  //                 color: Color(0xfff3f3f3),
+                  //                 width: ScreenUtil().setWidth(0.4)),
+                  //             right: BorderSide(
+                  //                 color: Color(0xfff3f3f3),
+                  //                 width: ScreenUtil().setWidth(0.4))),
+                  //         shape: BoxShape.circle,
+                  //       ),
+                  //       child:
+                  //       CheckWishListClass(item.id, item.id)),
+                  // ],)
                   
                   // Container(
                   //   padding: EdgeInsets.only(
@@ -120,20 +114,6 @@ class _ProductCard extends State<ProductCard> {
                 ],
               ),
               Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      gradientColors[
-                      Random().nextInt(gradientColors.length)],
-                      gradientColors[
-                      Random().nextInt(gradientColors.length)],
-                      gradientColors[
-                      Random().nextInt(gradientColors.length)]
-                    ],
-                  ),
-                ),
                 child: Column(
                 children: [
                   Container(

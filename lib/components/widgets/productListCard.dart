@@ -120,9 +120,10 @@ class _ProductListCard extends State<ProductListCard> {
                           ScreenUtil().setWidth(8),
                           ScreenUtil().setWidth(15),
                           0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                      child:
+                      // Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
                             Text(
                               item.brand == null ? "" : (item.brand ?? ""),
                               style: TextStyle(
@@ -133,8 +134,8 @@ class _ProductListCard extends State<ProductListCard> {
                               ),
                               textAlign: TextAlign.left,
                             ),
-                            CheckWishListClass(item.id, item.id)
-                          ]),
+                            //CheckWishListClass(item.id, item.id)
+                          // ]),
                     ),
                     SizedBox(
                       height: ScreenUtil().setWidth(5),

@@ -11,10 +11,14 @@ class Loading extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SpinKitSquareCircle(
-              color: AppColors.primaryElement,
+            SpinKitCircle(
+              color: Color(0xff616161),
               size: 40.0,
-            ),
+            )
+            // SpinKitSquareCircle(
+            //   color: AppColors.primaryElement,
+            //   size: 40.0,
+            // ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view/common/login.dart';
 import 'package:anne/view/search.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -52,6 +53,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
  bool bottomVisible = true;
   @override
   void initState() {
+    skipStatus = false;
     _TextAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
     _transTween = Tween(begin: Offset(0, 90), end: Offset(0, -40))
