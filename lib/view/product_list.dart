@@ -137,7 +137,7 @@ class _ProductList extends State<ProductList> {
                     locator<NavigationService>().pushNamed(routes.LoginRoute);
                   }
                   else {
-                    locator<NavigationService>().pushNamedAndRemoveUntil(
+                    locator<NavigationService>().pushNamed(
                         routes.ManageOrder);
                   }
                 },
@@ -156,7 +156,7 @@ class _ProductList extends State<ProductList> {
                     locator<NavigationService>().pushNamed(routes.LoginRoute);
                   }
                   else {
-                    locator<NavigationService>().pushNamedAndRemoveUntil(
+                    locator<NavigationService>().pushNamed(
                         routes.Wishlist);
                   }
                 },

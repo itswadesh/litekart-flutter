@@ -27,6 +27,17 @@ class SearchPage extends StatefulWidget {
 class _SearchPage extends State<SearchPage> {
   TextEditingController searchText = TextEditingController();
 
+  FocusNode _focusNode;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -43,6 +54,7 @@ class _SearchPage extends State<SearchPage> {
           title: Container(
             margin: EdgeInsets.only(top: 5),
             child: TextField(
+              focusNode: _focusNode,
               // onSubmitted: ,
               controller: searchText,
               onChanged: (search) {

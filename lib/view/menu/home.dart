@@ -266,7 +266,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                                  locator<NavigationService>().pushNamed(routes.LoginRoute);
                                          }
                                         else {
-                                          locator<NavigationService>().pushNamedAndRemoveUntil(
+                                          locator<NavigationService>().pushNamed(
                                               routes.ManageOrder);
                                         }
                                        },
@@ -285,7 +285,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                            locator<NavigationService>().pushNamed(routes.LoginRoute);
                                          }
                                          else {
-                                           locator<NavigationService>().pushNamedAndRemoveUntil(
+                                           locator<NavigationService>().pushNamed(
                                                routes.Wishlist);
                                          }
                                        },

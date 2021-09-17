@@ -39,7 +39,7 @@ class _MyProfileState extends State<MyProfile> {
         key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
-
+          automaticallyImplyLeading: false,
           title:  Text(
             "Profile",
             style: TextStyle(
@@ -148,7 +148,7 @@ class _MyProfileState extends State<MyProfile> {
     return ListTile(
       onTap: (){
         if(path == routes.Wishlist || path == routes.ManageOrder){
-          locator<NavigationService>().pushNamedAndRemoveUntil(path);
+          locator<NavigationService>().pushNamed(path);
         }
         else{
           locator<NavigationService>().pushNamed(path);

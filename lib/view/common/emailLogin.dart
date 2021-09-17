@@ -170,7 +170,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: ScreenUtil().setWidth(35),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     focusNode: _focusNode,
@@ -181,7 +181,7 @@ class _EmailLoginState extends State<EmailLogin> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Email",
+                      labelText: "Email",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -195,7 +195,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     obscureText: true,
@@ -206,7 +206,7 @@ class _EmailLoginState extends State<EmailLogin> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Password",
+                      labelText: "Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),

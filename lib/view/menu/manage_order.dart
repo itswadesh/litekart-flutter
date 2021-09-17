@@ -65,7 +65,7 @@ class _ManageOrderState extends State<ManageOrder> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-
+        automaticallyImplyLeading: false,
         title:  Text(
           "ORDERS",
           style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/graphQl.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:anne/view_model/menu_view_model.dart';
@@ -92,7 +93,10 @@ class _HomeDrawer extends State<HomeDrawer> {
           SizedBox(height: ScreenUtil().setWidth(20),),
           InkWell(
             onTap: (){
-              locator<NavigationService>().pushNamedAndRemoveUntil(routes.MyProfile);
+              if(token!=null && token!="") {
+                locator<NavigationService>().pushNamed(
+                    routes.MyProfile);
+              }
             },
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,7 +158,20 @@ class _HomeDrawer extends State<HomeDrawer> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                       textAlign: TextAlign.left),
               onTap: () {
-               locator<NavigationService>().pushNamedAndRemoveUntil(routePath);
+                if(text=="Shop By Categories") {
+                  locator<NavigationService>().pushNamed(
+                      routePath);
+                }
+                else{
+                  if(token!=null && token!=""){
+                    locator<NavigationService>().pushNamed(
+                        routePath);
+                  }
+                  else{
+                    locator<NavigationService>().pushNamed(
+                        routes.LoginRoute);
+                  }
+                }
                // locator<NavigationService>().pushNamed(routes.HomeRoute);
               }));
     });

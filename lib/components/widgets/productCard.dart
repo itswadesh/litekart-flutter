@@ -37,9 +37,8 @@ class _ProductCard extends State<ProductCard> {
     return Container(
       margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
-          border: Border.all(color: Color(0xffb1b1b1)),
-
+          // borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
+          border: Border.all(color: Color(0xffd1d1d1),width: 0.3),
       ),
       child: InkWell(
         onTap: () async {

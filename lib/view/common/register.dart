@@ -177,7 +177,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(35),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     focusNode: _focusNode,
@@ -189,7 +189,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Email",
+                      labelText: "Email",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -203,7 +203,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     controller: _firstNameController,
@@ -213,7 +213,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "First Name",
+                      labelText: "First Name",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -227,7 +227,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     controller: _lastNameController,
@@ -237,7 +237,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Last Name",
+                      labelText: "Last Name",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -251,7 +251,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     obscureText: true,
@@ -262,7 +262,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Password",
+                      labelText: "Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -275,7 +275,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(75),
+                  height: ScreenUtil().setWidth(70),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     obscureText: true,
@@ -286,7 +286,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      hintText: "Confirm Password",
+                      labelText: "Confirm Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
