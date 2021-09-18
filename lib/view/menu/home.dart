@@ -357,33 +357,41 @@ class _SuggestedClass extends State<SuggestedClass> {
         return SizedBox.shrink();
       }
       return Column(children: [
-        SizedBox(
+        Container(
           height: ScreenUtil().setWidth(15),
         ),
         Container(
+          height: ScreenUtil().setWidth(25),
+          color: Color(0xfff3f3f3),),
+        Container(
+          height: ScreenUtil().setWidth(15),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
-          //       3), // This can be the space you need betweeb text and underline
+          //       7.5), // This can be the space you need betweeb text and underline
           // ),
           // decoration: BoxDecoration(
           //     border: Border(
           //         bottom: BorderSide(
           //   color: Color(0xff32AFC8),
-          //   width: ScreenUtil()
-          //       .setWidth(2), // This would be the width of the underline
+          //   width: 2.0, // This would be the width of the underline
           // ))),
           child: Text(
-            "Suggested For You",
-            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
+            "SUGGESTED PRODUCTS FOR YOU",
+            style: ThemeApp()
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
           ),
         ),
-        SizedBox(
+        Container(
           height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(295),
+          height: ScreenUtil().setWidth(303),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productSuggestedResponse.data.length,
@@ -441,33 +449,42 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
         return SizedBox.shrink();
       }
       return Column(children: [
-        SizedBox(
+        Container(
           height: ScreenUtil().setWidth(15),
         ),
         Container(
+          height: ScreenUtil().setWidth(25),
+          color: Color(0xfff3f3f3),),
+        Container(
+          height: ScreenUtil().setWidth(15),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
-          //       3), // This can be the space you need between text and underline
+          //       7.5), // This can be the space you need betweeb text and underline
           // ),
           // decoration: BoxDecoration(
           //     border: Border(
           //         bottom: BorderSide(
-          //   color: Color(0xffC53193),
-          //   width: ScreenUtil()
-          //       .setWidth(2), // This would be the width of the underline
+          //   color: Color(0xff32AFC8),
+          //   width: 2.0, // This would be the width of the underline
           // ))),
           child: Text(
-            "You May Like",
-            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
+            "PRODUCTS YOU MAY LIKE",
+            style: ThemeApp()
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
           ),
         ),
-        SizedBox(
+        Container(
+          color: Color(0xffffffff),
           height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(295),
+          height: ScreenUtil().setWidth(303),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productYouMayLikeResponse.data.length,
@@ -528,33 +545,41 @@ class _TrendingClass extends State<TrendingClass> {
         return SizedBox.shrink();
       }
       return Column(children: [
-        SizedBox(
+        Container(
           height: ScreenUtil().setWidth(15),
         ),
         Container(
+          height: ScreenUtil().setWidth(25),
+          color: Color(0xfff3f3f3),),
+        Container(
+          height: ScreenUtil().setWidth(15),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
-          //       3), // This can be the space you need betweeb text and underline
+          //       7.5), // This can be the space you need betweeb text and underline
           // ),
           // decoration: BoxDecoration(
           //     border: Border(
           //         bottom: BorderSide(
-          //   color: Color(0xffA1CF5F),
-          //   width: ScreenUtil()
-          //       .setWidth(2), // This would be the width of the underline
+          //   color: Color(0xff32AFC8),
+          //   width: 2.0, // This would be the width of the underline
           // ))),
           child: Text(
-            "Trending",
-            style: ThemeApp().homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
+            "TRENDING PRODUCTS FOR YOU",
+            style: ThemeApp()
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
           ),
         ),
-        SizedBox(
+        Container(
           height: ScreenUtil().setWidth(25),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(295),
+          height: ScreenUtil().setWidth(303),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productTrendingResponse.data.length,
@@ -1242,10 +1267,21 @@ class _BrandClass extends State<BrandClass> {
         } else {
           return Column(
             children: [
-              SizedBox(
+              Container(
+                color:Color(0xffffffff),
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
+                height: ScreenUtil().setWidth(25),
+                color: Color(0xfff3f3f3),),
+              Container(
+                color:Color(0xffffffff),
+                height: ScreenUtil().setWidth(15),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                color:Color(0xffffffff),
+                width: double.infinity,
                 // padding: EdgeInsets.only(
                 //   bottom: ScreenUtil().setWidth(
                 //       7.5), // This can be the space you need betweeb text and underline
@@ -1257,26 +1293,30 @@ class _BrandClass extends State<BrandClass> {
                 //   width: 2.0, // This would be the width of the underline
                 // ))),
                 child: Text(
-                  "Brands",
+                  "TOP BRANDS FOR YOU",
                   style: ThemeApp()
-                      .homeHeaderThemeText(AppColors.primaryElement, 25.0, true),
+                      .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
                 ),
               ),
-              SizedBox(
+              Container(
+                color: Color(0xffffffff),
                 height: ScreenUtil().setWidth(25),
               ),
               Container(
+                color: Color(0xffffffff),
                 //  color: Colors.white,
                 height: ScreenUtil().setWidth(61),
-                margin: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(52), 0, ScreenUtil().setWidth(51), 0),
+                padding: EdgeInsets.fromLTRB(
+                    ScreenUtil().setWidth(25), 0, ScreenUtil().setWidth(25), 0),
                 child: ListView.builder(
+
                     scrollDirection: Axis.horizontal,
                     itemCount: value.brandResponse.data.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext build, index) {
                       BrandData data = value.brandResponse.data[index];
                       return Container(
+                        color: Color(0xffffffff),
                         //  color: Colors.white,
                         child: InkWell(
                           onTap: () {
@@ -1304,7 +1344,8 @@ class _BrandClass extends State<BrandClass> {
                       );
                     }),
               ),
-              SizedBox(
+              Container(
+                color: Color(0xffffffff),
                 height: ScreenUtil().setWidth(30),
               )
             ],

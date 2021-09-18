@@ -358,12 +358,12 @@ class _LoginState extends State<Login> with CodeAutoFill {
                             Icon(
                               Icons.email_outlined,
                               color: Color(0xff414141),
-                              size: ScreenUtil().setWidth(22),
+                              size: ScreenUtil().setWidth(20),
                             ),
                             SizedBox(
                               width: ScreenUtil().setWidth(12),
                             ),
-                            Text(
+                        Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child:  Text(
                               "EMAIL LOGIN",
                               style: TextStyle(
                                   color: Color(0xff414141),
@@ -371,7 +371,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                                     16,
                                   ),
                                   fontWeight: FontWeight.w600),
-                            )
+                            ))
                           ],
                         ),
                       ),
@@ -405,12 +405,12 @@ class _LoginState extends State<Login> with CodeAutoFill {
                             Icon(
                               Icons.app_registration,
                               color: AppColors.primaryElement,
-                              size: ScreenUtil().setWidth(22),
+                              size: ScreenUtil().setWidth(20),
                             ),
                             SizedBox(
                               width: ScreenUtil().setWidth(12),
                             ),
-                            Text(
+                           Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child: Text(
                               "REGISTER",
                               style: TextStyle(
                                   color: AppColors.primaryElement,
@@ -418,7 +418,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                                     16,
                                   ),
                                   fontWeight: FontWeight.w600),
-                            )
+                            ))
                           ],
                         ),
                       )),

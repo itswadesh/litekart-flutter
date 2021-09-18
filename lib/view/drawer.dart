@@ -106,7 +106,7 @@ class _HomeDrawer extends State<HomeDrawer> {
 
                   child: Text(
                     "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
-                    style: TextStyle(color: Color(0xff616161), fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Sofia'),
+                    style: TextStyle(color: Color(0xff616161), fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),
                     textAlign: TextAlign.left,
                   ),
                 ),

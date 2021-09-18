@@ -164,7 +164,7 @@ class _MegaMenu extends State<MegaMenu> {
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
                     fontSize: ScreenUtil().setSp(20),
-                    fontFamily: "Sofia"),
+                    fontFamily: "Inter"),
               ),
               children: getExpansionTileChild(children[index].children))));
       }
@@ -195,7 +195,7 @@ class _MegaMenu extends State<MegaMenu> {
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
                     fontSize: ScreenUtil().setSp(20),
-                    fontFamily: "Sofia"))),
+                    fontFamily: "Inter"))),
       ));
     }
     return list;

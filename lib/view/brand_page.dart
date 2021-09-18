@@ -248,7 +248,7 @@ class PickedBrandPage extends StatelessWidget {
                               '$key',
                               style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: 'Sofia',
+                                  fontFamily: 'Inter',
                                   fontWeight: FontWeight.w400),
                             ),
                           ),

@@ -149,7 +149,7 @@ class _MyApp extends State<Main> {
           initialRoute: _initialRoute,
           title: 'Anne',
           theme: ThemeData(
-            fontFamily: 'Sofia',
+            fontFamily: 'Inter',
             primarySwatch: AppColors.primaryColor,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),

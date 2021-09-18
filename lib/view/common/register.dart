@@ -388,12 +388,12 @@ class _RegisterState extends State<Register> {
                           Icon(
                             Icons.phone_android,
                             color: Color(0xff414141),
-                            size: ScreenUtil().setWidth(22),
+                            size: ScreenUtil().setWidth(18),
                           ),
                           SizedBox(
                             width: ScreenUtil().setWidth(12),
                           ),
-                          Text(
+                      Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child:  Text(
                             "MOBILE LOGIN",
                             style: TextStyle(
                                 color: Color(0xff414141),
@@ -401,7 +401,7 @@ class _RegisterState extends State<Register> {
                                   16,
                                 ),
                                 fontWeight: FontWeight.w600),
-                          )
+                          ))
                         ],
                       ),
                     ),
@@ -435,12 +435,12 @@ class _RegisterState extends State<Register> {
                           Icon(
                             Icons.email_outlined,
                             color: AppColors.primaryElement,
-                            size: ScreenUtil().setWidth(22),
+                            size: ScreenUtil().setWidth(20),
                           ),
                           SizedBox(
                             width: ScreenUtil().setWidth(12),
                           ),
-                          Text(
+                      Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child: Text(
                             "EMAIL LOGIN",
                             style: TextStyle(
                                 color: AppColors.primaryElement,
@@ -448,7 +448,7 @@ class _RegisterState extends State<Register> {
                                   16,
                                 ),
                                 fontWeight: FontWeight.w600),
-                          )
+                          ))
                         ],
                       ),
                     )),

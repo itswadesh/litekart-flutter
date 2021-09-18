@@ -49,7 +49,7 @@ class _ProductCard extends State<ProductCard> {
         child: Container(
           width: ScreenUtil().setWidth(183),
           //     height: ScreenUtil().setWidth(269),
-          height: ScreenUtil().setWidth(280),
+          height: ScreenUtil().setWidth(288),
           child: Column(
             children: [
               Stack(

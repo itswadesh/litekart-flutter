@@ -24,7 +24,7 @@ errorMessage() {
           Text(
             "Something went wrong !!",
             style: TextStyle(
-                color: Colors.grey, fontSize: 16, fontFamily: 'Sofia'),
+                color: Colors.grey, fontSize: 16, fontFamily: 'Inter'),
           ),
         ],
       ),

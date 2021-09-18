@@ -208,7 +208,7 @@ class _ProductList extends State<ProductList> {
                                     color: AppColors.primaryElement,
                                   ),
                                   SizedBox(width: 10,),
-                                  Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
+                                  Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
                                 ],)),
                             onTap: () {
                               showMaterialModalBottomSheet(
@@ -248,7 +248,7 @@ class _ProductList extends State<ProductList> {
                               color: AppColors.primaryElement,
                             ),
                               SizedBox(width: 10,),
-                              Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Sofia'),)
+                              Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
                             ])),
                         onTap: () {
 
@@ -335,7 +335,7 @@ class _ProductList extends State<ProductList> {
             padding: EdgeInsets.all(0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
-                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(270),
+                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(274),
                 crossAxisCount: 2),
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(
