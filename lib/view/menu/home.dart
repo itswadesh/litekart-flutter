@@ -1326,7 +1326,7 @@ class _BrandClass extends State<BrandClass> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                right: ScreenUtil().setWidth(10)),
+                                right: ScreenUtil().setWidth(15)),
                             width: ScreenUtil().setWidth(103),
                             height: ScreenUtil().setWidth(61),
                             decoration: new BoxDecoration(
