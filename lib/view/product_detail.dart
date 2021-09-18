@@ -398,10 +398,7 @@ class _ProductDetail extends State<ProductDetail>
                         SizedBox(
                           height: ScreenUtil().setWidth(15),
                         ),
-                        Container(
-                          color: Color(0xfff3f3f3),
-                          height: ScreenUtil().setWidth(25),
-                        ),
+
                         Query(
                           options: QueryOptions(
                               document: gql(addMutation.productGroup()),
@@ -421,6 +418,11 @@ class _ProductDetail extends State<ProductDetail>
                               print(result.data["product_group"]["colorGroup"]);
                               return Column(
                                 children: [
+                                  productGroup.colorGroup.length > 0
+                                      ? Container(
+                                    color: Color(0xfff3f3f3),
+                                    height: ScreenUtil().setWidth(25),
+                                  ):Container(),
                                   productGroup.colorGroup.length > 0
                                       ? SizedBox(
                                           height: ScreenUtil().setWidth(15),
@@ -653,6 +655,7 @@ class _ProductDetail extends State<ProductDetail>
                           }
                           if (value.settingResponse.liveCommerce) {
                             return Container(
+                              margin: EdgeInsets.only(top: ScreenUtil().setWidth(34),bottom: ScreenUtil().setWidth(34)),
                               width: ScreenUtil().setWidth(150),
                               height: ScreenUtil().setHeight(42),
                               child: OutlinedButton(
@@ -747,10 +750,11 @@ class _ProductDetail extends State<ProductDetail>
                               ? ScreenUtil().setWidth(20)
                               : 0,
                         ),
-                        Container(
+                        getProductDetailChildren(productData).length > 0
+                            ? Container(
                           color: Color(0xfff3f3f3),
                           height: ScreenUtil().setWidth(20),
-                        ),
+                        ): SizedBox.shrink(),
                         getProductDetailChildren(productData).length > 0
                             ? Container(
                                 width: double.infinity,

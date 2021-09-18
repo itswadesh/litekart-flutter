@@ -56,7 +56,7 @@ class _MegaMenu extends State<MegaMenu> {
               },
               child: Icon(
                 Icons.favorite_border_outlined,
-                size: 22,
+                size: 23,
                 color: Color(0xff616161),
               )),
           SizedBox(width: ScreenUtil().setWidth(24),),

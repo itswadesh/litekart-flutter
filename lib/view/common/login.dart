@@ -572,8 +572,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 }
               },
               child: Container(
-                height: ScreenUtil().setWidth(43),
-                width: ScreenUtil().setWidth(150),
+                width: ScreenUtil().setWidth(300),
+                height: ScreenUtil().setHeight(45),
                 margin: EdgeInsets.only(bottom: 0),
                 decoration: BoxDecoration(
                   color: AppColors.primaryElement,
