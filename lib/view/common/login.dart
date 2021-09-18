@@ -278,9 +278,11 @@ class _LoginState extends State<Login> with CodeAutoFill {
                           }
                         },
                         child: Container(
-                          height: ScreenUtil().setWidth(43),
-                          width: ScreenUtil().setWidth(150),
+
+                          width: ScreenUtil().setWidth(300),
+                          height: ScreenUtil().setHeight(45),
                           decoration: BoxDecoration(
+                            color: model.resendEnable ? AppColors.primaryElement:Color(0xffffffff),
                             border: Border.all(
                                 color: model.resendEnable
                                     ? AppColors.primaryElement
@@ -296,7 +298,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: model.resendEnable
-                                      ? AppColors.primaryElement
+                                      ? Color(0xffffffff)
                                       : Colors.grey,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
@@ -377,7 +379,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 SizedBox(height: ScreenUtil().setWidth(25),),
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.primaryElement,
+                     // color: AppColors.primaryElement,
                       borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(5))),
                   width: ScreenUtil().setWidth(300),
@@ -387,6 +389,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
+                        side: BorderSide(
+                            width: 2, color: AppColors.primaryElement),
                       ),
                       onPressed: () async {
                         locator<NavigationService>()
@@ -394,13 +398,13 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       },
                       child:  Container(
                         //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                        color:  AppColors.primaryElement,
+                        //color:  AppColors.primaryElement,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               Icons.app_registration,
-                              color: Color(0xffffffff),
+                              color: AppColors.primaryElement,
                               size: ScreenUtil().setWidth(22),
                             ),
                             SizedBox(
@@ -409,7 +413,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                             Text(
                               "REGISTER",
                               style: TextStyle(
-                                  color: Color(0xffffffff),
+                                  color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ),

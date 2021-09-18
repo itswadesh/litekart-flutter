@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -142,6 +143,7 @@ class _MyApp extends State<Main> {
           ChangeNotifierProvider.value(value: MegaMenuViewModel()),
           ChangeNotifierProvider.value(value: OrderViewModel()),
           ChangeNotifierProvider.value(value: RatingViewModel()),
+          ChangeNotifierProvider.value(value: SettingViewModel()),
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,

@@ -106,7 +106,7 @@ class _HomeDrawer extends State<HomeDrawer> {
 
                   child: Text(
                     "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
-                    style: TextStyle(color: Color(0xff454545), fontSize: 15,fontWeight: FontWeight.w600,fontFamily: 'Sofia'),
+                    style: TextStyle(color: Color(0xff616161), fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Sofia'),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -131,7 +131,7 @@ class _HomeDrawer extends State<HomeDrawer> {
           leading: Icon(
             icon,
             color: Colors.black,
-            size: 20,
+            size: 22,
           ),
           title:
               //   Text(text, style: ThemeApp().textThemeGrey(),),
@@ -149,14 +149,14 @@ class _HomeDrawer extends State<HomeDrawer> {
           child: ListTile(
               leading: Icon(
                 icon,
-                color: Colors.black,
-                size: 20,
+                color: Color(0xff616161),
+                size: 22,
               ),
               title:
                   //   Text(text, style: ThemeApp().textThemeGrey(),),
-                  Text(text,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
-                      textAlign: TextAlign.left),
+                 Transform.translate(offset: Offset(-ScreenUtil().setWidth(25),0), child: Text(text,
+                      style: TextStyle(color: Color(0xff616161), fontSize: 16),
+                      textAlign: TextAlign.left)),
               onTap: () {
                 if(text=="Shop By Categories") {
                   locator<NavigationService>().pushNamed(

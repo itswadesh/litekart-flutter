@@ -33,8 +33,8 @@ class _CartLogo extends State<CartLogo> {
           Center(
               child:  Icon(
           Icons.shopping_cart,
-          size: 20,
-          color: Colors.black54,
+          size: 22,
+          color: Color(0xff616161),
         //)
           ));
       }
@@ -51,8 +51,8 @@ class _CartLogo extends State<CartLogo> {
               children: [
                 Icon(
                   Icons.shopping_cart,
-                  size: 20,
-                  color: Colors.black54,
+                  size: 22,
+                  color: Color(0xff616161),
                 ),
                 value.cartCount > 0
                     ? Positioned(

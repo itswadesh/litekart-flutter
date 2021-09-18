@@ -83,7 +83,7 @@ class SliderBrandPage extends StatelessWidget {
       future: viewModel.fetchSliderBannerData(), // async work
       builder:
           (BuildContext context, AsyncSnapshot<List<BannerData>> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data.length>0) {
           List<BannerData> bannerData = snapshot.data;
           return CarouselSlider.builder(
             itemCount: bannerData.length,

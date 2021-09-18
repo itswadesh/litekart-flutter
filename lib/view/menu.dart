@@ -43,13 +43,16 @@ class _MenuState extends State<Menu>{
            child: Consumer<ProfileModel>(builder: (context,value,view){
              return BottomNavigationBar(
                 selectedLabelStyle: TextStyle(color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(14)),
-                 unselectedLabelStyle: TextStyle(color: Color(0xffd0d0d0),fontSize: ScreenUtil().setSp(14)),
+                 unselectedLabelStyle: TextStyle(color: Color(0xff616161),fontSize: ScreenUtil().setSp(14)),
                  selectedIconTheme: IconThemeData(color: AppColors.primaryElement),
-                 unselectedIconTheme: IconThemeData(color: Color(0xffd0d0d0)),
+                 unselectedIconTheme: IconThemeData(color: Color(0xff616161)),
                  selectedItemColor: AppColors.primaryElement,
-                 unselectedItemColor: Color(0xffd0d0d0),
+                 unselectedItemColor: Color(0xff616161),
                  showSelectedLabels: true,
                  showUnselectedLabels: true,
+                 selectedFontSize: ScreenUtil().setSp(14),
+                 unselectedFontSize: ScreenUtil().setSp(14),
+                 iconSize: 22,
                  currentIndex:
                  model.currentIndex,
                  onTap: (int index) {
@@ -71,7 +74,7 @@ class _MenuState extends State<Menu>{
   List<BottomNavigationBarItem> bottomNavigationItem(MenuViewModel model){
     List<BottomNavigationBarItem> menu  = [];
     for(int i=0; i< model.menus.length;i++){
-        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset,size: 20,),label: model.menus[i].title,));
+        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset,size: 22,),label: model.menus[i].title,));
     }
     return menu;
   }

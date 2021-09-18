@@ -13,6 +13,37 @@ class ApiProvider {
   QueryMutation addMutation = QueryMutation();
   Dio dio = Dio();
 
+  // settings
+
+  settings() async {
+    Map responseData;
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
+    try {
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.settings())),
+      );
+      if (resultData.hasException) {
+        print(resultData.exception);
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data["settings"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["settings"]
+          };
+        }
+      }
+    } catch (e) {
+      print(e);
+      responseData = {"status": "error"};
+    }
+    return responseData;
+  }
+
   // Product Detail api
 
   fetchProductDetailApi(productId) async {

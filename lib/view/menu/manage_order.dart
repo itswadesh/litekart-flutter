@@ -67,13 +67,12 @@ class _ManageOrderState extends State<ManageOrder> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title:  Text(
-          "ORDERS",
+          "Orders",
           style: TextStyle(
               color: Color(0xff616161),
               fontSize: ScreenUtil().setSp(
                 21,
-              ),
-          fontWeight: FontWeight.w600),
+              ),),
         ),
         actions: [
           Container(
@@ -91,8 +90,9 @@ class _ManageOrderState extends State<ManageOrder> {
         color: Color(0xfff3f3f3),
         child: SingleChildScrollView(
           child: Container(
-            child: Column(
-              children: [
+            height: MediaQuery.of(context).size.height,
+            // child: Column(
+            //   children: [
                 // Container(
                 //   margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(27), ScreenUtil().setWidth(20), ScreenUtil().setWidth(16), ScreenUtil().setWidth(27)),
                 //   child: Row(
@@ -130,9 +130,9 @@ class _ManageOrderState extends State<ManageOrder> {
                 //     ],
                 //   ),
                 // ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(20),
-                ),
+                // SizedBox(
+                //   height: ScreenUtil().setWidth(20),
+                // ),
                 // Container(
                 //   margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(24), 0,
                 //       ScreenUtil().setWidth(18), ScreenUtil().setWidth(35)),
@@ -228,11 +228,11 @@ class _ManageOrderState extends State<ManageOrder> {
                 //   ),
                 // ),
                // buttonOption == 1 ? DeliveredClass() : Container(),
-                OrderClass()
+               child: OrderClass()
                 // buttonOption == 2 ? InTrackClass() : Container(),
                 // buttonOption == 3 ? PendingClass() : Container(),
-              ],
-            ),
+            //   ],
+            // ),
           ),
         ),
       ))),
@@ -269,9 +269,12 @@ class _OrderClass extends State<OrderClass> {
             return Loading();
           } else if (value.deliveredStatus == "empty") {
             return Container(
+              //height: MediaQuery.of(context).size.height-20,
                 child: cartEmptyMessage("search", "No Orders Found"));
           } else if (value.deliveredStatus == "error") {
-            return Container(child: errorMessage());
+            return Container(
+              //  height: MediaQuery.of(context).size.height-20,
+                child: errorMessage());
           } else {
             return ListOrderData(value.deliveredOrderResponse);
           }

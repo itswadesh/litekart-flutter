@@ -1,5 +1,117 @@
 class QueryMutation {
 
+  settings(){
+    return """query settings {
+  settings {
+    id
+    websiteName
+    websiteLegalName
+    liveCommerce
+    multilingual
+    closed
+    closedMessage
+    minimumOrderValue
+    title
+    alert
+    keywords
+    description
+    tax {
+      cgst
+      sgst
+      igst
+    }
+    demo
+    RAZORPAY_KEY_ID
+    stripePublishableKey
+    enableStripe
+    enableRazorpay
+    currencyCode
+    currencySymbol
+    currencyDecimals
+    openGraphImage
+    shipping {
+      deliveryDays
+      charge
+      free
+      method
+    }
+    userRoles
+    websiteEmail
+    shopPhone
+    shopAddress
+    country
+    logo
+    logoMobile
+    logoDark
+    logoMobileDark
+    favicon
+    CDN_URL
+    S3_URL
+    searchbarText
+    adminPanelLink
+    pageSize
+    orderStatuses {
+      status
+      title
+      body
+      icon
+      public
+      index
+    }
+    paymentStatuses
+    otpLogin
+    sms {
+      AUTO_VERIFICATION_ID
+      enabled
+      provider
+    }
+    email {
+      enabled
+      from
+      cc
+      bcc
+      printers
+    }
+    storage {
+      enabled
+      provider
+    }
+    review {
+      enabled
+      moderate
+    }
+    product {
+      moderate
+    }
+    customerOrderNotifications {
+      orderConfirmation
+      orderStatusChanged
+      orderShipped
+      orderIsReadyForPickup
+      downloadEGoods
+      giftCardPurchased
+    }
+    adminNotifications {
+      newOrderPlaced
+      lowStockNotification
+    }
+    googleMapsApi
+    facebook
+    twitter
+    google
+    instagram
+    linkedin
+    enableTax
+    locationExpiry
+    WWW_URL
+    referralBonus
+    joiningBonus
+    isMultiVendor
+  }
+}""";
+  }
+
+
   login() {
     return """
     mutation login(\$email: String!, \$password: String!) {

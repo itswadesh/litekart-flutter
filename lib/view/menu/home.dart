@@ -233,8 +233,8 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.menu,
-                                         size: 21,
-                                         color: Colors.black54,
+                                         size: 22,
+                                         color: Color(0xff616161),
                                        )),
                              SizedBox(width: ScreenUtil().setWidth(25),),
                              Container(
@@ -247,15 +247,18 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                          Row(
                            mainAxisAlignment: MainAxisAlignment.end,
                            children: [
+                             Container(
+                                 padding: EdgeInsets.only(top: 2),
+                                 child:
                                    InkWell(
                                        onTap: () {
                                          locator<NavigationService>().pushNamed(routes.SearchPage);
                                        },
                                        child: Icon(
                                          Icons.search,
-                                         size: 21,
-                                         color: Colors.black54,
-                                       )),
+                                         size: 22,
+                                         color: Color(0xff616161),
+                                       ))),
                                    SizedBox(
                                      width: ScreenUtil().setWidth(24),
                                    ),
@@ -272,12 +275,15 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.shopping_bag_outlined,
-                                         size: 21,
-                                         color: Colors.black54,
+                                         size: 22,
+                                         color: Color(0xff616161),
                                        )),
                                    SizedBox(
                                      width: ScreenUtil().setWidth(24),
                                    ),
+                             Container(
+                               padding: EdgeInsets.only(bottom: 0),
+                               child:
                                    InkWell(
                                        onTap: () {
                                          if (Provider.of<ProfileModel>(context, listen: false).user == null)
@@ -291,9 +297,9 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.favorite_border_outlined,
-                                         size: 21,
-                                         color: Colors.black54,
-                                       )),
+                                         size: 23,
+                                         color: Color(0xff616161),
+                                       ))),
                                    SizedBox(width: ScreenUtil().setWidth(24),),
                                    CartLogo(),
                            ],

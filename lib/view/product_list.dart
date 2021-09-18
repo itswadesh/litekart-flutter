@@ -102,7 +102,7 @@ class _ProductList extends State<ProductList> {
             onTap: () => Navigator.pop(context),
             child: Icon(
               Icons.arrow_back,
-              color: Colors.black54,
+              color: Color(0xff6161616)
             ),
           ),
           title: Column(
@@ -118,15 +118,18 @@ class _ProductList extends State<ProductList> {
             ],
           ) ,
           actions: [
+        Container(
+        padding: EdgeInsets.only(top: 2),
+      child:
             InkWell(
                 onTap: () {
                   locator<NavigationService>().pushNamed(routes.SearchPage);
                 },
                 child: Icon(
                   Icons.search,
-                  size: 21,
-                  color: Colors.black54,
-                )),
+                  size: 22,
+                  color: Color(0xff616161),
+                ))),
             SizedBox(
               width: ScreenUtil().setWidth(24),
             ),
@@ -143,8 +146,8 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                     Icons.shopping_bag_outlined,
-                  size: 21,
-                  color: Colors.black54,
+                  size: 22,
+                  color: Color(0xff616161),
                 )),
             SizedBox(
               width: ScreenUtil().setWidth(24),
@@ -162,8 +165,8 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                   Icons.favorite_border_outlined,
-                  size: 21,
-                  color: Colors.black54,
+                  size: 23,
+                  color: Color(0xff616161),
                 )),
             SizedBox(width: ScreenUtil().setWidth(24),),
             CartLogo(),

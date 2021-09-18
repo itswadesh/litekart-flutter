@@ -3,6 +3,7 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view/menu/wishlist.dart';
 import 'package:anne/view_model/product_view_model.dart';
+import 'package:anne/view_model/settings_view_model.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +57,7 @@ class _ProductDetail extends State<ProductDetail>
   var icon;
   String productId;
   PageController pageController;
-  ScrollController scrollController  = ScrollController();
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
@@ -78,13 +79,16 @@ class _ProductDetail extends State<ProductDetail>
         .changeStatus("loading");
     pageController =
         PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
-    scrollController.addListener((){_scrollListener();});
+    scrollController.addListener(() {
+      _scrollListener();
+    });
     super.initState();
   }
 
   bool _scrollListener() {
     if (scrollController.position.axis == Axis.vertical) {
-      _ColorAnimationController.animateTo(scrollController.position.pixels / 350);
+      _ColorAnimationController.animateTo(
+          scrollController.position.pixels / 350);
 
       _TextAnimationController.animateTo(
           (scrollController.position.pixels - 350) / 50);
@@ -126,42 +130,51 @@ class _ProductDetail extends State<ProductDetail>
 
   @override
   Widget build(BuildContext context) {
-
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Color(0xfff3f3f3),
+        backgroundColor: Color(0xfff3f3f3),
         body: Container(
             height: MediaQuery.of(context).size.height,
             child: Consumer<ProductDetailViewModel>(
-                    builder: (BuildContext context, value, Widget child) {
-                  if (value.status == "loading") {
-                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG") ;
-                    Provider.of<ProductDetailViewModel>(context, listen: false)
-                        .fetchProductDetailData(productId);
-                    return Loading();
-                  }
-                  if (value.status == "empty") {
-                    return cartEmptyMessage(
-                        "noNetwork", "Nothing here . Something went wrong !!");
-                  }
-                  if (value.status == "error") {
-                    return errorMessage();
-                  }
-                  if (value.productDetailResponse.stock <= 0) {
-                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("Not Available") ;
-                  }
-                  if (Provider.of<CartViewModel>(context).cartResponse != null) {
-                    for (int i = 0;
-                    i < Provider.of<CartViewModel>(context).cartResponse.items.length;
+                builder: (BuildContext context, value, Widget child) {
+              if (value.status == "loading") {
+                Provider.of<ProductDetailViewModel>(context, listen: false)
+                    .changeButtonStatus("ADD TO BAG");
+                Provider.of<ProductDetailViewModel>(context, listen: false)
+                    .fetchProductDetailData(productId);
+                return Loading();
+              }
+              if (value.status == "empty") {
+                return cartEmptyMessage(
+                    "noNetwork", "Nothing here . Something went wrong !!");
+              }
+              if (value.status == "error") {
+                return errorMessage();
+              }
+              if (value.productDetailResponse.stock <= 0) {
+                Provider.of<ProductDetailViewModel>(context, listen: false)
+                    .changeButtonStatus("Not Available");
+              }
+              if (Provider.of<CartViewModel>(context).cartResponse != null) {
+                for (int i = 0;
+                    i <
+                        Provider.of<CartViewModel>(context)
+                            .cartResponse
+                            .items
+                            .length;
                     i++) {
-                      if (Provider.of<CartViewModel>(context).cartResponse.items[i].pid ==
-                          productId) {
-                        Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("GO TO CART");
-                      }
-                    }
+                  if (Provider.of<CartViewModel>(context)
+                          .cartResponse
+                          .items[i]
+                          .pid ==
+                      productId) {
+                    Provider.of<ProductDetailViewModel>(context, listen: false)
+                        .changeButtonStatus("GO TO CART");
                   }
-                  return getProductDetails(value.productDetailResponse);
-                })));
+                }
+              }
+              return getProductDetails(value.productDetailResponse);
+            })));
   }
 
   Widget getProductDetails(ProductDetailData productData) {
@@ -169,700 +182,773 @@ class _ProductDetail extends State<ProductDetail>
     var count = productData.images.length;
 
     return
-      // NotificationListener<ScrollNotification>(
-      //
-      //   onNotification: _scrollListener,
-      //   child: Container(
-      //   height: double.infinity,
-      //   child:
+        // NotificationListener<ScrollNotification>(
+        //
+        //   onNotification: _scrollListener,
+        //   child: Container(
+        //   height: double.infinity,
+        //   child:
         Stack(children: <Widget>[
-          Container(
-              height: MediaQuery.of(context).size.height,
-              child:
-      SingleChildScrollView(
-        controller: scrollController,
-          child: Column(
-        children: [
-          Container(
-            height: ScreenUtil().setWidth(30),
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: ScreenUtil().setWidth(600),
-              child: PageView.builder(
-                itemCount: productData.images.length,
-                itemBuilder: (_, int index) {
-                  return InkWell(
-                      onTap: () {
-                        locator<NavigationService>()
-                            .pushNamed(routes.ZoomImageRoute, args: {
-                          "imageLinks": productData.images,
-                          "index": index
-                        });
-                      },
-                      child: PinchZoom(
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/loading.gif',
-                          image: productData.images[index].toString().trim(),
-                          width: MediaQuery.of(context).size.width,
-                          height: ScreenUtil().setWidth(600),
-                          fit: BoxFit.cover,
-                        ),
-                        resetDuration: const Duration(milliseconds: 100),
-                        maxScale: 2.5,
-                        onZoomStart: () {
-                          print('Start zooming');
-                        },
-                        onZoomEnd: () {
-                          print('Stop zooming');
-                        },
-                      ));
-                },
-                controller: pageController,
-              )),
-          // SizedBox(
-          //   height: ScreenUtil().setWidth(27),
-          // ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(22), 0, 0),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(28), 0,
-                      ScreenUtil().setWidth(28), 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        productData.brand == null
-                            ? ""
-                            : (productData.brand.name ?? ""),
-                        style: TextStyle(
-                            color: AppColors.primaryElement,
-                            fontSize: ScreenUtil().setSp(
-                              21,
-                            )),
-                      ),
-                      //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
-
-                      RatingClass(productData.id)
-                    ],
+      Container(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+              controller: scrollController,
+              child: Column(
+                children: [
+                  Container(
+                    height: ScreenUtil().setWidth(30),
                   ),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(27),
-                        right: ScreenUtil().setWidth(27)),
-                    width: double.maxFinite,
-                    child: Text(
-                      productData.name ?? "",
-                      style: TextStyle(
-                          color: Color(0xff4a4a4a),
-                          fontSize: ScreenUtil().setSp(
-                            19,
-                          ),
-                          fontWeight: FontWeight.w500),
-                    )),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
-                    width: double.maxFinite,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                  Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: ScreenUtil().setWidth(600),
+                      child: PageView.builder(
+                        itemCount: productData.images.length,
+                        itemBuilder: (_, int index) {
+                          return InkWell(
+                              onTap: () {
+                                locator<NavigationService>()
+                                    .pushNamed(routes.ZoomImageRoute, args: {
+                                  "imageLinks": productData.images,
+                                  "index": index
+                                });
+                              },
+                              child: PinchZoom(
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/images/loading.gif',
+                                  image: productData.images[index]
+                                      .toString()
+                                      .trim(),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: ScreenUtil().setWidth(600),
+                                  fit: BoxFit.cover,
+                                ),
+                                resetDuration:
+                                    const Duration(milliseconds: 100),
+                                maxScale: 2.5,
+                                onZoomStart: () {
+                                  print('Start zooming');
+                                },
+                                onZoomEnd: () {
+                                  print('Stop zooming');
+                                },
+                              ));
+                        },
+                        controller: pageController,
+                      )),
+                  // SizedBox(
+                  //   height: ScreenUtil().setWidth(27),
+                  // ),
+                  Container(
+                    color: Colors.white,
+                    padding:
+                        EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(22), 0, 0),
+                    child: Column(
                       children: [
-                        Text(
-                          "₹ " + productData.price.toString() + " ",
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(
-                                18,
-                              ),
-                              fontWeight: FontWeight.w500),
-                        ),
-                        productData.price < productData.mrp
-                            ? Text(
-                                " ₹ " + productData.mrp.toString(),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(
+                              ScreenUtil().setWidth(28),
+                              0,
+                              ScreenUtil().setWidth(28),
+                              0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                productData.brand == null
+                                    ? ""
+                                    : (productData.brand.name ?? ""),
                                 style: TextStyle(
-                                    color: Color(0xffb0b0b0),
-                                    decoration: TextDecoration.lineThrough,
+                                    color: AppColors.primaryElement,
                                     fontSize: ScreenUtil().setSp(
-                                      17,
+                                      21,
                                     )),
-                              )
-                            : Container()
-                      ],
-                    )),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
-                    width: double.maxFinite,
-                    child: RichText(
-                      text: TextSpan(
-                          text: "Availability : ",
-                          style: TextStyle(
-                              color: Color(0xff4a4a4a),
-                              fontSize: ScreenUtil().setSp(
-                                15,
-                              )),
-                          children: [
-                            productData.stock > 0
-                                ? TextSpan(
-                                    text: "${productData.stock} in Stock",
-                                    style: TextStyle(
-                                        color: AppColors.primaryElement2,
-                                        fontSize: ScreenUtil().setSp(
-                                          15,
-                                        )))
-                                : TextSpan(
-                                    text: "Not in Stock",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: ScreenUtil().setSp(
-                                          15,
-                                        )))
-                          ]),
-                    )),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
-                    width: double.maxFinite,
-                    child: Text(
-                      "Delivery by : " +
-                          DateFormat('dd/MM/yyyy').format(
-                              DateTime.fromMicrosecondsSinceEpoch(
-                                  (DateTime.now().millisecondsSinceEpoch *
-                                          1000) +
-                                      (86400000000 * 7))),
-                      style: TextStyle(
-                          color: Color(0xff4a4a4a),
-                          fontSize: ScreenUtil().setSp(
-                            13,
-                          )),
-                    )),
-                // SizedBox(
-                //   height: ScreenUtil().setWidth(15),
-                // ),
-                // Container(
-                //     margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
-                //     width: double.maxFinite,
-                //     child: InkWell(
-                //         onTap: () async {
-                //           await locator<NavigationService>().pushNamed(
-                //               routes.AddReviewRoute,
-                //               args: productId);
-                //         },
-                //         child: Text(
-                //           "Rate This Product",
-                //           style: TextStyle(
-                //               color: AppColors.primaryElement,
-                //               fontWeight: FontWeight.w600,
-                //               fontSize: ScreenUtil().setSp(
-                //                 14,
-                //               )),
-                //         ))),
-                SizedBox(
-                  height: ScreenUtil().setWidth(15),
-                ),
-                Container(
-                  color: Color(0xfff3f3f3),
-                  height: ScreenUtil().setWidth(25),
-                ),
-                Query(
-                  options: QueryOptions(
-                      document: gql(addMutation.productGroup()),
-                      variables: {"id": productId}),
-                  builder: (QueryResult result,
-                      {VoidCallback refetch, FetchMore fetchMore}) {
-                    if (result.hasException) {
-                      print(result.exception.toString());
-                      return Container();
-                    } else if (result.isLoading) {
-                      return Container();
-                    } else if (result.data["product_group"] == null) {
-                      return Container();
-                    } else {
-                      var productGroup =
-                          ProductGroup.fromJson(result.data["product_group"]);
-                      print(result.data["product_group"]["colorGroup"]);
-                      return Column(
-                        children: [
-                          productGroup.colorGroup.length > 0
-                              ? SizedBox(
-                                  height: ScreenUtil().setWidth(15),
-                                )
-                              : Container(),
-                          productGroup.colorGroup.length > 0
-                              ? Container(
-                                  padding: EdgeInsets.only(
-                                      left: ScreenUtil().setWidth(20),
-                                      bottom: ScreenUtil().setWidth(10)),
-                                  width: double.infinity,
-                                  child: Text("Select Color",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setWidth(18))))
-                              : Container(),
-                          productGroup.colorGroup.length > 0
-                              ? Container(
-                                  height: ScreenUtil().setWidth(50),
-                                  width: double.infinity,
-                                  padding: EdgeInsets.fromLTRB(
-                                      ScreenUtil().setWidth(27),
-                                      0,
-                                      ScreenUtil().setWidth(27),
-                                      0),
-                                  child: ListView.builder(
-                                      itemCount: productGroup.colorGroup.length,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext build, index) {
-                                        return InkWell(
-                                            onTap: () async {
-                                              if (productGroup.colorGroup[index]
-                                                      .color.name !=
-                                                  productData.color.name) {
-                                                await locator<
-                                                        NavigationService>()
-                                                    .pushReplacementNamed(
-                                                        routes
-                                                            .ProductDetailRoute,
-                                                        args: productGroup
-                                                            .colorGroup[index]
-                                                            .id);
-                                              }
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.only(
-                                                    right: ScreenUtil()
-                                                        .radius(15)),
-                                                width: ScreenUtil().radius(45),
-                                                height: ScreenUtil().radius(45),
-                                                decoration: new BoxDecoration(
-                                                  color: Color(productGroup
-                                                      .colorGroup[index]
-                                                      .color
-                                                      .colorCode),
-                                                  border: Border.all(
-                                                      color: productGroup
-                                                                  .colorGroup[
-                                                                      index]
-                                                                  .color
-                                                                  .name ==
-                                                              productData
-                                                                  .color.name
-                                                          ? AppColors
-                                                              .primaryElement
-                                                          : Colors.grey,
-                                                      width: productGroup
-                                                                  .colorGroup[
-                                                                      index]
-                                                                  .color
-                                                                  .name ==
-                                                              productData
-                                                                  .color.name
-                                                          ? ScreenUtil()
-                                                              .setWidth(2)
-                                                          : ScreenUtil()
-                                                              .setWidth(1)),
-                                                  shape: BoxShape.circle,
-                                                )));
-                                      }))
-                              : SizedBox.shrink(),
-                          productGroup.sizeGroup.length > 0
-                              ? SizedBox(
-                                  height: ScreenUtil().setWidth(15),
-                                )
-                              : SizedBox.shrink(),
-                          productGroup.sizeGroup.length > 0
-                              ? Container(
-                                  padding: EdgeInsets.only(
-                                      left: ScreenUtil().setWidth(20),
-                                      bottom: ScreenUtil().setWidth(10)),
-                                  width: double.infinity,
-                                  child: Text("Select Size",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setWidth(18))))
-                              : Container(),
-                          productGroup.sizeGroup.length > 0
-                              ? Container(
-                                  height: ScreenUtil().setWidth(50),
-                                  width: double.infinity,
-                                  padding: EdgeInsets.fromLTRB(
-                                      ScreenUtil().setWidth(27),
-                                      0,
-                                      ScreenUtil().setWidth(27),
-                                      0),
-                                  child: ListView.builder(
-                                      itemCount: productGroup.sizeGroup.length,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext build, index) {
-                                        return InkWell(
-                                            onTap: () async {
-                                              if (productGroup.sizeGroup[index]
-                                                      .size.name !=
-                                                  productData.size.name) {
-                                                await locator<
-                                                        NavigationService>()
-                                                    .pushReplacementNamed(
-                                                        routes
-                                                            .ProductDetailRoute,
-                                                        args: productGroup
-                                                            .sizeGroup[index]
-                                                            .id);
-                                              }
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  right:
-                                                      ScreenUtil().radius(15)),
-                                              width: ScreenUtil().radius(45),
-                                              height: ScreenUtil().radius(45),
-                                              decoration: new BoxDecoration(
-                                                border: Border.all(
-                                                    color: productGroup
-                                                                .sizeGroup[
-                                                                    index]
-                                                                .size
-                                                                .name ==
-                                                            productData
-                                                                .size.name
-                                                        ? AppColors
-                                                            .primaryElement
-                                                        : Colors.grey,
-                                                    width: productGroup
-                                                                .sizeGroup[
-                                                                    index]
-                                                                .size
-                                                                .name ==
-                                                            productData
-                                                                .size.name
-                                                        ? ScreenUtil()
-                                                            .setWidth(2)
-                                                        : ScreenUtil()
-                                                            .setWidth(1)),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  productGroup.sizeGroup[index]
-                                                      .size.name,
-                                                  style: TextStyle(
-                                                      color: Color(0xff707070),
-                                                      fontSize: ScreenUtil()
-                                                          .setSp(15)),
-                                                ),
-                                              ),
-                                            ));
-                                      }))
-                              : SizedBox.shrink()
-                        ],
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(34),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(150),
-                  height: ScreenUtil().setHeight(42),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0),
-                      ),
-                      side:
-                          BorderSide(width: 2, color: AppColors.primaryElement),
-                    ),
-                    onPressed: () async {
-                      LiveStreamSetUp().startRTC(context, "1234", 123, 'join');
-                    },
-                    child: Text(
-                      "Join Stream",
-                      style: TextStyle(
-                          fontSize: ScreenUtil().setSp(
-                            16,
+                              ),
+                              //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
+
+                              RatingClass(productData.id)
+                            ],
                           ),
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryElement,
-                          fontFamily: 'Montserrat'),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(34),
-                ),
-                productData.description != null
-                    ? Container(
-                        color: Color(0xfff3f3f3),
-                        height: ScreenUtil().setWidth(25),
-                      )
-                    : Container(),
-                productData.description != null
-                    ? Container(
-                        width: double.infinity,
-                        color: Color(0xffffffff),
-                        padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(22),
-                            ScreenUtil().setWidth(0),
-                            ScreenUtil().setWidth(28),
-                            ScreenUtil().setWidth(28)),
-                        child: Column(
-                          children: [
-                            Container(
-                              color: Color(0xffffffff),
-                              height: ScreenUtil().setWidth(25),
-                            ),
-                            Container(
-                                color: Color(0xffffffff),
-                                width: double.infinity,
-                                child: Text(
-                                  "Description",
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(27),
+                                right: ScreenUtil().setWidth(27)),
+                            width: double.maxFinite,
+                            child: Text(
+                              productData.name ?? "",
+                              style: TextStyle(
+                                  color: Color(0xff4a4a4a),
+                                  fontSize: ScreenUtil().setSp(
+                                    19,
+                                  ),
+                                  fontWeight: FontWeight.w500),
+                            )),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(27)),
+                            width: double.maxFinite,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "₹ " + productData.price.toString() + " ",
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(
+                                        18,
+                                      ),
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                productData.price < productData.mrp
+                                    ? Text(
+                                        " ₹ " + productData.mrp.toString(),
+                                        style: TextStyle(
+                                            color: Color(0xffb0b0b0),
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            fontSize: ScreenUtil().setSp(
+                                              17,
+                                            )),
+                                      )
+                                    : Container()
+                              ],
+                            )),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(27)),
+                            width: double.maxFinite,
+                            child: RichText(
+                              text: TextSpan(
+                                  text: "Availability : ",
                                   style: TextStyle(
                                       color: Color(0xff4a4a4a),
-                                      fontSize: ScreenUtil().setSp(20),
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.left,
-                                )),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(10),
-                            ),
-                            Text(productData.description,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Color(0xff4a4a4a),
-                                    fontSize: ScreenUtil().setSp(13))),
-                          ],
+                                      fontSize: ScreenUtil().setSp(
+                                        15,
+                                      )),
+                                  children: [
+                                    productData.stock > 0
+                                        ? TextSpan(
+                                            text:
+                                                "${productData.stock} in Stock",
+                                            style: TextStyle(
+                                                color:
+                                                    AppColors.primaryElement2,
+                                                fontSize: ScreenUtil().setSp(
+                                                  15,
+                                                )))
+                                        : TextSpan(
+                                            text: "Not in Stock",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: ScreenUtil().setSp(
+                                                  15,
+                                                )))
+                                  ]),
+                            )),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(15),
                         ),
-                      )
-                    : Container(),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(27)),
+                            width: double.maxFinite,
+                            child: Text(
+                              "Delivery by : " +
+                                  DateFormat('dd/MM/yyyy').format(
+                                      DateTime.fromMicrosecondsSinceEpoch(
+                                          (DateTime.now()
+                                                      .millisecondsSinceEpoch *
+                                                  1000) +
+                                              (86400000000 * 7))),
+                              style: TextStyle(
+                                  color: Color(0xff4a4a4a),
+                                  fontSize: ScreenUtil().setSp(
+                                    13,
+                                  )),
+                            )),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(15),
+                        // ),
+                        // Container(
+                        //     margin: EdgeInsets.only(left: ScreenUtil().setWidth(27)),
+                        //     width: double.maxFinite,
+                        //     child: InkWell(
+                        //         onTap: () async {
+                        //           await locator<NavigationService>().pushNamed(
+                        //               routes.AddReviewRoute,
+                        //               args: productId);
+                        //         },
+                        //         child: Text(
+                        //           "Rate This Product",
+                        //           style: TextStyle(
+                        //               color: AppColors.primaryElement,
+                        //               fontWeight: FontWeight.w600,
+                        //               fontSize: ScreenUtil().setSp(
+                        //                 14,
+                        //               )),
+                        //         ))),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ),
+                        Container(
+                          color: Color(0xfff3f3f3),
+                          height: ScreenUtil().setWidth(25),
+                        ),
+                        Query(
+                          options: QueryOptions(
+                              document: gql(addMutation.productGroup()),
+                              variables: {"id": productId}),
+                          builder: (QueryResult result,
+                              {VoidCallback refetch, FetchMore fetchMore}) {
+                            if (result.hasException) {
+                              print(result.exception.toString());
+                              return Container();
+                            } else if (result.isLoading) {
+                              return Container();
+                            } else if (result.data["product_group"] == null) {
+                              return Container();
+                            } else {
+                              var productGroup = ProductGroup.fromJson(
+                                  result.data["product_group"]);
+                              print(result.data["product_group"]["colorGroup"]);
+                              return Column(
+                                children: [
+                                  productGroup.colorGroup.length > 0
+                                      ? SizedBox(
+                                          height: ScreenUtil().setWidth(15),
+                                        )
+                                      : Container(),
+                                  productGroup.colorGroup.length > 0
+                                      ? Container(
+                                          padding: EdgeInsets.only(
+                                              left: ScreenUtil().setWidth(20),
+                                              bottom:
+                                                  ScreenUtil().setWidth(10)),
+                                          width: double.infinity,
+                                          child: Text("Select Color",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontSize: ScreenUtil()
+                                                      .setWidth(18))))
+                                      : Container(),
+                                  productGroup.colorGroup.length > 0
+                                      ? Container(
+                                          height: ScreenUtil().setWidth(50),
+                                          width: double.infinity,
+                                          padding: EdgeInsets.fromLTRB(
+                                              ScreenUtil().setWidth(27),
+                                              0,
+                                              ScreenUtil().setWidth(27),
+                                              0),
+                                          child: ListView.builder(
+                                              itemCount: productGroup
+                                                  .colorGroup.length,
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext build, index) {
+                                                return InkWell(
+                                                    onTap: () async {
+                                                      if (productGroup
+                                                              .colorGroup[index]
+                                                              .color
+                                                              .name !=
+                                                          productData
+                                                              .color.name) {
+                                                        await locator<
+                                                                NavigationService>()
+                                                            .pushReplacementNamed(
+                                                                routes
+                                                                    .ProductDetailRoute,
+                                                                args: productGroup
+                                                                    .colorGroup[
+                                                                        index]
+                                                                    .id);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: ScreenUtil()
+                                                                .radius(15)),
+                                                        width: ScreenUtil()
+                                                            .radius(45),
+                                                        height: ScreenUtil()
+                                                            .radius(45),
+                                                        decoration:
+                                                            new BoxDecoration(
+                                                          color: Color(
+                                                              productGroup
+                                                                  .colorGroup[
+                                                                      index]
+                                                                  .color
+                                                                  .colorCode),
+                                                          border: Border.all(
+                                                              color: productGroup
+                                                                          .colorGroup[
+                                                                              index]
+                                                                          .color
+                                                                          .name ==
+                                                                      productData
+                                                                          .color
+                                                                          .name
+                                                                  ? AppColors
+                                                                      .primaryElement
+                                                                  : Colors.grey,
+                                                              width: productGroup
+                                                                          .colorGroup[
+                                                                              index]
+                                                                          .color
+                                                                          .name ==
+                                                                      productData
+                                                                          .color
+                                                                          .name
+                                                                  ? ScreenUtil()
+                                                                      .setWidth(
+                                                                          2)
+                                                                  : ScreenUtil()
+                                                                      .setWidth(
+                                                                          1)),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        )));
+                                              }))
+                                      : SizedBox.shrink(),
+                                  productGroup.sizeGroup.length > 0
+                                      ? SizedBox(
+                                          height: ScreenUtil().setWidth(15),
+                                        )
+                                      : SizedBox.shrink(),
+                                  productGroup.sizeGroup.length > 0
+                                      ? Container(
+                                          padding: EdgeInsets.only(
+                                              left: ScreenUtil().setWidth(20),
+                                              bottom:
+                                                  ScreenUtil().setWidth(10)),
+                                          width: double.infinity,
+                                          child: Text("Select Size",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontSize: ScreenUtil()
+                                                      .setWidth(18))))
+                                      : Container(),
+                                  productGroup.sizeGroup.length > 0
+                                      ? Container(
+                                          height: ScreenUtil().setWidth(50),
+                                          width: double.infinity,
+                                          padding: EdgeInsets.fromLTRB(
+                                              ScreenUtil().setWidth(27),
+                                              0,
+                                              ScreenUtil().setWidth(27),
+                                              0),
+                                          child: ListView.builder(
+                                              itemCount:
+                                                  productGroup.sizeGroup.length,
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext build, index) {
+                                                return InkWell(
+                                                    onTap: () async {
+                                                      if (productGroup
+                                                              .sizeGroup[index]
+                                                              .size
+                                                              .name !=
+                                                          productData
+                                                              .size.name) {
+                                                        await locator<
+                                                                NavigationService>()
+                                                            .pushReplacementNamed(
+                                                                routes
+                                                                    .ProductDetailRoute,
+                                                                args: productGroup
+                                                                    .sizeGroup[
+                                                                        index]
+                                                                    .id);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: ScreenUtil()
+                                                              .radius(15)),
+                                                      width: ScreenUtil()
+                                                          .radius(45),
+                                                      height: ScreenUtil()
+                                                          .radius(45),
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                        border: Border.all(
+                                                            color: productGroup
+                                                                        .sizeGroup[
+                                                                            index]
+                                                                        .size
+                                                                        .name ==
+                                                                    productData
+                                                                        .size
+                                                                        .name
+                                                                ? AppColors
+                                                                    .primaryElement
+                                                                : Colors.grey,
+                                                            width: productGroup
+                                                                        .sizeGroup[
+                                                                            index]
+                                                                        .size
+                                                                        .name ==
+                                                                    productData
+                                                                        .size
+                                                                        .name
+                                                                ? ScreenUtil()
+                                                                    .setWidth(2)
+                                                                : ScreenUtil()
+                                                                    .setWidth(
+                                                                        1)),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          productGroup
+                                                              .sizeGroup[index]
+                                                              .size
+                                                              .name,
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xff707070),
+                                                              fontSize:
+                                                                  ScreenUtil()
+                                                                      .setSp(
+                                                                          15)),
+                                                        ),
+                                                      ),
+                                                    ));
+                                              }))
+                                      : SizedBox.shrink()
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(34),
+                        // ),
+                        Consumer<SettingViewModel>(builder:
+                            (BuildContext context, value, Widget child) {
+                          if (value.status == "loading") {
+                            Provider.of<SettingViewModel>(context,
+                                    listen: false)
+                                .fetchSettings();
+                            return Container();
+                          }
+                          if (value.status == "empty") {
+                            return Container();
+                          }
+                          if (value.status == "error") {
+                            return Container();
+                          }
+                          if (value.settingResponse.liveCommerce) {
+                            return Container(
+                              width: ScreenUtil().setWidth(150),
+                              height: ScreenUtil().setHeight(42),
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ),
+                                  side: BorderSide(
+                                      width: 2,
+                                      color: AppColors.primaryElement),
+                                ),
+                                onPressed: () async {
+                                  LiveStreamSetUp()
+                                      .startRTC(context, "1234", 123, 'join');
+                                },
+                                child: Text(
+                                  "Join Stream",
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(
+                                        16,
+                                      ),
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.primaryElement,
+                                      fontFamily: 'Montserrat'),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(34),
+                        // ),
+                        productData.description != null
+                            ? Container(
+                                color: Color(0xfff3f3f3),
+                                height: ScreenUtil().setWidth(25),
+                              )
+                            : Container(),
+                        productData.description != null
+                            ? Container(
+                                width: double.infinity,
+                                color: Color(0xffffffff),
+                                padding: EdgeInsets.fromLTRB(
+                                    ScreenUtil().setWidth(22),
+                                    ScreenUtil().setWidth(0),
+                                    ScreenUtil().setWidth(28),
+                                    ScreenUtil().setWidth(28)),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      color: Color(0xffffffff),
+                                      height: ScreenUtil().setWidth(25),
+                                    ),
+                                    Container(
+                                        color: Color(0xffffffff),
+                                        width: double.infinity,
+                                        child: Text(
+                                          "Description",
+                                          style: TextStyle(
+                                              color: Color(0xff4a4a4a),
+                                              fontSize: ScreenUtil().setSp(20),
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.left,
+                                        )),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(10),
+                                    ),
+                                    Text(productData.description,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setSp(13))),
+                                  ],
+                                ),
+                              )
+                            : Container(),
 
-                productData.keyFeature != null &&
-                        productData.keyFeature.length > 0
-                    ? Container(
-                        width: double.infinity,
-                        child: Column(
-                            children:
-                                getKeyFeatureChildren(productData.keyFeature)),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: productData.keyFeature != null ||
-                          productData.keyFeature.length != 0
-                      ? ScreenUtil().setWidth(20)
-                      : 0,
-                ),
-                Container(
-                  color: Color(0xfff3f3f3),
-                  height: ScreenUtil().setWidth(20),
-                ),
-                getProductDetailChildren(productData).length > 0
-                    ? Container(
-                        width: double.infinity,
-                        child: Column(
-                            children: getProductDetailChildren(productData)),
-                      )
-                    : SizedBox.shrink(),
-                Container(
-                  color: Color(0xfff3f3f3),
-                  height: getProductDetailChildren(productData).length > 0
-                      ? ScreenUtil().setWidth(20)
-                      : 0,
-                ),
-                productData.specifications != null ||
-                        productData.specifications.length != 0
-                    ? Container(
-                        width: double.infinity,
-                        child: Column(
-                            children: getSpecificationChildren(
-                                productData.specifications)),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: productData.specifications != null ||
-                          productData.specifications.length != 0
-                      ? ScreenUtil().setWidth(20)
-                      : 0,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(51),
-          )
-        ],
-      ))),
-    //   AnimatedBuilder(
-    //     animation: _ColorAnimationController,
-    //     builder: (context, child) => AppBar(
-    //       backgroundColor: _colorTween.value,
-    //       elevation: 0,
-    //       titleSpacing: 0.0,
-    //       leading: Container(
-    //           margin: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
-    //           child: InkWell(
-    //           onTap: () {
-    //             locator<NavigationService>().pop();
-    //           },
-    //           child: Container(
-    //               margin:
-    //                   EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
-    //               width: ScreenUtil().radius(35),
-    //               height: ScreenUtil().radius(35),
-    //               decoration: new BoxDecoration(
-    //                 color: Color(0xffd3d3d3),
-    //                 border: Border(
-    //                     bottom: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     top: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     left: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     right: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4))),
-    //                 shape: BoxShape.circle,
-    //               ),
-    //               child: Icon(
-    //                 Icons.arrow_back,
-    //                 size: ScreenUtil().setWidth(18),
-    //               )))),
-    //       title:Transform.translate(
-    //       offset: _transTween.value,
-    // child: Text(
-    //         productData.brand.name ?? "",
-    //         style: TextStyle(
-    //             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-    //       )),
-    //       // iconTheme: IconThemeData(
-    //       //   color: _iconColorTween.value,
-    //       // ),
-    //       actions: <Widget>[
-    //         InkWell(
-    //           onTap: () {
-    //             Map<String, dynamic> data = {
-    //               "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-    //               "itemId": productId,
-    //               "event": "tap"
-    //             };
-    //             Tracking(
-    //                 event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST, data: data);
-    //           },
-    //           child: Container(
-    //               margin:
-    //                   EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
-    //               width: ScreenUtil().radius(45),
-    //               height: ScreenUtil().radius(45),
-    //               decoration: new BoxDecoration(
-    //                 color: Color(0xffd3d3d3),
-    //                 border: Border(
-    //                     bottom: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     top: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     left: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4)),
-    //                     right: BorderSide(
-    //                         color: Color(0xfff3f3f3),
-    //                         width: ScreenUtil().setWidth(0.4))),
-    //                 shape: BoxShape.circle,
-    //               ),
-    //               child: CheckWishListClass(productData.id, productData.id)),
-    //         ),
-    //         SizedBox(
-    //           width: ScreenUtil().setWidth(15),
-    //         ),
-    //         Container(
-    //           margin: EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
-    //           width: ScreenUtil().radius(45),
-    //           height: ScreenUtil().radius(45),
-    //           decoration: new BoxDecoration(
-    //             color: Color(0xffd3d3d3),
-    //             border: Border(
-    //                 bottom: BorderSide(
-    //                     color: Color(0xfff3f3f3),
-    //                     width: ScreenUtil().setWidth(0.4)),
-    //                 top: BorderSide(
-    //                     color: Color(0xfff3f3f3),
-    //                     width: ScreenUtil().setWidth(0.4)),
-    //                 left: BorderSide(
-    //                     color: Color(0xfff3f3f3),
-    //                     width: ScreenUtil().setWidth(0.4)),
-    //                 right: BorderSide(
-    //                     color: Color(0xfff3f3f3),
-    //                     width: ScreenUtil().setWidth(0.4))),
-    //             shape: BoxShape.circle,
-    //           ),
-    //           child:
-    //               // Transform.translate(
-    //               //   offset: Offset(-10, 0),
-    //               //   child:
-    //               CartLogo(),
-    //         ),
-    //         SizedBox(width: ScreenUtil().setWidth(15),)
-    //       ],
-    //     ),
-    //   ),
+                        productData.keyFeature != null &&
+                                productData.keyFeature.length > 0
+                            ? Container(
+                                width: double.infinity,
+                                child: Column(
+                                    children: getKeyFeatureChildren(
+                                        productData.keyFeature)),
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: productData.keyFeature != null ||
+                                  productData.keyFeature.length != 0
+                              ? ScreenUtil().setWidth(20)
+                              : 0,
+                        ),
+                        Container(
+                          color: Color(0xfff3f3f3),
+                          height: ScreenUtil().setWidth(20),
+                        ),
+                        getProductDetailChildren(productData).length > 0
+                            ? Container(
+                                width: double.infinity,
+                                child: Column(
+                                    children:
+                                        getProductDetailChildren(productData)),
+                              )
+                            : SizedBox.shrink(),
+                        Container(
+                          color: Color(0xfff3f3f3),
+                          height:
+                              getProductDetailChildren(productData).length > 0
+                                  ? ScreenUtil().setWidth(20)
+                                  : 0,
+                        ),
+                        productData.specifications != null ||
+                                productData.specifications.length != 0
+                            ? Container(
+                                width: double.infinity,
+                                child: Column(
+                                    children: getSpecificationChildren(
+                                        productData.specifications)),
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: productData.specifications != null ||
+                                  productData.specifications.length != 0
+                              ? ScreenUtil().setWidth(20)
+                              : 0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(51),
+                  )
+                ],
+              ))),
+      //   AnimatedBuilder(
+      //     animation: _ColorAnimationController,
+      //     builder: (context, child) => AppBar(
+      //       backgroundColor: _colorTween.value,
+      //       elevation: 0,
+      //       titleSpacing: 0.0,
+      //       leading: Container(
+      //           margin: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
+      //           child: InkWell(
+      //           onTap: () {
+      //             locator<NavigationService>().pop();
+      //           },
+      //           child: Container(
+      //               margin:
+      //                   EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
+      //               width: ScreenUtil().radius(35),
+      //               height: ScreenUtil().radius(35),
+      //               decoration: new BoxDecoration(
+      //                 color: Color(0xffd3d3d3),
+      //                 border: Border(
+      //                     bottom: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     top: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     left: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     right: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4))),
+      //                 shape: BoxShape.circle,
+      //               ),
+      //               child: Icon(
+      //                 Icons.arrow_back,
+      //                 size: ScreenUtil().setWidth(18),
+      //               )))),
+      //       title:Transform.translate(
+      //       offset: _transTween.value,
+      // child: Text(
+      //         productData.brand.name ?? "",
+      //         style: TextStyle(
+      //             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+      //       )),
+      //       // iconTheme: IconThemeData(
+      //       //   color: _iconColorTween.value,
+      //       // ),
+      //       actions: <Widget>[
+      //         InkWell(
+      //           onTap: () {
+      //             Map<String, dynamic> data = {
+      //               "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+      //               "itemId": productId,
+      //               "event": "tap"
+      //             };
+      //             Tracking(
+      //                 event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST, data: data);
+      //           },
+      //           child: Container(
+      //               margin:
+      //                   EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
+      //               width: ScreenUtil().radius(45),
+      //               height: ScreenUtil().radius(45),
+      //               decoration: new BoxDecoration(
+      //                 color: Color(0xffd3d3d3),
+      //                 border: Border(
+      //                     bottom: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     top: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     left: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4)),
+      //                     right: BorderSide(
+      //                         color: Color(0xfff3f3f3),
+      //                         width: ScreenUtil().setWidth(0.4))),
+      //                 shape: BoxShape.circle,
+      //               ),
+      //               child: CheckWishListClass(productData.id, productData.id)),
+      //         ),
+      //         SizedBox(
+      //           width: ScreenUtil().setWidth(15),
+      //         ),
+      //         Container(
+      //           margin: EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(8), 0),
+      //           width: ScreenUtil().radius(45),
+      //           height: ScreenUtil().radius(45),
+      //           decoration: new BoxDecoration(
+      //             color: Color(0xffd3d3d3),
+      //             border: Border(
+      //                 bottom: BorderSide(
+      //                     color: Color(0xfff3f3f3),
+      //                     width: ScreenUtil().setWidth(0.4)),
+      //                 top: BorderSide(
+      //                     color: Color(0xfff3f3f3),
+      //                     width: ScreenUtil().setWidth(0.4)),
+      //                 left: BorderSide(
+      //                     color: Color(0xfff3f3f3),
+      //                     width: ScreenUtil().setWidth(0.4)),
+      //                 right: BorderSide(
+      //                     color: Color(0xfff3f3f3),
+      //                     width: ScreenUtil().setWidth(0.4))),
+      //             shape: BoxShape.circle,
+      //           ),
+      //           child:
+      //               // Transform.translate(
+      //               //   offset: Offset(-10, 0),
+      //               //   child:
+      //               CartLogo(),
+      //         ),
+      //         SizedBox(width: ScreenUtil().setWidth(15),)
+      //       ],
+      //     ),
+      //   ),
       Align(
           alignment: Alignment.topCenter,
           child: AnimatedBuilder(
-          animation: _ColorAnimationController,
-          builder: (context, child) => Container(
-            color: _colorTween.value,
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(45),
-                ScreenUtil().setWidth(20), 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                    onTap: () {
-                      locator<NavigationService>().pop();
-                    },
-                    child: Container(
-                        margin: EdgeInsets.fromLTRB(
-                            0, 0, ScreenUtil().setWidth(8), 0),
-                        width: ScreenUtil().radius(45),
-                        height: ScreenUtil().radius(45),
-                        decoration: new BoxDecoration(
-                          color: Color(0xffd3d3d3),
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              top: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              left: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4)),
-                              right: BorderSide(
-                                  color: Color(0xfff3f3f3),
-                                  width: ScreenUtil().setWidth(0.4))),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.arrow_back,
-                          size: ScreenUtil().setWidth(18),
-                        ))),
-                /*InkWell(
+              animation: _ColorAnimationController,
+              builder: (context, child) => Container(
+                    color: _colorTween.value,
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(45),
+                        ScreenUtil().setWidth(20), 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              locator<NavigationService>().pop();
+                            },
+                            child: Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, ScreenUtil().setWidth(8), 0),
+                                width: ScreenUtil().radius(45),
+                                height: ScreenUtil().radius(45),
+                                decoration: new BoxDecoration(
+                                  color: Color(0xffd3d3d3),
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Color(0xfff3f3f3),
+                                          width: ScreenUtil().setWidth(0.4)),
+                                      top: BorderSide(
+                                          color: Color(0xfff3f3f3),
+                                          width: ScreenUtil().setWidth(0.4)),
+                                      left: BorderSide(
+                                          color: Color(0xfff3f3f3),
+                                          width: ScreenUtil().setWidth(0.4)),
+                                      right: BorderSide(
+                                          color: Color(0xfff3f3f3),
+                                          width: ScreenUtil().setWidth(0.4))),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  size: ScreenUtil().setWidth(18),
+                                ))),
+                        /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
                       TzDialog(context, TzDialogType.progress);
@@ -879,152 +965,152 @@ class _ProductDetail extends State<ProductDetail>
                       Icons.share,
                       size: 20,
                     )),*/
-                // SizedBox(
-                //   width: ScreenUtil().setWidth(15),
-                // ),
-                Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Map<String, dynamic> data = {
-                          "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                          "itemId": productId,
-                          "event": "tap"
-                        };
-                        Tracking(
-                            event: EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
-                            data: data);
-                      },
-                      child: Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0, 0, ScreenUtil().setWidth(8), 0),
-                          width: ScreenUtil().radius(45),
-                          height: ScreenUtil().radius(45),
-                          decoration: new BoxDecoration(
-                            color: Color(0xffd3d3d3),
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                top: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                left: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4)),
-                                right: BorderSide(
-                                    color: Color(0xfff3f3f3),
-                                    width: ScreenUtil().setWidth(0.4))),
-                            shape: BoxShape.circle,
-                          ),
-                          child: CheckWishListClass(
-                              productData.id, productData.id)),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(15),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0, 0, ScreenUtil().setWidth(8), 0),
-                      width: ScreenUtil().radius(45),
-                      height: ScreenUtil().radius(45),
-                      decoration: new BoxDecoration(
-                        color: Color(0xffd3d3d3),
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            top: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            left: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4)),
-                            right: BorderSide(
-                                color: Color(0xfff3f3f3),
-                                width: ScreenUtil().setWidth(0.4))),
-                        shape: BoxShape.circle,
-                      ),
-                      child:
-                          // Transform.translate(
-                          //   offset: Offset(-10, 0),
-                          //   child:
-                          CartLogo(),
-                    )
-                  ],
-                )
-                    ),
-              ],
-            ),
-          ))),
-    Consumer<ProductDetailViewModel>(
-    builder: (BuildContext context, value, Widget child) { return
-    value.buttonStatus == "Not Available"
-          ?  SizedBox.shrink()
-          : Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                  height: ScreenUtil().setWidth(65),
-                  color: Color(0xffffffff),
-                  padding: EdgeInsets.only(
-                      top: ScreenUtil().setWidth(10),
-                      left: ScreenUtil().setWidth(20),
-                      right: ScreenUtil().setWidth(20),
-                      bottom: ScreenUtil().setWidth(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                          width: ScreenUtil().setWidth(172),
-                          height: ScreenUtil().setHeight(45),
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              side: BorderSide(
-                                  width: 2, color: Color(0xffe3e3e3)),
-                            ),
-                            onPressed: () async {
-                              if (Provider.of<ProfileModel>(context,
-                                          listen: false)
-                                      .user !=
-                                  null) {
-                                await Provider.of<WishlistViewModel>(context,
-                                        listen: false)
-                                    .toggleItem(productData.id);
-                                setState(() {});
-                              } else {
-                                locator<NavigationService>()
-                                    .pushNamed(routes.LoginRoute);
-                              }
-                            },
-                            child: Container(
-                              // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CheckWishListClass(
-                                      productData.id, productData.id),
-                                  SizedBox(
-                                    width: ScreenUtil().setWidth(12),
+                        // SizedBox(
+                        //   width: ScreenUtil().setWidth(15),
+                        // ),
+                        Container(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Map<String, dynamic> data = {
+                                  "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                  "itemId": productId,
+                                  "event": "tap"
+                                };
+                                Tracking(
+                                    event:
+                                        EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                    data: data);
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, ScreenUtil().setWidth(8), 0),
+                                  width: ScreenUtil().radius(45),
+                                  height: ScreenUtil().radius(45),
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xffd3d3d3),
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Color(0xfff3f3f3),
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        top: BorderSide(
+                                            color: Color(0xfff3f3f3),
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        left: BorderSide(
+                                            color: Color(0xfff3f3f3),
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        right: BorderSide(
+                                            color: Color(0xfff3f3f3),
+                                            width: ScreenUtil().setWidth(0.4))),
+                                    shape: BoxShape.circle,
                                   ),
-                                  Text(
-                                    "WISHLIST",
-                                    style: TextStyle(
-                                        color: Color(0xff414141),
-                                        fontSize: ScreenUtil().setSp(
-                                          16,
-                                        ),
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              ),
+                                  child: CheckWishListClass(
+                                      productData.id, productData.id)),
                             ),
-                          )),
-      Container(
+                            SizedBox(
+                              width: ScreenUtil().setWidth(15),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  0, 0, ScreenUtil().setWidth(8), 0),
+                              width: ScreenUtil().radius(45),
+                              height: ScreenUtil().radius(45),
+                              decoration: new BoxDecoration(
+                                color: Color(0xffd3d3d3),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    top: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    left: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4)),
+                                    right: BorderSide(
+                                        color: Color(0xfff3f3f3),
+                                        width: ScreenUtil().setWidth(0.4))),
+                                shape: BoxShape.circle,
+                              ),
+                              child:
+                                  // Transform.translate(
+                                  //   offset: Offset(-10, 0),
+                                  //   child:
+                                  CartLogo(),
+                            )
+                          ],
+                        )),
+                      ],
+                    ),
+                  ))),
+      Consumer<ProductDetailViewModel>(
+          builder: (BuildContext context, value, Widget child) {
+        return value.buttonStatus == "Not Available"
+            ? SizedBox.shrink()
+            : Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    height: ScreenUtil().setWidth(65),
+                    color: Color(0xffffffff),
+                    padding: EdgeInsets.only(
+                        top: ScreenUtil().setWidth(10),
+                        left: ScreenUtil().setWidth(20),
+                        right: ScreenUtil().setWidth(20),
+                        bottom: ScreenUtil().setWidth(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            width: ScreenUtil().setWidth(172),
+                            height: ScreenUtil().setHeight(45),
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                side: BorderSide(
+                                    width: 2, color: Color(0xffe3e3e3)),
+                              ),
+                              onPressed: () async {
+                                if (Provider.of<ProfileModel>(context,
+                                            listen: false)
+                                        .user !=
+                                    null) {
+                                  await Provider.of<WishlistViewModel>(context,
+                                          listen: false)
+                                      .toggleItem(productData.id);
+                                  setState(() {});
+                                } else {
+                                  locator<NavigationService>()
+                                      .pushNamed(routes.LoginRoute);
+                                }
+                              },
+                              child: Container(
+                                // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CheckWishListClass(
+                                        productData.id, productData.id),
+                                    SizedBox(
+                                      width: ScreenUtil().setWidth(12),
+                                    ),
+                                    Text(
+                                      "WISHLIST",
+                                      style: TextStyle(
+                                          color: Color(0xff414141),
+                                          fontSize: ScreenUtil().setSp(
+                                            16,
+                                          ),
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
+                        Container(
                           decoration: BoxDecoration(
                               color: AppColors.primaryElement,
                               borderRadius: BorderRadius.circular(
@@ -1032,69 +1118,70 @@ class _ProductDetail extends State<ProductDetail>
                           width: ScreenUtil().setWidth(172),
                           height: ScreenUtil().setHeight(45),
                           child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              Map<String, dynamic> data = {
-                                "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
-                                "itemId": productId,
-                                "event": "click"
-                              };
-                              Tracking(
-                                  event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
-                                  data: data);
-                              if (value.buttonStatus == "Not Available") {
-                              } else {
-                                if (value.buttonStatus == "ADD TO BAG") {
-
-                                    Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("GO TO CART") ;
-                                  Provider.of<CartViewModel>(context,
-                                          listen: false)
-                                      .cartAddItem(productData.id,
-                                          productData.id, 1, false);
+                              onPressed: () async {
+                                Map<String, dynamic> data = {
+                                  "id": EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                                  "itemId": productId,
+                                  "event": "click"
+                                };
+                                Tracking(
+                                    event: EVENT_PRODUCT_DETAILS_ADD_TO_CART,
+                                    data: data);
+                                if (value.buttonStatus == "Not Available") {
                                 } else {
-                                  _navigationService
-                                      .pushNamed(routes.CartRoute);
+                                  if (value.buttonStatus == "ADD TO BAG") {
+                                    Provider.of<ProductDetailViewModel>(context,
+                                            listen: false)
+                                        .changeButtonStatus("GO TO CART");
+                                    Provider.of<CartViewModel>(context,
+                                            listen: false)
+                                        .cartAddItem(productData.id,
+                                            productData.id, 1, false);
+                                  } else {
+                                    _navigationService
+                                        .pushNamed(routes.CartRoute);
+                                  }
                                 }
-                              }
-                            },
-                            child:  Container(
-                              //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                              color: value.buttonStatus == "Not Available"
-                                  ? AppColors.primaryElement
-                                  : AppColors.primaryElement,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  value.buttonStatus == "Not Available"
-                                      ? SizedBox.shrink()
-                                      : Icon(
-                                          Icons.shopping_cart,
+                              },
+                              child: Container(
+                                //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
+                                color: value.buttonStatus == "Not Available"
+                                    ? AppColors.primaryElement
+                                    : AppColors.primaryElement,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    value.buttonStatus == "Not Available"
+                                        ? SizedBox.shrink()
+                                        : Icon(
+                                            Icons.shopping_cart,
+                                            color: Color(0xffffffff),
+                                            size: ScreenUtil().setWidth(22),
+                                          ),
+                                    SizedBox(
+                                      width: ScreenUtil().setWidth(12),
+                                    ),
+                                    Text(
+                                      value.buttonStatus,
+                                      style: TextStyle(
                                           color: Color(0xffffffff),
-                                          size: ScreenUtil().setWidth(22),
-                                        ),
-                                  SizedBox(
-                                    width: ScreenUtil().setWidth(12),
-                                  ),
-                                  Text(
-                                    value.buttonStatus,
-                                    style: TextStyle(
-                                        color: Color(0xffffffff),
-                                        fontSize: ScreenUtil().setSp(
-                                          16,
-                                        ),
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              ),
-                            )),
+                                          fontSize: ScreenUtil().setSp(
+                                            16,
+                                          ),
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  ],
+                                ),
+                              )),
                         )
-                    ],
-                  ))
-    );}),
+                      ],
+                    )));
+      }),
     ]);
   }
 

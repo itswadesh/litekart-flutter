@@ -51,7 +51,7 @@ class _ManageAddressState extends State<ManageAddress> {
             onTap: () => Navigator.pop(context),
             child: Icon(
               Icons.arrow_back,
-              color: Colors.black54,
+              color: Color(0xff616161),
             ),
           ),
           title: Center(

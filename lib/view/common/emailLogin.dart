@@ -170,7 +170,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: ScreenUtil().setWidth(35),
               ),
               Container(
-                  height: ScreenUtil().setWidth(70),
+                  height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     focusNode: _focusNode,
@@ -195,7 +195,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: ScreenUtil().setWidth(20),
               ),
               Container(
-                  height: ScreenUtil().setWidth(70),
+                  height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
                     obscureText: true,
@@ -238,9 +238,11 @@ class _EmailLoginState extends State<EmailLogin> {
                   }
                 },
                 child: Container(
-                  height: ScreenUtil().setWidth(43),
-                  width: ScreenUtil().setWidth(150),
+
+                  width: ScreenUtil().setWidth(300),
+                  height: ScreenUtil().setHeight(45),
                   decoration: BoxDecoration(
+                    color: AppColors.primaryElement,
                     border: Border.all(
                         color:  AppColors.primaryElement,
                         width: 1),
@@ -253,7 +255,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         "LOGIN",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color:AppColors.primaryElement,
+                          color:Color(0xffffffff),
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),
@@ -327,7 +329,7 @@ class _EmailLoginState extends State<EmailLogin> {
               SizedBox(height: ScreenUtil().setWidth(25),),
               Container(
                 decoration: BoxDecoration(
-                    color: AppColors.primaryElement,
+                    //color: AppColors.primaryElement,
                     borderRadius: BorderRadius.circular(
                         ScreenUtil().setWidth(5))),
                 width: ScreenUtil().setWidth(300),
@@ -337,6 +339,8 @@ class _EmailLoginState extends State<EmailLogin> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
+                      side: BorderSide(
+                          width: 2, color: AppColors.primaryElement),
                     ),
                     onPressed: () async {
                       locator<NavigationService>()
@@ -344,13 +348,13 @@ class _EmailLoginState extends State<EmailLogin> {
                     },
                     child:  Container(
                       //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                      color:  AppColors.primaryElement,
+                     // color:  AppColors.primaryElement,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.app_registration,
-                            color: Color(0xffffffff),
+                            color: AppColors.primaryElement,
                             size: ScreenUtil().setWidth(22),
                           ),
                           SizedBox(
@@ -359,7 +363,7 @@ class _EmailLoginState extends State<EmailLogin> {
                           Text(
                             "REGISTER",
                             style: TextStyle(
-                                color: Color(0xffffffff),
+                                color: AppColors.primaryElement,
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ),

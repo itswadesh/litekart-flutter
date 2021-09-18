@@ -1,3 +1,5 @@
+import 'package:anne/components/widgets/productCard.dart';
+import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +88,7 @@ class _SearchPage extends State<SearchPage> {
       body: searchText.text == "" || searchText.text == null
           ? SingleChildScrollView(
               child: Column(
-                children: [SearchCategoriesClass(), TopPickClass()],
+                children: [SizedBox(height: ScreenUtil().setWidth(15),),SearchCategoriesClass(), TopPickClass()],
               ),
             )
           : FutureBuilder(
@@ -246,6 +248,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext build, index) {
                   return Container(
+                    width: ScreenUtil().setWidth(100),
                       child: InkWell(
                           onTap: () {
                             locator<NavigationService>().pushNamed(routes.ProductList,args: {
@@ -287,6 +290,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                               SizedBox(
                                 height: ScreenUtil().setWidth(5),
                               ),
+                              Container(
+                                width: ScreenUtil().setWidth(100),
+                                child:
                               Text(
                                 value.categoryResponse.data[index].name,
                                 textAlign: TextAlign.center,
@@ -295,7 +301,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                       17,
                                     ),
                                     color: Color(0xff616161)),
+                                overflow: TextOverflow.fade,
                               ),
+                              )
                             ],
                           )));
                 }),
@@ -356,9 +364,9 @@ class _TopPickClass extends State<TopPickClass> {
           child: Text(
             "Top Picks For You",
             style: TextStyle(
-                color: Color(0xff303030),
+                color: AppColors.primaryElement,
                 fontSize: ScreenUtil().setSp(
-                  16,
+                  18,
                 )),
           ),
         ),
@@ -368,13 +376,13 @@ class _TopPickClass extends State<TopPickClass> {
         Container(
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
-          height: ScreenUtil().setWidth(254),
+          height: ScreenUtil().setWidth(295),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: value.productTrendingResponse.data.length,
               itemBuilder: (BuildContext context, index) {
                 return Column(children: [
-                  ProductViewColor2Card(
+                  ProductCard(
                       value.productTrendingResponse.data[index])
                 ]);
               }),
