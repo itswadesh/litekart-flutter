@@ -19,8 +19,8 @@ class ProfileModel extends ChangeNotifier {
     return _user;
   }
 
-  editProfile(phone, firstName, lastName, email, gender) async {
-    await authRepository.editProfile(phone, firstName, lastName, email, gender);
+  editProfile(phone, firstName, lastName, email, gender, image) async {
+    await authRepository.editProfile(phone, firstName, lastName, email, gender, image);
     notifyListeners();
   }
 

@@ -8,8 +8,8 @@ class AuthRepository {
     return _apiProvider.getProfile();
   }
 
-  editProfile(phone, firstName, lastName, email, gender) {
-    return _apiProvider.editProfile(phone, firstName, lastName, email, gender);
+  editProfile(phone, firstName, lastName, email, gender, image) {
+    return _apiProvider.editProfile(phone, firstName, lastName, email, gender, image);
   }
 
   removeProfile() {

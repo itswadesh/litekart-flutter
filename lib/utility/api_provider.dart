@@ -2,13 +2,14 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:http_parser/http_parser.dart';
 import '../../model/user.dart';
 import '../../utility/query_mutation.dart';
 import '../../utility/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'api_endpoint.dart';
 import 'graphQl.dart';
-
+import 'package:mime/mime.dart';
 class ApiProvider {
   QueryMutation addMutation = QueryMutation();
   Dio dio = Dio();
@@ -191,9 +192,10 @@ class ApiProvider {
     return _user;
   }
 
-  editProfile(phone, firstName, lastName, email, gender) async {
+  editProfile(phone, firstName, lastName, email, gender, image) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    if(image==null){
     await _client.mutate(
         MutationOptions(document: gql(addMutation.updateProfile()), variables: {
       'phone': phone,
@@ -202,6 +204,43 @@ class ApiProvider {
       'lastName': lastName,
       'gender': gender,
     }));
+  }
+  else {
+    // var byteData = image.readAsBytesSync();
+      final mimeTypeData = lookupMimeType(image.path,
+          headerBytes: [0xFF, 0xD8]).split('/');
+      print(mimeTypeData[1]);
+      var file = MultipartFile.fromFile(
+          image.path,
+          filename: image.path,
+          contentType: MediaType(
+              mimeTypeData[0], mimeTypeData[1])
+      );
+      QueryResult resultLink = await _client.mutate(
+        MutationOptions(
+            document: gql(
+                addMutation.fileUpload()),
+            variables: {
+              'files': [file],
+              'folder': 'avatar',
+            }),
+      );
+      print(resultLink.exception.toString());
+      if (resultLink.data['fileUpload'] != null) {
+        await _client.mutate(
+            MutationOptions(
+                document: gql(addMutation.updateProfile()), variables: {
+                  'avatar': resultLink
+                      .data['fileUpload']
+                  [0]['filename'],
+              'phone': phone,
+              'firstName': firstName,
+              'email': email,
+              'lastName': lastName,
+              'gender': gender,
+            }));
+      }
+    }
   }
 
   removeProfile() async {

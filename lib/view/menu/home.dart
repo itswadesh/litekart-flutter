@@ -56,7 +56,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     skipStatus = false;
     _TextAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _transTween = Tween(begin: Offset(0, 90), end: Offset(0, -40))
+    _transTween = Tween(begin: Offset(0, 77), end: Offset(0, -40))
         .animate(_TextAnimationController);
     this.initDynamicLinks();
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -72,11 +72,11 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
   bool _scrollListener() {
     if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      _TextAnimationController.animateTo(90);
+      _TextAnimationController.animateTo(100);
       return true;
     }
     if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-      _TextAnimationController.animateTo(-90);
+      _TextAnimationController.animateTo(-100);
       return true;
     }
   }
@@ -218,9 +218,9 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                  Align(
                    alignment: Alignment.topCenter,
                    child: Container(
-                     height: ScreenUtil().setWidth(110),
+                     height: ScreenUtil().setWidth(90),
                      color: Color(0xffffffff),
-                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(25), ScreenUtil().setWidth(20), ScreenUtil().setWidth(10)),
+                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(25), ScreenUtil().setWidth(20), ScreenUtil().setWidth(0)),
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +10,7 @@ import '../../enum/tz_dialog_type.dart';
 import '../../utility/graphQl.dart';
 import '../../values/colors.dart';
 import '../../view_model/auth_view_model.dart';
-import '../../view/cart_logo.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileEdit extends StatefulWidget {
   @override
@@ -24,6 +26,17 @@ class _ProfileEditState extends State<ProfileEdit> {
   String selectedGender = "Male";
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  File _image;
+  final picker = ImagePicker();
+  var image;
+  _pickImageFromGallery() async {
+    image =
+    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _image = File(image.path);
+    });
+  }
 
   @override
   void initState() {
@@ -95,20 +108,21 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         ScreenUtil().setHeight(45)),
                                     child:
                                   Column(children:[
-                                    InkWell(
-                                        onTap: (){
-
-                                        },
-                                        child:  Container(
-                                          height: ScreenUtil().setWidth(120),
-                                          width: ScreenUtil().setWidth(120),
-                                          child: Card(
-                                            child: Container(
-                                                height: ScreenUtil().setWidth(120),
-                                                width: ScreenUtil().setWidth(120),
-                                                child: value.user.avatar!=null? Image.network(value.user.avatar):Image.asset("assets/images/user.png")
-                                            ),
-                                          ),)),
+                                    _getImage(value.user.avatar),
+                                    // InkWell(
+                                    //     onTap: (){
+                                    //
+                                    //     },
+                                    //     child:  Container(
+                                    //       height: ScreenUtil().setWidth(120),
+                                    //       width: ScreenUtil().setWidth(120),
+                                    //       child: Card(
+                                    //         child: Container(
+                                    //             height: ScreenUtil().setWidth(120),
+                                    //             width: ScreenUtil().setWidth(120),
+                                    //             child: value.user.avatar!=null? Image.network(value.user.avatar):Image.asset("assets/images/user.png")
+                                    //         ),
+                                    //       ),)),
                                     SizedBox(height: ScreenUtil().setWidth(20),),
                                     Container(
                                         child: TextFormField(
@@ -121,18 +135,19 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               EdgeInsets.all(ScreenUtil().setWidth(12)),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                    color: Colors.grey, width: 1.0),
+                                                    color: Colors.transparent, width: 0),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
-                                                    color: Colors.grey, width: 1.0),
+                                                    color: Colors.transparent, width: 0),
                                               ),
-                                              labelText: "Phone",
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: ScreenUtil().setSp(
-                                                    15,
-                                                  ))),
+                                              // hintText: "Phone",
+                                              // hintStyle: TextStyle(
+                                              //     color: Colors.grey,
+                                              //     fontSize: ScreenUtil().setSp(
+                                              //       15,
+                                              //     ))
+                                          ),
                                         )),
                                     SizedBox(
                                       height: ScreenUtil().setWidth(25),
@@ -299,7 +314,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       _fName.text,
                                       _lName.text,
                                       _email.text,
-                                      selectedGender);
+                                      selectedGender,_image);
                                   await Provider.of<ProfileModel>(context,
                                       listen: false)
                                       .getProfile();
@@ -346,6 +361,43 @@ class _ProfileEditState extends State<ProfileEdit> {
                           ]);
                         })))));
   }
+
+  _getImage(avatar) {
+    return Container(
+        margin: EdgeInsets.all(12),
+        child: Column(children: <Widget>[
+          _image != null
+              ? InkWell(
+              onTap: () {
+                _pickImageFromGallery();
+              },
+              child: Container(
+                  height: ScreenUtil().setWidth(120),
+                  width: ScreenUtil().setWidth(120),
+                  child: Card(
+                      child: Container(
+                          height: ScreenUtil().setWidth(120),
+                          width: ScreenUtil().setWidth(120),
+                          child: Image.file(
+                    _image,
+                  )))))
+              : InkWell(
+              onTap: () {
+                _pickImageFromGallery();
+              },
+              child:  Container(
+          height: ScreenUtil().setWidth(120),
+          width: ScreenUtil().setWidth(120),
+          child: Card(
+            child: Container(
+                height: ScreenUtil().setWidth(120),
+                width: ScreenUtil().setWidth(120),
+                child: avatar!=null? Image.network(avatar):Image.asset("assets/images/user.png")
+            ),
+          ),)),
+        ]));
+  }
+
 
   icon(String s) {
     if (s == selectedGender) {

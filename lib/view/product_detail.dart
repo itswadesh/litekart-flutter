@@ -153,7 +153,9 @@ class _ProductDetail extends State<ProductDetail>
     // TODO: implement build
     return Scaffold(
         backgroundColor: Color(0xfff3f3f3),
-        body: Container(
+        body: SafeArea(
+        bottom: false,
+        child: Container(
             height: MediaQuery.of(context).size.height,
             child: Consumer<ProductDetailViewModel>(
                 builder: (BuildContext context, value, Widget child) {
@@ -195,7 +197,7 @@ class _ProductDetail extends State<ProductDetail>
               }
               _numPages = value.productDetailResponse.images.length;
               return getProductDetails(value.productDetailResponse);
-            })));
+            }))));
   }
 
   Widget getProductDetails(ProductDetailData productData) {
@@ -216,9 +218,6 @@ class _ProductDetail extends State<ProductDetail>
               controller: scrollController,
               child: Column(
                 children: [
-                  Container(
-                    height: ScreenUtil().setWidth(30),
-                  ),
     Container(
       color: Color(0xffffffff),
     width: MediaQuery.of(context).size.width,
@@ -858,7 +857,7 @@ class _ProductDetail extends State<ProductDetail>
               builder: (context, child) => Container(
                     color: _colorTween.value,
                     width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(45),
+                    padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
                         ScreenUtil().setWidth(20), 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -873,19 +872,22 @@ class _ProductDetail extends State<ProductDetail>
                                 width: ScreenUtil().radius(45),
                                 height: ScreenUtil().radius(45),
                                 decoration: new BoxDecoration(
-                                  color: Color(0xffd3d3d3),
+                                  color: Color(0xffffffff),
                                   border: Border(
                                       bottom: BorderSide(
-                                          color: Color(0xfff3f3f3),
+                                          color: Color(0xffffffff),
                                           width: ScreenUtil().setWidth(0.4)),
                                       top: BorderSide(
-                                          color: Color(0xfff3f3f3),
+                                          color: Color(0xffffffff),
+
                                           width: ScreenUtil().setWidth(0.4)),
                                       left: BorderSide(
-                                          color: Color(0xfff3f3f3),
+                                          color: Color(0xffffffff),
+
                                           width: ScreenUtil().setWidth(0.4)),
                                       right: BorderSide(
-                                          color: Color(0xfff3f3f3),
+                                          color: Color(0xffffffff),
+
                                           width: ScreenUtil().setWidth(0.4))),
                                   shape: BoxShape.circle,
                                 ),
@@ -935,19 +937,23 @@ class _ProductDetail extends State<ProductDetail>
                                   width: ScreenUtil().radius(45),
                                   height: ScreenUtil().radius(45),
                                   decoration: new BoxDecoration(
-                                    color: Color(0xffd3d3d3),
+                                    color: Color(0xffffffff),
                                     border: Border(
                                         bottom: BorderSide(
-                                            color: Color(0xfff3f3f3),
+                                            color: Color(0xffffffff),
+
                                             width: ScreenUtil().setWidth(0.4)),
                                         top: BorderSide(
-                                            color: Color(0xfff3f3f3),
+                                            color: Color(0xffffffff),
+
                                             width: ScreenUtil().setWidth(0.4)),
                                         left: BorderSide(
-                                            color: Color(0xfff3f3f3),
+                                            color: Color(0xffffffff),
+
                                             width: ScreenUtil().setWidth(0.4)),
                                         right: BorderSide(
-                                            color: Color(0xfff3f3f3),
+                                            color: Color(0xffffffff),
+
                                             width: ScreenUtil().setWidth(0.4))),
                                     shape: BoxShape.circle,
                                   ),
@@ -963,19 +969,22 @@ class _ProductDetail extends State<ProductDetail>
                               width: ScreenUtil().radius(45),
                               height: ScreenUtil().radius(45),
                               decoration: new BoxDecoration(
-                                color: Color(0xffd3d3d3),
+                                color: Color(0xffffffff),
                                 border: Border(
                                     bottom: BorderSide(
-                                        color: Color(0xfff3f3f3),
+                                        color: Color(0xffffffff),
+
                                         width: ScreenUtil().setWidth(0.4)),
                                     top: BorderSide(
-                                        color: Color(0xfff3f3f3),
+                                        color: Color(0xffffffff),
+
                                         width: ScreenUtil().setWidth(0.4)),
                                     left: BorderSide(
-                                        color: Color(0xfff3f3f3),
+                                        color: Color(0xffffffff),
+
                                         width: ScreenUtil().setWidth(0.4)),
                                     right: BorderSide(
-                                        color: Color(0xfff3f3f3),
+                                        color: Color(0xffffffff),
                                         width: ScreenUtil().setWidth(0.4))),
                                 shape: BoxShape.circle,
                               ),
