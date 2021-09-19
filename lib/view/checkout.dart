@@ -232,10 +232,10 @@ class _Checkout extends State<Checkout> {
                     //                     color: Color(0xffb4b4b4),
                     //                     width: ScreenUtil().setWidth(0.4)),
                     //               ),
-                    //               hintText: value.promocodeStatus
+                    //               labelText: value.promocodeStatus
                     //                   ? value.promocode
                     //                   : "Promocode",
-                    //               hintStyle: TextStyle(
+                    //               labelStyle: TextStyle(
                     //                   color: Color(0xffb9b9b9),
                     //                   fontSize: ScreenUtil().setSp(
                     //                     15,
@@ -1455,8 +1455,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "First Name *",
-                    hintStyle: TextStyle(
+                    labelText: "First Name *",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1485,8 +1485,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Last Name *",
-                    hintStyle: TextStyle(
+                    labelText: "Last Name *",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1515,8 +1515,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Email",
-                    hintStyle: TextStyle(
+                    labelText: "Email",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1545,8 +1545,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Phone",
-                    hintStyle: TextStyle(
+                    labelText: "Phone",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1608,8 +1608,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Zip code",
-                    hintStyle: TextStyle(
+                    labelText: "Zip code",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1640,8 +1640,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "City *",
-                    hintStyle: TextStyle(
+                    labelText: "City *",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1671,8 +1671,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "State",
-                    hintStyle: TextStyle(
+                    labelText: "State",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1702,8 +1702,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Country *",
-                    hintStyle: TextStyle(
+                    labelText: "Country *",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1732,8 +1732,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Address",
-                    hintStyle: TextStyle(
+                    labelText: "Address",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
@@ -1762,8 +1762,8 @@ class _Checkout extends State<Checkout> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
-                    hintText: "Town",
-                    hintStyle: TextStyle(
+                    labelText: "Town",
+                    labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: ScreenUtil().setSp(
                           15,
