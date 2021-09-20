@@ -315,15 +315,25 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       _lName.text,
                                       _email.text,
                                       selectedGender,_image);
-                                  await Provider.of<ProfileModel>(context,
-                                      listen: false)
-                                      .getProfile();
-                                  _dialog.close();
-                                  final snackBar = SnackBar(
-                                      content: Text(
-                                          'Profile Updated Successfully !!'));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                  if(value.editStatus) {
+                                    await Provider.of<ProfileModel>(context,
+                                        listen: false)
+                                        .getProfile();
+                                    _dialog.close();
+                                    final snackBar = SnackBar(
+                                        content: Text(
+                                            'Profile Updated Successfully !!'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                  else{
+                                    _dialog.close();
+                                    final snackBar = SnackBar(
+                                        content: Text(
+                                            'Profile Not Updated. Please Try Again !!'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(top: ScreenUtil().setWidth(8)),

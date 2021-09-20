@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'api_endpoint.dart';
 import 'graphQl.dart';
 import 'package:mime/mime.dart';
+import "package:http/http.dart" as Multipartfile;
 class ApiProvider {
   QueryMutation addMutation = QueryMutation();
   Dio dio = Dio();
@@ -195,8 +196,8 @@ class ApiProvider {
   editProfile(phone, firstName, lastName, email, gender, image) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    if(image==null){
-    await _client.mutate(
+     if(image==null){
+       QueryResult result = await _client.mutate(
         MutationOptions(document: gql(addMutation.updateProfile()), variables: {
       'phone': phone,
       'firstName': firstName,
@@ -204,13 +205,17 @@ class ApiProvider {
       'lastName': lastName,
       'gender': gender,
     }));
+    if(!result.hasException){
+      return true;
+    }
   }
   else {
     // var byteData = image.readAsBytesSync();
       final mimeTypeData = lookupMimeType(image.path,
           headerBytes: [0xFF, 0xD8]).split('/');
       print(mimeTypeData[1]);
-      var file = MultipartFile.fromFile(
+      var file = Multipartfile.MultipartFile.fromString(
+          "image",
           image.path,
           filename: image.path,
           contentType: MediaType(
@@ -225,21 +230,25 @@ class ApiProvider {
               'folder': 'avatar',
             }),
       );
-      print(resultLink.exception.toString());
-      if (resultLink.data['fileUpload'] != null) {
-        await _client.mutate(
+      print(resultLink.data.toString());
+      if (!resultLink.hasException || resultLink.data['fileUpload'] != null) {
+        QueryResult result =   await _client.mutate(
             MutationOptions(
                 document: gql(addMutation.updateProfile()), variables: {
                   'avatar': resultLink
                       .data['fileUpload']
-                  [0]['filename'],
+                  [0]['url'],
               'phone': phone,
               'firstName': firstName,
               'email': email,
               'lastName': lastName,
               'gender': gender,
             }));
+        if(!result.hasException){
+          return true;
+        }
       }
+      return false;
     }
   }
 

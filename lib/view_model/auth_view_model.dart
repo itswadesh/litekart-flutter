@@ -8,19 +8,28 @@ class ProfileModel extends ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   User _user;
+  bool editStatus = false;
   AuthRepository authRepository = AuthRepository();
   User get user {
     return _user;
   }
 
-  Future<User> getProfile() async {
+   getProfile() async {
     _user = await authRepository.getProfile();
     notifyListeners();
+  }
+
+  Future<User> returnProfile() async {
+    _user = await authRepository.getProfile();
     return _user;
   }
 
   editProfile(phone, firstName, lastName, email, gender, image) async {
-    await authRepository.editProfile(phone, firstName, lastName, email, gender, image);
+    editStatus = false;
+  bool response =  await authRepository.editProfile(phone, firstName, lastName, email, gender, image);
+   if(response){
+     editStatus = true;
+   }
     notifyListeners();
   }
 

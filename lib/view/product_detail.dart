@@ -219,7 +219,7 @@ class _ProductDetail extends State<ProductDetail>
               child: Column(
                 children: [
     Container(
-      color: Color(0xffffffff),
+      color: Color(0xfff3f3f3),
     width: MediaQuery.of(context).size.width,
     height: ScreenUtil().setWidth(600),
     child: Stack(children:[ Container(
@@ -278,7 +278,7 @@ class _ProductDetail extends State<ProductDetail>
                   Container(
                     color: Colors.white,
                     padding:
-                    EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(22), 0, 0),
+                    EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(15), 0, 0),
                     child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
@@ -287,7 +287,7 @@ class _ProductDetail extends State<ProductDetail>
                   Container(
                     color: Colors.white,
                     padding:
-                        EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(22), 0, 0),
+                        EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(10), 0, 0),
                     child: Column(
                       children: [
                         Container(
@@ -1422,16 +1422,17 @@ class _RatingClass extends State<RatingClass> {
           if (result.data == null) {
             return Container(
 
-                height: ScreenUtil().setWidth(25),
-                width: ScreenUtil().setWidth(50),
+                height: ScreenUtil().setWidth(27),
+                width: ScreenUtil().setWidth(55),
                 decoration: BoxDecoration(
-                    color: Color(0xffd3d3d3),
-                  borderRadius: BorderRadius.circular(15)
+                    color: Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
               children: [
                 SizedBox(
-                  width: ScreenUtil().setWidth(10),
+                  width: ScreenUtil().setWidth(12),
                 ),
                 Container(
                     padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
@@ -1439,83 +1440,90 @@ class _RatingClass extends State<RatingClass> {
                       "0",
                       style: TextStyle(
                           color: Color(0xff6d6d6d),
-                          fontSize: ScreenUtil().setWidth(16)),
+                          fontSize: ScreenUtil().setWidth(15)),
                     )),
                 SizedBox(
-                  width: ScreenUtil().setWidth(3),
+                  width: ScreenUtil().setWidth(4.5),
                 ),
                 Icon(
                   FontAwesomeIcons.star,
                   size: ScreenUtil().setWidth(14),
                   color: AppColors.primaryElement2,
-                )
+                ),
+                SizedBox(width: ScreenUtil().setWidth(12),)
               ],
             ));
           }
           if (result.data["reviewSummary"] == null) {
             return Container(
 
-                height: ScreenUtil().setWidth(25),
-                width: ScreenUtil().setWidth(50),
+                height: ScreenUtil().setWidth(27),
+                width: ScreenUtil().setWidth(55),
                 decoration: BoxDecoration(
-                    color: Color(0xffd3d3d3),
-                    borderRadius: BorderRadius.circular(15)
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
-              children: [
-                SizedBox(
-                  width: ScreenUtil().setWidth(10),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
-                  child: Text(
-                    "0",
-                    style: TextStyle(
-                        color: Color(0xff6d6d6d),
-                        fontSize: ScreenUtil().setWidth(16)),
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(3),
-                ),
-                Icon(
-                  FontAwesomeIcons.star,
-                  size: ScreenUtil().setWidth(14),
-                  color: AppColors.primaryElement2,
-                )
-              ],
-            ));
+                  children: [
+                    SizedBox(
+                      width: ScreenUtil().setWidth(12),
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+                        child: Text(
+                          "0",
+                          style: TextStyle(
+                              color: Color(0xff6d6d6d),
+                              fontSize: ScreenUtil().setWidth(15)),
+                        )),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(4.5),
+                    ),
+                    Icon(
+                      FontAwesomeIcons.star,
+                      size: ScreenUtil().setWidth(14),
+                      color: AppColors.primaryElement2,
+                    ),
+                    SizedBox(width: ScreenUtil().setWidth(12),)
+                  ],
+                ));
           }
-          return Container(
-              height: ScreenUtil().setWidth(25),
-              width: ScreenUtil().setWidth(50),
-          decoration: BoxDecoration(
-            color: Color(0xffd3d3d3),
-          borderRadius: BorderRadius.circular(15)
-          ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: ScreenUtil().setWidth(10),
-              ),
-              Container(
-                  padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
-                  child: Text(
-                    result.data["reviewSummary"]["avg"].toString() ?? "0",
-                    style: TextStyle(
-                        color: Color(0xff6d6d6d),
-                        fontSize: ScreenUtil().setWidth(16)),
-                  )),
-              SizedBox(
-                width: ScreenUtil().setWidth(3),
-              ),
-              Icon(
-                FontAwesomeIcons.star,
-                size: ScreenUtil().setWidth(14),
-                color: AppColors.primaryElement2,
-              )
-            ],
-          ));
+          return
+            Container(
+
+                height: ScreenUtil().setWidth(27),
+                width: ScreenUtil().setWidth(55),
+                decoration: BoxDecoration(
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: ScreenUtil().setWidth(12),
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
+                        child: Text(
+                          result.data["reviewSummary"]["avg"]??"0",
+                          style: TextStyle(
+                              color: Color(0xff6d6d6d),
+                              fontSize: ScreenUtil().setWidth(15)),
+                        )),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(4.5),
+                    ),
+                    Icon(
+                      FontAwesomeIcons.star,
+                      size: ScreenUtil().setWidth(14),
+                      color: AppColors.primaryElement2,
+                    ),
+                    SizedBox(width: ScreenUtil().setWidth(12),)
+                  ],
+                ));
+
         });
   }
 }

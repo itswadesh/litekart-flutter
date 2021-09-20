@@ -86,7 +86,7 @@ _handleAppRoute(DynamicRoute homeRoute) async {
           _navigationService.pushNamed(routes.ProductList, args: arguments);
           break;
         case routes.MyProfile:
-          User user = await ProfileModel().getProfile();
+          User user = await ProfileModel().returnProfile();
           if (user != null) {
             _navigationService.pushNamed(routes.MyProfile);
           } else {

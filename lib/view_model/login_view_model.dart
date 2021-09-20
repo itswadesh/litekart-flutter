@@ -99,6 +99,7 @@ class EmailLoginViewModel extends ChangeNotifier{
 
    login(String email, String password) async {
     _dialog.show();
+    loginStatus=false;
     try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -120,7 +121,6 @@ class EmailLoginViewModel extends ChangeNotifier{
     } catch (e) {
       _dialog.close();
     }
-    _dialog.close();
     notifyListeners();
   }
 }
@@ -162,7 +162,6 @@ class RegisterViewModel extends ChangeNotifier{
     } catch (e) {
       _dialog.close();
     }
-    _dialog.close();
     notifyListeners();
   }
 }

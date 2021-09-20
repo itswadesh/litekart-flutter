@@ -51,9 +51,13 @@ class _ProductListCard extends State<ProductListCard> {
           height: ScreenUtil().setWidth(274),
           child: Column(
             children: [
-              Stack(
+              Container(
+              height: ScreenUtil().setWidth(203),
+          width: ScreenUtil().setWidth(203),child: Stack(
                 children: [
                   Container(
+                    height: ScreenUtil().setWidth(203),
+                    width: ScreenUtil().setWidth(203),
                     color: Color(0xffffffff),
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
@@ -63,6 +67,20 @@ class _ProductListCard extends State<ProductListCard> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                  Align(
+                      alignment: Alignment.bottomLeft,
+                      child:
+                 Container(
+                     margin: EdgeInsets.only(bottom: 2),
+                     child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: ScreenUtil().setWidth(5),
+                      ),
+                      RatingClass(item.id),
+                    ],
+                  ))),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
                   //   children: [
@@ -109,7 +127,7 @@ class _ProductListCard extends State<ProductListCard> {
                   //   ),
                   // )
                 ],
-              ),
+              )),
               Container(
                 child: Column(
                   children: [
@@ -196,15 +214,7 @@ class _ProductListCard extends State<ProductListCard> {
                     SizedBox(
                       height: ScreenUtil().setWidth(5),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        RatingClass(item.id),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(10),
-                        ),
-                      ],
-                    ),
+
 
                     // SizedBox(height: ScreenUtil().setWidth(19),),
                     //  Divider(height: ScreenUtil().setWidth(10),),

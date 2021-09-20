@@ -53,7 +53,7 @@ void main() async {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
   token = await getCookieFromSF();
-  User user = await ProfileModel().getProfile();
+  User user = await ProfileModel().returnProfile();
   print(user);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
