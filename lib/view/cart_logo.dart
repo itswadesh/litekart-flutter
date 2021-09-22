@@ -9,6 +9,8 @@ import '../../view_model/cart_view_model.dart';
 import '../../values/route_path.dart' as routes;
 
 class CartLogo extends StatefulWidget {
+  final size;
+  CartLogo(this.size);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -33,7 +35,7 @@ class _CartLogo extends State<CartLogo> {
           Center(
               child:  Icon(
           Icons.shopping_cart,
-          size: 22,
+          size: double.parse(widget.size.toString())-0.5,
           color: Color(0xff616161),
         //)
           ));
@@ -51,12 +53,12 @@ class _CartLogo extends State<CartLogo> {
               children: [
                 Icon(
                   Icons.shopping_cart,
-                  size: 22,
+                  size: double.parse(widget.size.toString())-0.5,
                   color: Color(0xff616161),
                 ),
                 value.cartCount > 0
                     ? Positioned(
-                      left: 7, top: 0,
+                      left: 12, top: 0,
                       child: Container(
                           width: ScreenUtil().radius(12),
                           height: ScreenUtil().radius(12),

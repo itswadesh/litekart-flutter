@@ -635,6 +635,7 @@ class _Checkout extends State<Checkout> {
           ),
         ),
         ListView.builder(
+
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: value.addressResponse.data.length,
@@ -645,14 +646,14 @@ class _Checkout extends State<Checkout> {
                       .selectAddress(value.addressResponse.data[index]);
                 },
                 child: Material(
-                    color: Color(0xfff3f3f3),
+                    color: Color(0xfffffff),
                     // borderRadius: BorderRadius.circular(2),
                     child: Card(
                       margin: EdgeInsets.fromLTRB(
                           ScreenUtil().setWidth(0),
                           ScreenUtil().setWidth(20),
                           ScreenUtil().setWidth(0),
-                          ScreenUtil().setWidth(26)),
+                          ScreenUtil().setWidth(0)),
                       elevation: 0.1,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(
@@ -962,7 +963,8 @@ class _Checkout extends State<Checkout> {
                         ]),
                       ),
                     )),);
-            })
+            }),
+        Container(height: ScreenUtil().setWidth(30),)
       ]);
     });
   }
@@ -1277,7 +1279,7 @@ class _Checkout extends State<Checkout> {
                             return Container();
                           }
                           return Text(
-                              "Order Total: ₹ " +
+                              "TOTAL : ₹ " +
                                   (value.cartResponse.total).toString()
                               //"$total"
                               ,
@@ -1365,7 +1367,7 @@ class _Checkout extends State<Checkout> {
           width: ScreenUtil().setWidth(362),
           height: ScreenUtil().setWidth(42),
           margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(26), 0,
-              ScreenUtil().setWidth(26), ScreenUtil().setWidth(26)),
+              ScreenUtil().setWidth(26), ScreenUtil().setWidth(15)),
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(

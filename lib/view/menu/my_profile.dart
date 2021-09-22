@@ -40,8 +40,9 @@ class _MyProfileState extends State<MyProfile> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          title:  Text(
-            "Profile",
+          title: Consumer<ProfileModel>(
+        builder: (BuildContext context, value, Widget child) {return Text(
+            value.user.firstName??"User Profile",
             style: TextStyle(
                 color: Color(0xff757575),
                 fontSize: ScreenUtil().setSp(
@@ -50,7 +51,7 @@ class _MyProfileState extends State<MyProfile> {
                 fontWeight:FontWeight.w600
             ),
             textAlign: TextAlign.center,
-          )
+          );})
         ),
         body: GraphQLProvider(
             client: graphQLConfiguration.initailizeClient(),
@@ -64,7 +65,7 @@ class _MyProfileState extends State<MyProfile> {
                           child: Container(
                         child: Column(
                           children: [
-                            Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,),
+                            Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,height: ScreenUtil().setWidth(200),fit: BoxFit.cover,),
                             Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
                               child: Column(children :[ Container(
                                 child: Row(
@@ -87,17 +88,12 @@ class _MyProfileState extends State<MyProfile> {
                                     SizedBox(width: ScreenUtil().setWidth(20),),
                                     Transform.translate(offset: Offset(0,ScreenUtil().setWidth(18)),
                                       child: Container(
-                                        child: Text(value.user.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(20),fontWeight: FontWeight.w600),)
+                                        child: Text(value.user.email??value.user.phone??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(20),fontWeight: FontWeight.w600),)
                                       ),)
                                   ],
                                 ),
                               ),
                                 SizedBox(height: ScreenUtil().setWidth(20),),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: ScreenUtil().setWidth(25),
-                              color: Color(0xffe8e8e8),
-                            ),
                             getTiles("Orders","Check Your Order Status",Icons.shopping_bag_outlined,routes.ManageOrder),
                             Divider(),
                                 getTiles("Wishlist","Your most Loved Products",Icons.favorite_border_outlined,routes.Wishlist),
@@ -154,10 +150,10 @@ class _MyProfileState extends State<MyProfile> {
           locator<NavigationService>().pushNamed(path);
         }
       },
-      leading: Icon(icon,color: Color(0xffd0d0d0),),
+      leading: Icon(icon,color: Color(0xff616161),),
       title: Text(title),
       subtitle: Text(subtitle),
-      trailing: Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
+      trailing: Icon(FontAwesomeIcons.angleRight,color: Color(0xff616161),size: ScreenUtil().setWidth(14),),
     );
   }
 }

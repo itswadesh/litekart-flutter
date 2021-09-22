@@ -72,11 +72,11 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
   bool _scrollListener() {
     if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      _TextAnimationController.animateTo(100);
+      _TextAnimationController.animateTo(105);
       return true;
     }
     if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-      _TextAnimationController.animateTo(-100);
+      _TextAnimationController.animateTo(-105);
       return true;
     }
   }
@@ -184,6 +184,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
           body:
                Stack(children: [
                  Container(
+                   color: Color(0xffffffff),
                    child:
                    SingleChildScrollView(
                      controller: scrollController,
@@ -233,7 +234,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.menu,
-                                         size: 22,
+                                         size: 25,
                                          color: Color(0xff616161),
                                        )),
                              SizedBox(width: ScreenUtil().setWidth(25),),
@@ -256,7 +257,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.search,
-                                         size: 22,
+                                         size: 25,
                                          color: Color(0xff616161),
                                        ))),
                                    SizedBox(
@@ -275,7 +276,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.shopping_bag_outlined,
-                                         size: 22,
+                                         size: 25,
                                          color: Color(0xff616161),
                                        )),
                                    SizedBox(
@@ -297,11 +298,11 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.favorite_border_outlined,
-                                         size: 23,
+                                         size: 25,
                                          color: Color(0xff616161),
                                        ))),
                                    SizedBox(width: ScreenUtil().setWidth(24),),
-                                   CartLogo(),
+                                   CartLogo(25),
                            ],
                          )
                        ],
@@ -386,7 +387,7 @@ class _SuggestedClass extends State<SuggestedClass> {
           ),
         ),
         Container(
-          height: ScreenUtil().setWidth(25),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -479,7 +480,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
         ),
         Container(
           color: Color(0xffffffff),
-          height: ScreenUtil().setWidth(25),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -574,7 +575,7 @@ class _TrendingClass extends State<TrendingClass> {
           ),
         ),
         Container(
-          height: ScreenUtil().setWidth(25),
+          height: ScreenUtil().setWidth(15),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(
@@ -1300,7 +1301,7 @@ class _BrandClass extends State<BrandClass> {
               ),
               Container(
                 color: Color(0xffffffff),
-                height: ScreenUtil().setWidth(25),
+                height: ScreenUtil().setWidth(15),
               ),
               Container(
                 color: Color(0xffffffff),

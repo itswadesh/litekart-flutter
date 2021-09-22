@@ -2,25 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 errorMessage() {
-  return Center(
-    child: Container(
-      color: Colors.grey.shade300,
+  return  Container(
+
+      color: Color(0xfff3f3f3),
       width: double.infinity,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 140,
-          ),
+
           Image.asset(
-            "assets/images/no-network.png",
+            "assets/images/error.png",
             height: 280,
             width: 280,
           ),
-          SizedBox(
-            height: ScreenUtil().setWidth(20),
-          ),
+
           Text(
             "Something went wrong !!",
             style: TextStyle(
@@ -28,6 +24,5 @@ errorMessage() {
           ),
         ],
       ),
-    ),
   );
 }

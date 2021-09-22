@@ -45,7 +45,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
 
     // TODO: implement build
     return Container(
-        height: ScreenUtil().setWidth(400),
+        height: ScreenUtil().setWidth(360),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(ScreenUtil().setWidth(25)),
@@ -62,7 +62,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
               child: _createHeader(),
             ),
             Container(
-              height: ScreenUtil().setWidth(320),
+              height: ScreenUtil().setWidth(280),
               width: ScreenUtil().setWidth(386),
               child: Column(
                 children: [
@@ -75,18 +75,19 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                     height: ScreenUtil().setWidth(25),
                   ),
                   Container(
-                    height: ScreenUtil().setWidth(280),
+                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                    height: ScreenUtil().setWidth(240),
                     child: ListView.builder(
-                      padding: EdgeInsets.only(top: 0),
+                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(15)),
                         itemCount: sorts.length,
                         itemBuilder: (BuildContext build, index) {
-                          return ListTile(
+                          return InkWell(
                             onTap: (){
                                             sort = sorts[index]["val"];
                                             widget.callback(sort);
                                             Navigator.of(context).pop();
                             },
-                            title: Text(
+                            child: Text(
                                                   sorts[index]["name"],
                                                   style: TextStyle(
                                                       color: (sorts[index]["val"] == sort)
@@ -128,9 +129,6 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                 children: [
                   InkWell(
                     onTap: () {
-                      sort = "-createdAt";
-                      widget.callback(sort);
-                      Navigator.of(context).pop();
                     },
                     child: Text(
                       "SORT BY",

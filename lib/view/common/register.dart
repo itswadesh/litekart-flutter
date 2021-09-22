@@ -189,6 +189,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Email",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -213,6 +214,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "First Name",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -237,6 +239,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Last Name",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -262,6 +265,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -286,6 +290,7 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Confirm Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -319,7 +324,7 @@ class _RegisterState extends State<Register> {
                 },
                 child: Container(
 
-                  width: ScreenUtil().setWidth(300),
+                  width: ScreenUtil().setWidth(324),
                   height: ScreenUtil().setHeight(45),
                   decoration: BoxDecoration(
                     color: AppColors.primaryElement,
@@ -336,7 +341,7 @@ class _RegisterState extends State<Register> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color:Color(0xffffffff),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
                       ),
@@ -366,7 +371,7 @@ class _RegisterState extends State<Register> {
                 height: ScreenUtil().setWidth(30),
               ),
               Container(
-                  width: ScreenUtil().setWidth(300),
+                  width: ScreenUtil().setWidth(324),
                   height: ScreenUtil().setHeight(45),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
@@ -412,7 +417,7 @@ class _RegisterState extends State<Register> {
 
                     borderRadius: BorderRadius.circular(
                         ScreenUtil().setWidth(5))),
-                width: ScreenUtil().setWidth(300),
+                width: ScreenUtil().setWidth(324),
                 height: ScreenUtil().setHeight(45),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(

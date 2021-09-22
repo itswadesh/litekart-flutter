@@ -69,12 +69,14 @@ class _ManageAddressState extends State<ManageAddress> {
             Container(
                 padding: EdgeInsets.only(right: 10.0),
                 // width: MediaQuery.of(context).size.width * 0.35,
-                child: CartLogo()),
+                child: CartLogo(25)),
             SizedBox(width: ScreenUtil().setWidth(20),)
           ],
         ),
-        body: SingleChildScrollView(
-            child: newAddress ? getExistingAddress() : addNewAddress()));
+        body: Container(
+            color: Color(0xfff3f3f3),
+            child: SingleChildScrollView(
+            child: newAddress ? getExistingAddress() : addNewAddress())));
   }
 
   getExistingAddress() {
@@ -740,7 +742,7 @@ class _ManageAddressState extends State<ManageAddress> {
                       ScreenUtil().setWidth(0),
                       ScreenUtil().setWidth(20),
                       ScreenUtil().setWidth(0),
-                      ScreenUtil().setWidth(26)),
+                      ScreenUtil().setWidth(0)),
                   elevation: 0.1,
                   child: Container(
                     padding: EdgeInsets.fromLTRB(

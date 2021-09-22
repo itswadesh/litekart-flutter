@@ -51,7 +51,7 @@ class _AddReviewPage extends State<AddReviewPage> {
             Container(
                 padding: EdgeInsets.only(right: 10.0),
                 // width: MediaQuery.of(context).size.width * 0.35,
-                child: CartLogo())
+                child: CartLogo(25))
           ],
         ),
         body:  Consumer<RatingViewModel>(

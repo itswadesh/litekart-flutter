@@ -85,17 +85,25 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
+                  color:Color(0xffdfdfdf),
                   height: ScreenUtil().setWidth(412),
                   width: ScreenUtil().setWidth(176),
                   child: Column(
                     children: [
                       _getButton("Brand"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Color"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Size"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Gender"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Price Range"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Age Group"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                       _getButton("Discount"),
+                      Divider(height: 0.3,color: Color(0xff616161),thickness: 0.3,),
                     ],
                   ),
                 ),
@@ -165,10 +173,16 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         height: ScreenUtil().setWidth(56),
         child: Center(
           child: Container(
-              padding: EdgeInsets.only(right: ScreenUtil().setWidth(15)),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(15),right: ScreenUtil().setWidth(15)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Container(child: Text(
+                    "FILTER BY",
+                    style: TextStyle(
+                        color: Color(0xff616161),
+                        fontSize: ScreenUtil().setSp(16)),
+                  ),),
                   InkWell(
                     onTap: () {
                       brand = [];

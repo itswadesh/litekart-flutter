@@ -15,24 +15,22 @@ cartEmptyMessage(key, msg) {
   } else {
     imageAsset = "assets/images/noData.png";
   }
-  return Container(
-    color: Colors.grey.shade300,
+  return Center(child: Container(
+    color: Color(0xfff3f3f3),
     width: double.infinity,
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          height: 120,
-        ),
+        // SizedBox(
+        //   height: 120,
+        // ),
         Image.asset(
           imageAsset,
           height: 250,
           width: 250,
         ),
-        SizedBox(
-          height: ScreenUtil().setWidth(20),
-        ),
+
         Text(
           msg,
           style: TextStyle(
@@ -40,10 +38,8 @@ cartEmptyMessage(key, msg) {
             fontSize: 14,
           ),
         ),
-        SizedBox(
-          height: ScreenUtil().setWidth(20),
-        ),
+
       ],
     ),
-  );
+  ));
 }

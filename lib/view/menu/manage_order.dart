@@ -78,7 +78,7 @@ class _ManageOrderState extends State<ManageOrder> {
           Container(
               padding: EdgeInsets.only(right: 10.0),
               // width: MediaQuery.of(context).size.width * 0.35,
-              child: CartLogo()),
+              child: CartLogo(25)),
           SizedBox(width: ScreenUtil().setWidth(20),)
         ],
       ),
@@ -86,155 +86,9 @@ class _ManageOrderState extends State<ManageOrder> {
         client: graphQLConfiguration.initailizeClient(),
     child: CacheProvider(
     child: Container(
-        height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height,
         color: Color(0xfff3f3f3),
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            // child: Column(
-            //   children: [
-                // Container(
-                //   margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(27), ScreenUtil().setWidth(20), ScreenUtil().setWidth(16), ScreenUtil().setWidth(27)),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         "Back to Home",
-                //         style: TextStyle(
-                //             decoration: TextDecoration.underline,
-                //             color: Color(0xff2080dd),
-                //             fontSize: ScreenUtil().setSp(14,)),
-                //       ),
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.end,
-                //         children: [
-                //           Text(
-                //             "4 orders placed in ",
-                //             style: TextStyle(fontSize: ScreenUtil().setSp(14,),color: Color(0xff1f1f1f)),
-                //           ),
-                //           Container(
-                //               padding: EdgeInsets.only(left: 2),
-                //               height: ScreenUtil().setWidth(26),
-                //               color: Colors.white,
-                //               child: DropdownButtonHideUnderline(
-                //                   child: DropdownButton<ListItem>(
-                //                       value: _selectedItem,
-                //                       items: _dropdownMenuItems,
-                //                       onChanged: (value) {
-                //                         setState(() {
-                //                           _selectedItem = value;
-                //                         });
-                //                       }))),
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: ScreenUtil().setWidth(20),
-                // ),
-                // Container(
-                //   margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(24), 0,
-                //       ScreenUtil().setWidth(18), ScreenUtil().setWidth(35)),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     children: [
-                //       Container(
-                //         height: ScreenUtil().setWidth(40),
-                //         child: RaisedButton(
-                //           elevation: 1,
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(
-                //                 ScreenUtil().setWidth(25)),
-                //           ),
-                //           textColor:
-                //               buttonOption == 1 ? Colors.white : Colors.grey,
-                //           color: buttonOption == 1
-                //               ? Color(0xffee7625)
-                //               : Color(0xfff3f3f3),
-                //           onPressed: () {
-                //             setState(() {
-                //               buttonOption = 1;
-                //             });
-                //           },
-                //           child: Text(
-                //             "  Delivered  ",
-                //             style: TextStyle(
-                //                 fontSize: ScreenUtil().setSp(
-                //               14,
-                //             )),
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: 10,),
-                //       Container(
-                //         height: ScreenUtil().setWidth(40),
-                //         child: RaisedButton(
-                //           elevation: 1,
-                //           // padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(
-                //                 ScreenUtil().setWidth(25)),
-                //           ),
-                //           textColor:
-                //               buttonOption == 2 ? Colors.white : Colors.grey,
-                //           color: buttonOption == 2
-                //               ? Color(0xffee7625)
-                //               : Color(0xfff3f3f3),
-                //           onPressed: () {
-                //             setState(() {
-                //               buttonOption = 2;
-                //             });
-                //           },
-                //           child: Text(
-                //             "  In-Track  ",
-                //             style: TextStyle(
-                //                 fontSize: ScreenUtil().setSp(
-                //               14,
-                //             )),
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: 10,),
-                //       Container(
-                //         height: ScreenUtil().setWidth(40),
-                //         child: RaisedButton(
-                //           elevation: 1,
-                //           // padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(
-                //                 ScreenUtil().setWidth(25)),
-                //           ),
-                //           textColor:
-                //               buttonOption == 3 ? Colors.white : Colors.grey,
-                //           color: buttonOption == 3
-                //               ? Color(0xffee7625)
-                //               : Color(0xfff3f3f3),
-                //           onPressed: () {
-                //             setState(() {
-                //               buttonOption = 3;
-                //             });
-                //           },
-                //           child: Text(
-                //             "  Pending  ",
-                //             style: TextStyle(
-                //                 fontSize: ScreenUtil().setSp(
-                //               14,
-                //             )),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-               // buttonOption == 1 ? DeliveredClass() : Container(),
-               child: OrderClass()
-                // buttonOption == 2 ? InTrackClass() : Container(),
-                // buttonOption == 3 ? PendingClass() : Container(),
-            //   ],
-            // ),
-          ),
-        ),
+        child:  OrderClass()
       ))),
       // bottomSheet:  Container(
       //
@@ -272,9 +126,9 @@ class _OrderClass extends State<OrderClass> {
               //height: MediaQuery.of(context).size.height-20,
                 child: cartEmptyMessage("search", "No Orders Found"));
           } else if (value.deliveredStatus == "error") {
-            return Container(
-              //  height: MediaQuery.of(context).size.height-20,
-                child: errorMessage());
+            return  Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(child: errorMessage()));
           } else {
             return ListOrderData(value.deliveredOrderResponse);
           }
@@ -949,8 +803,6 @@ class ListOrderData extends StatelessWidget{
     return Container(
 
         child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
         itemCount: orderResponse.data.length,
         itemBuilder: (BuildContext context, index) {
           return getProductCard(orderResponse.data[index]);

@@ -181,6 +181,7 @@ class _EmailLoginState extends State<EmailLogin> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Email",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -206,6 +207,7 @@ class _EmailLoginState extends State<EmailLogin> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
+                      isDense: true,
                       labelText: "Password",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
@@ -239,7 +241,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 },
                 child: Container(
 
-                  width: ScreenUtil().setWidth(300),
+                  width: ScreenUtil().setWidth(324),
                   height: ScreenUtil().setHeight(45),
                   decoration: BoxDecoration(
                     color: AppColors.primaryElement,
@@ -256,7 +258,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color:Color(0xffffffff),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
                       ),
@@ -286,7 +288,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: ScreenUtil().setWidth(30),
               ),
               Container(
-                  width: ScreenUtil().setWidth(300),
+                  width: ScreenUtil().setWidth(324),
                   height: ScreenUtil().setHeight(45),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
@@ -332,7 +334,7 @@ class _EmailLoginState extends State<EmailLogin> {
                     //color: AppColors.primaryElement,
                     borderRadius: BorderRadius.circular(
                         ScreenUtil().setWidth(5))),
-                width: ScreenUtil().setWidth(300),
+                width: ScreenUtil().setWidth(324),
                 height: ScreenUtil().setHeight(45),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(

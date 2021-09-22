@@ -279,7 +279,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         },
                         child: Container(
 
-                          width: ScreenUtil().setWidth(300),
+                          width: ScreenUtil().setWidth(324),
                           height: ScreenUtil().setHeight(45),
                           decoration: BoxDecoration(
                             color: model.resendEnable ? AppColors.primaryElement:Color(0xffffffff),
@@ -336,7 +336,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
               height: ScreenUtil().setWidth(30),
             ),
                 Container(
-                    width: ScreenUtil().setWidth(300),
+                    width: ScreenUtil().setWidth(324),
                     height: ScreenUtil().setHeight(45),
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
@@ -382,7 +382,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                      // color: AppColors.primaryElement,
                       borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(5))),
-                  width: ScreenUtil().setWidth(300),
+                  width: ScreenUtil().setWidth(324),
                   height: ScreenUtil().setHeight(45),
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
@@ -463,7 +463,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 animationDuration: Duration(milliseconds: 300),
                 borderRadius: BorderRadius.circular(5),
                 fieldHeight: 50,
-                backgroundColor: Color(0xFFF6F6f6),
+                backgroundColor: Color(0xFFFFFFF),
                 fieldWidth: 40,
                 activeFillColor: Colors.black,
                 enableActiveFill: false,
@@ -572,7 +572,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 }
               },
               child: Container(
-                width: ScreenUtil().setWidth(300),
+                width: ScreenUtil().setWidth(324),
                 height: ScreenUtil().setHeight(45),
                 margin: EdgeInsets.only(bottom: 0),
                 decoration: BoxDecoration(
@@ -587,7 +587,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.primaryText,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),
                     ),

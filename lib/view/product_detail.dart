@@ -992,7 +992,7 @@ class _ProductDetail extends State<ProductDetail>
                                   // Transform.translate(
                                   //   offset: Offset(-10, 0),
                                   //   child:
-                                  CartLogo(),
+                                  CartLogo(22),
                             )
                           ],
                         )),

@@ -300,8 +300,10 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                     fontSize: ScreenUtil().setSp(
                                       17,
                                     ),
+
                                     color: Color(0xff616161)),
-                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               )
                             ],
@@ -351,7 +353,7 @@ class _TopPickClass extends State<TopPickClass> {
       }
       return Column(children: [
         SizedBox(
-          height: ScreenUtil().setWidth(38),
+          height: ScreenUtil().setWidth(8),
         ),
         Container(
           width: double.infinity,
@@ -371,7 +373,7 @@ class _TopPickClass extends State<TopPickClass> {
           ),
         ),
         SizedBox(
-          height: ScreenUtil().setWidth(40),
+          height: ScreenUtil().setWidth(20),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(

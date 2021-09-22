@@ -165,15 +165,16 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                   Icons.favorite_border_outlined,
-                  size: 23,
+                  size: 25,
                   color: Color(0xff616161),
                 )),
             SizedBox(width: ScreenUtil().setWidth(24),),
-            CartLogo(),
+            CartLogo(25),
             SizedBox(width: ScreenUtil().setWidth(12),),
           ],
         ),
         body: Stack(children:[Container(
+          color: Color(0xfff3f3f3),
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
               child: Container(
@@ -314,7 +315,7 @@ class _ProductList extends State<ProductList> {
                               ));
                         },
                       ),
-                    ],))):SizedBox.shrink()
+                    ],))):SizedBox.shrink(),
         ]));
   }
 
