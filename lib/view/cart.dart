@@ -106,7 +106,7 @@ class _Cart extends State<Cart> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setWidth(27),
+                        ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(21),
                         20,
                         ScreenUtil().setWidth(18)),
@@ -177,7 +177,7 @@ class _Cart extends State<Cart> {
               height: ScreenUtil().setHeight(61),
               color: Colors.white,
               padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(26),
+                  ScreenUtil().setWidth(20),
                   ScreenUtil().setWidth(10),
                   ScreenUtil().setWidth(25),
                   ScreenUtil().setWidth(10)),
@@ -478,7 +478,7 @@ class _CartBillCard extends State<CartBillCard> {
             elevation: 0,
             child: Container(
                 padding: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(25),
+                    ScreenUtil().setWidth(20),
                     ScreenUtil().setWidth(21),
                     ScreenUtil().setWidth(20),
                     ScreenUtil().setWidth(26)),
@@ -629,9 +629,10 @@ class _CartBillCard extends State<CartBillCard> {
                         ],
                       ),
 
-                      SizedBox(
+                      value.promocodeStatus
+                          ? SizedBox(
                         height: ScreenUtil().setWidth(16),
-                      ),
+                      ):Container(),
                       // value.cartResponse.tax > 0
                       //     ? Row(
                       //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -692,7 +693,7 @@ class _CartBillCard extends State<CartBillCard> {
                                 14,
                               ))),*/
                       SizedBox(
-                        height: ScreenUtil().setWidth(18.5),
+                        height: ScreenUtil().setWidth(21.5),
                       ),
                       Divider(
                         thickness: ScreenUtil().setWidth(0.4),
@@ -996,9 +997,7 @@ class _CartCard extends State<CartCard> {
               width: ScreenUtil().setWidth(92),
               height: ScreenUtil().setWidth(102),
             )),
-            Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-            ),
+
             Container(
               child: Expanded(
                 child: Column(
@@ -1087,42 +1086,44 @@ class _CartCard extends State<CartCard> {
                                         event: EVENT_CART_DECREASE_ITEM_COUNT,
                                         data: data);
                                   },
-                                  child: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        ScreenUtil().setWidth(6),
-                                        0,
-                                        ScreenUtil().setWidth(6),
-                                        0),
-                                    width: ScreenUtil().radius(25),
-                                    height: ScreenUtil().radius(25),
-                                    decoration: new BoxDecoration(
-                                      color: Color(0xffefefef),
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Color(0xff707070),
-                                              width:
-                                                  ScreenUtil().setWidth(0.5)),
-                                          top: BorderSide(
-                                              color: Color(0xff707070),
-                                              width:
-                                                  ScreenUtil().setWidth(0.5)),
-                                          left: BorderSide(
-                                              color: Color(0xff707070),
-                                              width:
-                                                  ScreenUtil().setWidth(0.5)),
-                                          right: BorderSide(
-                                              color: Color(0xff707070),
-                                              width:
-                                                  ScreenUtil().setWidth(0.5))),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                      "-",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(16)),
-                                    )),
-                                  ))
+                                   child: Icon(FontAwesomeIcons.minusCircle)
+                            // Container(
+                                  //   margin: EdgeInsets.fromLTRB(
+                                  //       ScreenUtil().setWidth(6),
+                                  //       0,
+                                  //       ScreenUtil().setWidth(6),
+                                  //       0),
+                                  //   width: ScreenUtil().radius(22),
+                                  //   height: ScreenUtil().radius(22),
+                                  //   decoration: new BoxDecoration(
+                                  //     color: Color(0xffefefef),
+                                  //     border: Border(
+                                  //         bottom: BorderSide(
+                                  //             color: Color(0xff707070),
+                                  //             width:
+                                  //                 ScreenUtil().setWidth(0.5)),
+                                  //         top: BorderSide(
+                                  //             color: Color(0xff707070),
+                                  //             width:
+                                  //                 ScreenUtil().setWidth(0.5)),
+                                  //         left: BorderSide(
+                                  //             color: Color(0xff707070),
+                                  //             width:
+                                  //                 ScreenUtil().setWidth(0.5)),
+                                  //         right: BorderSide(
+                                  //             color: Color(0xff707070),
+                                  //             width:
+                                  //                 ScreenUtil().setWidth(0.5))),
+                                  //     shape: BoxShape.circle,
+                                  //   ),
+                                  //   child: Center(
+                                  //       child: Text(
+                                  //     "-",
+                                  //     style: TextStyle(
+                                  //         fontSize: ScreenUtil().setSp(14)),
+                                  //   )),
+                                  // )
+                          )
                               : new Container(),
                           new Text(
                             cartData.qty.toString(),
@@ -1148,37 +1149,41 @@ class _CartCard extends State<CartCard> {
                                     event: EVENT_CART_INCREASE_ITEM_COUNT,
                                     data: data);
                               },
-                              child: Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    ScreenUtil().setWidth(6),
-                                    0,
-                                    ScreenUtil().setWidth(6),
-                                    0),
-                                width: ScreenUtil().radius(25),
-                                height: ScreenUtil().radius(25),
-                                decoration: new BoxDecoration(
-                                  color: Color(0xffefefef),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xff707070),
-                                          width: ScreenUtil().setWidth(0.5)),
-                                      top: BorderSide(
-                                          color: Color(0xff707070),
-                                          width: ScreenUtil().setWidth(0.5)),
-                                      left: BorderSide(
-                                          color: Color(0xff707070),
-                                          width: ScreenUtil().setWidth(0.5)),
-                                      right: BorderSide(
-                                          color: Color(0xff707070),
-                                          width: ScreenUtil().setWidth(0.5))),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text("+",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(16))),
-                                ),
-                              ))
+                              child:
+                              Icon(FontAwesomeIcons.plusCircle)
+                              // Container(
+                              //   margin: EdgeInsets.fromLTRB(
+                              //       ScreenUtil().setWidth(6),
+                              //       0,
+                              //       ScreenUtil().setWidth(6),
+                              //       0),
+                              //   width: ScreenUtil().radius(22),
+                              //   height: ScreenUtil().radius(22),
+                              //   padding: EdgeInsets.only(bottom: 3),
+                              //   decoration: new BoxDecoration(
+                              //     color: Color(0xffefefef),
+                              //     border: Border(
+                              //         bottom: BorderSide(
+                              //             color: Color(0xff707070),
+                              //             width: ScreenUtil().setWidth(0.5)),
+                              //         top: BorderSide(
+                              //             color: Color(0xff707070),
+                              //             width: ScreenUtil().setWidth(0.5)),
+                              //         left: BorderSide(
+                              //             color: Color(0xff707070),
+                              //             width: ScreenUtil().setWidth(0.5)),
+                              //         right: BorderSide(
+                              //             color: Color(0xff707070),
+                              //             width: ScreenUtil().setWidth(0.5))),
+                              //     shape: BoxShape.circle,
+                              //   ),
+                              //   child: Center(
+                              //     child: Text("+",
+                              //         style: TextStyle(
+                              //             fontSize: ScreenUtil().setSp(14))),
+                              //   ),
+                              // )
+    )
                         ]),
 
                       ],

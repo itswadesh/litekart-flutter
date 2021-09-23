@@ -63,7 +63,7 @@ class _RegisterState extends State<Register> {
 
   Widget loadUi(RegisterViewModel model) {
     return SingleChildScrollView(child: Container(
-      decoration: BoxDecoration(color: Color(0xFFF6F6f6)),
+      decoration: BoxDecoration(color: Color(0xFFffffff)),
       child: Container(
         padding: EdgeInsets.only(left:ScreenUtil().setWidth(20), right: ScreenUtil().setWidth(20)),
         //  color: Colors.white70,
@@ -135,7 +135,7 @@ class _RegisterState extends State<Register> {
           SizedBox(height: ScreenUtil().setWidth(20),),
           Card(
             elevation: 0,
-            color: Color(0xe0ffffff),
+            color: Color(0xffffffff),
             child: Column(children: [
               SizedBox(height: ScreenUtil().setWidth(25)),
               Row(

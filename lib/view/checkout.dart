@@ -193,7 +193,7 @@ class _Checkout extends State<Checkout> {
             elevation: 0,
             child: Container(
               padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(25),
+                  ScreenUtil().setWidth(20),
                   ScreenUtil().setWidth(21),
                   ScreenUtil().setWidth(20),
                   ScreenUtil().setWidth(26)),
@@ -621,7 +621,7 @@ class _Checkout extends State<Checkout> {
       }
       return Column(children: [
         Container(
-          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(24), 0, 0, 0),
+          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, 0, 0),
           margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(27), 0, 0),
           width: double.infinity,
           child: Text(
@@ -666,7 +666,7 @@ class _Checkout extends State<Checkout> {
                         ),
                         child: Column(children: [
                           Container(
-                              padding:EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+                              padding:EdgeInsets.only(left: ScreenUtil().setWidth(20)),
                               child: Column(children:[
                                 Row(
                                   children: [
@@ -1002,7 +1002,7 @@ class _Checkout extends State<Checkout> {
                             )),
                           ),
                           SizedBox(
-                            height: ScreenUtil().setWidth(13),
+                            height: ScreenUtil().setWidth(10),
                           ),
                           Text(
                             "Cart",
@@ -1081,7 +1081,7 @@ class _Checkout extends State<Checkout> {
                                     )),
                                   ),
                             SizedBox(
-                              height: ScreenUtil().setWidth(13),
+                              height: ScreenUtil().setWidth(10),
                             ),
                             Text(
                               "Address",
@@ -1169,7 +1169,7 @@ class _Checkout extends State<Checkout> {
                                     )),
                                   ),
                             SizedBox(
-                              height: ScreenUtil().setWidth(13),
+                              height: ScreenUtil().setWidth(10),
                             ),
                             Text(
                               "Payment",
@@ -1265,7 +1265,7 @@ class _Checkout extends State<Checkout> {
                     height: ScreenUtil().setHeight(61),
                     color: Colors.white,
                     padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setWidth(26),
+                        ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(10),
                         ScreenUtil().setWidth(25),
                         ScreenUtil().setWidth(10)),
@@ -1364,10 +1364,10 @@ class _Checkout extends State<Checkout> {
       children: [
         getDeliveryOptionCard(),
         Container(
-          width: ScreenUtil().setWidth(362),
+          width: ScreenUtil().setWidth(370),
           height: ScreenUtil().setWidth(42),
-          margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(26), 0,
-              ScreenUtil().setWidth(26), ScreenUtil().setWidth(15)),
+          margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
+              ScreenUtil().setWidth(20), ScreenUtil().setWidth(15)),
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(

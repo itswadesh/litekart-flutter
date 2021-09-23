@@ -93,7 +93,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
 
   Widget loadUi(LoginViewModel model) {
     return SingleChildScrollView(child: Container(
-      decoration: BoxDecoration(color: Color(0xFFF6F6f6)),
+      decoration: BoxDecoration(color: Color(0xFFFfffff)),
      child: Container(
         padding: EdgeInsets.only(left:ScreenUtil().setWidth(20), right: ScreenUtil().setWidth(20)),
         //  color: Colors.white70,
@@ -166,7 +166,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
           SizedBox(height: ScreenUtil().setWidth(40),),
           Card(
           elevation: 0,
-          color: Color(0xe0ffffff),
+          color: Color(0xffffffff),
           child: Column(children: [
             SizedBox(height: ScreenUtil().setWidth(25)),
             Row(

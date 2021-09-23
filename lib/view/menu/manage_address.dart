@@ -74,6 +74,7 @@ class _ManageAddressState extends State<ManageAddress> {
           ],
         ),
         body: Container(
+            height: MediaQuery.of(context).size.height,
             color: Color(0xfff3f3f3),
             child: SingleChildScrollView(
             child: newAddress ? getExistingAddress() : addNewAddress())));
@@ -83,6 +84,7 @@ class _ManageAddressState extends State<ManageAddress> {
     return Column(
       children: [
         getDeliveryOptionCard(),
+        SizedBox(height: ScreenUtil().setWidth(25),),
         InkWell(
           onTap: () {
             setState(() {
@@ -151,7 +153,7 @@ class _ManageAddressState extends State<ManageAddress> {
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(
-                          0, 0, 0, ScreenUtil().setWidth(27)),
+                          0, ScreenUtil().setWidth(0), 0, ScreenUtil().setWidth(27)),
                       width: double.infinity,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -707,7 +709,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   .changeStatus("loading");
             },
             child: Container(
-                height: ScreenUtil().setWidth(400), child: errorMessage()));
+                child: errorMessage()));
       }
       return Column(children: [
         Container(

@@ -192,17 +192,18 @@ class _ProductList extends State<ProductList> {
                     //borderRadius:BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        // decoration: BoxDecoration(
-                        // border: Border(right: BorderSide(color: Color(0xfff3f3f3)))
-                        //  ),
-                          child: InkWell(
+                       InkWell(
                             child: Container(
-                                margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        right: BorderSide(color: Color(0xffd3d3d3))
+                                    )
+                                ),
                                 height: ScreenUtil().setWidth(50),
-                                child: Row(children: [
+                                width: ScreenUtil().setWidth(180),
+                                child: Center(child: Row(children: [
                                   Icon(
                                     FontAwesomeIcons.sort,
                                     size: 18,
@@ -210,7 +211,7 @@ class _ProductList extends State<ProductList> {
                                   ),
                                   SizedBox(width: 10,),
                                   Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
-                                ],)),
+                                ],))),
                             onTap: () {
                               showMaterialModalBottomSheet(
                                   shape: RoundedRectangleBorder(
@@ -238,21 +239,21 @@ class _ProductList extends State<ProductList> {
                                   ));
                              // showSortPopup();
                             },
-                          )),
+                          ),
                       InkWell(
                         child: Container(
-                            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                             height: ScreenUtil().setWidth(50),
+                            width: ScreenUtil().setWidth(234),
+                            child: Center(
                             child: Row(children: [  Icon(
                               FontAwesomeIcons.filter,
-                              size: 18,
+                              size: 16,
                               color: AppColors.primaryElement,
                             ),
                               SizedBox(width: 10,),
                               Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
-                            ])),
+                            ]))),
                         onTap: () {
-
                           showMaterialModalBottomSheet(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -323,7 +324,7 @@ class _ProductList extends State<ProductList> {
     return Column(children: [
       Container(
         color: Color(0xfff3f3f3),
-        height: ScreenUtil().setWidth(740),
+        height: MediaQuery.of(context).size.height-ScreenUtil().setWidth(50),
         //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
