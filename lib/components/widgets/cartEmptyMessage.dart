@@ -1,3 +1,4 @@
+import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,4 +43,31 @@ cartEmptyMessage(key, msg) {
       ],
     ),
   ));
+}
+
+
+class CouponEmpty extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+   return Container(
+       height: ScreenUtil().setHeight(340),
+       width: ScreenUtil().setWidth(386),
+        child: Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [ Text("No Coupon Code")])));
+  }
+}
+
+class CouponError extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: ScreenUtil().setHeight(340),
+        width: ScreenUtil().setWidth(386),
+        child: Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [ Text("Something went wrong !!",style: TextStyle(color: AppColors.primaryElement),)])));
+  }
 }

@@ -202,11 +202,13 @@ class _ProductList extends State<ProductList> {
                                     )
                                 ),
                                 height: ScreenUtil().setWidth(50),
-                                width: ScreenUtil().setWidth(180),
-                                child: Center(child: Row(children: [
+                                width: ScreenUtil().setWidth(207),
+                                child: Center(child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
                                   Icon(
                                     FontAwesomeIcons.sort,
-                                    size: 18,
+                                    size: 17,
                                     color: AppColors.primaryElement,
                                   ),
                                   SizedBox(width: 10,),
@@ -243,11 +245,13 @@ class _ProductList extends State<ProductList> {
                       InkWell(
                         child: Container(
                             height: ScreenUtil().setWidth(50),
-                            width: ScreenUtil().setWidth(234),
+                            width: ScreenUtil().setWidth(207),
                             child: Center(
-                            child: Row(children: [  Icon(
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [  Icon(
                               FontAwesomeIcons.filter,
-                              size: 16,
+                              size: 14,
                               color: AppColors.primaryElement,
                             ),
                               SizedBox(width: 10,),

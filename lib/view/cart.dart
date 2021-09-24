@@ -278,18 +278,16 @@ class _Cart extends State<Cart> {
                             width: ScreenUtil().setWidth(386),
                             child: Loading());
                       } else if (value.statusPromo == "empty") {
-                        return Center(
-                          child: Container(
-                              height: ScreenUtil().setHeight(100),
+                        return  Container(
+                              height: ScreenUtil().setHeight(340),
                               width: ScreenUtil().setWidth(386),
-                              child: Center(child: Text("No Coupon Code"))
-                          ),
-                        );
+                              child: CouponEmpty()
+                          );
                       } else if (value.statusPromo == "error") {
                         return Container(
                             height: ScreenUtil().setWidth(350),
                             width: ScreenUtil().setWidth(386),
-                            child: errorMessage());
+                            child: CouponError());
                       }
                       print(value.couponResponse.data[0].code);
                       return Container(
@@ -767,18 +765,18 @@ class _CartBillCard extends State<CartBillCard> {
                         width: ScreenUtil().setWidth(386),
                         child: Loading());
                   } else if (value.statusPromo == "empty") {
-                    return Center(
-                      child: Container(
-                          height: ScreenUtil().setHeight(100),
+                    return  Container(
+
+                          height: ScreenUtil().setHeight(340),
                           width: ScreenUtil().setWidth(386),
-                          child: Center(child: Text("No Coupon Code"))
-                      ),
-                    );
+                          child: CouponEmpty()
+                      );
                   } else if (value.statusPromo == "error") {
                     return Container(
+                      color: Colors.red,
                         height: ScreenUtil().setWidth(350),
                         width: ScreenUtil().setWidth(386),
-                        child: errorMessage());
+                        child: CouponError());
                   }
                   print(value.couponResponse.data[0].code);
                   return Container(
@@ -997,7 +995,7 @@ class _CartCard extends State<CartCard> {
               width: ScreenUtil().setWidth(92),
               height: ScreenUtil().setWidth(102),
             )),
-
+            SizedBox(width: ScreenUtil().setWidth(10),),
             Container(
               child: Expanded(
                 child: Column(
@@ -1065,6 +1063,7 @@ class _CartCard extends State<CartCard> {
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(16)),
                           ),
+                          SizedBox(width: 3,),
                           cartData.qty != 0
                               ? new InkWell(
                                   onTap: () async {
@@ -1086,7 +1085,7 @@ class _CartCard extends State<CartCard> {
                                         event: EVENT_CART_DECREASE_ITEM_COUNT,
                                         data: data);
                                   },
-                                   child: Icon(FontAwesomeIcons.minusCircle)
+                                   child: Icon(FontAwesomeIcons.minusCircle, color: Color(0xff818181),size: 20,)
                             // Container(
                                   //   margin: EdgeInsets.fromLTRB(
                                   //       ScreenUtil().setWidth(6),
@@ -1125,12 +1124,14 @@ class _CartCard extends State<CartCard> {
                                   // )
                           )
                               : new Container(),
+                          SizedBox(width: 3,),
                           new Text(
                             cartData.qty.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(17)),
                           ),
+                          SizedBox(width: 3,),
                           new InkWell(
                               onTap: () async {
 
@@ -1150,7 +1151,7 @@ class _CartCard extends State<CartCard> {
                                     data: data);
                               },
                               child:
-                              Icon(FontAwesomeIcons.plusCircle)
+                              Icon(FontAwesomeIcons.plusCircle,color: Color(0xff818181),size: 20,)
                               // Container(
                               //   margin: EdgeInsets.fromLTRB(
                               //       ScreenUtil().setWidth(6),

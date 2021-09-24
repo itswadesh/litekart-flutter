@@ -45,7 +45,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
 
     // TODO: implement build
     return Container(
-        height: ScreenUtil().setWidth(360),
+        height: ScreenUtil().setWidth(280),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(ScreenUtil().setWidth(25)),
@@ -62,7 +62,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
               child: _createHeader(),
             ),
             Container(
-              height: ScreenUtil().setWidth(280),
+              height: ScreenUtil().setWidth(220),
               width: ScreenUtil().setWidth(386),
               child: Column(
                 children: [
@@ -75,10 +75,10 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                     height: ScreenUtil().setWidth(25),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-                    height: ScreenUtil().setWidth(240),
+                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
+                    height: ScreenUtil().setWidth(190),
                     child: ListView.builder(
-                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(15)),
+                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(10)),
                         itemCount: sorts.length,
                         itemBuilder: (BuildContext build, index) {
                           return InkWell(
@@ -87,7 +87,9 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                                             widget.callback(sort);
                                             Navigator.of(context).pop();
                             },
-                            child: Text(
+                            child: Container(
+                                padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(25)),
+                                child: Text(
                                                   sorts[index]["name"],
                                                   style: TextStyle(
                                                       color: (sorts[index]["val"] == sort)
@@ -99,7 +101,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                                                     fontWeight:  (sorts[index]["val"] == sort)
                                                         ?FontWeight.w600:FontWeight.normal
                           ),
-                            )
+                            ))
 
                           );
                         }),
@@ -123,7 +125,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
         height: ScreenUtil().setWidth(56),
         child: Center(
           child: Container(
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(25)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
