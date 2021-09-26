@@ -73,7 +73,7 @@ class _HomeDrawer extends State<HomeDrawer> {
               InkWell(
                   onTap: () {},
                   child: Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
+                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
                     height: ScreenUtil().setWidth(90),
                     width: ScreenUtil().setWidth(90),
                     child: Card(

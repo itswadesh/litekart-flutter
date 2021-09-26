@@ -190,7 +190,9 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                      controller: scrollController,
                      child: Column(
                        children: [
-                         SizedBox(height: ScreenUtil().setWidth(240),),
+    Consumer<CategoryViewModel>(
+    builder: (BuildContext context, value, Widget child) {
+    return value.status=="empty"||value.status=="error"?SizedBox(height: ScreenUtil().setWidth(150)): SizedBox(height: ScreenUtil().setWidth(240));}),
                          //  SearchCategoriesClass(),
                          BannersSliderClass(),
                          ListDealsClass(),

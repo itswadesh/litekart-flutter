@@ -29,7 +29,7 @@ import '../../components/widgets/loading.dart';
 import '../../values/route_path.dart' as routes;
 import '../../view_model/product_detail_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
-
+import 'package:flutter_html/flutter_html.dart';
 class ProductDetail extends StatefulWidget {
   final productId;
 
@@ -762,33 +762,44 @@ class _ProductDetail extends State<ProductDetail>
                                 padding: EdgeInsets.fromLTRB(
                                     ScreenUtil().setWidth(20),
                                     ScreenUtil().setWidth(0),
-                                    ScreenUtil().setWidth(28),
-                                    ScreenUtil().setWidth(25)),
+                                    ScreenUtil().setWidth(20),
+                                    ScreenUtil().setWidth(5)),
                                 child: Column(
                                   children: [
                                     Container(
                                       color: Color(0xffffffff),
-                                      height: ScreenUtil().setWidth(25),
+                                      height: ScreenUtil().setWidth(15),
                                     ),
                                     Container(
                                         color: Color(0xffffffff),
                                         width: double.infinity,
-                                        child: Text(
+                                        child:
+                                        Text(
                                           "Description",
                                           style: TextStyle(
                                               color: Color(0xff4a4a4a),
                                               fontSize: ScreenUtil().setSp(20),
                                               ),
                                           textAlign: TextAlign.left,
-                                        )),
+                                        )
+                                    ),
                                     SizedBox(
                                       height: ScreenUtil().setWidth(10),
                                     ),
-                                    Text(productData.description,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(0xff4a4a4a),
-                                            fontSize: ScreenUtil().setSp(13))),
+                                    Html(
+
+                                      data: productData.description,
+                                        style: {
+                                        "li":Style(
+                                          fontSize: ScreenUtil().setSp(13)
+                                        )
+                                        }
+                                    ),
+                                    // Text(productData.description,
+                                    //     textAlign: TextAlign.left,
+                                    //     style: TextStyle(
+                                    //         color: Color(0xff4a4a4a),
+                                    //         fontSize: ScreenUtil().setSp(13))),
                                   ],
                                 ),
                               )

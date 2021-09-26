@@ -142,8 +142,9 @@ class _MegaMenu extends State<MegaMenu> {
              Container(
                  width: ScreenUtil().setWidth(155),
                  child: Text(megamenu.name, style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(30),fontWeight:FontWeight.w600),)),
-            megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
-            : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))],
+            // megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
+            // : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
+            ],
           )),
             children: getMenuCard(megamenu.children),
           )),
