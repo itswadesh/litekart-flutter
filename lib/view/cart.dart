@@ -126,7 +126,7 @@ class _Cart extends State<Cart> {
                         ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(15),
                         20,
-                        ScreenUtil().setWidth(15)),
+                        ScreenUtil().setWidth(20)),
                     child: Text(
                       "COUPONS",
                       style: TextStyle(
@@ -179,10 +179,10 @@ class _Cart extends State<Cart> {
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(20),
                   ScreenUtil().setWidth(10),
-                  ScreenUtil().setWidth(25),
+                  ScreenUtil().setWidth(20),
                   ScreenUtil().setWidth(10)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Total : ₹ ${value.cartResponse.total}",
                       style: TextStyle(
@@ -470,16 +470,16 @@ class _CartBillCard extends State<CartBillCard> {
           child: Card(
             margin: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(0),
-                ScreenUtil().setWidth(5),
+                ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(0),
                 ScreenUtil().setWidth(65)),
             elevation: 0,
             child: Container(
                 padding: EdgeInsets.fromLTRB(
                     ScreenUtil().setWidth(20),
-                    ScreenUtil().setWidth(21),
                     ScreenUtil().setWidth(20),
-                    ScreenUtil().setWidth(26)),
+                    ScreenUtil().setWidth(20),
+                    ScreenUtil().setWidth(20)),
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),

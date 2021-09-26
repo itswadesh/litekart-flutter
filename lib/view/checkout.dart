@@ -194,9 +194,9 @@ class _Checkout extends State<Checkout> {
             child: Container(
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(20),
-                  ScreenUtil().setWidth(21),
                   ScreenUtil().setWidth(20),
-                  ScreenUtil().setWidth(26)),
+                  ScreenUtil().setWidth(20),
+                  ScreenUtil().setWidth(20)),
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -370,9 +370,10 @@ class _Checkout extends State<Checkout> {
                                 )))
                       ],
                     ),
-                    SizedBox(
+                    value.promocodeStatus
+                        ?  SizedBox(
                       height: ScreenUtil().setWidth(16),
-                    ),
+                    ):Container(),
                     // value.cartResponse.tax > 0
                     //     ? Column(
                     //         children: [
@@ -438,7 +439,7 @@ class _Checkout extends State<Checkout> {
                               14,
                             ))),*/
                     SizedBox(
-                      height: ScreenUtil().setWidth(18.5),
+                      height: ScreenUtil().setWidth(21.5),
                     ),
                     Divider(
                       thickness: ScreenUtil().setWidth(0.4),
@@ -622,7 +623,7 @@ class _Checkout extends State<Checkout> {
       return Column(children: [
         Container(
           padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, 0, 0),
-          margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(27), 0, 0),
+          margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
           width: double.infinity,
           child: Text(
             "Select Delivery Address",
@@ -651,7 +652,7 @@ class _Checkout extends State<Checkout> {
                     child: Card(
                       margin: EdgeInsets.fromLTRB(
                           ScreenUtil().setWidth(0),
-                          ScreenUtil().setWidth(20),
+                          ScreenUtil().setWidth(0),
                           ScreenUtil().setWidth(0),
                           ScreenUtil().setWidth(0)),
                       elevation: 0.1,
@@ -879,7 +880,8 @@ class _Checkout extends State<Checkout> {
                                     ),
                                   ))
                             ],
-                          )
+                          ),
+                          Divider(height: 1,)
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.end,
                           //   children: [
@@ -1195,7 +1197,7 @@ class _Checkout extends State<Checkout> {
                     ScreenUtil().setWidth(20),
                     ScreenUtil().setWidth(15),
                     20,
-                    ScreenUtil().setWidth(15)),
+                    ScreenUtil().setWidth(20)),
                 child: Text(
                   "COUPONS",
                   style: TextStyle(
@@ -1284,9 +1286,10 @@ class _Checkout extends State<Checkout> {
                               //"$total"
                               ,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 18));
+                                  color: Color(0xff383838),
+                                  fontSize: ScreenUtil().setSp(
+                                    18,
+                                  )));
                         }),
                         Container(
                           child: Consumer<AddressViewModel>(

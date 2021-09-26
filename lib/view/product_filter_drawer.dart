@@ -65,7 +65,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
     print(widget.facet["all_aggs"]);
     // TODO: implement build
     return Container(
-        height: ScreenUtil().setWidth(514),
+        height: ScreenUtil().setWidth(420),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
           topLeft: Radius.circular(ScreenUtil().setWidth(25)),
@@ -86,7 +86,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
               children: [
                 Container(
                   color:Color(0xffdfdfdf),
-                  height: ScreenUtil().setWidth(412),
+                  height: ScreenUtil().setWidth(318),
                   width: ScreenUtil().setWidth(176),
                   child: Column(
                     children: [
@@ -109,7 +109,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                 ),
                 Container(
                   width: ScreenUtil().setWidth(238),
-                  height: ScreenUtil().setWidth(412),
+                  height: ScreenUtil().setWidth(318),
                   child: getSecondColumn() ,
                 )
               ],

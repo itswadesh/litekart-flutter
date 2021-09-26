@@ -73,7 +73,7 @@ class _HomeDrawer extends State<HomeDrawer> {
               InkWell(
                   onTap: () {},
                   child: Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
+                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
                     height: ScreenUtil().setWidth(90),
                     width: ScreenUtil().setWidth(90),
                     child: Card(
@@ -102,7 +102,7 @@ class _HomeDrawer extends State<HomeDrawer> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(17)),
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
 
                   child: Text(
                     "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
@@ -110,42 +110,27 @@ class _HomeDrawer extends State<HomeDrawer> {
                     textAlign: TextAlign.left,
                   ),
                 ),
+      Container(
+      padding: EdgeInsets.only(right: ScreenUtil().setWidth(20)),
+
+      child:
                 Icon(FontAwesomeIcons.angleRight,color: Color(0xff000000),size: ScreenUtil().setWidth(14),),
-              ],),
+      ) ],),
 
           ),
 
           SizedBox(
-            height: ScreenUtil().setWidth(15),
+            height: ScreenUtil().setWidth(20),
           )
         ]),
       );
     });
   }
 
-  Widget _createDrawerItem(
-      {IconData icon, String text, GestureTapCallback onTap}) {
-    return Container(
-        padding: EdgeInsets.only(left: 10),
-        child: ListTile(
-          leading: Icon(
-            icon,
-            color: Colors.black,
-            size: 22,
-          ),
-          title:
-              //   Text(text, style: ThemeApp().textThemeGrey(),),
-              Text(text,
-                  style: TextStyle(color: Colors.grey, fontSize: 15),
-                  textAlign: TextAlign.left),
-          onTap: onTap,
-        ));
-  }
-
   Widget _createMenuDrawerItem({IconData icon, String text, String routePath}) {
     return Consumer<MenuViewModel>(builder: (context, model, child) {
       return Container(
-          padding: EdgeInsets.only(left: 10),
+
           child: ListTile(
               leading: Icon(
                 icon,

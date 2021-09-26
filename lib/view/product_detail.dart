@@ -292,9 +292,9 @@ class _ProductDetail extends State<ProductDetail>
                       children: [
                         Container(
                           padding: EdgeInsets.fromLTRB(
-                              ScreenUtil().setWidth(28),
+                              ScreenUtil().setWidth(20),
                               0,
-                              ScreenUtil().setWidth(28),
+                              ScreenUtil().setWidth(20),
                               0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -320,8 +320,8 @@ class _ProductDetail extends State<ProductDetail>
                         ),
                         Container(
                             margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(27),
-                                right: ScreenUtil().setWidth(27)),
+                                left: ScreenUtil().setWidth(20),
+                                right: ScreenUtil().setWidth(20)),
                             width: double.maxFinite,
                             child: Text(
                               productData.name ?? "",
@@ -337,7 +337,7 @@ class _ProductDetail extends State<ProductDetail>
                         ),
                         Container(
                             margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(27)),
+                                left: ScreenUtil().setWidth(20)),
                             width: double.maxFinite,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -380,7 +380,7 @@ class _ProductDetail extends State<ProductDetail>
                         ),
                         Container(
                             margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(27)),
+                                left: ScreenUtil().setWidth(20)),
                             width: double.maxFinite,
                             child: RichText(
                               text: TextSpan(
@@ -415,7 +415,7 @@ class _ProductDetail extends State<ProductDetail>
                         ),
                         Container(
                             margin: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(27)),
+                                left: ScreenUtil().setWidth(20)),
                             width: double.maxFinite,
                             child: Text(
                               "Delivery by : " +
@@ -687,15 +687,17 @@ class _ProductDetail extends State<ProductDetail>
                                                       ),
                                                     ));
                                               }))
-                                      : SizedBox.shrink()
+                                      : SizedBox.shrink(),
+                                  productGroup.sizeGroup.length > 0 ||  productGroup.colorGroup.length > 0
+                                      ?   SizedBox(
+                                    height: ScreenUtil().setWidth(15),
+                                  ):SizedBox.shrink(),
                                 ],
                               );
                             }
                           },
                         ),
-                        // SizedBox(
-                        //   height: ScreenUtil().setWidth(34),
-                        // ),
+
                         Consumer<SettingViewModel>(builder:
                             (BuildContext context, value, Widget child) {
                           if (value.status == "loading") {
@@ -758,10 +760,10 @@ class _ProductDetail extends State<ProductDetail>
                                 width: double.infinity,
                                 color: Color(0xffffffff),
                                 padding: EdgeInsets.fromLTRB(
-                                    ScreenUtil().setWidth(22),
+                                    ScreenUtil().setWidth(20),
                                     ScreenUtil().setWidth(0),
                                     ScreenUtil().setWidth(28),
-                                    ScreenUtil().setWidth(28)),
+                                    ScreenUtil().setWidth(25)),
                                 child: Column(
                                   children: [
                                     Container(
@@ -776,7 +778,7 @@ class _ProductDetail extends State<ProductDetail>
                                           style: TextStyle(
                                               color: Color(0xff4a4a4a),
                                               fontSize: ScreenUtil().setSp(20),
-                                              fontWeight: FontWeight.w600),
+                                              ),
                                           textAlign: TextAlign.left,
                                         )),
                                     SizedBox(
@@ -1215,7 +1217,7 @@ class _ProductDetail extends State<ProductDetail>
           padding: EdgeInsets.only(
               top: ScreenUtil().setWidth(10),
               bottom: ScreenUtil().setWidth(10),
-              left: ScreenUtil().setWidth(30),
+              left: ScreenUtil().setWidth(20),
               right: ScreenUtil().setWidth(20)),
           child: Center(
             child: Container(
@@ -1255,7 +1257,7 @@ class _ProductDetail extends State<ProductDetail>
           padding: EdgeInsets.only(
               top: ScreenUtil().setWidth(10),
               bottom: ScreenUtil().setWidth(10),
-              left: ScreenUtil().setWidth(30),
+              left: ScreenUtil().setWidth(20),
               right: ScreenUtil().setWidth(20)),
           child: Center(
             child: Container(
@@ -1269,7 +1271,7 @@ class _ProductDetail extends State<ProductDetail>
                             Container(
                                 width: ScreenUtil().setWidth(150),
                                 child: Text(
-                                  "Warranty: ",
+                                  "Warranty ",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(color: Color(0xff000000)),
                                 ))
@@ -1293,7 +1295,7 @@ class _ProductDetail extends State<ProductDetail>
         0,
         Container(
             padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(30),
+                left: ScreenUtil().setWidth(20),
                 top: ScreenUtil().setWidth(15)),
             height: ScreenUtil().setWidth(50),
             color: Color(0xffffffff),
@@ -1303,7 +1305,7 @@ class _ProductDetail extends State<ProductDetail>
               style: TextStyle(
                   color: Color(0xff4a4a4a),
                   fontSize: ScreenUtil().setSp(20),
-                  fontWeight: FontWeight.w600),
+                  ),
               textAlign: TextAlign.left,
             )),
       );
@@ -1327,7 +1329,7 @@ class _ProductDetail extends State<ProductDetail>
         ),
       );
       children.add(Container(
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(25)),
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
           color: Color(0xffffffff),
           width: double.infinity,
           child: Text(
@@ -1335,7 +1337,7 @@ class _ProductDetail extends State<ProductDetail>
             style: TextStyle(
                 color: Color(0xff4a4a4a),
                 fontSize: ScreenUtil().setSp(20),
-                fontWeight: FontWeight.w600),
+            ),
             textAlign: TextAlign.left,
           )));
     }
@@ -1346,8 +1348,8 @@ class _ProductDetail extends State<ProductDetail>
         width: double.infinity,
         padding: EdgeInsets.only(
             top: ScreenUtil().setWidth(10),
-            bottom: ScreenUtil().setWidth(10),
-            left: ScreenUtil().setWidth(10),
+            bottom: ScreenUtil().setWidth(15),
+            left: ScreenUtil().setWidth(11),
             right: ScreenUtil().setWidth(20)),
         child:
             //Center(child:
@@ -1358,7 +1360,7 @@ class _ProductDetail extends State<ProductDetail>
           children: [
             Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Container(
-                  width: ScreenUtil().setWidth(50),
+                  width: ScreenUtil().setWidth(35),
                   child: Icon(
                     FontAwesomeIcons.checkCircle,
                     color: Colors.grey,

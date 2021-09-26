@@ -1,4 +1,5 @@
 import 'package:anne/components/widgets/productCard.dart';
+import 'package:anne/utility/theme.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:dio/dio.dart';
@@ -239,9 +240,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
           return SizedBox.shrink();
         } else {
           return Container(
-            height: ScreenUtil().setWidth(140),
+            height: ScreenUtil().setWidth(135),
             padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(10), 0, ScreenUtil().setWidth(10), 0),
+                ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), 0),
             child: ListView.builder(
                 itemCount: value.categoryResponse.data.length,
                 scrollDirection: Axis.horizontal,
@@ -356,20 +357,22 @@ class _TopPickClass extends State<TopPickClass> {
           height: ScreenUtil().setWidth(8),
         ),
         Container(
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
           width: double.infinity,
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(22),
-            top: ScreenUtil().setWidth(8),
-            bottom:
-                3, // This can be the space you need between text and underline
-          ),
+          // padding: EdgeInsets.only(
+          //   bottom: ScreenUtil().setWidth(
+          //       7.5), // This can be the space you need betweeb text and underline
+          // ),
+          // decoration: BoxDecoration(
+          //     border: Border(
+          //         bottom: BorderSide(
+          //   color: Color(0xff32AFC8),
+          //   width: 2.0, // This would be the width of the underline
+          // ))),
           child: Text(
-            "Top Picks For You",
-            style: TextStyle(
-                color: AppColors.primaryElement,
-                fontSize: ScreenUtil().setSp(
-                  18,
-                )),
+            "TOP PICKS FOR YOU",
+            style: ThemeApp()
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
           ),
         ),
         SizedBox(

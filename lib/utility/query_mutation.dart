@@ -774,6 +774,7 @@ getOtp(phone: \$phone){
   \$state: String
   \$zip: Int
   \$phone: String
+  \$store: ID
 ) {
   saveAddress(
   id: \$id
@@ -787,6 +788,7 @@ getOtp(phone: \$phone){
     state: \$state
     zip: \$zip
     phone: \$phone
+    store: \$store
   ) {
     id
     firstName

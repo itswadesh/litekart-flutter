@@ -45,7 +45,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
 
     // TODO: implement build
     return Container(
-        height: ScreenUtil().setWidth(280),
+        height: ScreenUtil().setWidth(265),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(ScreenUtil().setWidth(25)),
@@ -62,7 +62,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
               child: _createHeader(),
             ),
             Container(
-              height: ScreenUtil().setWidth(220),
+              height: ScreenUtil().setWidth(209),
               width: ScreenUtil().setWidth(386),
               child: Column(
                 children: [
@@ -72,13 +72,13 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                     color: Color(0xff707070),
                   ),
                   SizedBox(
-                    height: ScreenUtil().setWidth(25),
+                    height: ScreenUtil().setWidth(20),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
-                    height: ScreenUtil().setWidth(190),
+                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                    height: ScreenUtil().setWidth(180),
                     child: ListView.builder(
-                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(10)),
+                      padding: EdgeInsets.only(top: ScreenUtil().setWidth(0)),
                         itemCount: sorts.length,
                         itemBuilder: (BuildContext build, index) {
                           return InkWell(
@@ -125,7 +125,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
         height: ScreenUtil().setWidth(56),
         child: Center(
           child: Container(
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(25)),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(25),top: 3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

@@ -368,7 +368,7 @@ class _SuggestedClass extends State<SuggestedClass> {
           height: ScreenUtil().setWidth(15),
         ),
         Container(
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
           width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
@@ -383,7 +383,7 @@ class _SuggestedClass extends State<SuggestedClass> {
           child: Text(
             "SUGGESTED PRODUCTS FOR YOU",
             style: ThemeApp()
-                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
           ),
         ),
         Container(
@@ -460,7 +460,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
           height: ScreenUtil().setWidth(15),
         ),
         Container(
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
           width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
@@ -475,7 +475,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
           child: Text(
             "PRODUCTS YOU MAY LIKE",
             style: ThemeApp()
-                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
           ),
         ),
         Container(
@@ -556,7 +556,7 @@ class _TrendingClass extends State<TrendingClass> {
           height: ScreenUtil().setWidth(15),
         ),
         Container(
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+          padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
           width: double.infinity,
           // padding: EdgeInsets.only(
           //   bottom: ScreenUtil().setWidth(
@@ -571,7 +571,7 @@ class _TrendingClass extends State<TrendingClass> {
           child: Text(
             "TRENDING PRODUCTS FOR YOU",
             style: ThemeApp()
-                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
+                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
           ),
         ),
         Container(
@@ -624,9 +624,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
     // TODO: implement build
     return Column(
       children: [
-        SizedBox(
-          height: 10,
-        ),
+
         Container(child: getBannersList())
       ],
     );
@@ -696,12 +694,12 @@ print("link ${value.sliderResponse.data[index].link}");
                       borderRadius: BorderRadius.all(
                           Radius.circular(ScreenUtil().radius(5))),
                       child: Container(
-                        width: ScreenUtil().setWidth(380),
-                        height: MediaQuery.of(context).size.height * 0.10,
+                        width: ScreenUtil().setWidth(414),
+                         height: MediaQuery.of(context).size.height * 0.10,
                         child: Image.network(
                           value.sliderResponse?.data[index].img.toString(),
-                          width: ScreenUtil().setWidth(380),
-                          height: MediaQuery.of(context).size.height * 0.10,
+                          width: ScreenUtil().setWidth(414),
+                           height: MediaQuery.of(context).size.height * 0.10,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -785,7 +783,7 @@ class _BannersClass extends State<BannersClass> {
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.fromLTRB(9, 10, 9, 10),
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/loading.gif',
                 image: bannerResponse.groupByBanner[i].data[0].img),
@@ -796,7 +794,7 @@ class _BannersClass extends State<BannersClass> {
         ),
       );
       children.add(Container(
-        padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         height: 185,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -1280,7 +1278,7 @@ class _BrandClass extends State<BrandClass> {
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
                 color:Color(0xffffffff),
                 width: double.infinity,
                 // padding: EdgeInsets.only(
@@ -1296,7 +1294,7 @@ class _BrandClass extends State<BrandClass> {
                 child: Text(
                   "TOP BRANDS FOR YOU",
                   style: ThemeApp()
-                      .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(20), true),
+                      .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
                 ),
               ),
               Container(

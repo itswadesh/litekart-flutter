@@ -97,7 +97,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
                                 child:  Column(
                                   children: [
-                                  Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,),
+                                  Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,height: ScreenUtil().setWidth(200),),
                                 Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
                                   child:
                                   Container(
@@ -124,7 +124,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     //         ),
                                     //       ),)),
                                     SizedBox(height: ScreenUtil().setWidth(20),),
-                                    Container(
+                                 _phone.text==""?Container():   Container(
                                         child: TextFormField(
                                           readOnly: true,
                                           controller: _phone,
@@ -149,7 +149,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                               //     ))
                                           ),
                                         )),
-                                    SizedBox(
+                                    _phone.text==""?Container():  SizedBox(
                                       height: ScreenUtil().setWidth(25),
                                     ),
                                     Container(
@@ -233,7 +233,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     Container(
                                       width: double.infinity,
                                       padding: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(22)),
+                                          left: ScreenUtil().setWidth(0)),
                                       child: Text(
                                         "Gender",
                                         style: TextStyle(
@@ -246,7 +246,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     ),
                                     Container(
                                         padding: EdgeInsets.only(
-                                            left: ScreenUtil().setWidth(22)),
+                                            left: ScreenUtil().setWidth(0)),
                                         child: Row(
                                           children: [
                                             icon("Male"),

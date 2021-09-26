@@ -713,8 +713,8 @@ class _ManageAddressState extends State<ManageAddress> {
       }
       return Column(children: [
         Container(
-          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(24), 0, 0, 0),
-          margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(27), 0, 0),
+          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
           width: double.infinity,
           child: Text(
             "Select Delivery Address",
@@ -742,7 +742,7 @@ class _ManageAddressState extends State<ManageAddress> {
                     child: Card(
                   margin: EdgeInsets.fromLTRB(
                       ScreenUtil().setWidth(0),
-                      ScreenUtil().setWidth(20),
+                      ScreenUtil().setWidth(0),
                       ScreenUtil().setWidth(0),
                       ScreenUtil().setWidth(0)),
                   elevation: 0.1,
@@ -970,7 +970,8 @@ class _ManageAddressState extends State<ManageAddress> {
                                 ),
                               ))
                         ],
-                      )
+                      ),
+                      Divider(height: 1,),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.end,
                       //   children: [

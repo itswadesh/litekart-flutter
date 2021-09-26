@@ -127,31 +127,31 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                   Icons.search,
-                  size: 22,
+                  size: 25,
                   color: Color(0xff616161),
                 ))),
             SizedBox(
               width: ScreenUtil().setWidth(24),
             ),
-            InkWell(
-                onTap: () {
-                  if (Provider.of<ProfileModel>(context, listen: false).user == null)
-                  {
-                    locator<NavigationService>().pushNamed(routes.LoginRoute);
-                  }
-                  else {
-                    locator<NavigationService>().pushNamed(
-                        routes.ManageOrder);
-                  }
-                },
-                child: Icon(
-                    Icons.shopping_bag_outlined,
-                  size: 22,
-                  color: Color(0xff616161),
-                )),
-            SizedBox(
-              width: ScreenUtil().setWidth(24),
-            ),
+            // InkWell(
+            //     onTap: () {
+            //       if (Provider.of<ProfileModel>(context, listen: false).user == null)
+            //       {
+            //         locator<NavigationService>().pushNamed(routes.LoginRoute);
+            //       }
+            //       else {
+            //         locator<NavigationService>().pushNamed(
+            //             routes.ManageOrder);
+            //       }
+            //     },
+            //     child: Icon(
+            //         Icons.shopping_bag_outlined,
+            //       size: 25,
+            //       color: Color(0xff616161),
+            //     )),
+            // SizedBox(
+            //   width: ScreenUtil().setWidth(24),
+            // ),
             InkWell(
                 onTap: () {
                   if (Provider.of<ProfileModel>(context, listen: false).user == null)

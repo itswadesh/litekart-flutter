@@ -317,7 +317,7 @@ class _RegisterState extends State<Register> {
                         .pushNamedAndRemoveUntil(routes.HomeRoute);
                   } else {
                     final snackBar = SnackBar(
-                      content: Text('Something went Wrong !!'),
+                      content: Text(model.errorMessage),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }

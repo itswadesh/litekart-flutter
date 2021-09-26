@@ -278,6 +278,7 @@ class _WishCard extends State<WishCard> {
                               fontSize: ScreenUtil().setSp(
                                 12,
                               )),
+                    overflow: TextOverflow.ellipsis,
                         ))
                       : Container()
                 ],

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../components/base/tz_dialog.dart';
@@ -100,7 +101,7 @@ class EmailLoginViewModel extends ChangeNotifier{
    login(String email, String password) async {
     _dialog.show();
     loginStatus=false;
-    try {
+   // try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
       print(graphQLConfiguration.httpLink);
@@ -118,9 +119,9 @@ class EmailLoginViewModel extends ChangeNotifier{
       } else {
         _dialog.close();
       }
-    } catch (e) {
-      _dialog.close();
-    }
+    // } catch (e) {
+    //   _dialog.close();
+    // }
     notifyListeners();
   }
 }
@@ -134,6 +135,7 @@ class RegisterViewModel extends ChangeNotifier{
   // bool resendEnable = true;
   // int resendTrial = 0;
   bool registerStatus = false;
+  String errorMessage = "Something went wrong !!";
   RegisterViewModel() {
     _dialog = TzDialog(
         _navigationService.navigationKey.currentContext, TzDialogType.progress);
@@ -141,7 +143,7 @@ class RegisterViewModel extends ChangeNotifier{
 
    register(String email, String password, String cPassword, String firstName, String lastName) async {
     _dialog.show();
-    try {
+   // try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
       print(graphQLConfiguration.httpLink);
@@ -151,17 +153,20 @@ class RegisterViewModel extends ChangeNotifier{
           variables: {'email': email, 'password': password,'passwordConfirmation':cPassword,'firstName':firstName,'lastName':lastName},
         ),
       );
+      log(result.exception.graphqlErrors[0].message.toString());
       if (!result.hasException) {
+
         registerStatus = true;
         token = tempToken;
         await addCookieToSF(token);
         _dialog.close();
       } else {
+        errorMessage = result.exception.graphqlErrors[0].message.toString();
         _dialog.close();
       }
-    } catch (e) {
-      _dialog.close();
-    }
+    // } catch (e) {
+    //   _dialog.close();
+    // }
     notifyListeners();
   }
 }
