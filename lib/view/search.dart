@@ -2,6 +2,7 @@ import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/utility/theme.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/auth_view_model.dart';
+import 'package:anne/view_model/settings_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -233,6 +234,9 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
           if (Provider.of<ProfileModel>(context).user == null) {
             Provider.of<ProfileModel>(context, listen: false).getProfile();
           }
+         if(Provider.of<SettingViewModel>(context).status=="loading"||Provider.of<SettingViewModel>(context).status=="error"){ Provider.of<SettingViewModel>(context,
+              listen: false)
+              .fetchSettings();}
           return Container();
         } else if (value.status == "empty") {
           return SizedBox.shrink();

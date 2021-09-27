@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
@@ -1838,6 +1839,9 @@ class _Checkout extends State<Checkout> {
                         primaryAddressBox = -1;
                         buttonStatusAddress = !buttonStatusAddress;
                       });
+                      var store = Provider.of<SettingViewModel>(
+                          context,
+                          listen: false).settingResponse.id;
                       var response = await Provider.of<AddressViewModel>(
                               context,
                               listen: false)
@@ -1852,7 +1856,7 @@ class _Checkout extends State<Checkout> {
                               _country.text,
                               _state.text,
                               _pin.text,
-                              _phone.text);
+                              _phone.text,store);
                       if (response) {
                         setState(() {
                           addressId = "new";

@@ -111,7 +111,7 @@ class ApiProvider {
   }
 
   saveAddress(id, email, firstName, lastName, address, town, city, country,
-      state, pin, phone) async {
+      state, pin, phone,store) async {
     bool statusResponse;
     try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
@@ -129,6 +129,7 @@ class ApiProvider {
           'state': state,
           'zip': int.parse(pin),
           'phone': phone,
+          'store':store
         }),
       );
       if (result.hasException) {

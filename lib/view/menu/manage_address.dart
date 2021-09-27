@@ -1,3 +1,4 @@
+import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -617,7 +618,9 @@ class _ManageAddressState extends State<ManageAddress> {
                           buttonStatusAddress = !buttonStatusAddress;
                         });
                         //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
+                        var store = Provider.of<SettingViewModel>(
+                            context,
+                            listen: false).settingResponse.id;
                         var response = await Provider.of<AddressViewModel>(
                                 context,
                                 listen: false)
@@ -632,7 +635,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 _country.text,
                                 _state.text,
                                 _pin.text,
-                                _phone.text);
+                                _phone.text,store);
                         if (response) {
                           setState(() {
                             buttonStatusAddress = !buttonStatusAddress;
@@ -699,6 +702,9 @@ class _ManageAddressState extends State<ManageAddress> {
       if (value.status == "loading") {
         Provider.of<AddressViewModel>(context, listen: false)
             .fetchAddressData();
+        if(Provider.of<SettingViewModel>(context).status=="loading"||Provider.of<SettingViewModel>(context).status=="error"){ Provider.of<SettingViewModel>(context,
+            listen: false)
+            .fetchSettings();}
         return Loading();
       } else if (value.status == "empty") {
         return Container(child: cartEmptyMessage("search", "No Address Found"));

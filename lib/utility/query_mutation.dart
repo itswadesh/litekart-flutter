@@ -22,6 +22,7 @@ class QueryMutation {
     }
     demo
     RAZORPAY_KEY_ID
+    GOOGLE_CLIENT_ID
     stripePublishableKey
     enableStripe
     enableRazorpay
@@ -34,6 +35,8 @@ class QueryMutation {
       charge
       free
       method
+      enabled
+      provider
     }
     userRoles
     websiteEmail
@@ -48,8 +51,8 @@ class QueryMutation {
     CDN_URL
     S3_URL
     searchbarText
-    adminPanelLink
     pageSize
+    returnReasons
     orderStatuses {
       status
       title
@@ -59,6 +62,15 @@ class QueryMutation {
       index
     }
     paymentStatuses
+    paymentMethods {
+      active
+      name
+      value
+      img
+      color
+      position
+      text
+    }
     otpLogin
     sms {
       AUTO_VERIFICATION_ID
@@ -95,6 +107,9 @@ class QueryMutation {
       newOrderPlaced
       lowStockNotification
     }
+    ADMIN_PANEL_LINK
+    DOCS_LINK
+    storageProvider
     googleMapsApi
     facebook
     twitter
@@ -107,6 +122,10 @@ class QueryMutation {
     referralBonus
     joiningBonus
     isMultiVendor
+    isMultiStore
+    isMegamenu
+    isSaas
+    isSearch
   }
 }""";
   }
@@ -1040,7 +1059,6 @@ getOtp(phone: \$phone){
       paymentReferenceId
       paymentOrderId
       paymentReceipt
-      paymentId
       invoiceId
       paymentGateway
       codPaid

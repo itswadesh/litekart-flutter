@@ -29,7 +29,6 @@ class OrderData {
  String paymentReferenceId;
  String paymentOrderId;
  String paymentReceipt;
- String paymentId;
  String invoiceId;
  String paymentGateway;
  double codPaid;
@@ -48,7 +47,7 @@ class OrderData {
  OrderData({
    this.id,this.items,this.paymentMode,this.updatedAt,
    this.createdAt,this.address,this.orderNo,this.amount,this.otp,this.amountDue,this.amountPaid,
-   this.codPaid,this.invoiceId,this.paid,this.paymentCurrency,this.paymentGateway,this.paymentId,
+   this.codPaid,this.invoiceId,this.paid,this.paymentCurrency,this.paymentGateway,
    this.paymentMsg,this.paymentOrderId,this.paymentReceipt,this.paymentReferenceId,this.paymentStatus,
    this.paymentTime,this.userFirstName,this.userLastName,this.userPhone
 });
@@ -72,7 +71,6 @@ class OrderData {
        paid: json["paid"],
        paymentCurrency: json["paymentCurrency"],
        paymentGateway: json["paymentGateway"],
-       paymentId: json["paymentId"],
        paymentMsg: json["paymentMsg"],
        paymentOrderId: json["paymentOrderId"],
        paymentReceipt: json["paymentReceipt"],

@@ -787,11 +787,10 @@ class _ProductDetail extends State<ProductDetail>
                                       height: ScreenUtil().setWidth(10),
                                     ),
                                     Html(
-
                                       data: productData.description,
                                         style: {
                                         "li":Style(
-                                          fontSize: ScreenUtil().setSp(13)
+                                          fontSize: FontSize(ScreenUtil().setSp(13))
                                         )
                                         }
                                     ),
