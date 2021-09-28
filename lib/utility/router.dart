@@ -1,6 +1,7 @@
 import 'package:anne/view/common/emailLogin.dart';
 import 'package:anne/view/common/register.dart';
 import 'package:anne/view/menu.dart';
+import 'package:anne/view/menu/wishlist.dart';
 import 'package:anne/view/profile/profileEditPage.dart';
 import 'package:anne/view_model/menu_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -140,18 +141,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.ManageOrder:
       return ScaleRoute(page: Consumer<MenuViewModel>(
                 builder: (context, model, view) {
+                  model.updateIndex(3);
+                  return Menu(model);
+                },
+              ));
+      break;
+    case routes.LiveCommerce:
+      return ScaleRoute(page: Consumer<MenuViewModel>(
+                builder: (context, model, view) {
                   model.updateIndex(2);
                   return Menu(model);
                 },
               ));
       break;
     case routes.Wishlist:
-      return ScaleRoute(page: Consumer<MenuViewModel>(
-                builder: (context, model, view) {
-                  model.updateIndex(3);
-                  return Menu(model);
-                },
-              ));
+      return ScaleRoute(page: Wishlist());
       break;
     case routes.CheckOut:
       return ScaleRoute(page: Checkout());

@@ -15,14 +15,14 @@ class ApiEndpoint {
   String _cashFreeEndpoint ;
   ApiEndpoint() {
     if (kReleaseMode) {
-      _endpoint = "https://api.anne.biz/api/";
-      _url = "https://api.anne.biz";
-      _graphQlUrl = "https://api.anne.biz/graphql";
+      _endpoint = "https://api.mywondermall.com/api/";
+      _url = "https://api.mywondermall.com";
+      _graphQlUrl = "https://api.mywondermall.com/graphql";
     }
     else {
-      _endpoint = "https://api.anne.biz/api/";
-      _url = "https://api.anne.biz";
-      _graphQlUrl = "https://api.anne.biz/graphql";
+      _endpoint = "https://api.mywondermall.com/api/";
+      _url = "https://api.mywondermall.com";
+      _graphQlUrl = "https://api.mywondermall.com/graphql";
     }
     _productList = "${_endpoint}products/es";
     _cashFreeEndpoint = "${_endpoint}pay/capture-cashfree";

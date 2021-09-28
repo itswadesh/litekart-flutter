@@ -15,6 +15,49 @@ class ApiProvider {
   QueryMutation addMutation = QueryMutation();
   Dio dio = Dio();
 
+  // Channels
+
+  fetchChannelData(page, skip, limit, search, sort, user, q) async {
+    Map responseData;
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
+    try {
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.channels()),
+        variables: {
+              "page":page,
+          "skip":skip,
+          "limit":limit,
+          "search":search,
+          "sort":sort,
+          "user":user,
+          "q":q
+        }
+        ),
+      );
+      if (resultData.hasException) {
+        print(resultData.exception);
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data["settings"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {
+            "status": "completed",
+            "value": resultData.data["settings"]
+          };
+        }
+      }
+    } catch (e) {
+      print(e);
+      responseData = {"status": "error"};
+    }
+    return responseData;
+  }
+
+
+
   // settings
 
   settings() async {

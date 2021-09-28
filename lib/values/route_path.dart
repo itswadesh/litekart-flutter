@@ -25,3 +25,4 @@ const String OrderTrack = "OrderTrack";
 const String ReturnPageRoute = "ReturnPage";
 const String AddReviewRoute = "AddReviewRoute";
 const String ZoomImageRoute = "ZoomImageRoute";
+const String LiveCommerce = "LiveCommerce";

@@ -1,5 +1,89 @@
 class QueryMutation {
 
+  // Live Commerce
+
+  channels(){
+    return """query channels(
+  \$page: Int
+  \$skip: Int
+  \$limit: Int
+  \$search: String
+  \$sort: String
+  \$user:ID
+  \$q: String
+) {
+  channels(
+    page: \$page
+    skip: \$skip
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    user: \$user
+    q: \$q
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      scheduleDateTime
+      title
+      img
+      requestId
+      cid
+      ctime
+      pushUrl
+      httpPullUrl
+      hlsPullUrl
+      rtmpPullUrl
+      name
+      code
+      msg
+      product {
+        id
+        name
+        img
+        slug
+        price
+        mrp
+      }
+      products {
+        id
+        name
+        img
+        slug
+        price
+        mrp
+      }
+      user {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+      users {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+    }
+  }
+}""";
+  }
+
+
+
+
+  // Store
+
+
+
+
+  // Settings
+
   settings(){
     return """query settings {
   settings {

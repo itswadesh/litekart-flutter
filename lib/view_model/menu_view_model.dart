@@ -1,4 +1,5 @@
 import 'package:anne/view/menu/home.dart';
+import 'package:anne/view/menu/liveCommercePage.dart';
 import 'package:anne/view/menu/manage_order.dart';
 import 'package:anne/view/menu/mega_menu.dart';
 import 'package:anne/view/menu/my_profile.dart';
@@ -16,8 +17,8 @@ class MenuViewModel extends ChangeNotifier {
   List<MenuItem> _menus = [
   MenuItem(MenuItemSource.home, Icons.home_outlined),
   MenuItem(MenuItemSource.shop_by_category, Icons.category_outlined),
+  MenuItem(MenuItemSource.liveCommerce, Icons.live_tv,),
   MenuItem(MenuItemSource.manage_order, Icons.shopping_bag_outlined,),
-  MenuItem(MenuItemSource.wishlist, Icons.favorite_border_outlined,),
   MenuItem(MenuItemSource.profile, Icons.person_outline),
   ];
   int _currentIndex = 0;
@@ -25,8 +26,8 @@ class MenuViewModel extends ChangeNotifier {
  List _pageList = [
     Home(),
     MegaMenu(),
+    LiveCommercePage(),
     ManageOrder(),
-    Wishlist(),
     MyProfile()
   ];
 
