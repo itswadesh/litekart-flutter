@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -144,6 +145,7 @@ class _MyApp extends State<Main> {
           ChangeNotifierProvider.value(value: OrderViewModel()),
           ChangeNotifierProvider.value(value: RatingViewModel()),
           ChangeNotifierProvider.value(value: SettingViewModel()),
+          ChangeNotifierProvider.value(value: ChannelViewModel()),
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,

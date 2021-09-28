@@ -40,12 +40,13 @@ class ApiProvider {
         print(resultData.exception);
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["settings"] == null) {
+        if (resultData.data["channels"] == null) {
           responseData = {"status": "empty"};
         } else {
+
           responseData = {
             "status": "completed",
-            "value": resultData.data["settings"]
+            "value": resultData.data["channels"]
           };
         }
       }

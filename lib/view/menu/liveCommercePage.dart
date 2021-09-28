@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:anne/components/widgets/loading.dart';
 import 'package:anne/response_handler/channelResponse.dart';
 import 'package:anne/values/colors.dart';
@@ -71,7 +73,7 @@ class _StreamList extends State<StreamList>{
         builder: (BuildContext context, value, Widget child) {
       if (value.status == "loading") {
         Provider.of<ChannelViewModel>(context, listen: false)
-            .fetchChannelData("","","","","","","");
+            .fetchChannelData(null,null,null,"","","","");
         if(Provider.of<SettingViewModel>(context).status=="loading"||Provider.of<SettingViewModel>(context).status=="error"){
           Provider.of<SettingViewModel>(context,
             listen: false)
@@ -79,8 +81,10 @@ class _StreamList extends State<StreamList>{
         }
         return Loading();
       } else if (value.status == "empty") {
+        log("here empty");
         return SizedBox.shrink();
       } else if (value.status == "error") {
+        log("in error");
         return SizedBox.shrink();
       } else {
     return Container(

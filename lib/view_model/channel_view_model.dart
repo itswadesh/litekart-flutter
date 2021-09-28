@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import '../../repository/channel_repository.dart';
 import '../../response_handler/channelResponse.dart';
@@ -16,8 +18,10 @@ class ChannelViewModel with ChangeNotifier {
   Future<void> fetchChannelData(page, skip, limit, search, sort, user, q) async {
     var resultData = await channelRepository.fetchChannelData(page, skip, limit, search, sort, user, q);
     status = resultData["status"];
+    log(status);
     if (status == "completed") {
       _channelResponse = ChannelResponse.fromJson(resultData["value"]);
+      log(_channelResponse.toString());
     }
     notifyListeners();
   }

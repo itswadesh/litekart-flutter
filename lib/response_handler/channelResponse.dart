@@ -14,7 +14,7 @@ class ChannelResponse {
        count: json["count"],
        page: json["page"],
        pageSize: json["pageSize"],
-       data: List<ChannelData>.from(json["data"].map((x)=>ChannelData.fromJson(x)))
+       data: (json["data"]!=null || json["data"].length!=0)? List<ChannelData>.from(json["data"].map((x)=>ChannelData.fromJson(x))):[ChannelData()]
      );
 
 }
@@ -58,10 +58,10 @@ class ChannelData {
         rtmpPullUrl: json["rtmpPullUrl"],
         name: json["name"],
         msg: json["msg"],
-        product: ChannelProduct.fromJson(json["product"]),
-        products: List<ChannelProduct>.from(json["products"].map((x)=>ChannelProduct.fromJson(x))),
-        user: ChannelUser.fromJson(json["user"]),
-        users: List<ChannelUser>.from(json["users"].map((x)=>ChannelUser.fromJson(x)))
+        product: json["product"]!=null? ChannelProduct.fromJson(json["product"]):ChannelProduct(),
+        products: (json["products"]!=null || json["products"].length!=0)? List<ChannelProduct>.from(json["products"].map((x)=>ChannelProduct.fromJson(x))):[ChannelProduct()],
+        user: json["user"]!=null? ChannelUser.fromJson(json["user"]):ChannelUser(),
+        users: (json["users"]!=null || json["users"].length!=0)? List<ChannelUser>.from(json["users"].map((x)=>ChannelUser.fromJson(x))):[ChannelUser()]
       );
 
 }
