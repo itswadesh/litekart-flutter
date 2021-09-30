@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:anne/components/widgets/loading.dart';
 import 'package:anne/response_handler/channelResponse.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class _LiveCommerceState extends State<LiveCommercePage>{
 
       body: Container(
         height: MediaQuery.of(context).size.height,
+        color: Color(0xffffffff),
         child: Stack(
         children: [
           SingleChildScrollView(
@@ -35,12 +37,12 @@ class _LiveCommerceState extends State<LiveCommercePage>{
                 Container(
                     color: AppColors.primaryElement,
                     width: double.infinity,
-                    height: ScreenUtil().setWidth(200)
+                    height: ScreenUtil().setWidth(150)
                 ),
         Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-40)),
           child: Column(children :[
                 Container(
-                  height: ScreenUtil().setWidth(400),
+                  height: ScreenUtil().setWidth(450),
                   child: StreamList(),)
             ])),
             ]),
@@ -50,7 +52,12 @@ class _LiveCommerceState extends State<LiveCommercePage>{
             child : Container(
               color: AppColors.primaryElement,
               width: double.infinity,
-              height: ScreenUtil().setWidth(100)
+              height: ScreenUtil().setWidth(100),
+              child: Center(
+                child: InkWell(
+                  child: Icon(Icons.search),
+                ),
+              ),
             )
           )
         ],
@@ -88,7 +95,7 @@ class _StreamList extends State<StreamList>{
         return SizedBox.shrink();
       } else {
     return Container(
-      height: ScreenUtil().setWidth(400),
+      height: ScreenUtil().setWidth(450),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: value.channelResponse.data.length,
@@ -104,19 +111,26 @@ class StreamCard extends StatelessWidget{
   StreamCard(this.channelData);
   @override
   Widget build(BuildContext context) {
-   return Container(
-     height: ScreenUtil().setWidth(400),
+   return InkWell(
+       onTap: (){
+         LiveStreamSetUp()
+             .startRTC(context, channelData.cid, int.parse(channelData.code), 'join',channelData);
+       },
+       child: Container(
+     height: ScreenUtil().setWidth(450),
      width: ScreenUtil().setWidth(250),
      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+     margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
      decoration: BoxDecoration(
-       border: Border.all(color: AppColors.primaryElement2,width: 5),
+       border: Border.all(color: Color(0xfff3f3f3),width: 5),
        borderRadius: BorderRadius.circular(ScreenUtil().radius(25),),
      image: DecorationImage(
-         image: NetworkImage(channelData.img)
+         image: NetworkImage(channelData.img),
+       fit: BoxFit.cover
      ),
      ),
 
-   );
+   ));
   }
 
 }

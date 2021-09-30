@@ -727,8 +727,8 @@ class _ProductDetail extends State<ProductDetail>
                                       color: AppColors.primaryElement),
                                 ),
                                 onPressed: () async {
-                                  LiveStreamSetUp()
-                                      .startRTC(context, "1234", 123, 'join');
+                                  // LiveStreamSetUp()
+                                  //     .startRTC(context, "1234", 123, 'join');
                                 },
                                 child: Text(
                                   "Join Stream",

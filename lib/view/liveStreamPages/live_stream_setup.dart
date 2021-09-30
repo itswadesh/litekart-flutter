@@ -1,5 +1,7 @@
 
 import 'dart:io';
+import 'package:anne/response_handler/channelResponse.dart';
+
 import '../../enum/streamOptions.dart';
 import '../liveStreamPages/joinStream.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,7 +14,7 @@ import 'package:flutter/widgets.dart';
 class LiveStreamSetUp {
 
 
-  Future<void> startRTC(BuildContext context,String cid, int uid,String joinStatus) async {
+  Future<void> startRTC(BuildContext context,String cid, int uid,String joinStatus, ChannelData channelData) async {
 
     final permissions = [Permission.camera, Permission.microphone];
     if (Platform.isAndroid) {
@@ -99,6 +101,7 @@ class LiveStreamSetUp {
                     JoinStreamPage(
                       cid: cid,
                       uid: uid,
+                      channelData: channelData
                     )));
       }
     }

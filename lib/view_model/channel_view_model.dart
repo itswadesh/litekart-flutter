@@ -18,9 +18,12 @@ class ChannelViewModel with ChangeNotifier {
   Future<void> fetchChannelData(page, skip, limit, search, sort, user, q) async {
     var resultData = await channelRepository.fetchChannelData(page, skip, limit, search, sort, user, q);
     status = resultData["status"];
-    log(status);
+    log(resultData["value"].toString());
     if (status == "completed") {
-      _channelResponse = ChannelResponse.fromJson(resultData["value"]);
+      log("in here");
+
+        _channelResponse = ChannelResponse.fromJson(resultData["value"]);
+
       log(_channelResponse.toString());
     }
     notifyListeners();

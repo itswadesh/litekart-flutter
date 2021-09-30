@@ -6,7 +6,7 @@ class ChannelResponse {
  List<ChannelData> data ;
 
  ChannelResponse({
-   this.data,this.count,this.page,this.pageSize
+   this.count,this.page,this.pageSize,this.data
 });
 
  factory ChannelResponse.fromJson(Map<String,dynamic> json)=>
@@ -14,14 +14,13 @@ class ChannelResponse {
        count: json["count"],
        page: json["page"],
        pageSize: json["pageSize"],
-       data: (json["data"]!=null || json["data"].length!=0)? List<ChannelData>.from(json["data"].map((x)=>ChannelData.fromJson(x))):[ChannelData()]
+       data: (json["data"]!=null && json["data"].length!=0)? List<ChannelData>.from(json["data"].map((x)=>ChannelData.fromJson(x))):[ChannelData()]
      );
-
 }
 
 class ChannelData {
   String id;
-  String scheduleDateTime;
+  int scheduleDateTime;
   String title;
   String img;
   String requestId;
@@ -40,7 +39,14 @@ class ChannelData {
   List<ChannelUser> users;
 
   ChannelData({
-    this.img,this.id,this.user,this.scheduleDateTime,this.title,this.name,this.product,this.cid,this.code,this.ctime,this.hlsPullUrl,this.httpPullUrl,this.msg,this.products,this.pushUrl,this.requestId,this.rtmpPullUrl,this.users
+    this.img,this.id,
+    this.user,
+    this.scheduleDateTime,this.title,this.name,
+    this.product,
+    this.cid,this.code,this.ctime,this.hlsPullUrl,this.httpPullUrl,this.msg,
+    this.products,
+    this.pushUrl,this.requestId,this.rtmpPullUrl,
+    this.users
 });
 
   factory ChannelData.fromJson(Map<String, dynamic> json)=>
@@ -59,9 +65,9 @@ class ChannelData {
         name: json["name"],
         msg: json["msg"],
         product: json["product"]!=null? ChannelProduct.fromJson(json["product"]):ChannelProduct(),
-        products: (json["products"]!=null || json["products"].length!=0)? List<ChannelProduct>.from(json["products"].map((x)=>ChannelProduct.fromJson(x))):[ChannelProduct()],
+        products: (json["products"]!=null && json["products"].length!=0)? List<ChannelProduct>.from(json["products"].map((x)=>ChannelProduct.fromJson(x))):[ChannelProduct()],
         user: json["user"]!=null? ChannelUser.fromJson(json["user"]):ChannelUser(),
-        users: (json["users"]!=null || json["users"].length!=0)? List<ChannelUser>.from(json["users"].map((x)=>ChannelUser.fromJson(x))):[ChannelUser()]
+        users: (json["users"]!=null && json["users"].length!=0)? List<ChannelUser>.from(json["users"].map((x)=>ChannelUser.fromJson(x))):[ChannelUser()]
       );
 
 }
@@ -72,8 +78,8 @@ class ChannelProduct {
   String name;
   String img;
   String slug;
-  String price;
-  String mrp;
+  double price;
+  double mrp;
 
   ChannelProduct({
     this.name,this.id,this.img,this.slug,this.mrp,this.price
@@ -85,8 +91,8 @@ class ChannelProduct {
         name: json["name"],
         img: json["img"],
         slug: json["slug"],
-        price: json["price"],
-        mrp: json["mrp"]
+        price: double.parse(json["price"].toString()),
+        mrp: double.parse(json["mrp"].toString())
       );
 }
 

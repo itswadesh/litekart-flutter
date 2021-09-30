@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:anne/response_handler/channelResponse.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'settings.dart';
@@ -12,8 +13,9 @@ import 'config.dart';
 class JoinStreamPage extends StatefulWidget {
   final String cid;
   final int uid;
+  final ChannelData channelData;
 
-  JoinStreamPage({Key key, @required this.cid, @required this.uid});
+  JoinStreamPage({Key key, @required this.cid, @required this.uid, this.channelData});
 
   @override
   _JoinStreamPageState createState() {
@@ -27,6 +29,7 @@ class _JoinStreamPageState extends State<JoinStreamPage>
         NERtcStatsEventCallback,
         NERtcDeviceEventCallback {
   Settings _settings;
+  ChannelData channelData;
   NERtcEngine _engine = NERtcEngine();
   List<_UserSession> _remoteSessions =[];
   _UserSession _localSession = _UserSession();
@@ -60,6 +63,7 @@ class _JoinStreamPageState extends State<JoinStreamPage>
 
   @override
   void initState() {
+    channelData = widget.channelData;
     super.initState();
     _initSettings().then((value) => _initRtcEngine());
   }
@@ -82,9 +86,9 @@ class _JoinStreamPageState extends State<JoinStreamPage>
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(widget.cid),
+          title: Text(channelData.name),
         ),
         body: buildCallingWidget(context),
       ),
@@ -532,8 +536,8 @@ class _JoinStreamPageState extends State<JoinStreamPage>
 
   Widget buildVideoViews(BuildContext context) {
     return Container(
-      height: ScreenUtil().setWidth(700),
-      width: ScreenUtil().setWidth(400),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==1234)),
     );
       // GridView.builder(
