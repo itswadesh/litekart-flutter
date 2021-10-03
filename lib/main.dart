@@ -32,6 +32,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'view_model/manage_order_view_model.dart';
 import 'view_model/menu_view_model.dart';
+import 'view_model/store_view_model.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -146,6 +147,7 @@ class _MyApp extends State<Main> {
           ChangeNotifierProvider.value(value: RatingViewModel()),
           ChangeNotifierProvider.value(value: SettingViewModel()),
           ChangeNotifierProvider.value(value: ChannelViewModel()),
+          ChangeNotifierProvider.value(value: StoreViewModel()),
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,

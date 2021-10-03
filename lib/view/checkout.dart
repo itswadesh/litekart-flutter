@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:anne/view_model/settings_view_model.dart';
+import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
@@ -613,6 +614,10 @@ class _Checkout extends State<Checkout> {
       if (value.status == "loading") {
         Provider.of<AddressViewModel>(context, listen: false)
             .fetchAddressData();
+        if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
+            listen: false)
+            .fetchStore();
+        }
         return Loading();
       } else if (value.status == "empty") {
         return Container(height: ScreenUtil().setWidth(20));
@@ -1839,9 +1844,9 @@ class _Checkout extends State<Checkout> {
                         primaryAddressBox = -1;
                         buttonStatusAddress = !buttonStatusAddress;
                       });
-                      var store = Provider.of<SettingViewModel>(
+                      var store = Provider.of<StoreViewModel>(
                           context,
-                          listen: false).settingResponse.id;
+                          listen: false).storeResponse.id;
                       var response = await Provider.of<AddressViewModel>(
                               context,
                               listen: false)

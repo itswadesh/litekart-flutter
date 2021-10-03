@@ -22,6 +22,7 @@ class LiveCommercePage extends StatefulWidget{
 }
 
 class _LiveCommerceState extends State<LiveCommercePage>{
+  TextEditingController searchText = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +40,7 @@ class _LiveCommerceState extends State<LiveCommercePage>{
                     width: double.infinity,
                     height: ScreenUtil().setWidth(150)
                 ),
-        Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-40)),
+        Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
           child: Column(children :[
                 Container(
                   height: ScreenUtil().setWidth(450),
@@ -53,11 +54,30 @@ class _LiveCommerceState extends State<LiveCommercePage>{
               color: AppColors.primaryElement,
               width: double.infinity,
               height: ScreenUtil().setWidth(100),
-              child: Center(
-                child: InkWell(
-                  child: Icon(Icons.search),
+              child: Container(
+                margin: EdgeInsets.only(top: 25),
+                child: TextFormField(
+
+                  // onSubmitted: ,
+                  controller: searchText,
+                  onChanged: (search) {
+                    setState(() {});
+                  },
+                  style: TextStyle(color: Color(0xffffffff)),
+
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search,color: Color(0xffffffff),),
+                    fillColor: AppColors.primaryElement,
+                    filled: true,
+                    hintText: "What are you looking for?",
+                    hintStyle: TextStyle(color: Color(0xffffffff)),
+
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
-              ),
+              )
             )
           )
         ],

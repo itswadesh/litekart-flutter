@@ -79,7 +79,130 @@ class QueryMutation {
 
   // Store
 
+  store(){
+    return """
+    query storeOne(\$id: ID, \$slug: String, \$domain: String) {
+  storeOne(id: \$id, slug: \$slug, domain: \$domain) {
+    id
+    active
+    adminNotifications {
+      lowStockNotification
+      newOrderPlaced
+    }
+    address
+    alert
+    analyticsTrackingId
+    banners
+    city
+    closed
+    closedMessage
+    country
+    currency
+    currencyCode
+    currencyDecimals
+    currencySymbol
+    customerOrderNotifications {
+      downloadEGoods
+      giftCardPurchased
+      orderConfirmation
+      orderIsReadyForPickup
+      orderShipped
+      orderStatusChanged
+    }
+    description
+    metaDescription
+    dimentionUnit
+    domain
+    email
+    facebook
+    facebookPixelId
+    facebookUrl
+    favicon
+    firstName
+    freeShippingOn
+    gdpr
+    gdprCookieConsent
+    google
+    googleAdsTag
+    homeMeta1
+    homeMeta2
+    homeMeta3
+    homeMeta4
+    img
+    images
+    bankAccountNo
+    bankAccountHolderName
+    bankIfscCode
+    instagram
+    instagramUrl
+    isHideNilStock
+    isMegamenu
+    isOpen
+    isSearch
+    keywords
+    lastName
+    lat
+    legalName
+    linkedin
+    lng
+    locality
+    logo
+    logoDark
+    logoMobile
+    logoMobileDark
+    minimumOrderValue
+    minOrderValue
+    name
+    openGraphImage
+    pageSize
+    phone
+    pinterestTag
+    pinterestUrl
+    qrCode
+    review {
+      enabled
+      moderate
+    }
+    searchbarText
+    shipping {
+      charge
+      deliveryDays
+      enabled
+      free
+      method
+      provider
+    }
+    shippingCharge
+    shopAddress
+    shopPhone
+    slug
+    snapChatPixel
+    state
+    storeId
+    timeZone
+    timing
+    title
+    twitter
+    twitterUrl
+    websiteEmail
+    websiteLegalName
+    websiteName
+    weightUnit
+    youtubeUrl
+    zip
+    createdAt
+    updatedAt
+    user {
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}
+    """;
 
+  }
 
 
   // Settings
