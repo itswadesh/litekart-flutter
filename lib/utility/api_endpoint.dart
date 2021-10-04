@@ -13,16 +13,19 @@ class ApiEndpoint {
   String _brandLink;
   String _externalLink;
   String _cashFreeEndpoint ;
+  String _domainName;
   ApiEndpoint() {
     if (kReleaseMode) {
-      _endpoint = "https://api.mywondermall.com/api/";
-      _url = "https://api.mywondermall.com";
-      _graphQlUrl = "https://api.mywondermall.com/graphql";
+      _endpoint = "https://api.anne.biz/api/";
+      _url = "https://api.anne.biz";
+      _graphQlUrl = "https://api.anne.biz/graphql";
+      _domainName = "anne.biz";
     }
     else {
-      _endpoint = "https://api.mywondermall.com/api/";
-      _url = "https://api.mywondermall.com";
-      _graphQlUrl = "https://api.mywondermall.com/graphql";
+      _endpoint = "https://api.anne.biz/api/";
+      _url = "https://api.anne.biz";
+      _graphQlUrl = "https://api.anne.biz/graphql";
+      _domainName = "anne.biz";
     }
     _productList = "${_endpoint}products/es";
     _cashFreeEndpoint = "${_endpoint}pay/capture-cashfree";
@@ -34,6 +37,7 @@ class ApiEndpoint {
     _categoryLink = "/c/";
     _externalLink = "http";
   }
+  String get domainName => _domainName;
   String get cashFreeEndpoint => _cashFreeEndpoint;
   String get searchLink => _searchLink;
   String get brandLink => _brandLink;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import '../../model/store.dart';
 import '../../repository/store_repository.dart';
@@ -15,6 +17,7 @@ class StoreViewModel with ChangeNotifier {
   Future<void> fetchStore() async {
     var resultData = await storeRepository.store();
     status = resultData["status"];
+    log(resultData["value"].toString());
     if (status == "completed") {
       _storeResponse = StoreData.fromJson(resultData["value"]);
     }

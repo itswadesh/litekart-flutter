@@ -765,7 +765,7 @@ class _ManageAddressState extends State<ManageAddress> {
                     ),
                     child: Column(children: [
                      Container(
-                    padding:EdgeInsets.only(left: ScreenUtil().setWidth(30)),
+                    padding:EdgeInsets.only(left: ScreenUtil().setWidth(18)),
                     child: Column(children:[
                       Row(
                         children: [
@@ -979,7 +979,7 @@ class _ManageAddressState extends State<ManageAddress> {
                               ))
                         ],
                       ),
-                      Divider(height: 1,),
+                      // Divider(height: 1,),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.end,
                       //   children: [

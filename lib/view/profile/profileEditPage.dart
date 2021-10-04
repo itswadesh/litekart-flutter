@@ -97,8 +97,8 @@ class _ProfileEditState extends State<ProfileEdit> {
 
                                 child:  Column(
                                   children: [
-                                  Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,height: ScreenUtil().setWidth(200),),
-                                Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
+                                  Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,height: ScreenUtil().setWidth(200),fit: BoxFit.cover,),
+                                Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-73)),
                                   child:
                                   Container(
                                     padding: EdgeInsets.fromLTRB(
@@ -109,20 +109,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     child:
                                   Column(children:[
                                     _getImage(value.user.avatar),
-                                    // InkWell(
-                                    //     onTap: (){
-                                    //
-                                    //     },
-                                    //     child:  Container(
-                                    //       height: ScreenUtil().setWidth(120),
-                                    //       width: ScreenUtil().setWidth(120),
-                                    //       child: Card(
-                                    //         child: Container(
-                                    //             height: ScreenUtil().setWidth(120),
-                                    //             width: ScreenUtil().setWidth(120),
-                                    //             child: value.user.avatar!=null? Image.network(value.user.avatar):Image.asset("assets/images/user.png")
-                                    //         ),
-                                    //       ),)),
+
                                     SizedBox(height: ScreenUtil().setWidth(20),),
                                  _phone.text==""?Container():   Container(
                                         child: TextFormField(

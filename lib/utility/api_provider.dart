@@ -68,18 +68,22 @@ class ApiProvider {
     try {
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.store())),
+            document: gql(addMutation.store()),
+        variables: {"domain":ApiEndpoint().domainName}
+        ),
       );
+      log("This is it ....... "+resultData.data.toString());
       if (resultData.hasException) {
         print(resultData.exception);
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["storeOne"] == null) {
+        if (resultData.data == null || resultData.data["store"] == null) {
           responseData = {"status": "empty"};
         } else {
+          log(resultData.data["store"].toString());
           responseData = {
             "status": "completed",
-            "value": resultData.data["storeOne"]
+            "value": resultData.data["store"]
           };
         }
       }

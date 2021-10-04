@@ -1157,7 +1157,7 @@ class _ProductDetail extends State<ProductDetail>
       children.add(
         Container(
             padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(30),
+                left: ScreenUtil().setWidth(20),
                 top: ScreenUtil().setWidth(15)),
             height: ScreenUtil().setWidth(50),
             color: Color(0xffffffff),
@@ -1165,9 +1165,9 @@ class _ProductDetail extends State<ProductDetail>
             child: Text(
               "Product Specification",
               style: TextStyle(
-                  color: Color(0xff4a4a4a),
-                  fontSize: ScreenUtil().setSp(20),
-                  fontWeight: FontWeight.w600),
+                color: Color(0xff4a4a4a),
+                fontSize: ScreenUtil().setSp(20),
+              ),
               textAlign: TextAlign.left,
             )),
       );
@@ -1180,7 +1180,7 @@ class _ProductDetail extends State<ProductDetail>
           padding: EdgeInsets.only(
               top: ScreenUtil().setWidth(10),
               bottom: ScreenUtil().setWidth(10),
-              left: ScreenUtil().setWidth(30),
+              left: ScreenUtil().setWidth(20),
               right: ScreenUtil().setWidth(20)),
           child: Center(
             child: Container(
