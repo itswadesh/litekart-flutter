@@ -278,7 +278,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : ₹ ${data["amount"]["total"]}",
+//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -488,7 +488,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : ₹ ${data["amount"]["total"]}",
+//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -722,7 +722,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : ₹ ${data["amount"]["total"]}",
+//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -889,7 +889,7 @@ class ListOrderData extends StatelessWidget{
                               )),
                         ),
                         Text(
-                          "Total Amount : ₹ ${orderData.amount.total}",
+                          "Total Amount : \$ ${orderData.amount.total}",
                           style: TextStyle(
                               color: Color(0xff9b9b9b),
                               fontSize: ScreenUtil().setSp(

@@ -17,7 +17,8 @@ class MenuViewModel extends ChangeNotifier {
   List<MenuItem> _menus = [
   MenuItem(MenuItemSource.home, Icons.home_outlined),
   MenuItem(MenuItemSource.shop_by_category, Icons.category_outlined),
-  MenuItem(MenuItemSource.liveCommerce, Icons.live_tv,),
+ // MenuItem(MenuItemSource.liveCommerce, Icons.live_tv,),
+    MenuItem(MenuItemSource.wishlist, Icons.favorite_border_outlined,),
   MenuItem(MenuItemSource.manage_order, Icons.shopping_bag_outlined,),
   MenuItem(MenuItemSource.profile, Icons.person_outline),
   ];
@@ -26,7 +27,8 @@ class MenuViewModel extends ChangeNotifier {
  List _pageList = [
     Home(),
     MegaMenu(),
-    LiveCommercePage(),
+    Wishlist(),
+   // LiveCommercePage(),
     ManageOrder(),
     MyProfile()
   ];

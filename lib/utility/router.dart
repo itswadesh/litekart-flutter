@@ -155,7 +155,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.Wishlist:
-      return ScaleRoute(page: Wishlist());
+      return ScaleRoute(page: Consumer<MenuViewModel>(
+        builder: (context, model, view) {
+          model.updateIndex(2);
+          return Menu(model);
+        },
+      ));
+     // return ScaleRoute(page: Wishlist());
       break;
     case routes.CheckOut:
       return ScaleRoute(page: Checkout());

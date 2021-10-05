@@ -184,7 +184,7 @@ class _Cart extends State<Cart> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Total : ₹ ${value.cartResponse.total}",
+                  Text("Total : \$ ${value.cartResponse.total}",
                       style: TextStyle(
                           color: Color(0xff383838),
                           fontSize: ScreenUtil().setSp(
@@ -373,7 +373,7 @@ class _Cart extends State<Cart> {
                                                 left: ScreenUtil().setWidth(35)),
                                             width: double.infinity,
                                             child: Text(
-                                              "Saves upto ₹ ${value.couponResponse.data[index].maxAmount}",
+                                              "Saves upto \$ ${value.couponResponse.data[index].maxAmount}",
                                               style: TextStyle(
                                                   color: Color(0xff3a3a3a),
                                                   fontSize: ScreenUtil().setSp(14)),
@@ -404,7 +404,7 @@ class _Cart extends State<Cart> {
                             SizedBox(
                               height: ScreenUtil().setWidth(14),
                             ),
-                            // Text("Maximum saving : ₹ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
+                            // Text("Maximum saving : \$ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
                             // SizedBox(height: ScreenUtil().setWidth(9),),
                             Container(
                               height: ScreenUtil().setWidth(36),
@@ -550,7 +550,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("₹ " + value.cartResponse.subtotal.toString(),
+                          Text("\$ " + value.cartResponse.subtotal.toString(),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -592,7 +592,7 @@ class _CartBillCard extends State<CartBillCard> {
                                           16,
                                         ))),
                                 Text(
-                                    "₹ " +
+                                    "\$ " +
                                         value.cartResponse.discount.amount
                                             .toString(),
                                     style: TextStyle(
@@ -618,7 +618,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("₹ " + value.cartResponse.shipping.toString(),
+                          Text("\$ " + value.cartResponse.shipping.toString(),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -641,7 +641,7 @@ class _CartBillCard extends State<CartBillCard> {
                       //                   fontSize: ScreenUtil().setSp(
                       //                     16,
                       //                   ))),
-                      //           Text("₹ " + (value.cartResponse.tax).toString(),
+                      //           Text("\$ " + (value.cartResponse.tax).toString(),
                       //               style: TextStyle(
                       //                   color: Color(0xff616161),
                       //                   fontSize: ScreenUtil().setSp(
@@ -710,7 +710,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("₹ " + (value.cartResponse.total).toString(),
+                          Text("\$ " + (value.cartResponse.total).toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xff000000),
@@ -862,7 +862,7 @@ class _CartBillCard extends State<CartBillCard> {
                                             left: ScreenUtil().setWidth(35)),
                                         width: double.infinity,
                                         child: Text(
-                                          "Saves upto ₹ ${value.couponResponse.data[index].maxAmount}",
+                                          "Saves upto \$ ${value.couponResponse.data[index].maxAmount}",
                                           style: TextStyle(
                                               color: Color(0xff3a3a3a),
                                               fontSize: ScreenUtil().setSp(14)),
@@ -893,7 +893,7 @@ class _CartBillCard extends State<CartBillCard> {
                         SizedBox(
                           height: ScreenUtil().setWidth(14),
                         ),
-                        // Text("Maximum saving : ₹ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
+                        // Text("Maximum saving : \$ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
                         // SizedBox(height: ScreenUtil().setWidth(9),),
                         Container(
                           height: ScreenUtil().setWidth(36),
@@ -1040,7 +1040,7 @@ class _CartCard extends State<CartCard> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        "₹ " + cartData.price.toString(),
+                        "\$ " + cartData.price.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: AppColors.primaryElement2,

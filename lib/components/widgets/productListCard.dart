@@ -180,7 +180,7 @@ class _ProductListCard extends State<ProductListCard> {
                           width: ScreenUtil().setWidth(15),
                         ),
                         Text(
-                          "₹ " + item.price.toString() + " ",
+                          "\$ " + item.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -190,7 +190,7 @@ class _ProductListCard extends State<ProductListCard> {
                         ),
                         item.price < item.mrp
                             ? Text(
-                                " ₹ " + item.mrp.toString(),
+                                " \$ " + item.mrp.toString(),
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(

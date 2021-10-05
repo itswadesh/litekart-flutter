@@ -251,7 +251,7 @@ class _WishCard extends State<WishCard> {
                 children: [
                   SizedBox(width: ScreenUtil().setWidth(10),),
                   Text(
-                    "₹ " + item.product.price.toString() + " ",
+                    "\$ " + item.product.price.toString() + " ",
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -261,7 +261,7 @@ class _WishCard extends State<WishCard> {
                   ),
                   item.product.price < item.product.mrp
                       ? Text(
-                          " ₹ " + item.product.mrp.toString(),
+                          " \$ " + item.product.mrp.toString(),
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               fontSize: ScreenUtil().setSp(

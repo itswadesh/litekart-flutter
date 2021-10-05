@@ -15,7 +15,8 @@ class MenuItem {
   Map<MenuItemSource, String> mapping = {
     MenuItemSource.home: 'Home',
     MenuItemSource.shop_by_category: 'Categories',
-    MenuItemSource.liveCommerce: 'Live',
+   // MenuItemSource.liveCommerce: 'Live',
+    MenuItemSource.wishlist: 'Wishlist',
     MenuItemSource.manage_order: 'Orders',
     MenuItemSource.profile:'Profile'
   };

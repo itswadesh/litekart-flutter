@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:anne/components/widgets/cartEmptyMessage.dart';
+import 'package:anne/components/widgets/errorMessage.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -85,9 +87,14 @@ class _MegaMenu extends State<MegaMenu> {
           ),
         );
       } else if (value.status == "empty") {
-        return SizedBox.shrink();
+        return Container(
+            height: MediaQuery.of(context).size.height*0.8,
+            child: Center(
+                child: cartEmptyMessage("search", "No Categories Found")));
       } else if (value.status == "error") {
-        return SizedBox.shrink();
+        return  Container(
+            height: MediaQuery.of(context).size.height*0.8,
+            child: Center(child: errorMessage()));
       } else {
         return Container(
           child: ListView.builder(

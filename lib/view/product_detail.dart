@@ -343,7 +343,7 @@ class _ProductDetail extends State<ProductDetail>
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "₹ " + productData.price.toString() + " ",
+                                  "\$ " + productData.price.toString() + " ",
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(
                                         18,
@@ -352,7 +352,7 @@ class _ProductDetail extends State<ProductDetail>
                                 ),
                                 productData.price < productData.mrp
                                     ? Text(
-                                        " ₹ " + productData.mrp.toString(),
+                                        " \$ " + productData.mrp.toString(),
                                         style: TextStyle(
                                             color: Color(0xffb0b0b0),
                                             decoration:

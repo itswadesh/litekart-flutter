@@ -77,13 +77,13 @@ class ApiProvider {
         print(resultData.exception);
         responseData = {"status": "error"};
       } else {
-        if (resultData.data == null || resultData.data["store"] == null) {
+        if (resultData.data == null || resultData.data["storeOne"] == null) {
           responseData = {"status": "empty"};
         } else {
-          log(resultData.data["store"].toString());
+          log(resultData.data["storeOne"].toString());
           responseData = {
             "status": "completed",
-            "value": resultData.data["store"]
+            "value": resultData.data["storeOne"]
           };
         }
       }
@@ -1134,6 +1134,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.megamenu()),
       ));
+      print(resultData.data.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

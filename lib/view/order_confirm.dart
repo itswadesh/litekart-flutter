@@ -716,7 +716,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 )),
                               ),
                               Text(
-                                "₹ ${detail[index].price}",
+                                "\$ ${detail[index].price}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.primaryElement2,

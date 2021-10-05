@@ -294,7 +294,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("₹ " + value.cartResponse.subtotal.toString(),
+                        Text("\$ " + value.cartResponse.subtotal.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(
@@ -339,7 +339,7 @@ class _Checkout extends State<Checkout> {
                                             16,
                                           ))),
                                   Text(
-                                      "₹ " +
+                                      "\$ " +
                                           value.cartResponse.discount.amount
                                               .toString(),
                                       style: TextStyle(
@@ -364,7 +364,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("₹ " + value.cartResponse.shipping.toString(),
+                        Text("\$ " + value.cartResponse.shipping.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(
@@ -390,7 +390,7 @@ class _Checkout extends State<Checkout> {
                     //                         16,
                     //                       ))),
                     //               Text(
-                    //                   "₹ " +
+                    //                   "\$ " +
                     //                       (value.cartResponse.tax).toString(),
                     //                   style: TextStyle(
                     //                       color: Color(0xff616161),
@@ -460,7 +460,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("₹ " + (value.cartResponse.total).toString(),
+                        Text("\$ " + (value.cartResponse.total).toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000),
@@ -1287,7 +1287,7 @@ class _Checkout extends State<Checkout> {
                             return Container();
                           }
                           return Text(
-                              "TOTAL : ₹ " +
+                              "TOTAL : \$ " +
                                   (value.cartResponse.total).toString()
                               //"$total"
                               ,
@@ -2824,7 +2824,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "Saves upto ₹ ${value.couponResponse.data[index].maxAmount}",
+                                      "Saves upto \$ ${value.couponResponse.data[index].maxAmount}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),
@@ -2855,7 +2855,7 @@ class _Checkout extends State<Checkout> {
                     SizedBox(
                       height: ScreenUtil().setWidth(14),
                     ),
-                    // Text("Maximum saving : ₹ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
+                    // Text("Maximum saving : \$ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
                     // SizedBox(height: ScreenUtil().setWidth(9),),
                     Container(
                         height: ScreenUtil().setWidth(36),

@@ -156,7 +156,7 @@ class _ProductCard extends State<ProductCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
-                        "₹ " + item.price.toString() + " ",
+                        "\$ " + item.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -166,7 +166,7 @@ class _ProductCard extends State<ProductCard> {
                       ),
                       item.price < item.mrp
                           ? Text(
-                        " ₹ " + item.mrp.toString(),
+                        " \$ " + item.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(

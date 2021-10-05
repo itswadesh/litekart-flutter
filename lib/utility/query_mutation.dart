@@ -81,8 +81,8 @@ class QueryMutation {
 
   store(){
     return """
-    query store {
-  store {
+   query storeOne(\$id: ID, \$slug: String, \$domain: String) {
+  storeOne(id: \$id, slug: \$slug, domain: \$domain) {
     id
     active
     adminNotifications {
@@ -130,6 +130,9 @@ class QueryMutation {
     homeMeta4
     img
     images
+    bankAccountNo
+    bankAccountHolderName
+    bankIfscCode
     instagram
     instagramUrl
     isHideNilStock
@@ -176,9 +179,6 @@ class QueryMutation {
     snapChatPixel
     state
     storeId
-    bankAccountNo
-    bankAccountHolderName
-    bankIfscCode
     timeZone
     timing
     title
