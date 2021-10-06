@@ -1,20 +1,21 @@
 import 'dart:developer';
 
+import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
-import '../../repository/cashfree_repository.dart';
+//import '../../repository/cashfree_repository.dart';
 import '../../repository/checkout_repository.dart';
-import '../../response_handler/cashFreeResponse.dart';
+//import '../../response_handler/cashFreeResponse.dart';
 import '../../service/event/tracking.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/locator.dart';
 import '../../values/colors.dart';
 import '../../values/event_constant.dart';
 import '../../values/route_path.dart' as routes;
-import 'package:cashfree_pg/cashfree_pg.dart';
+//import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -56,7 +57,8 @@ class _Checkout extends State<Checkout> {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   CheckoutRepository checkoutRepository = CheckoutRepository();
-  CashfreeRepository cashfreeRepository = CashfreeRepository();
+  //CashfreeRepository cashfreeRepository = CashfreeRepository();
+  PaypalRepository paypalRepository = PaypalRepository();
   var _formKey = GlobalKey<FormState>();
   var newAddress = true;
   String paymentMethod = "nb";
@@ -2542,74 +2544,74 @@ class _Checkout extends State<Checkout> {
         buttonStatusOrder = !buttonStatusOrder;
       });
 
-      QueryResult resultCashFree =
-          await cashfreeRepository.cashFreePayNow(selectedAddressId);
+      QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
 
-      if (!resultCashFree.hasException && resultCashFree.data != null) {
-        CashFreeResponse cashFreeResponse = CashFreeResponse();
-        cashFreeResponse =
-            CashFreeResponse.fromJson(resultCashFree.data["cashfreePayNow"]);
+      // QueryResult resultCashFree =
+      //     await cashfreeRepository.cashFreePayNow(selectedAddressId);
 
-        var tokenData = cashFreeResponse.token;
-        if (paymentMethod == "nb") {
-          Map<String, dynamic> inputParams = {
-            "tokenData": tokenData,
-            "orderId": cashFreeResponse.orderId,
-            "orderAmount": cashFreeResponse.orderAmount,
-            "customerName": cashFreeResponse.customerName,
-            "orderNote": cashFreeResponse.orderNote,
-            "orderCurrency": cashFreeResponse.orderCurrency,
-            "appId": cashFreeResponse.appId,
-            "customerPhone": cashFreeResponse.customerPhone,
-            "customerEmail": cashFreeResponse.customerEmail,
-            "stage": kReleaseMode ? 'PROD' : 'TEST',
-            "notifyUrl": cashFreeResponse.notifyUrl,
-          };
-          CashfreePGSDK.doPayment(inputParams).then((value) async {
-            log(value.toString());
-            if (value["txStatus"] == "SUCCESS") {
-              await handlePaymentSuccess(
-                  selectedAddressId, "nb", value["orderId"], value);
-            } else {
-              await handlePaymentFailure();
-            }
-          });
-        } else {
-          //await handlePaymentSuccess(selectedAddressId, "pod");
-        }
-      } else {
-        print(resultCashFree.exception);
-        setState(() {
-          buttonStatusOrder = !buttonStatusOrder;
-        });
-        final snackBar = SnackBar(
-          backgroundColor: Colors.black,
-          content: InkWell(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": EVENT_PAYMENT_TRY_AGAIN,
-                "paymentType": paymentMethod,
-                "event": "tap",
-              };
-              Tracking(event: EVENT_PAYMENT_TRY_AGAIN, data: data);
-            },
-            child: Center(
-              child: Text(
-                "Something went wrong",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+      // if (!resultCashFree.hasException && resultCashFree.data != null) {
+      //   CashFreeResponse cashFreeResponse = CashFreeResponse();
+      //   cashFreeResponse =
+      //       CashFreeResponse.fromJson(resultCashFree.data["cashfreePayNow"]);
+      //
+      //   var tokenData = cashFreeResponse.token;
+      //   if (paymentMethod == "nb") {
+      //     Map<String, dynamic> inputParams = {
+      //       "tokenData": tokenData,
+      //       "orderId": cashFreeResponse.orderId,
+      //       "orderAmount": cashFreeResponse.orderAmount,
+      //       "customerName": cashFreeResponse.customerName,
+      //       "orderNote": cashFreeResponse.orderNote,
+      //       "orderCurrency": cashFreeResponse.orderCurrency,
+      //       "appId": cashFreeResponse.appId,
+      //       "customerPhone": cashFreeResponse.customerPhone,
+      //       "customerEmail": cashFreeResponse.customerEmail,
+      //       "stage": kReleaseMode ? 'PROD' : 'TEST',
+      //       "notifyUrl": cashFreeResponse.notifyUrl,
+      //     };
+      //     CashfreePGSDK.doPayment(inputParams).then((value) async {
+      //       log(value.toString());
+      //       if (value["txStatus"] == "SUCCESS") {
+      //         await handlePaymentSuccess(
+      //             selectedAddressId, "nb", value["orderId"], value);
+      //       } else {
+      //         await handlePaymentFailure();
+      //       }
+      //     });
+      //   } else {
+      //     //await handlePaymentSuccess(selectedAddressId, "pod");
+      //   }
+      // } else {
+      //   print(resultCashFree.exception);
+      //   setState(() {
+      //     buttonStatusOrder = !buttonStatusOrder;
+      //   });
+      //   final snackBar = SnackBar(
+      //     backgroundColor: Colors.black,
+      //     content: InkWell(
+      //       onTap: () {
+      //         Map<String, dynamic> data = {
+      //           "id": EVENT_PAYMENT_TRY_AGAIN,
+      //           "paymentType": paymentMethod,
+      //           "event": "tap",
+      //         };
+      //         Tracking(event: EVENT_PAYMENT_TRY_AGAIN, data: data);
+      //       },
+      //       child: Center(
+      //         child: Text(
+      //           "Something went wrong",
+      //           style: TextStyle(color: Colors.white),
+      //         ),
+      //       ),
+      //     ),
+      //   );
+      //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // }
     }
   }
 
   handlePaymentSuccess(addressId, paymentMode, orderId, value) async {
     await checkoutRepository.paySuccessPageHit(orderId);
-    // QueryResult result =
-    //     await checkoutRepository.checkout(addressId, paymentMode);
     log(value.toString());
     // FormData cashFreeData;
     // cashFreeData = FormData.fromMap({
@@ -2618,7 +2620,7 @@ class _Checkout extends State<Checkout> {
     //   ""
     // });
 
-    bool response = await cashfreeRepository.captureCashFree(value);
+   // bool response = await cashfreeRepository.captureCashFree(value);
     // log(response.toString());
     await Provider.of<CartViewModel>(context, listen: false)
         .changeStatus("loading");

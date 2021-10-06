@@ -1811,6 +1811,30 @@ getOtp(phone: \$phone){
 }""";
   }
 
+
+  paypalPayNow(){
+    return """mutation paypalPayNow(\$address: ID) {
+  paypalPayNow(address: \$address) {
+    id
+    intent
+    state
+    redirect_url
+    transactions {
+      amount {
+        total
+        currency
+      }
+      description
+    }
+    links {
+      href
+      rel
+      method
+    }
+  }
+}""";
+  }
+
   cashfreePayNow() {
     return """mutation cashfreePayNow(\$address: ID) {
   cashfreePayNow(address: \$address) {

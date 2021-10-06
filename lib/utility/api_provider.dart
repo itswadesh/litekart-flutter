@@ -988,6 +988,21 @@ class ApiProvider {
     return result;
   }
 
+
+  // Paypal Api
+
+
+  paypalPayNow(selectedAddressId) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult resultPaypal = await _client.mutate(
+      MutationOptions(document: gql(addMutation.paypalPayNow()), variables: {
+        'address': selectedAddressId,
+      }),
+    );
+    return resultPaypal;
+  }
+
   // cashfree api
 
   cashFreePayNow(selectedAddressId) async {
