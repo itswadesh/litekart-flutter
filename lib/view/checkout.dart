@@ -39,6 +39,7 @@ import '../../view_model/auth_view_model.dart';
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/manage_order_view_model.dart';
 
+import '../main.dart';
 import 'menu/manage_order.dart';
 
 class Checkout extends StatefulWidget {
@@ -294,7 +295,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("\$ " + value.cartResponse.subtotal.toString(),
+                        Text("${store.currencySymbol} " + value.cartResponse.subtotal.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(
@@ -339,7 +340,7 @@ class _Checkout extends State<Checkout> {
                                             16,
                                           ))),
                                   Text(
-                                      "\$ " +
+                                      "${store.currencySymbol} " +
                                           value.cartResponse.discount.amount
                                               .toString(),
                                       style: TextStyle(
@@ -364,7 +365,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("\$ " + value.cartResponse.shipping.toString(),
+                        Text("${store.currencySymbol} " + value.cartResponse.shipping.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(
@@ -390,7 +391,7 @@ class _Checkout extends State<Checkout> {
                     //                         16,
                     //                       ))),
                     //               Text(
-                    //                   "\$ " +
+                    //                   "${store.currencySymbol} " +
                     //                       (value.cartResponse.tax).toString(),
                     //                   style: TextStyle(
                     //                       color: Color(0xff616161),
@@ -460,7 +461,7 @@ class _Checkout extends State<Checkout> {
                                 fontSize: ScreenUtil().setSp(
                                   16,
                                 ))),
-                        Text("\$ " + (value.cartResponse.total).toString(),
+                        Text("${store.currencySymbol} " + (value.cartResponse.total).toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000),
@@ -1287,7 +1288,7 @@ class _Checkout extends State<Checkout> {
                             return Container();
                           }
                           return Text(
-                              "TOTAL : \$ " +
+                              "TOTAL : ${store.currencySymbol} " +
                                   (value.cartResponse.total).toString()
                               //"$total"
                               ,
@@ -1844,9 +1845,7 @@ class _Checkout extends State<Checkout> {
                         primaryAddressBox = -1;
                         buttonStatusAddress = !buttonStatusAddress;
                       });
-                      var store = Provider.of<StoreViewModel>(
-                          context,
-                          listen: false).storeResponse.id;
+
                       var response = await Provider.of<AddressViewModel>(
                               context,
                               listen: false)
@@ -1861,7 +1860,7 @@ class _Checkout extends State<Checkout> {
                               _country.text,
                               _state.text,
                               _pin.text,
-                              _phone.text,store);
+                              _phone.text);
                       if (response) {
                         setState(() {
                           addressId = "new";
@@ -2824,7 +2823,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "Saves upto \$ ${value.couponResponse.data[index].maxAmount}",
+                                      "Saves upto ${store.currencySymbol} ${value.couponResponse.data[index].maxAmount}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),
@@ -2855,7 +2854,7 @@ class _Checkout extends State<Checkout> {
                     SizedBox(
                       height: ScreenUtil().setWidth(14),
                     ),
-                    // Text("Maximum saving : \$ 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
+                    // Text("Maximum saving : ${store.currencySymbol} 125",style: TextStyle(color:Color(0xff7a7a7a),fontSize: ScreenUtil().setSp(13)),),
                     // SizedBox(height: ScreenUtil().setWidth(9),),
                     Container(
                         height: ScreenUtil().setWidth(36),

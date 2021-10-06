@@ -28,10 +28,10 @@ class AddressViewModel with ChangeNotifier {
   }
 
   saveAddress(id, email, firstName, lastName, address, town, city, country,
-      state, pin, phone,store) async {
+      state, pin, phone) async {
     bool statusResponse;
     statusResponse = await addressRepository.saveAddress(id, email, firstName,
-        lastName, address, town, city, country, state, pin, phone,store);
+        lastName, address, town, city, country, state, pin, phone);
     await fetchAddressData();
     selectAddress(_addressResponse.data[0]);
     notifyListeners();

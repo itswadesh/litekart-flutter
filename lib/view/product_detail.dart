@@ -30,6 +30,8 @@ import '../../values/route_path.dart' as routes;
 import '../../view_model/product_detail_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../main.dart';
 class ProductDetail extends StatefulWidget {
   final productId;
 
@@ -343,7 +345,7 @@ class _ProductDetail extends State<ProductDetail>
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "\$ " + productData.price.toString() + " ",
+                                  "${store.currencySymbol} " + productData.price.toString() + " ",
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(
                                         18,
@@ -352,7 +354,7 @@ class _ProductDetail extends State<ProductDetail>
                                 ),
                                 productData.price < productData.mrp
                                     ? Text(
-                                        " \$ " + productData.mrp.toString(),
+                                        " ${store.currencySymbol} " + productData.mrp.toString(),
                                         style: TextStyle(
                                             color: Color(0xffb0b0b0),
                                             decoration:

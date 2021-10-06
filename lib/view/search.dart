@@ -235,20 +235,34 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
           if (Provider.of<ProfileModel>(context).user == null) {
             Provider.of<ProfileModel>(context, listen: false).getProfile();
           }
-         if(Provider.of<SettingViewModel>(context).status=="loading"||Provider.of<SettingViewModel>(context).status=="error"){ Provider.of<SettingViewModel>(context,
-              listen: false)
-              .fetchSettings();
-         }
           if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
               listen: false)
               .fetchStore();
           }
+         if(Provider.of<SettingViewModel>(context).status=="loading"||Provider.of<SettingViewModel>(context).status=="error"){ Provider.of<SettingViewModel>(context,
+              listen: false)
+              .fetchSettings();
+         }
+
           return Container();
         } else if (value.status == "empty") {
+          if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
+              listen: false)
+              .fetchStore();
+          }
           return SizedBox.shrink();
         } else if (value.status == "error") {
+          if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
+              listen: false)
+              .fetchStore();
+          }
           return SizedBox.shrink();
+
         } else {
+          if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
+              listen: false)
+              .fetchStore();
+          }
           return Container(
             height: ScreenUtil().setWidth(135),
             padding: EdgeInsets.fromLTRB(

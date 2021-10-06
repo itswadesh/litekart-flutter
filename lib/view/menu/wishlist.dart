@@ -4,6 +4,7 @@ import 'package:anne/response_handler/wishlistResponse.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../../components/widgets/cartEmptyMessage.dart';
 import '../../components/widgets/errorMessage.dart';
 import '../../components/widgets/loading.dart';
+import '../../main.dart';
 import '../../utility/graphQl.dart';
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
@@ -245,13 +247,13 @@ class _WishCard extends State<WishCard> {
                 height: ScreenUtil().setWidth(7),
               ),
       Container(
-        width: ScreenUtil().setWidth(183),
+        width: MediaQuery.of(context).size.width,
         child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(width: ScreenUtil().setWidth(10),),
                   Text(
-                    "\$ " + item.product.price.toString() + " ",
+                    "${store.currencySymbol} " + item.product.price.toString() + " ",
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -261,7 +263,7 @@ class _WishCard extends State<WishCard> {
                   ),
                   item.product.price < item.product.mrp
                       ? Text(
-                          " \$ " + item.product.mrp.toString(),
+                          " ${store.currencySymbol} " + item.product.mrp.toString(),
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               fontSize: ScreenUtil().setSp(
@@ -283,7 +285,7 @@ class _WishCard extends State<WishCard> {
                       : Container()
                 ],
               )),
-              SizedBox(height: ScreenUtil().setWidth(15),),
+              SizedBox(height: ScreenUtil().setWidth(10),),
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
@@ -294,7 +296,7 @@ class _WishCard extends State<WishCard> {
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(183),
-                    height: ScreenUtil().setWidth(30),
+                    height: ScreenUtil().setWidth(35),
                     child: Center(
                       child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),),
                     ),

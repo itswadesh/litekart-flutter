@@ -468,6 +468,7 @@ getOtp(phone: \$phone){
   \$featured: Boolean
   \$active: Boolean
   \$shopbycategory: Boolean
+  \$store: ID
 ) {
   categories(
     page: \$page
@@ -478,6 +479,7 @@ getOtp(phone: \$phone){
     featured: \$featured
     active: \$active
     shopbycategory: \$shopbycategory
+    store: \$store
   ) {
     count
     page
@@ -506,8 +508,8 @@ getOtp(phone: \$phone){
   }
 
   trending() {
-    return """query trending(\$type: String) {
-  trending(type: \$type) {
+    return """query trending(\$type: String, \$store: ID) {
+  trending(type: \$type, store: \$store) {
     id
     sku
     barcode
@@ -568,6 +570,7 @@ getOtp(phone: \$phone){
   \$new: Boolean
   \$hot: Boolean
   \$sale: Boolean
+  \$store: ID
   ) {
   products(
   page: \$page
@@ -582,6 +585,7 @@ getOtp(phone: \$phone){
   new: \$new
   hot: \$hot
   sale: \$sale
+  store: \$store
   ) {
   data {
   id
@@ -841,8 +845,8 @@ getOtp(phone: \$phone){
   }
 
   cart() {
-    return """query cart {
-  cart {
+    return """query cart(\$store: ID) {
+  cart(store: \$store) {
     id
     items {
       pid
@@ -964,8 +968,8 @@ getOtp(phone: \$phone){
   }
 
   groupByBanner() {
-    return """query groupByBanner(\$type: String, \$pageId: String, \$groupTitle: String) {
-  groupByBanner(type: \$type, pageId: \$pageId, groupTitle: \$groupTitle) {
+    return """query groupByBanner(\$type: String, \$pageId: String, \$groupTitle: String, \$store: ID) {
+  groupByBanner(type: \$type, pageId: \$pageId, groupTitle: \$groupTitle, store: \$store) {
     _id {    
       title
     }
@@ -1241,6 +1245,7 @@ getOtp(phone: \$phone){
   \$search: String
   \$sort: String
   \$status: String
+  \$store: ID
 ) {
   myOrders(
     page: \$page
@@ -1249,6 +1254,7 @@ getOtp(phone: \$phone){
     search: \$search
     sort: \$sort
     status: \$status
+    store: \$store
   ) {
     count
     pageSize
@@ -1564,16 +1570,32 @@ getOtp(phone: \$phone){
   }
 
   myWishlist() {
-    return """query myWishlist(\$page: Int, \$search: String, \$limit: Int, \$sort: String) {
-  myWishlist(page: \$page, search: \$search, limit: \$limit, sort: \$sort) {
+    return """query myWishlist(
+  \$page: Int
+  \$search: String
+  \$limit: Int
+  \$sort: String
+  \$store: ID
+) {
+  myWishlist(
+    page: \$page
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    store: \$store
+  ) {
     count
     page
     pageSize
     data {
       id
+      active
+      createdAt
+      updatedAt
       product {
         id
         name
+        slug
         img
         price
         mrp
@@ -1592,9 +1614,11 @@ getOtp(phone: \$phone){
         firstName
         lastName
       }
-      active
-      createdAt
-      updatedAt
+      store {
+        id
+        name
+        email
+      }
     }
   }
 }""";
@@ -1660,8 +1684,8 @@ getOtp(phone: \$phone){
   }
 
   brands() {
-    return """query brands(\$page: Int, \$search: String, \$limit: Int, \$sort: String) {
-  brands(page: \$page, search: \$search, limit: \$limit, sort: \$sort) {
+    return """query brands(\$page: Int, \$search: String, \$limit: Int, \$sort: String, \$store: ID) {
+  brands(page: \$page, search: \$search, limit: \$limit, sort: \$sort, store: \$store) {
     count
     page
     pageSize
@@ -1972,13 +1996,14 @@ getOtp(phone: \$phone){
   }
 
   megamenu() {
-    return """query megamenu(\$id: ID, \$slug: String, \$search: String, \$sort: String, \$featured: Boolean) {
+    return """query megamenu(\$id: ID, \$slug: String, \$search: String, \$sort: String, \$featured: Boolean, \$store: ID) {
   megamenu(
     id: \$id
     slug: \$slug
     search: \$search
     sort: \$sort
     featured: \$featured
+    store: \$store
   ) {
     id
     name
@@ -2062,6 +2087,7 @@ getOtp(phone: \$phone){
   \$rating: Int
   \$message: String
   \$active: Boolean
+  \$store: ID
 ) {
   saveReview(
     id: \$id
@@ -2071,6 +2097,7 @@ getOtp(phone: \$phone){
     rating: \$rating
     message: \$message
     active: \$active
+    store: \$store
   ) {
     id
     pid {

@@ -7,6 +7,7 @@ import '../../model/user.dart';
 import '../../utility/query_mutation.dart';
 import '../../utility/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../main.dart';
 import 'api_endpoint.dart';
 import 'graphQl.dart';
 import 'package:mime/mime.dart';
@@ -61,7 +62,7 @@ class ApiProvider {
 
 // Store
 
-  store() async {
+  storeOne() async {
     Map responseData;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
@@ -190,7 +191,7 @@ class ApiProvider {
   }
 
   saveAddress(id, email, firstName, lastName, address, town, city, country,
-      state, pin, phone,store) async {
+      state, pin, phone) async {
     bool statusResponse;
     try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
@@ -208,7 +209,7 @@ class ApiProvider {
           'state': state,
           'zip': int.parse(pin),
           'phone': phone,
-          'store':store
+          'store':store.id
         }),
       );
       if (result.hasException) {
@@ -352,7 +353,8 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.groupByBanner()),
-            variables: {"type": "hero"}),
+            variables: {"type": "hero",
+              }),
       );
       if (resultData.hasException) {
         responseData = {"status": "error"};
@@ -447,7 +449,8 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.brands()),
-            variables: {"sort": "sort", "limit": 5, "page": 0},
+            variables: {"sort": "sort", "limit": 5, "page": 0,
+              'store':store.id},
             fetchPolicy: FetchPolicy.noCache),
       );
       if (resultData.hasException) {
@@ -508,7 +511,10 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
         MutationOptions(
-          document: gql(addMutation.cart()),
+          document: gql(addMutation.cart(),),
+          variables: {
+            'store':store.id
+          }
         ),
       );
       if (resultData.hasException) {
@@ -640,7 +646,8 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.categories()),
-            variables: {"shopbycategory": true, "limit": 6, "page": 0}),
+            variables: {"shopbycategory": true, "limit": 6, "page": 0,
+              'store':store.id}),
       );
       if (resultData.hasException) {
         print(resultData.exception);
@@ -795,6 +802,9 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.myWishlist()),
+        variables: {
+          "store":store.id
+        }
       ));
 
       log("hiiiiiiii     "+resultData.data.toString());
@@ -1016,6 +1026,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
           MutationOptions(document: gql(addMutation.myOrders()), variables: {
+            "store":store.id
         // "page":page,
         // "skip":skip,
         // "limit":limit,
@@ -1133,6 +1144,9 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.megamenu()),
+        variables: {
+          "store":store.id
+        }
       ));
       print(resultData.data.toString());
       if (resultData.hasException) {
@@ -1166,7 +1180,8 @@ class ApiProvider {
             "id": id,
             "pid": pid,
             "rating": rating,
-            "message": message
+            "message": message,
+            "store":store.id
           }));
       print(resultData.data.toString());
       print(resultData.exception.toString());

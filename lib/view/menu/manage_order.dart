@@ -1,10 +1,12 @@
 import 'package:anne/values/colors.dart';
+import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../main.dart';
 import '../../response_handler/orderReponse.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/graphQl.dart';
@@ -278,7 +280,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
+//   //                         "Total Amount : ${store.currencySymbol} ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -488,7 +490,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
+//   //                         "Total Amount : ${store.currencySymbol} ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -722,7 +724,7 @@ class _OrderClass extends State<OrderClass> {
 //   //                             )),
 //   //                       ),
 //   //                       Text(
-//   //                         "Total Amount : \$ ${data["amount"]["total"]}",
+//   //                         "Total Amount : ${store.currencySymbol} ${data["amount"]["total"]}",
 //   //                         style: TextStyle(
 //   //                             color: Color(0xff9b9b9b),
 //   //                             fontSize: ScreenUtil().setSp(
@@ -805,11 +807,11 @@ class ListOrderData extends StatelessWidget{
         child: ListView.builder(
         itemCount: orderResponse.data.length,
         itemBuilder: (BuildContext context, index) {
-          return getProductCard(orderResponse.data[index]);
+          return getProductCard(orderResponse.data[index],context);
         }));
   }
 
-  getProductCard(OrderData orderData) {
+  getProductCard(OrderData orderData,context) {
     return Container(
         margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(20)),
         child:  Material(
@@ -889,7 +891,7 @@ class ListOrderData extends StatelessWidget{
                               )),
                         ),
                         Text(
-                          "Total Amount : \$ ${orderData.amount.total}",
+                          "Total Amount : ${store.currencySymbol} ${orderData.amount.total}",
                           style: TextStyle(
                               color: Color(0xff9b9b9b),
                               fontSize: ScreenUtil().setSp(

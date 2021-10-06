@@ -13,6 +13,7 @@ import '../../values/event_constant.dart';
 import '../../view_model/address_view_model.dart';
 import 'package:intl/intl.dart';
 import '../../values/route_path.dart' as routes;
+import '../main.dart';
 
 class OrderConfirm extends StatefulWidget {
   final CheckOutResponse details;
@@ -716,7 +717,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 )),
                               ),
                               Text(
-                                "\$ ${detail[index].price}",
+                                "${store.currencySymbol} ${detail[index].price}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.primaryElement2,

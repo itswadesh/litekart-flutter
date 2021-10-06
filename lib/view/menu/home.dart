@@ -3,6 +3,7 @@ import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/common/login.dart';
 import 'package:anne/view/search.dart';
+import 'package:anne/view_model/store_view_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';

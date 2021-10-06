@@ -6,10 +6,12 @@ import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
+import 'package:anne/view_model/store_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../main.dart';
 import '../../values/route_path.dart' as routes;
 
 class ProductCard extends StatefulWidget {
@@ -156,7 +158,7 @@ class _ProductCard extends State<ProductCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
-                        "\$ " + item.price.toString() + " ",
+                        "${store.currencySymbol} " + item.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -166,7 +168,7 @@ class _ProductCard extends State<ProductCard> {
                       ),
                       item.price < item.mrp
                           ? Text(
-                        " \$ " + item.mrp.toString(),
+                        " ${store.currencySymbol} " + item.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(

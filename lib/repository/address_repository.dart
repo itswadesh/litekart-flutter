@@ -9,9 +9,9 @@ class AddressRepository {
   }
 
   saveAddress(id, email, firstName, lastName, address, town, city, country,
-      state, pin, phone,store) {
+      state, pin, phone) {
     return _apiProvider.saveAddress(id, email, firstName, lastName, address,
-        town, city, country, state, pin, phone,store);
+        town, city, country, state, pin, phone);
   }
 
   deleteAddress(id) {

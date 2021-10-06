@@ -619,9 +619,7 @@ class _ManageAddressState extends State<ManageAddress> {
                           buttonStatusAddress = !buttonStatusAddress;
                         });
                         //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-                        var store = Provider.of<StoreViewModel>(
-                            context,
-                            listen: false).storeResponse.id;
+
                         var response = await Provider.of<AddressViewModel>(
                                 context,
                                 listen: false)
@@ -636,7 +634,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 _country.text,
                                 _state.text,
                                 _pin.text,
-                                _phone.text,store);
+                                _phone.text);
                         if (response) {
                           setState(() {
                             buttonStatusAddress = !buttonStatusAddress;

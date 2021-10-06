@@ -23,6 +23,7 @@ import '../../model/user.dart';
 import '../../utility/graphQl.dart';
 import '../../view_model/rating_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
+import 'model/store.dart';
 import 'service/navigation/navigation_service.dart';
 import '../../utility/router.dart' as router;
 import '../../values/route_path.dart' as routes;
@@ -33,6 +34,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'view_model/manage_order_view_model.dart';
 import 'view_model/menu_view_model.dart';
 import 'view_model/store_view_model.dart';
+
+StoreData store;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -53,9 +56,9 @@ void main() async {
   bool showOnboarding = await showOnBoardingStatus();
   setupLocator();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-
   token = await getCookieFromSF();
   User user = await ProfileModel().returnProfile();
+  store =  await StoreViewModel().fetchStore();
   print(user);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

@@ -4,6 +4,6 @@ class StoreRepository {
   ApiProvider _apiProvider = ApiProvider();
 
   store() {
-    return _apiProvider.store();
+    return _apiProvider.storeOne();
   }
 }
