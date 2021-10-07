@@ -26,6 +26,7 @@ import '../../view/profile/profilePage.dart';
 import '../../view/return.dart';
 import '../../view/search.dart';
 import '../../view/zoom_image.dart';
+import '../main.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   debugPrint('Route Name => ${settings.name}');
@@ -62,7 +63,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
   switch (settings.name) {
     case routes.LoginRoute:
-      return ScaleRoute(page: Login());
+      if(settingData.otpLogin) {
+        return ScaleRoute(page: Login());
+      }
+      else{
+        return ScaleRoute(page: EmailLogin());
+      }
       break;
     case routes.EmailLoginRoute:
       return ScaleRoute(page: EmailLogin());

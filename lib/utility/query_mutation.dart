@@ -1811,6 +1811,116 @@ getOtp(phone: \$phone){
 }""";
   }
 
+  paypalExecute(){
+    return """mutation paypalExecute(\$PayerID: String!, \$paymentId: String!, \$token: String) {
+  paypalExecute(PayerID: \$PayerID, paymentId: \$paymentId, token: \$token) {
+    id
+    orderNo
+    otp
+    createdAt
+    paySuccess
+    paymentMode
+    paymentStatus
+    paymentCurrency
+    paymentReferenceId
+    paymentOrderId
+    paymentReceipt
+    invoiceId
+    paymentGateway
+    codPaid
+    baseCodPaid
+    amountPaid
+    amountDue
+    paymentMsg
+    paymentTime
+    paid
+    totalAmountRefunded
+    baseTotalAmountRefunded
+    amount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    baseAmount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    userFirstName
+    userLastName
+    userPhone
+    userEmail
+    address {
+      firstName
+      lastName
+      town
+      city
+      state
+      zip
+      address
+      lat
+      lng
+    }
+    items {
+      id
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      barcode
+      img
+      slug
+      price
+      basePrice
+      qty
+      shippingCharge
+      baseShippingCharge
+      tax
+      baseTax
+      time
+      options
+      brandName
+      brandImg
+      color
+      size
+      status
+      type
+      returnReason
+
+      vendorAddress {
+        firstName
+        lastName
+        town
+        city
+        state
+        zip
+        address
+        lat
+        lng
+      }
+      status
+      orderHistory {
+        status
+        title
+        body
+        icon
+        public
+        index
+        time
+      }
+      amountRefunded
+      baseAmountRefunded
+    }
+  }
+}""";
+  }
+
 
   paypalPayNow(){
     return """mutation paypalPayNow(\$address: ID) {

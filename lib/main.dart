@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:anne/model/setting.dart';
 import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ import 'view_model/menu_view_model.dart';
 import 'view_model/store_view_model.dart';
 
 StoreData store;
-
+SettingData settingData;
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext context) {
@@ -59,6 +60,7 @@ void main() async {
   token = await getCookieFromSF();
   User user = await ProfileModel().returnProfile();
   store =  await StoreViewModel().fetchStore();
+  settingData  = await SettingViewModel().fetchSettingData();
   print(user);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

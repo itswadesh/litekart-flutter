@@ -2540,11 +2540,11 @@ class _Checkout extends State<Checkout> {
 
   void paymentHandle(selectedAddressId) async {
     if (buttonStatusOrder) {
-      setState(() {
-        buttonStatusOrder = !buttonStatusOrder;
-      });
+      // setState(() {
+      //   buttonStatusOrder = !buttonStatusOrder;
+      // });
 
-      QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
+     // QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
 
       // QueryResult resultCashFree =
       //     await cashfreeRepository.cashFreePayNow(selectedAddressId);

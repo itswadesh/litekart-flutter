@@ -119,6 +119,7 @@ class _MegaMenu extends State<MegaMenu> {
   topMenuCard(MegaMenuResponse megamenu, bool colorStatus) {
     Color color = gradientColors[Random().nextInt(gradientColors.length)];
     return Container(
+
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
 
@@ -148,9 +149,9 @@ class _MegaMenu extends State<MegaMenu> {
             children: [
              Container(
                  width: ScreenUtil().setWidth(155),
-                 child: Text(megamenu.name, style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(30),fontWeight:FontWeight.w600),)),
-            // megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
-            // : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
+                 child: Text(megamenu.name??"", style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(25),fontWeight:FontWeight.w600),maxLines: 3,overflow: TextOverflow.ellipsis,)),
+            megamenu.img!=null? Image.network(megamenu.img,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
+            : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
             ],
           )),
             children: getMenuCard(megamenu.children),
@@ -168,13 +169,13 @@ class _MegaMenu extends State<MegaMenu> {
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child:  ExpansionTile(
               title: Text(
-                children[index].name,
+                children[index].name??"",
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
                     fontSize: ScreenUtil().setSp(20),
                     fontFamily: "Inter"),
               ),
-              children: getExpansionTileChild(children[index].children))));
+              children:  getExpansionTileChild(children[index].children))));
       }
 
     return childrenList;
@@ -182,6 +183,9 @@ class _MegaMenu extends State<MegaMenu> {
 
   getExpansionTileChild(List<MegaMenuChildren2> children) {
     List<Widget> list = [];
+    if(children==null){
+      return [Container()];
+    }
     for (int i = 0; i < children.length; i++) {
       list.add(Container(
         // decoration: BoxDecoration(
@@ -199,7 +203,7 @@ class _MegaMenu extends State<MegaMenu> {
                 "parentBrand": ""
               });
             },
-            title: Text(children[i].name,
+            title: Text(children[i].name??"",
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
                     fontSize: ScreenUtil().setSp(20),

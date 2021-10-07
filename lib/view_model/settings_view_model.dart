@@ -21,6 +21,17 @@ class SettingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  fetchSettingData() async {
+    var resultData = await settingsRepository.settings();
+    status = resultData["status"];
+    if (status == "completed") {
+      _settingResponse = SettingData.fromJson(resultData["value"]);
+      return _settingResponse;
+    }
+    return null;
+    notifyListeners();
+  }
+
   changeStatus(statusData) {
     status = statusData;
   }
