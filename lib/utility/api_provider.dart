@@ -378,7 +378,8 @@ class ApiProvider {
     Map<String, dynamic> variables = {"type": type};
     if (pageId != null) variables['pageId'] = pageId;
     if (sort != null) variables['sort'] = sort;
-
+    variables['isMobile'] = true;
+    variables['store'] = store.id;
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();

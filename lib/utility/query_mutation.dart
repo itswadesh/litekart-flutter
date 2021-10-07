@@ -935,6 +935,8 @@ getOtp(phone: \$phone){
   \$groupId: String
   \$groupTitle: String
   \$active: Boolean
+  \$isMobile: Boolean
+  \$store: ID
 ) {
   banners(
     page: \$page
@@ -946,6 +948,8 @@ getOtp(phone: \$phone){
     groupId: \$groupId
     groupTitle: \$groupTitle
     active: \$active
+    isMobile: \$isMobile
+    store: \$store
   ) {
     count
     page
