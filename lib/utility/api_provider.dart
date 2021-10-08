@@ -658,7 +658,7 @@ class ApiProvider {
             resultData.data["categories"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          print(resultData.data["categories"].toString());
+          log("here is category data "+resultData.data["categories"].toString());
           responseData = {
             "status": "completed",
             "value": resultData.data["categories"]

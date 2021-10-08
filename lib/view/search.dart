@@ -311,7 +311,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                               left: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
                                               right: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
+                                          image: new DecorationImage(fit: BoxFit.cover, image: (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? NetworkImage(value.categoryResponse.data[index].img):AssetImage("assets/images/logo.png"))))),
                               SizedBox(
                                 height: ScreenUtil().setWidth(5),
                               ),

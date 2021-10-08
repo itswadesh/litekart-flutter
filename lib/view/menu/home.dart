@@ -578,7 +578,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
             itemCount: value.sliderResponse.data.length,
             options: CarouselOptions(
               viewportFraction: 1,
-              aspectRatio: 20 / 9,
+              aspectRatio: 414 / 300,
               enlargeCenterPage: true,
               autoPlay: true,
             ),
@@ -623,14 +623,14 @@ print("link ${value.sliderResponse.data[index].link}");
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().radius(5))),
+                          Radius.circular(ScreenUtil().radius(0))),
                       child: Container(
                         width: ScreenUtil().setWidth(414),
-                         height: MediaQuery.of(context).size.height * 0.10,
+                        height:  ScreenUtil().setWidth(320),
                         child: Image.network(
                           value.sliderResponse?.data[index].img.toString(),
                           width: ScreenUtil().setWidth(414),
-                           height: MediaQuery.of(context).size.height * 0.10,
+                          height:  ScreenUtil().setWidth(320),
                           fit: BoxFit.cover,
                         ),
                       ),
