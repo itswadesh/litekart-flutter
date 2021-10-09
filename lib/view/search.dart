@@ -272,7 +272,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext build, index) {
-                  return Container(
+                  return (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? Container(
                     width: ScreenUtil().setWidth(100),
                       child: InkWell(
                           onTap: () {
@@ -311,7 +311,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                               left: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
                                               right: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? NetworkImage(value.categoryResponse.data[index].img):AssetImage("assets/images/logo.png"))))),
+                                          image: new DecorationImage(fit: BoxFit.cover, image: (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? NetworkImage(value.categoryResponse.data[index].img+"?tr=h-80,w-80,fo-auto"):AssetImage("assets/images/logo.png"))))),
                               SizedBox(
                                 height: ScreenUtil().setWidth(5),
                               ),
@@ -332,7 +332,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                               ),
                               )
                             ],
-                          )));
+                          ))):Container();
                 }),
           );
         }

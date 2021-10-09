@@ -59,7 +59,7 @@ class _ProductCard extends State<ProductCard> {
                   Container(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: item.img,
+                      image: item.img+"?tr=h-193,w-193,fo-auto",
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.cover,

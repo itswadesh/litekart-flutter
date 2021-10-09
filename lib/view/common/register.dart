@@ -198,6 +198,7 @@ class _RegisterState extends State<Register> {
                         borderSide: BorderSide(color: Colors.black54),
                       ),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                   )),
 
               SizedBox(

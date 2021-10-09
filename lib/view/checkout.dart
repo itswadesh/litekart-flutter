@@ -2544,8 +2544,8 @@ class _Checkout extends State<Checkout> {
       //   buttonStatusOrder = !buttonStatusOrder;
       // });
 
-     // QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
-
+     QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
+    log(resultPaypal.toString());
       // QueryResult resultCashFree =
       //     await cashfreeRepository.cashFreePayNow(selectedAddressId);
 

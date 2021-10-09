@@ -980,7 +980,7 @@ class ListOrderData extends StatelessWidget{
            new ClipRRect(
                child: FadeInImage.assetNetwork(
                  placeholder: 'assets/images/loading.gif',
-                 image: items[index].img,
+                 image: items[index].img+"?tr=h-112,w-92,fo-auto",
                  fit: BoxFit.cover,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),

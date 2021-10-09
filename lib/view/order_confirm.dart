@@ -658,7 +658,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   new ClipRRect(
                       child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
-                    image: detail[index].img,
+                    image: detail[index].img+"?tr=h-102,w-92,fo-auto",
                     fit: BoxFit.contain,
                     width: ScreenUtil().setWidth(92),
                     height: ScreenUtil().setWidth(102),

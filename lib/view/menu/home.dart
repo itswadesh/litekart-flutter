@@ -578,14 +578,12 @@ class _BannersSliderClass extends State<BannersSliderClass> {
             itemCount: value.sliderResponse.data.length,
             options: CarouselOptions(
               viewportFraction: 1,
-              aspectRatio: 414 / 300,
+              aspectRatio: 18 / 10,
               enlargeCenterPage: true,
               autoPlay: true,
             ),
             itemBuilder: (ctx, index, _index) {
               if (value.sliderResponse?.data[index] != null) {
-                log(index.toString());
-                log(value.sliderResponse.data[index].img);
                 return InkWell(
                   onTap: () async {
                     Map<String, dynamic> data = {
@@ -596,19 +594,19 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                       "event": "tap",
                     };
                     Tracking(event: EVENT_HOME_MAIN_SLIDER, data: data);
-print("link ${value.sliderResponse.data[index].link}");
+
 
                     if (value.sliderResponse.data[index].link == null ||
                         value.sliderResponse.data[index].link == "") {
 
                     }
                    else if(value.sliderResponse.data[index].link.contains(ApiEndpoint().brandLink)){
-                      log("here");
+
                      for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
                      {
                        print(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name);
                        if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==value.sliderResponse.data[index].link.split(ApiEndpoint().brandLink)[1]){
-                       print("here ytii");
+
                          locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
                        }
                      }
@@ -626,11 +624,11 @@ print("link ${value.sliderResponse.data[index].link}");
                           Radius.circular(ScreenUtil().radius(0))),
                       child: Container(
                         width: ScreenUtil().setWidth(414),
-                        height:  ScreenUtil().setWidth(320),
+                        height:  ScreenUtil().setWidth(4140/18),
                         child: Image.network(
-                          value.sliderResponse?.data[index].img.toString(),
+                          value.sliderResponse?.data[index].img.toString()+"?tr=w-414,fo-auto",
                           width: ScreenUtil().setWidth(414),
-                          height:  ScreenUtil().setWidth(320),
+                          height:  ScreenUtil().setWidth(4140/18),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -717,7 +715,7 @@ class _BannersClass extends State<BannersClass> {
             margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/loading.gif',
-                image: bannerResponse.groupByBanner[i].data[0].img),
+                image: bannerResponse.groupByBanner[i].data[0].img+"?tr=w-414,fo-auto"),
           )));
       children.add(
         SizedBox(
@@ -772,9 +770,9 @@ class _BannersClass extends State<BannersClass> {
                               child: FadeInImage.assetNetwork(
                                 placeholder: 'assets/images/loading.gif',
                                 image: bannerResponse
-                                    .groupByBanner[i].data[index].img,
+                                    .groupByBanner[i].data[index].img+"?tr=h-160,fo-auto",
                               ),
-                              margin: EdgeInsets.fromLTRB(0, 10, 20, 0),
+                              margin: EdgeInsets.fromLTRB(0, 10, ScreenUtil().setWidth(10), 0),
                             ),
                     ),
                   ]),

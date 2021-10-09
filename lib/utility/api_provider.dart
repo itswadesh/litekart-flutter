@@ -647,7 +647,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.categories()),
-            variables: {"shopbycategory": true, "limit": 6, "page": 0,
+            variables: {"shopbycategory": true,
               'store':store.id}),
       );
       if (resultData.hasException) {

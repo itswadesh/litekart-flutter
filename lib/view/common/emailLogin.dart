@@ -190,6 +190,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         borderSide: BorderSide(color: Colors.black54),
                       ),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                   )),
 
               SizedBox(
