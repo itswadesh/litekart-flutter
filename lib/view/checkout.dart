@@ -2172,6 +2172,9 @@ class _Checkout extends State<Checkout> {
               height: ScreenUtil().setWidth(50),
               child: TextField(
                 controller: cardNumber,
+                style: TextStyle(
+                    color: Color(0xff525252),
+                    fontSize: ScreenUtil().setSp(12)),
                 decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
@@ -2210,6 +2213,9 @@ class _Checkout extends State<Checkout> {
               height: ScreenUtil().setWidth(50),
               child: TextField(
                 controller: cardHolder,
+                style: TextStyle(
+                    color: Color(0xff525252),
+                    fontSize: ScreenUtil().setSp(12)),
                 decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
@@ -2318,6 +2324,9 @@ class _Checkout extends State<Checkout> {
                   color: Colors.white,
                   child: TextField(
                     controller: cvv,
+                    style: TextStyle(
+                        color: Color(0xff525252),
+                        fontSize: ScreenUtil().setSp(11)),
                     decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,

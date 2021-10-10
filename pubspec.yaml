@@ -95,7 +95,7 @@ flutter_icons:
 
 
 flutter_native_splash:
-  background_image: "assets/images/splashScreen.jpg"
+  background_image: "assets/images/splashScreen.png"
   fullscreen: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
