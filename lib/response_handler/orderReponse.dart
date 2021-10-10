@@ -121,7 +121,7 @@ class OrderItems {
         status: json["status"],
         slug: json["slug"],
         name: json["name"],
-        img: json["img"],
+        img: json["imgCdn"],
         price: double.parse(json["price"].toString()),
         pid: json["pid"],
         qty: json["qty"],

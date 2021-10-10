@@ -45,10 +45,10 @@ class ProductListData {
                   : "")
               : "",
           images: json["_source"] != null
-              ? ((json["_source"]["images"] != null &&
-                      json["_source"]["images"] != [""] &&
-                      json["_source"]["images"] != [])
-                  ? List.from(json["_source"]["images"].map((x) => x))
+              ? ((json["_source"]["imagesCdn"] != null &&
+                      json["_source"]["imagesCdn"] != [""] &&
+                      json["_source"]["imagesCdn"] != [])
+                  ? List.from(json["_source"]["imagesCdn"].map((x) => x))
                   : [])
               : [],
           price: json["_source"] != null

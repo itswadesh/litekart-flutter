@@ -990,6 +990,55 @@ class ApiProvider {
   }
 
 
+  // Stripe APi
+
+  brainTreeToken() async{
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult resultBrainTree = await _client.mutate(
+      MutationOptions(document: gql(addMutation.brainTreeToken())),
+    );
+    log("stipe error :: "+resultBrainTree.exception.toString());
+    return resultBrainTree.data;
+  }
+
+  //
+
+
+  stripe(addressId,token) async{
+    Map resultData ;
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult resultStripe = await _client.mutate(
+      MutationOptions(document: gql(addMutation.stripe()), variables: {
+        'address': addressId,
+        'token':token
+      }),
+    );
+    log(resultStripe.exception.toString());
+    if(resultStripe.hasException){
+      resultData = {
+        "status":"error",
+        "error": resultStripe.exception.toString()
+      };
+    }
+    else{
+      if(resultStripe.exception!=null){
+        resultData = {
+          "status":"error",
+          "error": resultStripe.exception.toString()
+        };
+      }
+      else {
+        resultData = {
+          "status": "completed",
+          "value": resultStripe.data["stripe"]
+        };
+      }
+    }
+    return resultData;
+  }
+
   // Paypal Api
 
 

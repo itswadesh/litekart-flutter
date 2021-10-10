@@ -1,9 +1,16 @@
+import 'dart:convert';
 import 'dart:developer';
-
+//import 'package:flutter_braintree/flutter_braintree.dart';
+import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/paypal_repository.dart';
+import 'package:anne/repository/stripe_repository.dart';
+import 'package:anne/values/functions.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_braintree/flutter_braintree.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
 //import '../../repository/cashfree_repository.dart';
@@ -25,7 +32,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
+import '../service/stripePayment.dart';
 import 'package:provider/provider.dart';
 import '../../components/base/tz_dialog.dart';
 import '../../enum/tz_dialog_type.dart';
@@ -44,7 +51,7 @@ import '../main.dart';
 import 'menu/manage_order.dart';
 
 class Checkout extends StatefulWidget {
-  Checkout();
+
 
   @override
   State<StatefulWidget> createState() {
@@ -57,11 +64,12 @@ class _Checkout extends State<Checkout> {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   CheckoutRepository checkoutRepository = CheckoutRepository();
+
   //CashfreeRepository cashfreeRepository = CashfreeRepository();
   PaypalRepository paypalRepository = PaypalRepository();
   var _formKey = GlobalKey<FormState>();
   var newAddress = true;
-  String paymentMethod = "nb";
+  String paymentMethod = "paypal";
   var addressPage = true;
   var defaultAddress = true;
   var primaryAddressBox = -1;
@@ -100,16 +108,16 @@ class _Checkout extends State<Checkout> {
   ListItem _selectedMonth;
 
   List<ListItem> _dropdownYear = [
-    ListItem(1, "2021"),
-    ListItem(2, "2022"),
-    ListItem(3, "2023"),
-    ListItem(4, "2024"),
-    ListItem(5, "2025"),
-    ListItem(6, "2026"),
-    ListItem(7, "2027"),
-    ListItem(8, "2028"),
-    ListItem(9, "2029"),
-    ListItem(10, "2030"),
+    ListItem(1, "21"),
+    ListItem(2, "22"),
+    ListItem(3, "23"),
+    ListItem(4, "24"),
+    ListItem(5, "25"),
+    ListItem(6, "26"),
+    ListItem(7, "27"),
+    ListItem(8, "28"),
+    ListItem(9, "29"),
+    ListItem(10, "30"),
   ];
 
   List<DropdownMenuItem<ListItem>> _dropdownYearItems;
@@ -124,6 +132,10 @@ class _Checkout extends State<Checkout> {
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
     _selectedYear = _dropdownYearItems[0].value;
     super.initState();
+    StripePayment.setOptions(StripeOptions(
+        publishableKey: settingData.stripePublishableKey,
+        ));
+
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -177,7 +189,10 @@ class _Checkout extends State<Checkout> {
           client: graphQLConfiguration.initailizeClient(),
           child: CacheProvider(
               child: Container(
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height,
                   color: Color(0xfff3f3f3),
                   child: getCartList()))),
     );
@@ -186,254 +201,256 @@ class _Checkout extends State<Checkout> {
   getBillCard() {
     return Consumer<CartViewModel>(
         builder: (BuildContext context, value, Widget child) {
-      return Material(
-          color: Color(0xfff3f3f3),
-          // borderRadius: BorderRadius.circular(2),
-          child: Card(
-            margin: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(0),
-                ScreenUtil().setWidth(5),
-                ScreenUtil().setWidth(0),
-                ScreenUtil().setWidth(65)),
-            elevation: 0,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(20),
-                  ScreenUtil().setWidth(20),
-                  ScreenUtil().setWidth(20),
-                  ScreenUtil().setWidth(20)),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Container(
-                    //         height: ScreenUtil().setWidth(35),
-                    //         width: ScreenUtil().setWidth(231),
-                    //         child: TextFormField(
-                    //           onTap: () async {
-                    //             await Provider.of<CartViewModel>(context,
-                    //                     listen: false)
-                    //                 .changePromoStatus("loading");
-                    //             showCoupon();
-                    //           },
-                    //           readOnly: true,
-                    //           decoration: InputDecoration(
-                    //               fillColor: Color(0xfff3f3f3),
-                    //               filled: true,
-                    //               contentPadding:
-                    //                   EdgeInsets.all(ScreenUtil().setWidth(10)),
-                    //               enabledBorder: OutlineInputBorder(
-                    //                 borderSide: BorderSide(
-                    //                     color: Color(0xffb4b4b4),
-                    //                     width: ScreenUtil().setWidth(0.4)),
-                    //               ),
-                    //               focusedBorder: OutlineInputBorder(
-                    //                 borderSide: BorderSide(
-                    //                     color: Color(0xffb4b4b4),
-                    //                     width: ScreenUtil().setWidth(0.4)),
-                    //               ),
-                    //               labelText: value.promocodeStatus
-                    //                   ? value.promocode
-                    //                   : "Promocode",
-                    //               labelStyle: TextStyle(
-                    //                   color: Color(0xffb9b9b9),
-                    //                   fontSize: ScreenUtil().setSp(
-                    //                     15,
-                    //                   ))),
-                    //         )),
-                    //     Container(
-                    //       width: ScreenUtil().setWidth(91),
-                    //       height: ScreenUtil().setWidth(35),
-                    //       child: OutlinedButton(
-                    //         style: OutlinedButton.styleFrom(
-                    //           shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(5),
-                    //           ),
-                    //           side: BorderSide(
-                    //               width: 1, color: AppColors.primaryElement),
-                    //         ),
-                    //         onPressed: () {},
-                    //         child: Text(
-                    //           value.promocodeStatus ? "Applied" : "Apply",
-                    //           style: TextStyle(
-                    //               fontFamily: 'Montserrat',
-                    //               color: AppColors.primaryElement),
-                    //         ),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: ScreenUtil().setWidth(28),
-                    // ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+          return Material(
+              color: Color(0xfff3f3f3),
+              // borderRadius: BorderRadius.circular(2),
+              child: Card(
+                margin: EdgeInsets.fromLTRB(
+                    ScreenUtil().setWidth(0),
+                    ScreenUtil().setWidth(5),
+                    ScreenUtil().setWidth(0),
+                    ScreenUtil().setWidth(65)),
+                elevation: 0,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(20),
+                      ScreenUtil().setWidth(20),
+                      ScreenUtil().setWidth(20),
+                      ScreenUtil().setWidth(20)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Container(
+                    child: Column(
                       children: <Widget>[
-                        Text(
-                          "Price Details",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff383838),
-                              fontSize: ScreenUtil().setSp(
-                                20,
-                              )),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Container(
+                        //         height: ScreenUtil().setWidth(35),
+                        //         width: ScreenUtil().setWidth(231),
+                        //         child: TextFormField(
+                        //           onTap: () async {
+                        //             await Provider.of<CartViewModel>(context,
+                        //                     listen: false)
+                        //                 .changePromoStatus("loading");
+                        //             showCoupon();
+                        //           },
+                        //           readOnly: true,
+                        //           decoration: InputDecoration(
+                        //               fillColor: Color(0xfff3f3f3),
+                        //               filled: true,
+                        //               contentPadding:
+                        //                   EdgeInsets.all(ScreenUtil().setWidth(10)),
+                        //               enabledBorder: OutlineInputBorder(
+                        //                 borderSide: BorderSide(
+                        //                     color: Color(0xffb4b4b4),
+                        //                     width: ScreenUtil().setWidth(0.4)),
+                        //               ),
+                        //               focusedBorder: OutlineInputBorder(
+                        //                 borderSide: BorderSide(
+                        //                     color: Color(0xffb4b4b4),
+                        //                     width: ScreenUtil().setWidth(0.4)),
+                        //               ),
+                        //               labelText: value.promocodeStatus
+                        //                   ? value.promocode
+                        //                   : "Promocode",
+                        //               labelStyle: TextStyle(
+                        //                   color: Color(0xffb9b9b9),
+                        //                   fontSize: ScreenUtil().setSp(
+                        //                     15,
+                        //                   ))),
+                        //         )),
+                        //     Container(
+                        //       width: ScreenUtil().setWidth(91),
+                        //       height: ScreenUtil().setWidth(35),
+                        //       child: OutlinedButton(
+                        //         style: OutlinedButton.styleFrom(
+                        //           shape: RoundedRectangleBorder(
+                        //             borderRadius: BorderRadius.circular(5),
+                        //           ),
+                        //           side: BorderSide(
+                        //               width: 1, color: AppColors.primaryElement),
+                        //         ),
+                        //         onPressed: () {},
+                        //         child: Text(
+                        //           value.promocodeStatus ? "Applied" : "Apply",
+                        //           style: TextStyle(
+                        //               fontFamily: 'Montserrat',
+                        //               color: AppColors.primaryElement),
+                        //         ),
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(28),
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Price Details",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff383838),
+                                  fontSize: ScreenUtil().setSp(
+                                    20,
+                                  )),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Item Subtotal",
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                            Text("${store.currencySymbol} " + value.cartResponse
+                                .subtotal.toString(),
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    )))
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(16),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Total Items",
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                            Text(value.cartResponse.qty.toString(),
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    )))
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(16),
+                        ),
+                        value.cartResponse.discount.amount > 0
+                            ? Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Your savings",
+                                    style: TextStyle(
+                                        color: Color(0xff616161),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        ))),
+                                Text(
+                                    "${store.currencySymbol} " +
+                                        value.cartResponse.discount.amount
+                                            .toString(),
+                                    style: TextStyle(
+                                        color: Color(0xff616161),
+                                        fontSize: ScreenUtil().setSp(
+                                          16,
+                                        )))
+                              ],
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(16),
+                            )
+                          ],
                         )
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Item Subtotal",
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ))),
-                        Text("${store.currencySymbol} " + value.cartResponse.subtotal.toString(),
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                )))
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Total Items",
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ))),
-                        Text(value.cartResponse.qty.toString(),
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                )))
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ),
-                    value.cartResponse.discount.amount > 0
-                        ? Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Your savings",
-                                      style: TextStyle(
-                                          color: Color(0xff616161),
-                                          fontSize: ScreenUtil().setSp(
-                                            16,
-                                          ))),
-                                  Text(
-                                      "${store.currencySymbol} " +
-                                          value.cartResponse.discount.amount
-                                              .toString(),
-                                      style: TextStyle(
-                                          color: Color(0xff616161),
-                                          fontSize: ScreenUtil().setSp(
-                                            16,
-                                          )))
-                                ],
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setWidth(16),
-                              )
-                            ],
-                          )
-                        : SizedBox.shrink(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Shipping Charges",
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ))),
-                        Text("${store.currencySymbol} " + value.cartResponse.shipping.toString(),
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                )))
-                      ],
-                    ),
-                    value.promocodeStatus
-                        ?  SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ):Container(),
-                    // value.cartResponse.tax > 0
-                    //     ? Column(
-                    //         children: [
-                    //           Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceBetween,
-                    //             children: <Widget>[
-                    //               Text("SAT/VAT tax",
-                    //                   style: TextStyle(
-                    //                       color: Color(0xff616161),
-                    //                       fontSize: ScreenUtil().setSp(
-                    //                         16,
-                    //                       ))),
-                    //               Text(
-                    //                   "${store.currencySymbol} " +
-                    //                       (value.cartResponse.tax).toString(),
-                    //                   style: TextStyle(
-                    //                       color: Color(0xff616161),
-                    //                       fontSize: ScreenUtil().setSp(
-                    //                         16,
-                    //                       )))
-                    //             ],
-                    //           ),
-                    //           SizedBox(
-                    //             height: ScreenUtil().setWidth(16),
-                    //           )
-                    //         ],
-                    //       )
-                    //     : SizedBox.shrink(),
-                    value.promocodeStatus
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Promocode",
-                                  style: TextStyle(
-                                      color: Color(0xff616161),
-                                      fontSize: ScreenUtil().setSp(
-                                        16,
-                                      ))),
-                              Text(
-                                  value.promocodeStatus
-                                      ? "Applied"
-                                      : "Not Applied",
-                                  style: TextStyle(
-                                      color: value.promocodeStatus
-                                          ? AppColors.primaryElement2
-                                          : Colors.red,
-                                      fontSize: ScreenUtil().setSp(
-                                        16,
-                                      ),
-                                      decoration: TextDecoration.underline)),
-                            ],
-                          )
-                        : Container(),
-                    /*SizedBox(
+                            : SizedBox.shrink(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Shipping Charges",
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                            Text("${store.currencySymbol} " + value.cartResponse
+                                .shipping.toString(),
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    )))
+                          ],
+                        ),
+                        value.promocodeStatus
+                            ? SizedBox(
+                          height: ScreenUtil().setWidth(16),
+                        ) : Container(),
+                        // value.cartResponse.tax > 0
+                        //     ? Column(
+                        //         children: [
+                        //           Row(
+                        //             mainAxisAlignment:
+                        //                 MainAxisAlignment.spaceBetween,
+                        //             children: <Widget>[
+                        //               Text("SAT/VAT tax",
+                        //                   style: TextStyle(
+                        //                       color: Color(0xff616161),
+                        //                       fontSize: ScreenUtil().setSp(
+                        //                         16,
+                        //                       ))),
+                        //               Text(
+                        //                   "${store.currencySymbol} " +
+                        //                       (value.cartResponse.tax).toString(),
+                        //                   style: TextStyle(
+                        //                       color: Color(0xff616161),
+                        //                       fontSize: ScreenUtil().setSp(
+                        //                         16,
+                        //                       )))
+                        //             ],
+                        //           ),
+                        //           SizedBox(
+                        //             height: ScreenUtil().setWidth(16),
+                        //           )
+                        //         ],
+                        //       )
+                        //     : SizedBox.shrink(),
+                        value.promocodeStatus
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Promocode",
+                                style: TextStyle(
+                                    color: Color(0xff616161),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                            Text(
+                                value.promocodeStatus
+                                    ? "Applied"
+                                    : "Not Applied",
+                                style: TextStyle(
+                                    color: value.promocodeStatus
+                                        ? AppColors.primaryElement2
+                                        : Colors.red,
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ),
+                                    decoration: TextDecoration.underline)),
+                          ],
+                        )
+                            : Container(),
+                        /*SizedBox(
                       height: ScreenUtil().setWidth(16),
                     ),
                     Text(
@@ -443,541 +460,587 @@ class _Checkout extends State<Checkout> {
                             fontSize: ScreenUtil().setSp(
                               14,
                             ))),*/
-                    SizedBox(
-                      height: ScreenUtil().setWidth(21.5),
-                    ),
-                    Divider(
-                      thickness: ScreenUtil().setWidth(0.4),
-                      color: Color(0xffb9b9b9),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(21.5),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Total Price",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff000000),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ))),
-                        Text("${store.currencySymbol} " + (value.cartResponse.total).toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff000000),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ))),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(21.5),
+                        ),
+                        Divider(
+                          thickness: ScreenUtil().setWidth(0.4),
+                          color: Color(0xffb9b9b9),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(21.5),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Total Price",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff000000),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                            Text("${store.currencySymbol} " + (value
+                                .cartResponse.total).toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff000000),
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ))),
+                          ],
+                        ),
+                        addressPage ? Container() : getDeliveryCard(),
+                        SizedBox(
+                          height: 5,
+                        ),
                       ],
                     ),
-                    addressPage ? Container() : getDeliveryCard(),
-                    SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ));
-    });
+              ));
+        });
   }
 
   getDeliveryCard() {
     return Consumer<AddressViewModel>(
         builder: (BuildContext context, value, Widget child) {
-      return Container(
-        // padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(children: [
-          SizedBox(
-            height: ScreenUtil().setWidth(21),
-          ),
-          Container(
-              height: ScreenUtil().setWidth(46),
-              width: double.infinity,
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    side: BorderSide(width: 2, color: buttonStatusOrder ? AppColors.primaryElement : Colors.grey),
-                  ),
-                  onPressed: () async {
-                    paymentHandle(value.selectedAddress.id);
-                  },
-                  child: Text(
-                    'Place Order',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w700,
-                        color: buttonStatusOrder ? AppColors.primaryElement : Colors.grey),
-                  ))),
-          SizedBox(
-            height: ScreenUtil().setWidth(19),
-          ),
-          Divider(
-            thickness: ScreenUtil().setWidth(0.4),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(21),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              "Delivery:",
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setWidth(20)),
-              textAlign: TextAlign.left,
+          return Container(
+            // padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(21),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              "${value.selectedAddress.firstName + " " + value.selectedAddress.lastName ?? "User"}",
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setSp(
-                    15,
-                  )),
-            ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(6),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              "Address : " + value.selectedAddress.address.toString(),
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setSp(
-                    15,
-                  )),
-              maxLines: 3,
-            ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(6),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              "Pin : " + value.selectedAddress.zip.toString(),
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setSp(
-                    15,
-                  )),
-            ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(6),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              value.selectedAddress.phone.toString(),
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setSp(
-                    15,
-                  )),
-            ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(6),
-          ),
-          Container(
-            width: double.infinity,
-            child: Text(
-              value.selectedAddress.email.toString(),
-              style: TextStyle(
-                  color: Color(0xff5f5f5f),
-                  fontSize: ScreenUtil().setSp(
-                    15,
-                  )),
-            ),
-          ),
-        ]),
-      );
-    });
+            child: Column(children: [
+              SizedBox(
+                height: ScreenUtil().setWidth(21),
+              ),
+              Container(
+                  height: ScreenUtil().setWidth(46),
+                  width: double.infinity,
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        side: BorderSide(width: 2,
+                            color: buttonStatusOrder
+                                ? AppColors.primaryElement
+                                : Colors.grey),
+                      ),
+                      onPressed: () async {
+                        paymentHandle(value.selectedAddress.id);
+                      },
+                      child: Text(
+                        'Place Order',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w700,
+                            color: buttonStatusOrder
+                                ? AppColors.primaryElement
+                                : Colors.grey),
+                      ))),
+              SizedBox(
+                height: ScreenUtil().setWidth(19),
+              ),
+              Divider(
+                thickness: ScreenUtil().setWidth(0.4),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(21),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  "Delivery:",
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setWidth(20)),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(21),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  "${value.selectedAddress.firstName + " " +
+                      value.selectedAddress.lastName ?? "User"}",
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setSp(
+                        15,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(6),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  "Address : " + value.selectedAddress.address.toString(),
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setSp(
+                        15,
+                      )),
+                  maxLines: 3,
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(6),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  "Pin : " + value.selectedAddress.zip.toString(),
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setSp(
+                        15,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(6),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  value.selectedAddress.phone.toString(),
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setSp(
+                        15,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(6),
+              ),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  value.selectedAddress.email.toString(),
+                  style: TextStyle(
+                      color: Color(0xff5f5f5f),
+                      fontSize: ScreenUtil().setSp(
+                        15,
+                      )),
+                ),
+              ),
+            ]),
+          );
+        });
   }
 
   getDeliveryOptionCard() {
     return Consumer<AddressViewModel>(
         builder: (BuildContext context, value, Widget child) {
-      if (value.status == "loading") {
-        Provider.of<AddressViewModel>(context, listen: false)
-            .fetchAddressData();
-        if(Provider.of<StoreViewModel>(context).status=="loading"||Provider.of<StoreViewModel>(context).status=="error"){ Provider.of<StoreViewModel>(context,
-            listen: false)
-            .fetchStore();
-        }
-        return Loading();
-      } else if (value.status == "empty") {
-        return Container(height: ScreenUtil().setWidth(20));
-      } else if (value.status == "error") {
-        return Container(
-          height: ScreenUtil().setWidth(20),
-        );
-      }
-      return Column(children: [
-        Container(
-          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, 0, 0),
-          margin: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
-          width: double.infinity,
-          child: Text(
-            "Select Delivery Address",
-            style: TextStyle(
-                fontSize: ScreenUtil().setSp(
-                  17,
-                ),
-                fontWeight: FontWeight.w500,
-                color: Color(0xff525252)),
-          ),
-        ),
-        ListView.builder(
+          if (value.status == "loading") {
+            Provider.of<AddressViewModel>(context, listen: false)
+                .fetchAddressData();
+            if (Provider
+                .of<StoreViewModel>(context)
+                .status == "loading" || Provider
+                .of<StoreViewModel>(context)
+                .status == "error") {
+              Provider.of<StoreViewModel>(context,
+                  listen: false)
+                  .fetchStore();
+            }
+            return Loading();
+          } else if (value.status == "empty") {
+            return Container(height: ScreenUtil().setWidth(20));
+          } else if (value.status == "error") {
+            return Container(
+              height: ScreenUtil().setWidth(20),
+            );
+          }
+          return Column(children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0, 0, 0),
+              margin: EdgeInsets.fromLTRB(
+                  0, ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20)),
+              width: double.infinity,
+              child: Text(
+                "Select Delivery Address",
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(
+                      17,
+                    ),
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff525252)),
+              ),
+            ),
+            ListView.builder(
 
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: value.addressResponse.data.length,
-            itemBuilder: (BuildContext context, index) {
-              return GestureDetector(
-                onTap: () async {
-                  await Provider.of<AddressViewModel>(context, listen: false)
-                      .selectAddress(value.addressResponse.data[index]);
-                },
-                child: Material(
-                    color: Color(0xfffffff),
-                    // borderRadius: BorderRadius.circular(2),
-                    child: Card(
-                      margin: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(0),
-                          ScreenUtil().setWidth(0),
-                          ScreenUtil().setWidth(0),
-                          ScreenUtil().setWidth(0)),
-                      elevation: 0.1,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(0),
-                            ScreenUtil().setWidth(20),
-                            ScreenUtil().setWidth(0),
-                            ScreenUtil().setWidth(10)),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Column(children: [
-                          Container(
-                              padding:EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-                              child: Column(children:[
-                                Row(
-                                  children: [
-                                    // InkWell(
-                                    //   onTap: () async {
-                                    //     await Provider.of<AddressViewModel>(context,
-                                    //             listen: false)
-                                    //         .selectAddress(
-                                    //             value.addressResponse.data[index]);
-                                    //   },
-                                    //   child:
-                                    (value.selectedAddress != null &&
-                                        (value.selectedAddress.id ==
-                                            value.addressResponse.data[index].id))
-                                        ? Icon(
-                                      Icons.check_circle,
-                                      color: AppColors.primaryElement,
-                                      size: ScreenUtil().setWidth(18),
-                                    )
-                                        : Icon(
-                                      Icons.check_box_outline_blank,
-                                      color: AppColors.primaryElement,
-                                      size: ScreenUtil().setWidth(18),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: value.addressResponse.data.length,
+                itemBuilder: (BuildContext context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      await Provider.of<AddressViewModel>(
+                          context, listen: false)
+                          .selectAddress(value.addressResponse.data[index]);
+                    },
+                    child: Material(
+                        color: Color(0xfffffff),
+                        // borderRadius: BorderRadius.circular(2),
+                        child: Card(
+                          margin: EdgeInsets.fromLTRB(
+                              ScreenUtil().setWidth(0),
+                              ScreenUtil().setWidth(0),
+                              ScreenUtil().setWidth(0),
+                              ScreenUtil().setWidth(0)),
+                          elevation: 0.1,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(
+                                ScreenUtil().setWidth(0),
+                                ScreenUtil().setWidth(20),
+                                ScreenUtil().setWidth(0),
+                                ScreenUtil().setWidth(10)),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Column(children: [
+                              Container(
+                                  padding: EdgeInsets.only(
+                                      left: ScreenUtil().setWidth(20)),
+                                  child: Column(children: [
+                                    Row(
+                                      children: [
+                                        // InkWell(
+                                        //   onTap: () async {
+                                        //     await Provider.of<AddressViewModel>(context,
+                                        //             listen: false)
+                                        //         .selectAddress(
+                                        //             value.addressResponse.data[index]);
+                                        //   },
+                                        //   child:
+                                        (value.selectedAddress != null &&
+                                            (value.selectedAddress.id ==
+                                                value.addressResponse
+                                                    .data[index].id))
+                                            ? Icon(
+                                          Icons.check_circle,
+                                          color: AppColors.primaryElement,
+                                          size: ScreenUtil().setWidth(18),
+                                        )
+                                            : Icon(
+                                          Icons.check_box_outline_blank,
+                                          color: AppColors.primaryElement,
+                                          size: ScreenUtil().setWidth(18),
+                                        ),
+                                        // ),
+                                        SizedBox(
+                                          width: ScreenUtil().setWidth(9.33),
+                                        ),
+                                        Container(
+                                          width: ScreenUtil().setWidth(245),
+                                          child: Text(
+                                            "${(value.addressResponse
+                                                .data[index].firstName + " " +
+                                                value.addressResponse
+                                                    .data[index].lastName) ??
+                                                "User"}",
+                                            style: TextStyle(
+                                                color: Color(0xff525252),
+                                                fontSize: ScreenUtil().setSp(
+                                                  17,
+                                                )),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    // ),
                                     SizedBox(
-                                      width: ScreenUtil().setWidth(9.33),
+                                      height: ScreenUtil().setWidth(16),
                                     ),
                                     Container(
-                                      width: ScreenUtil().setWidth(245),
+                                      padding:
+                                      EdgeInsets.only(
+                                          left: ScreenUtil().setWidth(26)),
+                                      width: double.infinity,
                                       child: Text(
-                                        "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
+                                        "Address : " +
+                                            value.addressResponse.data[index]
+                                                .address
+                                                .toString(),
                                         style: TextStyle(
-                                            color: Color(0xff525252),
+                                            color: Color(0xff5f5f5f),
                                             fontSize: ScreenUtil().setSp(
-                                              17,
+                                              16,
                                             )),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(16),
-                                ),
-                                Container(
-                                  padding:
-                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
-                                  width: double.infinity,
-                                  child: Text(
-                                    "Address : " +
-                                        value.addressResponse.data[index].address
+                                    ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(11),
+                                    ),
+                                    Container(
+                                      padding:
+                                      EdgeInsets.only(
+                                          left: ScreenUtil().setWidth(26)),
+                                      width: double.infinity,
+                                      child: Text(
+                                        "Pin : " +
+                                            value.addressResponse.data[index]
+                                                .zip.toString(),
+                                        style: TextStyle(
+                                            color: Color(0xff5f5f5f),
+                                            fontSize: ScreenUtil().setSp(
+                                              16,
+                                            )),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(12),
+                                    ),
+                                    Container(
+                                      padding:
+                                      EdgeInsets.only(
+                                          left: ScreenUtil().setWidth(26)),
+                                      width: double.infinity,
+                                      child: Text(
+                                        value.addressResponse.data[index].phone
                                             .toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff5f5f5f),
-                                        fontSize: ScreenUtil().setSp(
-                                          16,
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(11),
-                                ),
-                                Container(
-                                  padding:
-                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
-                                  width: double.infinity,
-                                  child: Text(
-                                    "Pin : " +
-                                        value.addressResponse.data[index].zip.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff5f5f5f),
-                                        fontSize: ScreenUtil().setSp(
-                                          16,
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(12),
-                                ),
-                                Container(
-                                  padding:
-                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
-                                  width: double.infinity,
-                                  child: Text(
-                                    value.addressResponse.data[index].phone.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff5f5f5f),
-                                        fontSize: ScreenUtil().setSp(
-                                          15,
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(13),
-                                ),
-                                Container(
-                                  padding:
-                                  EdgeInsets.only(left: ScreenUtil().setWidth(26)),
-                                  width: double.infinity,
-                                  child: Text(
-                                    value.addressResponse.data[index].email.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xff5f5f5f),
-                                        fontSize: ScreenUtil().setSp(
-                                          15,
-                                        )),
-                                  ),
-                                ),
-                                // SizedBox(
-                                //   height: ScreenUtil().setWidth(26),
-                                // ),
-                                // Row(
-                                //   children: [
-                                //     InkWell(
-                                //       onTap: () {
-                                //         setState(() {
-                                //           primaryAddressBox = index;
-                                //         });
-                                //       },
-                                //       child: primaryAddressBox == index
-                                //           ? Icon(
-                                //               Icons.check_box,
-                                //               color: AppColors.primaryElement,
-                                //               size: ScreenUtil().setWidth(18),
-                                //             )
-                                //           : Icon(
-                                //               Icons.check_box_outline_blank,
-                                //               color: AppColors.primaryElement,
-                                //               size: ScreenUtil().setWidth(18),
-                                //             ),
-                                //     ),
-                                //     SizedBox(
-                                //       width: ScreenUtil().setWidth(12.25),
-                                //     ),
-                                //     Container(
-                                //       width: ScreenUtil().setWidth(250),
-                                //       child: Text(
-                                //         "Make this a primary Address",
-                                //         style: TextStyle(
-                                //             color: Color(0xff5c5c5c),
-                                //             fontSize: ScreenUtil().setSp(
-                                //               13,
-                                //             )),
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                SizedBox(
-                                  height: ScreenUtil().setWidth(20),
-                                ),])),
-                          Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
+                                        style: TextStyle(
+                                            color: Color(0xff5f5f5f),
+                                            fontSize: ScreenUtil().setSp(
+                                              15,
+                                            )),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(13),
+                                    ),
+                                    Container(
+                                      padding:
+                                      EdgeInsets.only(
+                                          left: ScreenUtil().setWidth(26)),
+                                      width: double.infinity,
+                                      child: Text(
+                                        value.addressResponse.data[index].email
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Color(0xff5f5f5f),
+                                            fontSize: ScreenUtil().setSp(
+                                              15,
+                                            )),
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   height: ScreenUtil().setWidth(26),
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     InkWell(
+                                    //       onTap: () {
+                                    //         setState(() {
+                                    //           primaryAddressBox = index;
+                                    //         });
+                                    //       },
+                                    //       child: primaryAddressBox == index
+                                    //           ? Icon(
+                                    //               Icons.check_box,
+                                    //               color: AppColors.primaryElement,
+                                    //               size: ScreenUtil().setWidth(18),
+                                    //             )
+                                    //           : Icon(
+                                    //               Icons.check_box_outline_blank,
+                                    //               color: AppColors.primaryElement,
+                                    //               size: ScreenUtil().setWidth(18),
+                                    //             ),
+                                    //     ),
+                                    //     SizedBox(
+                                    //       width: ScreenUtil().setWidth(12.25),
+                                    //     ),
+                                    //     Container(
+                                    //       width: ScreenUtil().setWidth(250),
+                                    //       child: Text(
+                                    //         "Make this a primary Address",
+                                    //         style: TextStyle(
+                                    //             color: Color(0xff5c5c5c),
+                                    //             fontSize: ScreenUtil().setSp(
+                                    //               13,
+                                    //             )),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(20),
+                                    ),
+                                  ])),
+                              Divider(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
 
-                              InkWell(
-                                  onTap: () async {
-                                    addressId =
-                                        value.addressResponse.data[index].id;
-                                    _phone.text =
-                                        value.addressResponse.data[index].phone;
-                                    _address.text =
-                                        value.addressResponse.data[index].address;
-                                    _pin.text = value
-                                        .addressResponse.data[index].zip
-                                        .toString();
-                                    _email.text =
-                                        value.addressResponse.data[index].email;
-                                    _town.text =
-                                        value.addressResponse.data[index].town;
-                                    _city.text =
-                                        value.addressResponse.data[index].city;
-                                    _country.text =
-                                        value.addressResponse.data[index].country;
-                                    _state.text =
-                                        value.addressResponse.data[index].state;
-                                    _firstName.text = value
-                                        .addressResponse.data[index].firstName;
-                                    _lastName.text = value
-                                        .addressResponse.data[index].lastName;
-                                    setState(() {
-                                      newAddress = !newAddress;
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            right: BorderSide(color: Color(0xffd3d3d3))
-                                        )
-                                    ),
-                                    width: ScreenUtil().setWidth(150),
-                                    height: ScreenUtil().setWidth(30),
-                                    child: Center(
-                                      child: Text("EDIT",style: TextStyle(color: AppColors.primaryElement),),
-                                    ),
-                                  )),
+                                  InkWell(
+                                      onTap: () async {
+                                        addressId =
+                                            value.addressResponse.data[index]
+                                                .id;
+                                        _phone.text =
+                                            value.addressResponse.data[index]
+                                                .phone;
+                                        _address.text =
+                                            value.addressResponse.data[index]
+                                                .address;
+                                        _pin.text = value
+                                            .addressResponse.data[index].zip
+                                            .toString();
+                                        _email.text =
+                                            value.addressResponse.data[index]
+                                                .email;
+                                        _town.text =
+                                            value.addressResponse.data[index]
+                                                .town;
+                                        _city.text =
+                                            value.addressResponse.data[index]
+                                                .city;
+                                        _country.text =
+                                            value.addressResponse.data[index]
+                                                .country;
+                                        _state.text =
+                                            value.addressResponse.data[index]
+                                                .state;
+                                        _firstName.text = value
+                                            .addressResponse.data[index]
+                                            .firstName;
+                                        _lastName.text = value
+                                            .addressResponse.data[index]
+                                            .lastName;
+                                        setState(() {
+                                          newAddress = !newAddress;
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    color: Color(0xffd3d3d3))
+                                            )
+                                        ),
+                                        width: ScreenUtil().setWidth(150),
+                                        height: ScreenUtil().setWidth(30),
+                                        child: Center(
+                                          child: Text("EDIT", style: TextStyle(
+                                              color: AppColors
+                                                  .primaryElement),),
+                                        ),
+                                      )),
 
-                              InkWell(
-                                  onTap: () async {
-                                    await Provider.of<AddressViewModel>(context,
-                                        listen: false)
-                                        .deleteAddress(
-                                        value.addressResponse.data[index].id);
-                                  },
-                                  child: Container(
-                                    width: ScreenUtil().setWidth(215),
-                                    height: ScreenUtil().setWidth(30),
-                                    child: Center(
-                                      child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
-                                    ),
-                                  ))
-                            ],
+                                  InkWell(
+                                      onTap: () async {
+                                        await Provider.of<AddressViewModel>(
+                                            context,
+                                            listen: false)
+                                            .deleteAddress(
+                                            value.addressResponse.data[index]
+                                                .id);
+                                      },
+                                      child: Container(
+                                        width: ScreenUtil().setWidth(215),
+                                        height: ScreenUtil().setWidth(30),
+                                        child: Center(
+                                          child: Text("REMOVE",
+                                            style: TextStyle(color: AppColors
+                                                .primaryElement),),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                              Divider(height: 1,)
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     Container(
+                              //         height: ScreenUtil().setWidth(37),
+                              //         width: ScreenUtil().setWidth(100),
+                              //         child: OutlinedButton(
+                              //           style: OutlinedButton.styleFrom(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(18.0),
+                              //             ),
+                              //             side: BorderSide(
+                              //                 width: 1,
+                              //                 color: AppColors.primaryElement),
+                              //           ),
+                              //           onPressed: () {
+                              //             addressId =
+                              //                 value.addressResponse.data[index].id;
+                              //             _phone.text =
+                              //                 value.addressResponse.data[index].phone;
+                              //             _address.text =
+                              //                 value.addressResponse.data[index].address;
+                              //             _pin.text = value
+                              //                 .addressResponse.data[index].zip
+                              //                 .toString();
+                              //             _email.text =
+                              //                 value.addressResponse.data[index].email;
+                              //             _town.text =
+                              //                 value.addressResponse.data[index].town;
+                              //             _city.text =
+                              //                 value.addressResponse.data[index].city;
+                              //             _country.text =
+                              //                 value.addressResponse.data[index].country;
+                              //             _state.text =
+                              //                 value.addressResponse.data[index].state;
+                              //             _firstName.text = value
+                              //                 .addressResponse.data[index].firstName;
+                              //             _lastName.text = value
+                              //                 .addressResponse.data[index].lastName;
+                              //             setState(() {
+                              //               newAddress = !newAddress;
+                              //             });
+                              //           },
+                              //           child: Text(
+                              //             "Edit",
+                              //             style: TextStyle(
+                              //                 color: AppColors.primaryElement,
+                              //                 fontFamily: 'Montserrat'),
+                              //           ),
+                              //         )),
+                              //     SizedBox(
+                              //       width: ScreenUtil().setWidth(14),
+                              //     ),
+                              //     Container(
+                              //       height: ScreenUtil().setWidth(37),
+                              //       width: ScreenUtil().setWidth(100),
+                              //       child: OutlinedButton(
+                              //         style: OutlinedButton.styleFrom(
+                              //           shape: RoundedRectangleBorder(
+                              //             borderRadius: BorderRadius.circular(18.0),
+                              //           ),
+                              //           side: BorderSide(
+                              //               width: 1, color: AppColors.primaryElement),
+                              //         ),
+                              //         onPressed: () async {
+                              //           await Provider.of<AddressViewModel>(context,
+                              //                   listen: false)
+                              //               .deleteAddress(
+                              //                   value.addressResponse.data[index].id);
+                              //         },
+                              //         child: Text(
+                              //           "Remove",
+                              //           style: TextStyle(
+                              //               color: AppColors.primaryElement,
+                              //               fontFamily: 'Montserrat'),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // )
+                            ]),
                           ),
-                          Divider(height: 1,)
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.end,
-                          //   children: [
-                          //     Container(
-                          //         height: ScreenUtil().setWidth(37),
-                          //         width: ScreenUtil().setWidth(100),
-                          //         child: OutlinedButton(
-                          //           style: OutlinedButton.styleFrom(
-                          //             shape: RoundedRectangleBorder(
-                          //               borderRadius: BorderRadius.circular(18.0),
-                          //             ),
-                          //             side: BorderSide(
-                          //                 width: 1,
-                          //                 color: AppColors.primaryElement),
-                          //           ),
-                          //           onPressed: () {
-                          //             addressId =
-                          //                 value.addressResponse.data[index].id;
-                          //             _phone.text =
-                          //                 value.addressResponse.data[index].phone;
-                          //             _address.text =
-                          //                 value.addressResponse.data[index].address;
-                          //             _pin.text = value
-                          //                 .addressResponse.data[index].zip
-                          //                 .toString();
-                          //             _email.text =
-                          //                 value.addressResponse.data[index].email;
-                          //             _town.text =
-                          //                 value.addressResponse.data[index].town;
-                          //             _city.text =
-                          //                 value.addressResponse.data[index].city;
-                          //             _country.text =
-                          //                 value.addressResponse.data[index].country;
-                          //             _state.text =
-                          //                 value.addressResponse.data[index].state;
-                          //             _firstName.text = value
-                          //                 .addressResponse.data[index].firstName;
-                          //             _lastName.text = value
-                          //                 .addressResponse.data[index].lastName;
-                          //             setState(() {
-                          //               newAddress = !newAddress;
-                          //             });
-                          //           },
-                          //           child: Text(
-                          //             "Edit",
-                          //             style: TextStyle(
-                          //                 color: AppColors.primaryElement,
-                          //                 fontFamily: 'Montserrat'),
-                          //           ),
-                          //         )),
-                          //     SizedBox(
-                          //       width: ScreenUtil().setWidth(14),
-                          //     ),
-                          //     Container(
-                          //       height: ScreenUtil().setWidth(37),
-                          //       width: ScreenUtil().setWidth(100),
-                          //       child: OutlinedButton(
-                          //         style: OutlinedButton.styleFrom(
-                          //           shape: RoundedRectangleBorder(
-                          //             borderRadius: BorderRadius.circular(18.0),
-                          //           ),
-                          //           side: BorderSide(
-                          //               width: 1, color: AppColors.primaryElement),
-                          //         ),
-                          //         onPressed: () async {
-                          //           await Provider.of<AddressViewModel>(context,
-                          //                   listen: false)
-                          //               .deleteAddress(
-                          //                   value.addressResponse.data[index].id);
-                          //         },
-                          //         child: Text(
-                          //           "Remove",
-                          //           style: TextStyle(
-                          //               color: AppColors.primaryElement,
-                          //               fontFamily: 'Montserrat'),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // )
-                        ]),
-                      ),
-                    )),);
-            }),
-        Container(height: ScreenUtil().setWidth(30),)
-      ]);
-    });
+                        )),);
+                }),
+            Container(height: ScreenUtil().setWidth(30),)
+          ]);
+        });
   }
 
   Widget getCartList() {
@@ -985,98 +1048,20 @@ class _Checkout extends State<Checkout> {
       children: [
         SingleChildScrollView(
             child: Column(children: [
-          Container(
-              child: Column(
-            children: [
-              SizedBox(
-                height: ScreenUtil().setWidth(26),
-              ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: ScreenUtil().setWidth(20),
-                            width: ScreenUtil().setWidth(20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.primaryElement),
-                                borderRadius: BorderRadius.circular(
-                                    ScreenUtil().radius(20))),
-                            child: Center(
-                                child: Icon(
-                              Icons.check_circle,
-                              color: AppColors.primaryElement,
-                              size: ScreenUtil().setWidth(15),
-                            )),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(10),
-                          ),
-                          Text(
-                            "Cart",
-                            style: TextStyle(
-                                color: AppColors.primaryElement,
-                                fontSize: ScreenUtil().setSp(
-                                  12,
-                                )),
-                          )
-                        ],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: ScreenUtil().setWidth(26),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(12), 0, 0, 0),
-                      width: ScreenUtil().setWidth(105),
-                      child: Column(
-                        children: [
-                          DottedLine(
-                            direction: Axis.horizontal,
-                            lineLength: ScreenUtil().setWidth(105),
-                            lineThickness: ScreenUtil().setWidth(0.8),
-                            dashLength: ScreenUtil().setWidth(4),
-                            dashColor: AppColors.primaryElement,
-                            dashRadius: 0.0,
-                            dashGapLength: ScreenUtil().setWidth(4),
-                            dashGapColor: Colors.transparent,
-                            dashGapRadius: 0.0,
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(24),
-                          )
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          addressPage = true;
-                        });
-                      },
-                      child: Container(
-                        child: Column(
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            addressPage
-                                ? Container(
-                                    height: ScreenUtil().setWidth(20),
-                                    width: ScreenUtil().setWidth(20),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primaryElement,
-                                        borderRadius: BorderRadius.circular(
-                                            ScreenUtil().radius(20))),
-                                    child: Center(
-                                        child: Text(
-                                      "2",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: ScreenUtil().setSp(
-                                            12,
-                                          )),
-                                    )),
-                                  )
-                                : Container(
+                            Container(
+                              child: Column(
+                                children: [
+                                  Container(
                                     height: ScreenUtil().setWidth(20),
                                     width: ScreenUtil().setWidth(20),
                                     decoration: BoxDecoration(
@@ -1086,262 +1071,353 @@ class _Checkout extends State<Checkout> {
                                             ScreenUtil().radius(20))),
                                     child: Center(
                                         child: Icon(
-                                      Icons.check_circle,
-                                      color: AppColors.primaryElement,
-                                      size: ScreenUtil().setWidth(15),
-                                    )),
+                                          Icons.check_circle,
+                                          color: AppColors.primaryElement,
+                                          size: ScreenUtil().setWidth(15),
+                                        )),
                                   ),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(10),
+                                  SizedBox(
+                                    height: ScreenUtil().setWidth(10),
+                                  ),
+                                  Text(
+                                    "Cart",
+                                    style: TextStyle(
+                                        color: AppColors.primaryElement,
+                                        fontSize: ScreenUtil().setSp(
+                                          12,
+                                        )),
+                                  )
+                                ],
+                              ),
                             ),
-                            Text(
-                              "Address",
-                              style: TextStyle(
-                                  color: AppColors.primaryElement,
-                                  fontSize: ScreenUtil().setSp(
-                                    12,
-                                  )),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(12), 0, 0, 0),
-                      width: ScreenUtil().setWidth(105),
-                      child: Column(
-                        children: [
-                          DottedLine(
-                            direction: Axis.horizontal,
-                            lineLength: ScreenUtil().setWidth(105),
-                            lineThickness: ScreenUtil().setWidth(0.8),
-                            dashLength: ScreenUtil().setWidth(4),
-                            dashColor: AppColors.primaryElement,
-                            dashRadius: 0.0,
-                            dashGapLength: ScreenUtil().setWidth(4),
-                            dashGapColor: Colors.transparent,
-                            dashGapRadius: 0.0,
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setWidth(24),
-                          )
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        if (Provider.of<AddressViewModel>(context,
-                                    listen: false)
-                                .selectedAddress !=
-                            null) {
-                          setState(() {
-                            addressPage = false;
-                          });
-                        }
-                      },
-                      child: Container(
-                        child: Column(
-                          children: [
-                            addressPage
-                                ? Container(
-                                    height: ScreenUtil().setWidth(20),
-                                    width: ScreenUtil().setWidth(20),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: AppColors.primaryElement),
-                                        borderRadius: BorderRadius.circular(
-                                            ScreenUtil().radius(20))),
-                                    child: Center(
-                                        child: Text(
-                                      "3",
+                            Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  ScreenUtil().setWidth(12), 0, 0, 0),
+                              width: ScreenUtil().setWidth(105),
+                              child: Column(
+                                children: [
+                                  DottedLine(
+                                    direction: Axis.horizontal,
+                                    lineLength: ScreenUtil().setWidth(105),
+                                    lineThickness: ScreenUtil().setWidth(0.8),
+                                    dashLength: ScreenUtil().setWidth(4),
+                                    dashColor: AppColors.primaryElement,
+                                    dashRadius: 0.0,
+                                    dashGapLength: ScreenUtil().setWidth(4),
+                                    dashGapColor: Colors.transparent,
+                                    dashGapRadius: 0.0,
+                                  ),
+                                  SizedBox(
+                                    height: ScreenUtil().setWidth(24),
+                                  )
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  addressPage = true;
+                                });
+                              },
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    addressPage
+                                        ? Container(
+                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(20),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primaryElement,
+                                          borderRadius: BorderRadius.circular(
+                                              ScreenUtil().radius(20))),
+                                      child: Center(
+                                          child: Text(
+                                            "2",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: ScreenUtil().setSp(
+                                                  12,
+                                                )),
+                                          )),
+                                    )
+                                        : Container(
+                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: AppColors.primaryElement),
+                                          borderRadius: BorderRadius.circular(
+                                              ScreenUtil().radius(20))),
+                                      child: Center(
+                                          child: Icon(
+                                            Icons.check_circle,
+                                            color: AppColors.primaryElement,
+                                            size: ScreenUtil().setWidth(15),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(10),
+                                    ),
+                                    Text(
+                                      "Address",
                                       style: TextStyle(
                                           color: AppColors.primaryElement,
                                           fontSize: ScreenUtil().setSp(
                                             12,
                                           )),
-                                    )),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  ScreenUtil().setWidth(12), 0, 0, 0),
+                              width: ScreenUtil().setWidth(105),
+                              child: Column(
+                                children: [
+                                  DottedLine(
+                                    direction: Axis.horizontal,
+                                    lineLength: ScreenUtil().setWidth(105),
+                                    lineThickness: ScreenUtil().setWidth(0.8),
+                                    dashLength: ScreenUtil().setWidth(4),
+                                    dashColor: AppColors.primaryElement,
+                                    dashRadius: 0.0,
+                                    dashGapLength: ScreenUtil().setWidth(4),
+                                    dashGapColor: Colors.transparent,
+                                    dashGapRadius: 0.0,
+                                  ),
+                                  SizedBox(
+                                    height: ScreenUtil().setWidth(24),
                                   )
-                                : Container(
-                                    height: ScreenUtil().setWidth(20),
-                                    width: ScreenUtil().setWidth(20),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primaryElement,
-                                        borderRadius: BorderRadius.circular(
-                                            ScreenUtil().radius(20))),
-                                    child: Center(
-                                        child: Text(
-                                      "3",
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                if (Provider
+                                    .of<AddressViewModel>(context,
+                                    listen: false)
+                                    .selectedAddress !=
+                                    null) {
+                                  setState(() {
+                                    addressPage = false;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    addressPage
+                                        ? Container(
+                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: AppColors.primaryElement),
+                                          borderRadius: BorderRadius.circular(
+                                              ScreenUtil().radius(20))),
+                                      child: Center(
+                                          child: Text(
+                                            "3",
+                                            style: TextStyle(
+                                                color: AppColors.primaryElement,
+                                                fontSize: ScreenUtil().setSp(
+                                                  12,
+                                                )),
+                                          )),
+                                    )
+                                        : Container(
+                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(20),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primaryElement,
+                                          borderRadius: BorderRadius.circular(
+                                              ScreenUtil().radius(20))),
+                                      child: Center(
+                                          child: Text(
+                                            "3",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: ScreenUtil().setSp(
+                                                  12,
+                                                )),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: ScreenUtil().setWidth(10),
+                                    ),
+                                    Text(
+                                      "Payment",
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: AppColors.primaryElement,
                                           fontSize: ScreenUtil().setSp(
                                             12,
                                           )),
-                                    )),
-                                  ),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(10),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                            Text(
-                              "Payment",
-                              style: TextStyle(
-                                  color: AppColors.primaryElement,
-                                  fontSize: ScreenUtil().setSp(
-                                    12,
-                                  )),
-                            )
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              addressPage
-                  ? (newAddress ? getExistingAddress() : addNewAddress())
-                  : getPaymentOption(),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.fromLTRB(
-                    ScreenUtil().setWidth(20),
-                    ScreenUtil().setWidth(15),
-                    20,
-                    ScreenUtil().setWidth(20)),
-                child: Text(
-                  "COUPONS",
-                  style: TextStyle(
-                      color: Color(0xff616161),
-                      fontSize: ScreenUtil().setSp(
-                        16,
-                      )),
-                ),
-              ),
-    Consumer<CartViewModel>(
-    builder: (BuildContext context, value, Widget child) {
-             return Container(
-                  color: Color(0xffffffff),
-                  child:
-                  InkWell(
-                      onTap: () async{
-                        await Provider.of<CartViewModel>(context,
-                            listen: false)
-                            .changePromoStatus("loading");
-                        showCoupon();
-                      },
-                      child:
+                      addressPage
+                          ? (newAddress
+                          ? getExistingAddress()
+                          : addNewAddress())
+                          : getPaymentOption(),
                       Container(
-                          padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right:ScreenUtil().setWidth(20),top:ScreenUtil().setWidth(20),bottom: ScreenUtil().setWidth(20) ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(value.promocodeStatus
-                                  ?"Applied Promocode ("+ value.promocode+")"
-                                  : "Apply Promocode"),
-                              Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
-                            ],
-                          )
-                      )
-                  ));}),
-              SizedBox(height: ScreenUtil().setWidth(15),),
-              Container(
-                child: getBillCard(),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              /*addressPage
+                        width: double.infinity,
+                        padding: EdgeInsets.fromLTRB(
+                            ScreenUtil().setWidth(20),
+                            ScreenUtil().setWidth(15),
+                            20,
+                            ScreenUtil().setWidth(20)),
+                        child: Text(
+                          "COUPONS",
+                          style: TextStyle(
+                              color: Color(0xff616161),
+                              fontSize: ScreenUtil().setSp(
+                                16,
+                              )),
+                        ),
+                      ),
+                      Consumer<CartViewModel>(
+                          builder: (BuildContext context, value, Widget child) {
+                            return Container(
+                                color: Color(0xffffffff),
+                                child:
+                                InkWell(
+                                    onTap: () async {
+                                      await Provider.of<CartViewModel>(context,
+                                          listen: false)
+                                          .changePromoStatus("loading");
+                                      showCoupon();
+                                    },
+                                    child:
+                                    Container(
+                                        padding: EdgeInsets.only(
+                                            left: ScreenUtil().setWidth(20),
+                                            right: ScreenUtil().setWidth(20),
+                                            top: ScreenUtil().setWidth(20),
+                                            bottom: ScreenUtil().setWidth(20)),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Text(value.promocodeStatus
+                                                ? "Applied Promocode (" +
+                                                value.promocode + ")"
+                                                : "Apply Promocode"),
+                                            Icon(FontAwesomeIcons.angleRight,
+                                              color: Color(0xffd0d0d0),
+                                              size: ScreenUtil().setWidth(14),),
+                                          ],
+                                        )
+                                    )
+                                ));
+                          }),
+                      SizedBox(height: ScreenUtil().setWidth(15),),
+                      Container(
+                        child: getBillCard(),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      /*addressPage
                   ? Container()
                   : Container(
                       padding: EdgeInsets.all(20),
                       width: double.infinity,
-                      color: Color(0xffba8638),
+                      color: AppColors.primaryElement,
                       child: Text(
                         "© 2020 Anne Private Limited",
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),*/
-              addressPage
-                  ? SizedBox(
-                      height: 50,
-                    )
-                  : Container(),
-            ],
-          ))
-        ])),
+                      addressPage
+                          ? SizedBox(
+                        height: 50,
+                      )
+                          : Container(),
+                    ],
+                  ))
+            ])),
         addressPage
             ? Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    height: ScreenUtil().setHeight(61),
-                    color: Colors.white,
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setWidth(20),
-                        ScreenUtil().setWidth(10),
-                        ScreenUtil().setWidth(25),
-                        ScreenUtil().setWidth(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Consumer<CartViewModel>(builder:
-                            (BuildContext context, value, Widget child) {
-                          if (value.cartResponse == null ||
-                              value.cartResponse.items.length == 0) {
-                            return Container();
-                          }
-                          return Text(
-                              "TOTAL : ${store.currencySymbol} " +
-                                  (value.cartResponse.total).toString()
-                              //"$total"
-                              ,
-                              style: TextStyle(
-                                  color: Color(0xff383838),
-                                  fontSize: ScreenUtil().setSp(
-                                    18,
-                                  )));
-                        }),
-                        Container(
-                          child: Consumer<AddressViewModel>(
-                            builder: (context, value, child) {
-                              return Container(
-                                  width: ScreenUtil().setWidth(150),
-                                  height: ScreenUtil().setHeight(42),
-                                  child: OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5),
-                                      ),
-                                      side: BorderSide(
-                                          width: 2,
-                                          color: value.selectedAddress == null
-                                              ? Colors.grey
-                                              : AppColors.primaryElement),
+          alignment: Alignment.bottomCenter,
+          child: Container(
+              height: ScreenUtil().setHeight(61),
+              color: Colors.white,
+              padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(20),
+                  ScreenUtil().setWidth(10),
+                  ScreenUtil().setWidth(25),
+                  ScreenUtil().setWidth(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer<CartViewModel>(builder:
+                      (BuildContext context, value, Widget child) {
+                    if (value.cartResponse == null ||
+                        value.cartResponse.items.length == 0) {
+                      return Container();
+                    }
+                    return Text(
+                        "TOTAL : ${store.currencySymbol} " +
+                            (value.cartResponse.total).toString()
+                        //"$total"
+                        ,
+                        style: TextStyle(
+                            color: Color(0xff383838),
+                            fontSize: ScreenUtil().setSp(
+                              18,
+                            )));
+                  }),
+                  Container(
+                    child: Consumer<AddressViewModel>(
+                      builder: (context, value, child) {
+                        return Container(
+                            width: ScreenUtil().setWidth(150),
+                            height: ScreenUtil().setHeight(42),
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                ),
+                                side: BorderSide(
+                                    width: 2,
+                                    color: value.selectedAddress == null
+                                        ? Colors.grey
+                                        : AppColors.primaryElement),
+                              ),
+                              onPressed: () async {
+                                if (value.selectedAddress != null) {
+                                  setState(() {
+                                    addressPage = false;
+                                  });
+                                }
+                              },
+                              child: Text(
+                                "Continue",
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
                                     ),
-                                    onPressed: () async {
-                                      if (value.selectedAddress != null) {
-                                        setState(() {
-                                          addressPage = false;
-                                        });
-                                      }
-                                    },
-                                    child: Text(
-                                      "Continue",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(
-                                            16,
-                                          ),
-                                          fontWeight: FontWeight.w500,
-                                          color: value.selectedAddress == null
-                                              ? Colors.grey
-                                              : AppColors.primaryElement,
-                                          fontFamily: 'Montserrat'),
-                                    ),
-                                  ));
-                            },
-                          ),
-                        )
-                        /*Consumer<AddressViewModel>(builder:
+                                    fontWeight: FontWeight.w500,
+                                    color: value.selectedAddress == null
+                                        ? Colors.grey
+                                        : AppColors.primaryElement,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ));
+                      },
+                    ),
+                  )
+                  /*Consumer<AddressViewModel>(builder:
                             (BuildContext context, value, Widget child) {
                           return Container(
                             width: 110,
@@ -1363,9 +1439,9 @@ class _Checkout extends State<Checkout> {
                             ),
                           );
                         })*/
-                      ],
-                    )),
-              )
+                ],
+              )),
+        )
             : Container(),
       ],
     );
@@ -1389,23 +1465,27 @@ class _Checkout extends State<Checkout> {
             ),
             onPressed: () async {
               setState(() {
-                _phone.text = Provider.of<ProfileModel>(context, listen: false)
-                        .user
-                        .phone ??
+                _phone.text = Provider
+                    .of<ProfileModel>(context, listen: false)
+                    .user
+                    .phone ??
                     "";
                 _firstName.text =
-                    Provider.of<ProfileModel>(context, listen: false)
-                            .user
-                            .firstName ??
+                    Provider
+                        .of<ProfileModel>(context, listen: false)
+                        .user
+                        .firstName ??
                         "";
                 _lastName.text =
-                    Provider.of<ProfileModel>(context, listen: false)
-                            .user
-                            .lastName ??
-                        "";
-                _email.text = Provider.of<ProfileModel>(context, listen: false)
+                    Provider
+                        .of<ProfileModel>(context, listen: false)
                         .user
-                        .email ??
+                        .lastName ??
+                        "";
+                _email.text = Provider
+                    .of<ProfileModel>(context, listen: false)
+                    .user
+                    .email ??
                     "";
                 newAddress = !newAddress;
               });
@@ -1451,122 +1531,130 @@ class _Checkout extends State<Checkout> {
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty || value == "") {
-                    return 'First Name is Required';
-                  }
-                  return null;
-                },
-                controller: _firstName,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty || value == "") {
+                        return 'First Name is Required';
+                      }
+                      return null;
+                    },
+                    controller: _firstName,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "First Name *",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "First Name *",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty || value == "") {
-                    return 'Last Name is Required';
-                  }
-                  return null;
-                },
-                controller: _lastName,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty || value == "") {
+                        return 'Last Name is Required';
+                      }
+                      return null;
+                    },
+                    controller: _lastName,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Last Name *",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Last Name *",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty || value == "") {
-                    return 'Email is Required';
-                  }
-                  return null;
-                },
-                controller: _email,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty || value == "") {
+                        return 'Email is Required';
+                      }
+                      return null;
+                    },
+                    controller: _email,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Email",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Email",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty || value == "") {
-                    return 'Phone number is Required';
-                  }
-                  return null;
-                },
-                controller: _phone,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty || value == "") {
+                        return 'Phone number is Required';
+                      }
+                      return null;
+                    },
+                    controller: _phone,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Phone",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-                keyboardType: TextInputType.phone,
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Phone",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                    keyboardType: TextInputType.phone,
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(35),
               ),
@@ -1586,203 +1674,216 @@ class _Checkout extends State<Checkout> {
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty && value.length != 6) {
-                    return 'A 6 digit Pin is Required';
-                  }
-                  return null;
-                },
-                controller: _pin,
-                onChanged: (value) async {
-                  if (value.length == 6) {
-                    TzDialog _dialog = TzDialog(context, TzDialogType.progress);
-                    _dialog.show();
-                    final AddressRepository addressRepository =
+                    validator: (value) {
+                      if (value.isEmpty && value.length != 6) {
+                        return 'A 6 digit Pin is Required';
+                      }
+                      return null;
+                    },
+                    controller: _pin,
+                    onChanged: (value) async {
+                      if (value.length == 6) {
+                        TzDialog _dialog = TzDialog(
+                            context, TzDialogType.progress);
+                        _dialog.show();
+                        final AddressRepository addressRepository =
                         AddressRepository();
-                    var result =
+                        var result =
                         await addressRepository.fetchDataFromZip(value);
-                    if (result != null) {
-                      setState(() {
-                        _country.text = result["country"];
-                        _state.text = result["state"];
-                        _city.text = result["city"];
-                      });
-                    }
-                    _dialog.close();
-                  }
-                },
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                        if (result != null) {
+                          setState(() {
+                            _country.text = result["country"];
+                            _state.text = result["state"];
+                            _city.text = result["city"];
+                          });
+                        }
+                        _dialog.close();
+                      }
+                    },
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Zip code",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-                keyboardType: TextInputType.number,
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Zip code",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                    keyboardType: TextInputType.number,
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'City Name is Required';
-                  }
-                  return null;
-                },
-                readOnly: true,
-                controller: _city,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'City Name is Required';
+                      }
+                      return null;
+                    },
+                    readOnly: true,
+                    controller: _city,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "City *",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "City *",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'State Name is Required';
-                  }
-                  return null;
-                },
-                readOnly: true,
-                controller: _state,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'State Name is Required';
+                      }
+                      return null;
+                    },
+                    readOnly: true,
+                    controller: _state,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "State",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "State",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Country Name is Required';
-                  }
-                  return null;
-                },
-                readOnly: true,
-                controller: _country,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Country Name is Required';
+                      }
+                      return null;
+                    },
+                    readOnly: true,
+                    controller: _country,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Country *",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Country *",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Address is Required';
-                  }
-                  return null;
-                },
-                controller: _address,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Address is Required';
+                      }
+                      return null;
+                    },
+                    controller: _address,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Address",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Address",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
               ),
               Container(
                   child: TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Town Name is Required';
-                  }
-                  return null;
-                },
-                controller: _town,
-                decoration: InputDecoration(
-                    fillColor: Color(0xfff3f3f3),
-                    filled: true,
-                    contentPadding:
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Town Name is Required';
+                      }
+                      return null;
+                    },
+                    controller: _town,
+                    decoration: InputDecoration(
+                        fillColor: Color(0xfff3f3f3),
+                        filled: true,
+                        contentPadding:
                         EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    labelText: "Town",
-                    labelStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: ScreenUtil().setSp(
-                          15,
-                        ))),
-              )),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.grey, width: 1.0),
+                        ),
+                        labelText: "Town",
+                        labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            ))),
+                  )),
               SizedBox(
                 height: ScreenUtil().setWidth(28),
               ),
@@ -1796,15 +1897,15 @@ class _Checkout extends State<Checkout> {
                     },
                     child: defaultAddress
                         ? Icon(
-                            Icons.check_box,
-                            color: AppColors.primaryElement,
-                            size: ScreenUtil().setWidth(18),
-                          )
+                      Icons.check_box,
+                      color: AppColors.primaryElement,
+                      size: ScreenUtil().setWidth(18),
+                    )
                         : Icon(
-                            Icons.check_box_outline_blank,
-                            color: AppColors.primaryElement,
-                            size: ScreenUtil().setWidth(18),
-                          ),
+                      Icons.check_box_outline_blank,
+                      color: AppColors.primaryElement,
+                      size: ScreenUtil().setWidth(18),
+                    ),
                   ),
                   SizedBox(
                     width: ScreenUtil().setWidth(12.25),
@@ -1849,20 +1950,20 @@ class _Checkout extends State<Checkout> {
                       });
 
                       var response = await Provider.of<AddressViewModel>(
-                              context,
-                              listen: false)
+                          context,
+                          listen: false)
                           .saveAddress(
-                              addressId,
-                              _email.text,
-                              _firstName.text,
-                              _lastName.text,
-                              _address.text,
-                              _town.text,
-                              _city.text,
-                              _country.text,
-                              _state.text,
-                              _pin.text,
-                              _phone.text);
+                          addressId,
+                          _email.text,
+                          _firstName.text,
+                          _lastName.text,
+                          _address.text,
+                          _town.text,
+                          _city.text,
+                          _country.text,
+                          _state.text,
+                          _pin.text,
+                          _phone.text);
                       if (response) {
                         setState(() {
                           addressId = "new";
@@ -1928,14 +2029,14 @@ class _Checkout extends State<Checkout> {
         },
         child: Column(
           children: [
-            // creditCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
-            // paypalCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
+            creditCard(),
+            SizedBox(
+              height: ScreenUtil().setWidth(15),
+            ),
+            paypalCard(),
+            SizedBox(
+              height: ScreenUtil().setWidth(15),
+            ),
             // podCard(),
             // SizedBox(
             //   height: ScreenUtil().setWidth(15),
@@ -1944,393 +2045,384 @@ class _Checkout extends State<Checkout> {
             // SizedBox(
             //   height: ScreenUtil().setWidth(15),
             // ),
-            netBankingCard()
+            //netBankingCard()
           ],
         ),
       ),
     );
   }
 
-  // creditCard() {
-  //   return Container(
-  //       padding: EdgeInsets.fromLTRB(
-  //           ScreenUtil().setWidth(26),
-  //           ScreenUtil().setWidth(30),
-  //           ScreenUtil().setWidth(17),
-  //           ScreenUtil().setWidth(22)),
-  //       decoration: BoxDecoration(
-  //           border: Border.all(
-  //               color: paymentMethod == "credit"
-  //                   ? Color(0xff098dff)
-  //                   : Color(0xff707070),
-  //               width: ScreenUtil().setWidth(0.9)),
-  //           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
-  //       child: Column(
-  //         children: [
-  //           Row(
-  //             children: [
-  //               InkWell(
-  //                   onTap: () {
-  //                     setState(() {
-  //                       paymentMethod = "credit";
-  //                     });
-  //                   },
-  //                   child: paymentMethod == "credit"
-  //                       ? Icon(
-  //                           Icons.adjust_sharp,
-  //                           color: Color(0xff098dff),
-  //                         )
-  //                       : Icon(
-  //                           Icons.panorama_fish_eye,
-  //                           color: Color(0xff707070),
-  //                         )),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(19),
-  //               ),
-  //               Column(children: [
-  //                 Text(
-  //                   "Credit/Debit card",
-  //                   style: TextStyle(
-  //                       color: Color(0xff6d6d6d),
-  //                       fontSize: ScreenUtil().setSp(14)),
-  //                 ),
-  //                 Text(
-  //                   "(no cost EMI available)",
-  //                   style: TextStyle(
-  //                       color: Color(0xff6d6d6d),
-  //                       fontSize: ScreenUtil().setSp(10)),
-  //                 )
-  //               ]),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(40),
-  //               ),
-  //               Container(
-  //                 child: Row(
-  //                   children: [
-  //                     Container(
-  //                         height: ScreenUtil().setWidth(18),
-  //                         width: ScreenUtil().setWidth(32),
-  //                         decoration: BoxDecoration(
-  //                             border: Border.all(color: Color(0xff707070))),
-  //                         child: Image.asset(
-  //                           "assets/images/masterCard.png",
-  //                         )),
-  //                     SizedBox(
-  //                       width: ScreenUtil().setWidth(3),
-  //                     ),
-  //                     Container(
-  //                         height: ScreenUtil().setWidth(18),
-  //                         width: ScreenUtil().setWidth(32),
-  //                         decoration: BoxDecoration(
-  //                             border: Border.all(color: Color(0xff707070))),
-  //                         child: Image.asset("assets/images/rupayCard.png")),
-  //                     SizedBox(
-  //                       width: ScreenUtil().setWidth(3),
-  //                     ),
-  //                     Container(
-  //                         height: ScreenUtil().setWidth(18),
-  //                         width: ScreenUtil().setWidth(32),
-  //                         decoration: BoxDecoration(
-  //                             border: Border.all(color: Color(0xff707070))),
-  //                         child: Image.asset(
-  //                           "assets/images/visaCard.png",
-  //                         )),
-  //                     SizedBox(
-  //                       width: ScreenUtil().setWidth(3),
-  //                     ),
-  //                     Container(
-  //                         height: ScreenUtil().setWidth(18),
-  //                         width: ScreenUtil().setWidth(32),
-  //                         decoration: BoxDecoration(
-  //                             border: Border.all(color: Color(0xff707070))),
-  //                         child: Image.asset(
-  //                           "assets/images/americanCard.png",
-  //                         )),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           SizedBox(
-  //             height: ScreenUtil().setWidth(23),
-  //           ),
-  //           Container(
-  //             width: double.infinity,
-  //             child: Text(
-  //               "Card Number",
-  //               style: TextStyle(
-  //                   color: Color(0xffba8638),
-  //                   fontSize: ScreenUtil().setWidth(14)),
-  //               textAlign: TextAlign.left,
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: ScreenUtil().setWidth(11),
-  //           ),
-  //           Container(
-  //             height: ScreenUtil().setWidth(50),
-  //             child: TextField(
-  //               controller: cardNumber,
-  //               decoration: InputDecoration(
-  //                   fillColor: Colors.white,
-  //                   filled: true,
-  //                   enabledBorder: OutlineInputBorder(
-  //                     borderSide:
-  //                         BorderSide(color: Color(0xff707070), width: 1.0),
-  //                   ),
-  //                   focusedBorder: OutlineInputBorder(
-  //                     borderSide:
-  //                         BorderSide(color: Color(0xff707070), width: 1.0),
-  //                   ),
-  //                   hintText: "xxxx - xxxx - xxxx - xxxx",
-  //                   hintStyle: TextStyle(
-  //                       color: Color(0xff525252),
-  //                       fontSize: ScreenUtil().setSp(13))),
-  //               keyboardType: TextInputType.number,
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 18,
-  //           ),
-  //           Container(
-  //             width: double.infinity,
-  //             child: Text(
-  //               "Card Holder Name",
-  //               style: TextStyle(
-  //                   color: Color(0xffba8638),
-  //                   fontSize: ScreenUtil().setWidth(14)),
-  //               textAlign: TextAlign.left,
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: ScreenUtil().setWidth(11),
-  //           ),
-  //           Container(
-  //             height: ScreenUtil().setWidth(50),
-  //             child: TextField(
-  //               controller: cardHolder,
-  //               decoration: InputDecoration(
-  //                   fillColor: Colors.white,
-  //                   filled: true,
-  //                   enabledBorder: OutlineInputBorder(
-  //                     borderSide:
-  //                         BorderSide(color: Color(0xff707070), width: 1.0),
-  //                   ),
-  //                   focusedBorder: OutlineInputBorder(
-  //                     borderSide:
-  //                         BorderSide(color: Color(0xff707070), width: 1.0),
-  //                   ),
-  //                   hintText: "John",
-  //                   hintStyle: TextStyle(
-  //                       color: Color(0xff525252),
-  //                       fontSize: ScreenUtil().setSp(13))),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 18,
-  //           ),
-  //           Row(
-  //             children: [
-  //               Container(
-  //                 child: Text(
-  //                   "Expire Month",
-  //                   style: TextStyle(
-  //                       color: Color(0xffba8638),
-  //                       fontSize: ScreenUtil().setSp(14)),
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(10),
-  //               ),
-  //               Container(
-  //                 child: Text(
-  //                   "Expire Year",
-  //                   style: TextStyle(
-  //                       color: Color(0xffba8638),
-  //                       fontSize: ScreenUtil().setSp(14)),
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(25),
-  //               ),
-  //               Container(
-  //                 child: Text(
-  //                   "Security Code",
-  //                   style: TextStyle(
-  //                       color: Color(0xffba8638),
-  //                       fontSize: ScreenUtil().setSp(14)),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           SizedBox(
-  //             height: 11,
-  //           ),
-  //           Row(
-  //             children: [
-  //               Container(
-  //                   decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       border: Border.all(color: Color(0xff707070)),
-  //                       borderRadius:
-  //                           BorderRadius.circular(ScreenUtil().setWidth(3))),
-  //                   padding: EdgeInsets.only(left: 5),
-  //                   height: ScreenUtil().setWidth(40),
-  //                   width: ScreenUtil().setWidth(72),
-  //                   child: DropdownButtonHideUnderline(
-  //                       child: DropdownButton<ListItem>(
-  //                           value: _selectedMonth,
-  //                           items: _dropdownMonthItems,
-  //                           onChanged: (value) {
-  //                             setState(() {
-  //                               _selectedMonth = value;
-  //                             });
-  //                           }))),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(25),
-  //               ),
-  //               Container(
-  //                   decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       border: Border.all(color: Color(0xff707070)),
-  //                       borderRadius:
-  //                           BorderRadius.circular(ScreenUtil().setWidth(3))),
-  //                   padding: EdgeInsets.only(left: 5),
-  //                   height: ScreenUtil().setWidth(40),
-  //                   width: ScreenUtil().setWidth(85),
-  //                   child: DropdownButtonHideUnderline(
-  //                       child: DropdownButton<ListItem>(
-  //                           value: _selectedYear,
-  //                           items: _dropdownYearItems,
-  //                           onChanged: (value) {
-  //                             setState(() {
-  //                               _selectedYear = value;
-  //                             });
-  //                           }))),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(11),
-  //               ),
-  //               Container(
-  //                 padding: EdgeInsets.only(left: 5),
-  //                 height: ScreenUtil().setWidth(40),
-  //                 width: ScreenUtil().setWidth(120),
-  //                 color: Colors.white,
-  //                 child: TextField(
-  //                   controller: cvv,
-  //                   decoration: InputDecoration(
-  //                       fillColor: Colors.white,
-  //                       filled: true,
-  //                       enabledBorder: OutlineInputBorder(
-  //                         borderSide:
-  //                             BorderSide(color: Color(0xff707070), width: 1.0),
-  //                       ),
-  //                       focusedBorder: OutlineInputBorder(
-  //                         borderSide:
-  //                             BorderSide(color: Color(0xff707070), width: 1.0),
-  //                       ),
-  //                       hintText: "Three-digit",
-  //                       hintStyle: TextStyle(
-  //                           color: Color(0xff525252),
-  //                           fontSize: ScreenUtil().setSp(13))),
-  //                   keyboardType: TextInputType.number,
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(5),
-  //               ),
-  //               Container(
-  //                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
-  //                 height: ScreenUtil().setWidth(20),
-  //                 width: ScreenUtil().setWidth(20),
-  //                 decoration: BoxDecoration(
-  //                     border: Border.all(color: Color(0xff707070)),
-  //                     borderRadius:
-  //                         BorderRadius.circular(ScreenUtil().setWidth(20))),
-  //                 child: Center(
-  //                     child: Text(
-  //                   "?",
-  //                   style: TextStyle(
-  //                       color: Color(0xff707070),
-  //                       fontWeight: FontWeight.w600,
-  //                       fontSize: ScreenUtil().setSp(13)),
-  //                 )),
-  //               )
-  //             ],
-  //           ),
-  //         ],
-  //       ));
-  // }
-  //
-  // paypalCard() {
-  //   return Container(
-  //     padding: EdgeInsets.fromLTRB(
-  //         ScreenUtil().setWidth(26),
-  //         ScreenUtil().setWidth(30),
-  //         ScreenUtil().setWidth(17),
-  //         ScreenUtil().setWidth(22)),
-  //     decoration: BoxDecoration(
-  //         border: Border.all(
-  //             color: paymentMethod == "paypal"
-  //                 ? Color(0xff098dff)
-  //                 : Color(0xff707070),
-  //             width: ScreenUtil().setWidth(0.9)),
-  //         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
-  //     child: Row(
-  //       children: [
-  //         InkWell(
-  //             onTap: () {
-  //               setState(() {
-  //                 paymentMethod = "paypal";
-  //               });
-  //             },
-  //             child: paymentMethod == "paypal"
-  //                 ? Icon(
-  //                     Icons.adjust_sharp,
-  //                     color: Color(0xff098dff),
-  //                   )
-  //                 : Icon(
-  //                     Icons.panorama_fish_eye,
-  //                     color: Color(0xff707070),
-  //                   )),
-  //         SizedBox(
-  //           width: ScreenUtil().setWidth(19),
-  //         ),
-  //         Text(
-  //           "Paypal",
-  //           style: TextStyle(
-  //               color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
-  //         ),
-  //         SizedBox(
-  //           width: ScreenUtil().setWidth(214),
-  //         ),
-  //         Container(
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                   height: ScreenUtil().setWidth(18),
-  //                   width: ScreenUtil().setWidth(32),
-  //                   child: Image.asset(
-  //                     "assets/images/paypal.png",
-  //                   )),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
+  creditCard() {
+    return Container(
+        padding: EdgeInsets.fromLTRB(
+            ScreenUtil().setWidth(26),
+            ScreenUtil().setWidth(30),
+            ScreenUtil().setWidth(17),
+            ScreenUtil().setWidth(22)),
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: paymentMethod == "credit"
+                    ? AppColors.primaryElement
+                    : Color(0xff707070),
+                width: ScreenUtil().setWidth(0.9)),
+            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                InkWell(
+                    onTap: () {
+                      setState(() {
+                        paymentMethod = "credit";
+                      });
+                    },
+                    child: paymentMethod == "credit"
+                        ? Icon(
+                      Icons.adjust_sharp,
+                      color: AppColors.primaryElement,
+                    )
+                        : Icon(
+                      Icons.panorama_fish_eye,
+                      color: Color(0xff707070),
+                    )),
+                SizedBox(
+                  width: ScreenUtil().setWidth(19),
+                ),
+                Column(children: [
+                  Text(
+                    "Credit/Debit card",
+                    style: TextStyle(
+                        color: Color(0xff6d6d6d),
+                        fontSize: ScreenUtil().setSp(14)),
+                  ),
+                  // Text(
+                  //   "(no cost EMI available)",
+                  //   style: TextStyle(
+                  //       color: Color(0xff6d6d6d),
+                  //       fontSize: ScreenUtil().setSp(10)),
+                  // )
+                ]),
+                SizedBox(
+                  width: ScreenUtil().setWidth(77),
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      Container(
+                          height: ScreenUtil().setWidth(18),
+                          width: ScreenUtil().setWidth(32),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xff707070))),
+                          child: Image.asset(
+                            "assets/images/masterCard.png",
+                          )),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(3),
+                      ),
+                      Container(
+                          height: ScreenUtil().setWidth(18),
+                          width: ScreenUtil().setWidth(32),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xff707070))),
+                          child: Image.asset("assets/images/rupayCard.png")),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(3),
+                      ),
+                      Container(
+                          height: ScreenUtil().setWidth(18),
+                          width: ScreenUtil().setWidth(32),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xff707070))),
+                          child: Image.asset(
+                            "assets/images/visaCard.png",
+                          )),
+                      // SizedBox(
+                      //   width: ScreenUtil().setWidth(3),
+                      // ),
+                      // Container(
+                      //     height: ScreenUtil().setWidth(18),
+                      //     width: ScreenUtil().setWidth(32),
+                      //     decoration: BoxDecoration(
+                      //         border: Border.all(color: Color(0xff707070))),
+                      //     child: Image.asset(
+                      //       "assets/images/americanCard.png",
+                      //     )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: ScreenUtil().setWidth(23),
+            ),
+            Container(
+              width: double.infinity,
+              child: Text(
+                "Card Number",
+                style: TextStyle(
+                    color: AppColors.primaryElement,
+                    fontSize: ScreenUtil().setWidth(14)),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SizedBox(
+              height: ScreenUtil().setWidth(11),
+            ),
+            Container(
+              height: ScreenUtil().setWidth(50),
+              child: TextField(
+                controller: cardNumber,
+                decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Color(0xff707070), width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Color(0xff707070), width: 1.0),
+                    ),
+                    hintText: "xxxx - xxxx - xxxx - xxxx",
+                    hintStyle: TextStyle(
+                        color: Color(0xff525252),
+                        fontSize: ScreenUtil().setSp(12))),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            SizedBox(
+              height: 18,
+            ),
+            Container(
+              width: double.infinity,
+              child: Text(
+                "Card Holder Name",
+                style: TextStyle(
+                    color: AppColors.primaryElement,
+                    fontSize: ScreenUtil().setWidth(14)),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SizedBox(
+              height: ScreenUtil().setWidth(11),
+            ),
+            Container(
+              height: ScreenUtil().setWidth(50),
+              child: TextField(
+                controller: cardHolder,
+                decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Color(0xff707070), width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Color(0xff707070), width: 1.0),
+                    ),
+                    hintText: "John",
+                    hintStyle: TextStyle(
+                        color: Color(0xff525252),
+                        fontSize: ScreenUtil().setSp(12))),
+              ),
+            ),
+            SizedBox(
+              height: 18,
+            ),
+            Row(
+              children: [
+                Container(
+                  child: Text(
+                    "Expire Month",
+                    style: TextStyle(
+                        color: AppColors.primaryElement,
+                        fontSize: ScreenUtil().setSp(14)),
+                  ),
+                ),
+                SizedBox(
+                  width: ScreenUtil().setWidth(10),
+                ),
+                Container(
+                  child: Text(
+                    "Expire Year",
+                    style: TextStyle(
+                        color: AppColors.primaryElement,
+                        fontSize: ScreenUtil().setSp(14)),
+                  ),
+                ),
+                SizedBox(
+                  width: ScreenUtil().setWidth(25),
+                ),
+                Container(
+                  child: Text(
+                    "Security Code",
+                    style: TextStyle(
+                        color: AppColors.primaryElement,
+                        fontSize: ScreenUtil().setSp(14)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 11,
+            ),
+            Row(
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Color(0xff707070)),
+                        borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(3))),
+                    padding: EdgeInsets.only(left: 5),
+                    height: ScreenUtil().setWidth(40),
+                    width: ScreenUtil().setWidth(72),
+                    child: DropdownButtonHideUnderline(
+                        child: DropdownButton<ListItem>(
+                            value: _selectedMonth,
+                            items: _dropdownMonthItems,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedMonth = value;
+                              });
+                            }))),
+                SizedBox(
+                  width: ScreenUtil().setWidth(25),
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Color(0xff707070)),
+                        borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(3))),
+                    padding: EdgeInsets.only(left: 5),
+                    height: ScreenUtil().setWidth(40),
+                    width: ScreenUtil().setWidth(85),
+                    child: DropdownButtonHideUnderline(
+                        child: DropdownButton<ListItem>(
+                            value: _selectedYear,
+                            items: _dropdownYearItems,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedYear = value;
+                              });
+                            }))),
+                SizedBox(
+                  width: ScreenUtil().setWidth(11),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 5),
+                  height: ScreenUtil().setWidth(40),
+                  width: ScreenUtil().setWidth(120),
+                  color: Colors.white,
+                  child: TextField(
+                    controller: cvv,
+                    decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                          BorderSide(color: Color(0xff707070), width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                          BorderSide(color: Color(0xff707070), width: 1.0),
+                        ),
+                        hintText: "Three-digit",
+                        hintStyle: TextStyle(
+                            color: Color(0xff525252),
+                            fontSize: ScreenUtil().setSp(11))),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                SizedBox(
+                  width: ScreenUtil().setWidth(5),
+                ),
+                Container(
+                  height: ScreenUtil().setWidth(20),
+                  width: ScreenUtil().setWidth(20),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff707070)),
+                      borderRadius:
+                      BorderRadius.circular(ScreenUtil().setWidth(20))),
+                  child: Center(
+                      child: Text(
+                        "?",
+                        style: TextStyle(
+                            color: Color(0xff707070),
+                            fontWeight: FontWeight.w600,
+                            fontSize: ScreenUtil().setSp(13)),
+                      )),
+                )
+              ],
+            ),
+          ],
+        ));
+  }
+
+  paypalCard() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: paymentMethod == "paypal"
+                  ? AppColors.primaryElement
+                  : Color(0xff707070),
+              width: ScreenUtil().setWidth(0.9)),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+      child: Row(
+        children: [
+          InkWell(
+              onTap: () {
+                setState(() {
+                  paymentMethod = "paypal";
+                });
+              },
+              child: paymentMethod == "paypal"
+                  ? Icon(
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
+                  : Icon(
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
+          SizedBox(
+            width: ScreenUtil().setWidth(19),
+          ),
+          Text(
+            "Paypal",
+            style: TextStyle(
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(214),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Container(
+                    height: ScreenUtil().setWidth(18),
+                    width: ScreenUtil().setWidth(32),
+                    child: Image.asset(
+                      "assets/images/paypal.png",
+                    )),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   podCard() {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(26),
-          ScreenUtil().setWidth(30),
-          ScreenUtil().setWidth(17),
-          ScreenUtil().setWidth(22)),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
           border: Border.all(
               color: paymentMethod == "pod"
-                  ? Color(0xff098dff)
+                  ? AppColors.primaryElement
                   : Color(0xff707070),
               width: ScreenUtil().setWidth(0.9)),
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
@@ -2344,13 +2436,13 @@ class _Checkout extends State<Checkout> {
               },
               child: paymentMethod == "pod"
                   ? Icon(
-                      Icons.adjust_sharp,
-                      color: Color(0xff098dff),
-                    )
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
                   : Icon(
-                      Icons.panorama_fish_eye,
-                      color: Color(0xff707070),
-                    )),
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
           SizedBox(
             width: ScreenUtil().setWidth(19),
           ),
@@ -2375,7 +2467,7 @@ class _Checkout extends State<Checkout> {
   //     decoration: BoxDecoration(
   //         border: Border.all(
   //             color: paymentMethod == "upi"
-  //                 ? Color(0xff098dff)
+  //                 ? AppColors.primaryElement
   //                 : Color(0xff707070),
   //             width: ScreenUtil().setWidth(0.9)),
   //         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
@@ -2390,7 +2482,7 @@ class _Checkout extends State<Checkout> {
   //             child: paymentMethod == "upi"
   //                 ? Icon(
   //                     Icons.adjust_sharp,
-  //                     color: Color(0xff098dff),
+  //                     color: AppColors.primaryElement,
   //                   )
   //                 : Icon(
   //                     Icons.panorama_fish_eye,
@@ -2464,13 +2556,13 @@ class _Checkout extends State<Checkout> {
                   },
                   child: paymentMethod == "nb"
                       ? Icon(
-                          Icons.adjust_sharp,
-                          color: AppColors.primaryElement,
-                        )
+                    Icons.adjust_sharp,
+                    color: AppColors.primaryElement,
+                  )
                       : Icon(
-                          Icons.panorama_fish_eye,
-                          color: Color(0xff707070),
-                        )),
+                    Icons.panorama_fish_eye,
+                    color: Color(0xff707070),
+                  )),
               SizedBox(
                 width: ScreenUtil().setWidth(19),
               ),
@@ -2506,7 +2598,7 @@ class _Checkout extends State<Checkout> {
           //   child: Text(
           //     "Bank Code",
           //     style: TextStyle(
-          //         color: Color(0xffba8638),
+          //         color: AppColors.primaryElement,
           //         fontSize: ScreenUtil().setWidth(14)),
           //     textAlign: TextAlign.left,
           //   ),
@@ -2539,13 +2631,61 @@ class _Checkout extends State<Checkout> {
   }
 
   void paymentHandle(selectedAddressId) async {
+    double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
     if (buttonStatusOrder) {
-      // setState(() {
-      //   buttonStatusOrder = !buttonStatusOrder;
-      // });
+      setState(() {
+        buttonStatusOrder = !buttonStatusOrder;
+      });
+      if (paymentMethod == "credit") {
+          StripeRepository stripeRepository = StripeRepository();
+          CreditCard creditCard = CreditCard(
+            number: cardNumber.text.replaceAll("-", ""),
+            expMonth: _selectedMonth.value,
+            expYear: int.parse(_selectedYear.name),
+            cvc: cvv.text,
+          );
 
-     QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
-    log(resultPaypal.toString());
+          await StripePayment.createTokenWithCard(
+            creditCard,
+          ).then((token) async{
+            log("${token.tokenId}");
+            var stripe = await stripeRepository.stripe(selectedAddressId, token.tokenId);
+            if(stripe["status"]=="completed"){
+              handlePaymentSuccess("credit", stripe["value"]["paymentOrderId"]);
+            }
+            else if(stripe["status"]=="error"){
+              handlePaymentFailure(stripe["error"]);
+            }
+          }).catchError((onError)=>handlePaymentFailure(onError.toString()));
+  }
+
+      else if(paymentMethod=="paypal"){
+        BrainTreeRepository brainTreeRepository = BrainTreeRepository();
+        double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
+        var tokenizationKey = await brainTreeRepository.brainTreeToken();
+        final request = BraintreePayPalRequest(amount: amount.toString());
+        log(tokenizationKey["braintreeToken"]);
+        try {
+          final result = await Braintree.requestPaypalNonce(
+            tokenizationKey["braintreeToken"],
+            request,
+          );
+        log(result.description);
+        } catch(e){
+          handlePaymentFailure(e.toString());
+        }
+        // if(result["status"]=="completed"){
+        //   handlePaymentSuccess("credit", result["value"]["paymentOrderId"]);
+        // }
+        // else if(result["status"]=="error"){
+        //   handlePaymentFailure(result["error"]);
+        // }
+      }
+
+
+
+    //  QueryResult resultPaypal = await paypalRepository.paypalPayNow(selectedAddressId);
+    // log(resultPaypal.toString());
       // QueryResult resultCashFree =
       //     await cashfreeRepository.cashFreePayNow(selectedAddressId);
 
@@ -2610,9 +2750,8 @@ class _Checkout extends State<Checkout> {
     }
   }
 
-  handlePaymentSuccess(addressId, paymentMode, orderId, value) async {
+  handlePaymentSuccess(paymentMode, orderId) async {
     await checkoutRepository.paySuccessPageHit(orderId);
-    log(value.toString());
     // FormData cashFreeData;
     // cashFreeData = FormData.fromMap({
     //   "txStatus":value["txStatus"],
@@ -2664,7 +2803,7 @@ class _Checkout extends State<Checkout> {
     }
   }
 
-  handlePaymentFailure() {
+  handlePaymentFailure(error) {
     setState(() {
       buttonStatusOrder = !buttonStatusOrder;
     });
@@ -2682,7 +2821,7 @@ class _Checkout extends State<Checkout> {
           Tracking(event: EVENT_ORDER_PLACEMENT_CANCEL, data: data);
         },
         child: Text(
-          'Payment Failed !!',
+          error,
           style: TextStyle(
               color: AppColors.primaryElement,
               fontSize: ScreenUtil().setSp(14)),

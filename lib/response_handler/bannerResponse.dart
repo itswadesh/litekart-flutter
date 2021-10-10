@@ -69,7 +69,7 @@ class BannerData {
       link: json["link"],
       heading: json["heading"],
       type: json["type"],
-      img: json["img"],
+      img: json["imgCdn"],
       active: json["active"],
       pageId: json['pageId'],
       groupId: json['groupId'],

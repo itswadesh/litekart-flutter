@@ -29,6 +29,7 @@ class QueryMutation {
       scheduleDateTime
       title
       img
+      imgCdn
       requestId
       cid
       ctime
@@ -231,6 +232,7 @@ class QueryMutation {
     RAZORPAY_KEY_ID
     GOOGLE_CLIENT_ID
     stripePublishableKey
+    brainTreePublicKey
     enableStripe
     enableRazorpay
     currencyCode
@@ -491,6 +493,7 @@ getOtp(phone: \$phone){
       # parent
       slug
       img
+      imgCdn
       level
       metaTitle
       metaDescription
@@ -523,6 +526,7 @@ getOtp(phone: \$phone){
     stock
     tax
     img
+    imgCdn
     images
     time
     active
@@ -749,7 +753,9 @@ getOtp(phone: \$phone){
     mrp
     stock
     img
+    imgCdn
     images
+    imagesCdn
     time
     active
     popularity
@@ -825,6 +831,7 @@ getOtp(phone: \$phone){
       shippingCharge
       tax
       img
+      imgCdn
       options
     }
     qty
@@ -869,6 +876,7 @@ getOtp(phone: \$phone){
       price
       shippingCharge
       img
+      imgCdn
       options
       tracking
     }
@@ -959,6 +967,7 @@ getOtp(phone: \$phone){
       link
       heading
       img
+      imgCdn
       type
       pageId
       groupId
@@ -981,6 +990,7 @@ getOtp(phone: \$phone){
       link
       heading
       img
+      imgCdn
       sort
       type
       pageId
@@ -1317,6 +1327,7 @@ getOtp(phone: \$phone){
         name
         barcode
         img
+        imgCdn
         slug
         price
         qty
@@ -1925,6 +1936,11 @@ getOtp(phone: \$phone){
 }""";
   }
 
+  brainTreeToken(){
+    return"""mutation braintreeToken {
+  braintreeToken
+}""";
+  }
 
   paypalPayNow(){
     return """mutation paypalPayNow(\$address: ID) {
@@ -1948,6 +1964,121 @@ getOtp(phone: \$phone){
   }
 }""";
   }
+
+  // Stripe
+
+  stripe(){
+    return """
+    mutation stripe(\$address: ID, \$token: String!) {
+      stripe(address: \$address, token: \$token) {
+        id
+    orderNo
+    otp
+    createdAt
+    paySuccess
+    paymentMode
+    paymentStatus
+    paymentCurrency
+    paymentReferenceId
+    paymentOrderId
+    paymentReceipt
+    invoiceId
+    paymentGateway
+    codPaid
+    baseCodPaid
+    amountPaid
+    amountDue
+    paymentMsg
+    paymentTime
+    paid
+    totalAmountRefunded
+    baseTotalAmountRefunded
+    amount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    baseAmount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    userFirstName
+    userLastName
+    userPhone
+    userEmail
+    address {
+      firstName
+      lastName
+      town
+      city
+      state
+      zip
+      address
+      lat
+      lng
+    }
+    items {
+      id
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      barcode
+      img
+      slug
+      price
+      basePrice
+      qty
+      shippingCharge
+      baseShippingCharge
+      tax
+      baseTax
+      time
+      options
+      brandName
+      brandImg
+      color
+      size
+      status
+      type
+      returnReason
+
+      vendorAddress {
+        firstName
+        lastName
+        town
+        city
+        state
+        zip
+        address
+        lat
+        lng
+      }
+      status
+      orderHistory {
+        status
+        title
+        body
+        icon
+        public
+        index
+        time
+      }
+      amountRefunded
+      baseAmountRefunded
+    }
+  }
+    }
+    """;
+  }
+
 
   cashfreePayNow() {
     return """mutation cashfreePayNow(\$address: ID) {
