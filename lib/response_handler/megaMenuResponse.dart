@@ -27,7 +27,7 @@ class MegaMenuResponse {
       MegaMenuResponse(
         id: json["id"],
         name: json["name"],
-        img: json["img"],
+        img: json["imgCdn"],
         slug: json["slug"],
         featured: json["featured"],
         children: json["children"].length != 0

@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/response_handler/wishlistResponse.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
@@ -176,9 +178,14 @@ class _WishCard extends State<WishCard> {
                       children: [
                         InkWell(
                           onTap: () async {
+                            final NavigationService _navigationService = locator<NavigationService>();
+                            TzDialog _dialog =
+                            TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                            _dialog.show();
                             await Provider.of<WishlistViewModel>(context,
                                     listen: false)
                                 .toggleItem(item.product.id);
+                            _dialog.close();
                           },
                           child: Container(
                               margin: EdgeInsets.fromLTRB(
@@ -289,10 +296,17 @@ class _WishCard extends State<WishCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
+                    final NavigationService _navigationService = locator<NavigationService>();
+                    TzDialog _dialog =
+                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                    _dialog.show();
                     await Provider.of<CartViewModel>(context, listen: false)
                         .cartAddItem(item.product.id, item.product.id, 1, false);
                     await Provider.of<WishlistViewModel>(context, listen: false)
                         .toggleItem(item.product.id);
+
+                    _dialog.close();
+
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(183),

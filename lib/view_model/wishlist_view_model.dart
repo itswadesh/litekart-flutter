@@ -32,7 +32,7 @@ class WishlistViewModel with ChangeNotifier {
 
   toggleItem(id) async {
     await wishListRepository.toggleWishList(id);
-    _pagingController.refresh();
+   // _pagingController.refresh();
     await fetchData();
     notifyListeners();
   }

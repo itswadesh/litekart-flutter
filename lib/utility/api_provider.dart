@@ -311,8 +311,8 @@ class ApiProvider {
               'folder': 'avatar',
             }),
       );
-      print(resultLink.data.toString());
-      if (!resultLink.hasException || resultLink.data['fileUpload'] != null) {
+      log(resultLink.exception.toString());
+      if (!resultLink.hasException && resultLink.data!=null && resultLink.data['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
                 document: gql(addMutation.updateProfile()), variables: {
@@ -513,9 +513,9 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
           document: gql(addMutation.cart(),),
-          variables: {
-            'store':store.id
-          }
+          // variables: {
+          //   'store':store.id
+          // }
         ),
       );
       if (resultData.hasException) {
@@ -1131,6 +1131,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
           document: gql(addMutation.orderItem()), variables: {"id": id}));
+      print(resultData.exception.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

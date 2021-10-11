@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view_model/settings_view_model.dart';
@@ -1042,6 +1044,9 @@ class _ProductDetail extends State<ProductDetail>
                                     width: 1, color: Color(0xffe3e3e3)),
                               ),
                               onPressed: () async {
+                                TzDialog _dialog =
+                                TzDialog(context, TzDialogType.progress);
+                                _dialog.show();
                                 if (Provider.of<ProfileModel>(context,
                                             listen: false)
                                         .user !=
@@ -1049,6 +1054,7 @@ class _ProductDetail extends State<ProductDetail>
                                   await Provider.of<WishlistViewModel>(context,
                                           listen: false)
                                       .toggleItem(productData.id);
+                                  _dialog.close();
                                   setState(() {});
                                 } else {
                                   locator<NavigationService>()
@@ -1103,6 +1109,9 @@ class _ProductDetail extends State<ProductDetail>
                                 if (value.buttonStatus == "Not Available") {
                                 } else {
                                   if (value.buttonStatus == "ADD TO BAG") {
+                                    TzDialog _dialog =
+                                    TzDialog(context, TzDialogType.progress);
+                                    _dialog.show();
                                     Provider.of<ProductDetailViewModel>(context,
                                             listen: false)
                                         .changeButtonStatus("GO TO CART");
@@ -1110,6 +1119,7 @@ class _ProductDetail extends State<ProductDetail>
                                             listen: false)
                                         .cartAddItem(productData.id,
                                             productData.id, 1, false);
+                                    _dialog.close();
                                   } else {
                                     _navigationService
                                         .pushNamed(routes.CartRoute);

@@ -1514,7 +1514,6 @@ getOtp(phone: \$phone){
     paymentReferenceId
     paymentOrderId
     paymentReceipt
-    paymentId
     invoiceId
     paymentGateway
     codPaid

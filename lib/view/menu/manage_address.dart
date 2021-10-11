@@ -765,35 +765,50 @@ class _ManageAddressState extends State<ManageAddress> {
                      Container(
                     padding:EdgeInsets.only(left: ScreenUtil().setWidth(18)),
                     child: Column(children:[
-                      Row(
-                        children: [
-                          // InkWell(
-                          //   onTap: () async {
-                          //     await Provider.of<AddressViewModel>(context,
-                          //             listen: false)
-                          //         .selectAddress(
-                          //             value.addressResponse.data[index]);
-                          //   },
-                          //   child:
-                          (value.selectedAddress != null &&
-                                  (value.selectedAddress.id ==
-                                      value.addressResponse.data[index].id))
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: AppColors.primaryElement,
-                                  size: ScreenUtil().setWidth(18),
-                                )
-                              : Icon(
-                                  Icons.check_box_outline_blank,
-                                  color: AppColors.primaryElement,
-                                  size: ScreenUtil().setWidth(18),
-                                ),
-                          // ),
-                          SizedBox(
-                            width: ScreenUtil().setWidth(9.33),
-                          ),
+                      // Row(
+                      //   children: [
+                      //     // InkWell(
+                      //     //   onTap: () async {
+                      //     //     await Provider.of<AddressViewModel>(context,
+                      //     //             listen: false)
+                      //     //         .selectAddress(
+                      //     //             value.addressResponse.data[index]);
+                      //     //   },
+                      //     //   child:
+                      //     (value.selectedAddress != null &&
+                      //             (value.selectedAddress.id ==
+                      //                 value.addressResponse.data[index].id))
+                      //         ? Icon(
+                      //             Icons.check_circle,
+                      //             color: AppColors.primaryElement,
+                      //             size: ScreenUtil().setWidth(18),
+                      //           )
+                      //         : Icon(
+                      //             Icons.check_box_outline_blank,
+                      //             color: AppColors.primaryElement,
+                      //             size: ScreenUtil().setWidth(18),
+                      //           ),
+                      //     // ),
+                      //     SizedBox(
+                      //       width: ScreenUtil().setWidth(9.33),
+                      //     ),
+                      //     Container(
+                      //       width: ScreenUtil().setWidth(245),
+                      //       child: Text(
+                      //         "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
+                      //         style: TextStyle(
+                      //             color: Color(0xff525252),
+                      //             fontSize: ScreenUtil().setSp(
+                      //               17,
+                      //             )),
+                      //       ),
+                      //     )
+                      //   ],
+                      // ),
                           Container(
-                            width: ScreenUtil().setWidth(245),
+                            padding:
+                            EdgeInsets.only(left: ScreenUtil().setWidth(26)),
+                            width: double.infinity,
                             child: Text(
                               "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
                               style: TextStyle(
@@ -802,9 +817,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                     17,
                                   )),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
                       SizedBox(
                         height: ScreenUtil().setWidth(16),
                       ),

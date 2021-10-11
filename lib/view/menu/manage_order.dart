@@ -2,6 +2,7 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -836,7 +837,7 @@ class ListOrderData extends StatelessWidget{
                        title:   Text(
                                    orderData.items[0].status,
                                    style: TextStyle(
-                                     color: AppColors.primaryElement2,
+                                     color: AppColors.primaryElement,
                                    ),
                                    textAlign: TextAlign.start,
                                  ),
@@ -978,13 +979,15 @@ class ListOrderData extends StatelessWidget{
        child: Row(
          children: <Widget>[
            new ClipRRect(
-               child: FadeInImage.assetNetwork(
+               child: (items[index].img!=null && items[index].img!="")?  FadeInImage.assetNetwork(
                  placeholder: 'assets/images/loading.gif',
                  image: items[index].img+"?tr=h-112,w-92,fo-auto",
                  fit: BoxFit.cover,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),
-               )),
+               ):Image.asset("assets/images/logo.png",fit: BoxFit.cover,
+                 width: ScreenUtil().setWidth(92),
+                 height: ScreenUtil().setWidth(112),)),
            Padding(
              padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
            ),
@@ -1044,7 +1047,7 @@ class ListOrderData extends StatelessWidget{
                        "Qty : " + items[index].qty.toString(),
                        style: TextStyle(
                            fontWeight: FontWeight.w500,
-                           color: AppColors.primaryElement2,
+                           color: AppColors.primaryElement,
                            fontSize: ScreenUtil().setSp(
                              14,
                            )),

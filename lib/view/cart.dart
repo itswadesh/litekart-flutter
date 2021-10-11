@@ -1,3 +1,5 @@
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/view_model/product_detail_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -1086,7 +1088,7 @@ class _CartCard extends State<CartCard> {
                                         event: EVENT_CART_DECREASE_ITEM_COUNT,
                                         data: data);
                                   },
-                                   child: Icon(FontAwesomeIcons.minusCircle, color: Color(0xff818181),size: 20,)
+                                   child: Icon(FontAwesomeIcons.minusCircle, color: Color(0xff818181),size: 22,)
                             // Container(
                                   //   margin: EdgeInsets.fromLTRB(
                                   //       ScreenUtil().setWidth(6),
@@ -1125,14 +1127,14 @@ class _CartCard extends State<CartCard> {
                                   // )
                           )
                               : new Container(),
-                          SizedBox(width: 3,),
+                          SizedBox(width: 4,),
                           new Text(
                             cartData.qty.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(17)),
                           ),
-                          SizedBox(width: 3,),
+                          SizedBox(width: 4,),
                           new InkWell(
                               onTap: () async {
 
@@ -1152,7 +1154,7 @@ class _CartCard extends State<CartCard> {
                                     data: data);
                               },
                               child:
-                              Icon(FontAwesomeIcons.plusCircle,color: Color(0xff818181),size: 20,)
+                              Icon(FontAwesomeIcons.plusCircle,color: Color(0xff818181),size: 22,)
                               // Container(
                               //   margin: EdgeInsets.fromLTRB(
                               //       ScreenUtil().setWidth(6),
@@ -1203,11 +1205,16 @@ class _CartCard extends State<CartCard> {
 
               InkWell(
                   onTap: () async {
+                    final NavigationService _navigationService = locator<NavigationService>();
+                    TzDialog _dialog =
+                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                    _dialog.show();
                    await Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
                   await  Provider.of<CartViewModel>(context,
                         listen: false)
                         .cartAddItem(cartData.pid, cartData.pid,
                         -cartData.qty, false);
+                  _dialog.close();
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -1224,12 +1231,18 @@ class _CartCard extends State<CartCard> {
 
               InkWell(
                   onTap: () async {
+                    final NavigationService _navigationService = locator<NavigationService>();
+                    TzDialog _dialog =
+                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                    _dialog.show();
+                    await Provider.of<WishlistViewModel>(context, listen: false)
+                        .toggleItem(cartData.pid);
                     Provider.of<CartViewModel>(context,
                         listen: false)
                         .cartAddItem(cartData.pid, cartData.pid,
                         -cartData.qty, false);
-                    await Provider.of<WishlistViewModel>(context, listen: false)
-                        .toggleItem(cartData.pid);
+                   _dialog.close();
+
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(215),

@@ -116,20 +116,20 @@ class _OrderTracking extends State<OrderTracking> {
 
         shape:Border(
 
-          top: BorderSide(color: AppColors.primaryElement2),
-          bottom: BorderSide(color: AppColors.primaryElement2),
-          left: BorderSide(color: AppColors.primaryElement2),
-          right: BorderSide(color: AppColors.primaryElement2)
+          top: BorderSide(color: AppColors.primaryElement),
+          bottom: BorderSide(color: AppColors.primaryElement),
+          left: BorderSide(color: AppColors.primaryElement),
+          right: BorderSide(color: AppColors.primaryElement)
         ),
-      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(21), 0,
+      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(22), 0,
       ScreenUtil().setWidth(22), ScreenUtil().setWidth(12)),
       elevation: 0,
       child: Container(
       padding: EdgeInsets.fromLTRB(
-      ScreenUtil().setWidth(24),
-      ScreenUtil().setWidth(23),
-      ScreenUtil().setWidth(19),
-      ScreenUtil().setWidth(24)),
+      ScreenUtil().setWidth(22),
+      ScreenUtil().setWidth(22),
+      ScreenUtil().setWidth(22),
+      ScreenUtil().setWidth(22)),
     decoration: BoxDecoration(
     color: Colors.white,
     ),
@@ -208,7 +208,7 @@ class _OrderTracking extends State<OrderTracking> {
                     ),
                   ],
                 ),
-                SizedBox( height: ScreenUtil().setWidth(9),),
+                SizedBox( height: ScreenUtil().setWidth(17),),
                 LinearPercentIndicator(
 
                   center: progressIndi==0.5? Icon(
@@ -219,10 +219,10 @@ class _OrderTracking extends State<OrderTracking> {
                   lineHeight: ScreenUtil().setWidth(22),
                   percent: progressIndi,
                   backgroundColor: Color(0xfff3f3f3),
-                  progressColor: AppColors.primaryElement2,
+                  progressColor: AppColors.primaryElement,
                 ),
                 SizedBox(
-                  height: ScreenUtil().setWidth(25),
+                  height: ScreenUtil().setWidth(17),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +240,7 @@ class _OrderTracking extends State<OrderTracking> {
                       "Return Item",
                       style: TextStyle(
                           fontSize: ScreenUtil().setWidth(13),
-                          color: Color(0xff3288ef)),
+                          color: AppColors.primaryElement),
                     ))
                         :Container()
                     ,
@@ -283,7 +283,7 @@ class _OrderTracking extends State<OrderTracking> {
                 new ClipRRect(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: items.img,
+                      image: items.img+"?tr=h-102,fo-auto",
                       fit: BoxFit.contain,
                       width: ScreenUtil().setWidth(92),
                       height: ScreenUtil().setWidth(102),
@@ -401,14 +401,14 @@ class _OrderTracking extends State<OrderTracking> {
                       height: ScreenUtil().setWidth(15),
                       width: ScreenUtil().setWidth(15),
                       decoration:BoxDecoration(
-                  color: Color(0xff9fc8ff),
+                  color: Color(0x55f84b6d),
                         borderRadius: BorderRadius.circular(10),
               ),
                       child: Container(
                         height: ScreenUtil().setWidth(12),
                         width: ScreenUtil().setWidth(12),
                         decoration:BoxDecoration(
-                          color: Color(0xff3f91ff),
+                          color: AppColors.primaryElement,
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -505,7 +505,7 @@ class _OrderTracking extends State<OrderTracking> {
                                         color: color,
                                         child: Icon(
                                           Icons.circle,
-                                          color: Color(0xff3f91ff),
+                                          color: AppColors.primaryElement,
                                           size: 14,
                                         ),
                                       )
