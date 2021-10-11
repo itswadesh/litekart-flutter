@@ -1225,6 +1225,7 @@ getOtp(phone: \$phone){
       name
       slug
       img
+      imgCdn
       qty
       price
       vendor {
@@ -1362,6 +1363,7 @@ getOtp(phone: \$phone){
         name
         barcode
         img
+        imgCdn
         slug
         price
         qty
@@ -1485,6 +1487,7 @@ getOtp(phone: \$phone){
     name
     slug
     img
+    imgCdn
     tracking
     shippingCharge
     price
@@ -1611,7 +1614,7 @@ getOtp(phone: \$phone){
         id
         name
         slug
-        img
+        imgCdn
         price
         mrp
         brand {

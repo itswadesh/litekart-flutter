@@ -49,7 +49,7 @@ class WishlistProduct {
       WishlistProduct(
           id: json["id"] ?? "",
           name: json["name"] ?? "",
-          img: json["img"] ?? "avc",
+          img: json["imgCdn"] ?? "avc",
           price: double.parse(json["price"].toString()) ?? "",
           mrp: double.parse(json["mrp"].toString()) ?? "",
           brand: json["brand"] != null ? (json["brand"]["name"] ?? "") : "");

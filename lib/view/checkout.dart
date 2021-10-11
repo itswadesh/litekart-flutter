@@ -2170,12 +2170,14 @@ class _Checkout extends State<Checkout> {
             ),
             Container(
               height: ScreenUtil().setWidth(50),
+              
               child: TextField(
                 controller: cardNumber,
                 style: TextStyle(
                     color: Color(0xff525252),
                     fontSize: ScreenUtil().setSp(12)),
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                     fillColor: Colors.white,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
@@ -2189,7 +2191,7 @@ class _Checkout extends State<Checkout> {
                     hintText: "xxxx - xxxx - xxxx - xxxx",
                     hintStyle: TextStyle(
                         color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(12))),
+                        fontSize: ScreenUtil().setSp(13))),
                 keyboardType: TextInputType.number,
               ),
             ),
@@ -2210,6 +2212,7 @@ class _Checkout extends State<Checkout> {
               height: ScreenUtil().setWidth(11),
             ),
             Container(
+            
               height: ScreenUtil().setWidth(50),
               child: TextField(
                 controller: cardHolder,
@@ -2217,6 +2220,7 @@ class _Checkout extends State<Checkout> {
                     color: Color(0xff525252),
                     fontSize: ScreenUtil().setSp(12)),
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                     fillColor: Colors.white,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
@@ -2230,7 +2234,7 @@ class _Checkout extends State<Checkout> {
                     hintText: "John",
                     hintStyle: TextStyle(
                         color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(12))),
+                        fontSize: ScreenUtil().setSp(13))),
               ),
             ),
             SizedBox(
@@ -2321,6 +2325,7 @@ class _Checkout extends State<Checkout> {
                   padding: EdgeInsets.only(left: 5),
                   height: ScreenUtil().setWidth(40),
                   width: ScreenUtil().setWidth(120),
+
                   color: Colors.white,
                   child: TextField(
                     controller: cvv,
@@ -2328,6 +2333,7 @@ class _Checkout extends State<Checkout> {
                         color: Color(0xff525252),
                         fontSize: ScreenUtil().setSp(11)),
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -2341,7 +2347,7 @@ class _Checkout extends State<Checkout> {
                         hintText: "Three-digit",
                         hintStyle: TextStyle(
                             color: Color(0xff525252),
-                            fontSize: ScreenUtil().setSp(11))),
+                            fontSize: ScreenUtil().setSp(12))),
                     keyboardType: TextInputType.number,
                   ),
                 ),
@@ -2660,7 +2666,7 @@ class _Checkout extends State<Checkout> {
             log("${token.tokenId}");
             var stripe = await stripeRepository.stripe(selectedAddressId, token.tokenId);
             if(stripe["status"]=="completed"){
-              handlePaymentSuccess("credit", stripe["value"]["paymentOrderId"]);
+              handlePaymentSuccess("credit", stripe["value"]["id"]);
             }
             else if(stripe["status"]=="error"){
               handlePaymentFailure(stripe["error"]);

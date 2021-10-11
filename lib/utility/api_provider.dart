@@ -648,7 +648,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.categories()),
             variables: {"shopbycategory": true,
-              'store':store.id}),
+              'store':store.id,'img':true,'sort':"featuredSort"}),
       );
       if (resultData.hasException) {
         print(resultData.exception);
@@ -1108,6 +1108,7 @@ class ApiProvider {
             resultData.data["myOrders"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
+
           responseData = {
             "status": "completed",
             "value": resultData.data["myOrders"]
@@ -1130,7 +1131,6 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
           document: gql(addMutation.orderItem()), variables: {"id": id}));
-      print(resultData.data.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
