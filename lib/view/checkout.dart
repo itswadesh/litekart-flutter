@@ -2348,7 +2348,7 @@ class _Checkout extends State<Checkout> {
                   ),
                 ),
                 SizedBox(
-                  width: ScreenUtil().setWidth(25),
+                  width: ScreenUtil().setWidth(24),
                 ),
                 Container(
                   width: ScreenUtil().setWidth(95),
@@ -2372,7 +2372,7 @@ class _Checkout extends State<Checkout> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xff707070)),
                         borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3))),
+                        BorderRadius.circular(ScreenUtil().setWidth(4))),
                     padding: EdgeInsets.only(left: 5),
                     height: ScreenUtil().setWidth(40),
                     width: ScreenUtil().setWidth(95),
@@ -2393,7 +2393,7 @@ class _Checkout extends State<Checkout> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xff707070)),
                         borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3))),
+                        BorderRadius.circular(ScreenUtil().setWidth(4))),
                     padding: EdgeInsets.only(left: 5),
                     height: ScreenUtil().setWidth(40),
                     width: ScreenUtil().setWidth(95),
@@ -2407,10 +2407,10 @@ class _Checkout extends State<Checkout> {
                               });
                             }))),
                 SizedBox(
-                  width: ScreenUtil().setWidth(25),
+                  width: ScreenUtil().setWidth(24),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 5),
+
                   height: ScreenUtil().setWidth(40),
                   width: ScreenUtil().setWidth(95),
 

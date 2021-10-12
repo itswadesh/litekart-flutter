@@ -1011,7 +1011,7 @@ class ApiProvider {
     QueryResult resultStripe = await _client.mutate(
       MutationOptions(document: gql(addMutation.stripe()), variables: {
         'address': addressId,
-        'token':token
+        'paymentMethodId':token
       }),
     );
    
