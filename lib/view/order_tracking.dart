@@ -921,19 +921,19 @@ class _OrderTracking extends State<OrderTracking> {
             getUpdatesCard(orderTrackResponse),
             getPaymentInfoCard(widget.address),
             getDeliveryCard(widget.address),
-            Container(
-              //height: 70,
-              child:  Container(
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        color: AppColors.primaryElement,
-                        child: Text(
-                          "© 2020 Anne Private Limited",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )),
-
-            )
+            // Container(
+            //   //height: 70,
+            //   child:  Container(
+            //             padding: EdgeInsets.all(20),
+            //             width: double.infinity,
+            //             color: AppColors.primaryElement,
+            //             child: Text(
+            //               "© 2020 Anne Private Limited",
+            //               style: TextStyle(color: Colors.white),
+            //               textAlign: TextAlign.center,
+            //             )),
+            //
+            // )
           ],
         ),
       ),

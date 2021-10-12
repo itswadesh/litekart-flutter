@@ -39,7 +39,7 @@ class User {
       verified: json["verified"],
       active: json["active"],
       provider: json["provider"],
-      avatar: json["avatar"],
+      avatar: json["avatarCdn"],
       address: List<UserAddress>.from(
           json["address"].map((x) => UserAddress.fromJson(x))));
 

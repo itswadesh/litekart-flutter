@@ -427,6 +427,7 @@ getOtp(phone: \$phone){
     provider
     active
     avatar
+    avatarCdn
     address {
       address
       town

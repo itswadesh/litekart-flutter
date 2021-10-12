@@ -63,12 +63,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
   switch (settings.name) {
     case routes.LoginRoute:
-      if(settingData.otpLogin) {
         return ScaleRoute(page: Login());
-      }
-      else{
-        return ScaleRoute(page: EmailLogin());
-      }
       break;
     case routes.EmailLoginRoute:
       return ScaleRoute(page: EmailLogin());

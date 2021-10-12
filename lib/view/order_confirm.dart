@@ -139,16 +139,16 @@ class _OrderConfirm extends State<OrderConfirm> {
                   SizedBox(
                     height: 25,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    width: double.infinity,
-                    color: AppColors.primaryElement,
-                    child: Text(
-                      "© 2020 Anne Private Limited",
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
+                  // Container(
+                  //   padding: EdgeInsets.all(20),
+                  //   width: double.infinity,
+                  //   color: AppColors.primaryElement,
+                  //   child: Text(
+                  //     "© 2020 Anne Private Limited",
+                  //     style: TextStyle(color: Colors.white),
+                  //     textAlign: TextAlign.center,
+                  //   ),
+                  // )
                 ],
               ),
             ),

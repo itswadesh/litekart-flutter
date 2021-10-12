@@ -261,12 +261,17 @@ class ApiProvider {
     User _user;
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+    log("here is the token from get profile page : "+token.toString());
     QueryResult resultData = await _client1.mutate(
       MutationOptions(
         document: gql(addMutation.me()),
+        variables: {
+          "store":store.id
+        }
       ),
     );
     if (resultData.hasException) {
+      log("prfile error"+ resultData.exception.toString());
       await deleteCookieFromSF();
     } else {
       _user = User.fromJson(resultData.data["me"]);
@@ -285,6 +290,7 @@ class ApiProvider {
       'email': email,
       'lastName': lastName,
       'gender': gender,
+          "store":store.id
     }));
     if(!result.hasException){
       return true;
@@ -324,6 +330,7 @@ class ApiProvider {
               'email': email,
               'lastName': lastName,
               'gender': gender,
+              "store":store.id
             }));
         if(!result.hasException){
           return true;
@@ -337,7 +344,9 @@ class ApiProvider {
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration1.clientToQuery();
     await _client
-        .mutate(MutationOptions(document: gql(addMutation.signOut())));
+        .mutate(MutationOptions(document: gql(addMutation.signOut()),variables: {
+          "store":store.id
+    }));
     token = "";
     tempToken = "";
     deleteCookieFromSF();
@@ -481,7 +490,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.parentBrands()),
-            variables: {"featured": true, "limit": 5, "page": 0},
+            variables: {"featured": true},
             fetchPolicy: FetchPolicy.noCache),
       );
       if (resultData.hasException) {
@@ -513,9 +522,9 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
           document: gql(addMutation.cart(),),
-          // variables: {
-          //   'store':store.id
-          // }
+          variables: {
+            'store':store.id
+          }
         ),
       );
       if (resultData.hasException) {
@@ -950,6 +959,7 @@ class ApiProvider {
       "sort": sort,
       "page": page,
       "parentBrands": parentBrand + pb,
+      "store": store.id
       // "brand": bi
     });
     return response;

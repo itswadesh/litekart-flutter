@@ -389,7 +389,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: Container(
                 height: ScreenUtil().setWidth(120),
                 width: ScreenUtil().setWidth(120),
-                child: avatar!=null? Image.network(avatar):Image.asset("assets/images/user.png")
+                child: avatar!=null? Image.network(avatar+"?tr=h-120,f0-auto"):Image.asset("assets/images/user.png")
             ),
           ),)),
         ]));

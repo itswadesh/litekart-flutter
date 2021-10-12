@@ -69,7 +69,7 @@ class _Checkout extends State<Checkout> {
   PaypalRepository paypalRepository = PaypalRepository();
   var _formKey = GlobalKey<FormState>();
   var newAddress = true;
-  String paymentMethod = "paypal";
+  String paymentMethod = "credit";
   var addressPage = true;
   var defaultAddress = true;
   var primaryAddressBox = -1;
@@ -1441,8 +1441,75 @@ class _Checkout extends State<Checkout> {
                         })*/
                 ],
               )),
+        ) : Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+              height: ScreenUtil().setHeight(61),
+              color: Colors.white,
+              padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(20),
+                  ScreenUtil().setWidth(10),
+                  ScreenUtil().setWidth(25),
+                  ScreenUtil().setWidth(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer<CartViewModel>(builder:
+                      (BuildContext context, value, Widget child) {
+                    if (value.cartResponse == null ||
+                        value.cartResponse.items.length == 0) {
+                      return Container();
+                    }
+                    return Text(
+                        "TOTAL : ${store.currencySymbol} " +
+                            (value.cartResponse.total).toString()
+                        //"$total"
+                        ,
+                        style: TextStyle(
+                            color: Color(0xff383838),
+                            fontSize: ScreenUtil().setSp(
+                              18,
+                            )));
+                  }),
+                  Container(
+                    child: Consumer<AddressViewModel>(
+    builder: (BuildContext context, value, Widget child) {
+    return  Container(
+                            width: ScreenUtil().setWidth(150),
+                            height: ScreenUtil().setHeight(42),
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(5),
+                                ),
+                                side: BorderSide(
+                                    width: 2,
+                                    color:  buttonStatusOrder
+                                        ? AppColors.primaryElement
+                                        : Colors.grey),
+                              ),
+                              onPressed: () async {
+                                paymentHandle(value.selectedAddress.id);
+                              },
+                              child: Text(
+                                "PLACE ORDER",
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(
+                                      16,
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    color: buttonStatusOrder
+                                        ? AppColors.primaryElement
+                                        : Colors.grey,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ));})
+                  )
+                ],
+              )),
         )
-            : Container(),
+            ,
       ],
     );
   }
@@ -1985,10 +2052,10 @@ class _Checkout extends State<Checkout> {
                           buttonStatusAddress = !buttonStatusAddress;
                         });
                         final snackBar = SnackBar(
-                          backgroundColor: Colors.white,
+                          backgroundColor: Colors.black,
                           content: Text(
                             'Something went wrong. Please Try Again!!',
-                            style: TextStyle(color: AppColors.primaryElement),
+                            style: TextStyle(color: Colors.white),
                           ),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -2029,11 +2096,26 @@ class _Checkout extends State<Checkout> {
         },
         child: Column(
           children: [
+            GestureDetector(
+              onTap: (){
+                setState(() {
+                  paymentMethod = "credit";
+                });
+              },
+              child:
             creditCard(),
+            ),
             SizedBox(
               height: ScreenUtil().setWidth(15),
             ),
-            paypalCard(),
+      GestureDetector(
+        onTap: (){
+          setState(() {
+            paymentMethod = "paypal";
+          });
+        },
+        child:
+            paypalCard()),
             SizedBox(
               height: ScreenUtil().setWidth(15),
             ),
@@ -2055,9 +2137,9 @@ class _Checkout extends State<Checkout> {
   creditCard() {
     return Container(
         padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(26),
+            ScreenUtil().setWidth(25),
             ScreenUtil().setWidth(30),
-            ScreenUtil().setWidth(17),
+            ScreenUtil().setWidth(25),
             ScreenUtil().setWidth(22)),
         decoration: BoxDecoration(
             border: Border.all(
@@ -2103,7 +2185,7 @@ class _Checkout extends State<Checkout> {
                   // )
                 ]),
                 SizedBox(
-                  width: ScreenUtil().setWidth(77),
+                  width: ScreenUtil().setWidth(69),
                 ),
                 Container(
                   child: Row(
@@ -2175,9 +2257,9 @@ class _Checkout extends State<Checkout> {
                 controller: cardNumber,
                 style: TextStyle(
                     color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(12)),
+                    fontSize: ScreenUtil().setSp(14)),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                     fillColor: Colors.white,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
@@ -2191,7 +2273,7 @@ class _Checkout extends State<Checkout> {
                     hintText: "xxxx - xxxx - xxxx - xxxx",
                     hintStyle: TextStyle(
                         color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(13))),
+                        fontSize: ScreenUtil().setSp(14))),
                 keyboardType: TextInputType.number,
               ),
             ),
@@ -2218,9 +2300,9 @@ class _Checkout extends State<Checkout> {
                 controller: cardHolder,
                 style: TextStyle(
                     color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(12)),
+                    fontSize: ScreenUtil().setSp(14)),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                     fillColor: Colors.white,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
@@ -2234,7 +2316,7 @@ class _Checkout extends State<Checkout> {
                     hintText: "John",
                     hintStyle: TextStyle(
                         color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(13))),
+                        fontSize: ScreenUtil().setSp(14))),
               ),
             ),
             SizedBox(
@@ -2243,33 +2325,39 @@ class _Checkout extends State<Checkout> {
             Row(
               children: [
                 Container(
+                  width: ScreenUtil().setWidth(95),
                   child: Text(
                     "Expire Month",
                     style: TextStyle(
                         color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setSp(14)),
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(10),
-                ),
-                Container(
-                  child: Text(
-                    "Expire Year",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 SizedBox(
                   width: ScreenUtil().setWidth(25),
                 ),
                 Container(
+                  width: ScreenUtil().setWidth(95),
+                  child: Text(
+                    "Expire Year",
+                    style: TextStyle(
+                        color: AppColors.primaryElement,
+                        fontSize: ScreenUtil().setSp(14)),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SizedBox(
+                  width: ScreenUtil().setWidth(25),
+                ),
+                Container(
+                  width: ScreenUtil().setWidth(95),
                   child: Text(
                     "Security Code",
                     style: TextStyle(
                         color: AppColors.primaryElement,
                         fontSize: ScreenUtil().setSp(14)),
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ],
@@ -2287,7 +2375,7 @@ class _Checkout extends State<Checkout> {
                         BorderRadius.circular(ScreenUtil().setWidth(3))),
                     padding: EdgeInsets.only(left: 5),
                     height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(72),
+                    width: ScreenUtil().setWidth(95),
                     child: DropdownButtonHideUnderline(
                         child: DropdownButton<ListItem>(
                             value: _selectedMonth,
@@ -2308,7 +2396,7 @@ class _Checkout extends State<Checkout> {
                         BorderRadius.circular(ScreenUtil().setWidth(3))),
                     padding: EdgeInsets.only(left: 5),
                     height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(85),
+                    width: ScreenUtil().setWidth(95),
                     child: DropdownButtonHideUnderline(
                         child: DropdownButton<ListItem>(
                             value: _selectedYear,
@@ -2319,21 +2407,21 @@ class _Checkout extends State<Checkout> {
                               });
                             }))),
                 SizedBox(
-                  width: ScreenUtil().setWidth(11),
+                  width: ScreenUtil().setWidth(25),
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 5),
                   height: ScreenUtil().setWidth(40),
-                  width: ScreenUtil().setWidth(120),
+                  width: ScreenUtil().setWidth(95),
 
                   color: Colors.white,
                   child: TextField(
                     controller: cvv,
                     style: TextStyle(
                         color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(11)),
+                        fontSize: ScreenUtil().setSp(14)),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -2344,32 +2432,14 @@ class _Checkout extends State<Checkout> {
                           borderSide:
                           BorderSide(color: Color(0xff707070), width: 1.0),
                         ),
-                        hintText: "Three-digit",
+                        hintText: "xxx",
                         hintStyle: TextStyle(
                             color: Color(0xff525252),
-                            fontSize: ScreenUtil().setSp(12))),
+                            fontSize: ScreenUtil().setSp(14))),
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(5),
-                ),
-                Container(
-                  height: ScreenUtil().setWidth(20),
-                  width: ScreenUtil().setWidth(20),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff707070)),
-                      borderRadius:
-                      BorderRadius.circular(ScreenUtil().setWidth(20))),
-                  child: Center(
-                      child: Text(
-                        "?",
-                        style: TextStyle(
-                            color: Color(0xff707070),
-                            fontWeight: FontWeight.w600,
-                            fontSize: ScreenUtil().setSp(13)),
-                      )),
-                )
+
               ],
             ),
           ],
@@ -2651,6 +2721,9 @@ class _Checkout extends State<Checkout> {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
       });
+      TzDialog _dialog = TzDialog(
+          context, TzDialogType.progress);
+      _dialog.show();
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
           CreditCard creditCard = CreditCard(
@@ -2665,13 +2738,18 @@ class _Checkout extends State<Checkout> {
           ).then((token) async{
             log("${token.tokenId}");
             var stripe = await stripeRepository.stripe(selectedAddressId, token.tokenId);
+
             if(stripe["status"]=="completed"){
+              _dialog.close();
               handlePaymentSuccess("credit", stripe["value"]["id"]);
             }
             else if(stripe["status"]=="error"){
+              _dialog.close();
               handlePaymentFailure(stripe["error"]);
             }
-          }).catchError((onError)=>handlePaymentFailure(onError.toString()));
+          }).catchError((onError){
+            _dialog.close();
+            handlePaymentFailure(onError.toString());});
   }
 
       else if(paymentMethod=="paypal"){
@@ -2685,8 +2763,10 @@ class _Checkout extends State<Checkout> {
             tokenizationKey["braintreeToken"],
             request,
           );
+          _dialog.close();
         log(result.description);
         } catch(e){
+          _dialog.close();
           handlePaymentFailure(e.toString());
         }
         // if(result["status"]=="completed"){
@@ -2766,6 +2846,9 @@ class _Checkout extends State<Checkout> {
   }
 
   handlePaymentSuccess(paymentMode, orderId) async {
+    TzDialog _dialog = TzDialog(
+        context, TzDialogType.progress);
+    _dialog.show();
     await checkoutRepository.paySuccessPageHit(orderId);
     // FormData cashFreeData;
     // cashFreeData = FormData.fromMap({
@@ -2788,15 +2871,17 @@ class _Checkout extends State<Checkout> {
       });
       CheckOutResponse checkoutResponse =
           CheckOutResponse.fromJson(result.data["order"]);
+      _dialog.close();
       locator<NavigationService>()
           .pushReplacementNamed(routes.OrderConfirm, args: checkoutResponse);
     } else {
+      _dialog.close();
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
       });
       print(result.exception);
       final snackBar = SnackBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         content: InkWell(
           onTap: () {
             Map<String, dynamic> data = {
@@ -2810,7 +2895,7 @@ class _Checkout extends State<Checkout> {
           },
           child: Text(
             'Something went wrong.',
-            style: TextStyle(color: AppColors.primaryElement),
+            style: TextStyle(color: Color(0xffffffff)),
           ),
         ),
       );
@@ -2823,7 +2908,7 @@ class _Checkout extends State<Checkout> {
       buttonStatusOrder = !buttonStatusOrder;
     });
     final snackBar = SnackBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       content: InkWell(
         onTap: () {
           Map<String, dynamic> data = {
@@ -2838,7 +2923,7 @@ class _Checkout extends State<Checkout> {
         child: Text(
           error,
           style: TextStyle(
-              color: AppColors.primaryElement,
+              color: Colors.white,
               fontSize: ScreenUtil().setSp(14)),
         ),
       ),

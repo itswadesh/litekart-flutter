@@ -58,9 +58,10 @@ void main() async {
   setupLocator();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   token = await getCookieFromSF();
-  User user = await ProfileModel().returnProfile();
+  print(token);
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
+  User user = await ProfileModel().returnProfile();
   print(user);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -100,7 +101,17 @@ class _MyApp extends State<Main> {
       if (widget.user != null) {
         _initialRoute = routes.HomeRoute;
       } else {
-        _initialRoute = routes.LoginRoute;
+        if (settingData == null) {
+          _initialRoute = routes.EmailLoginRoute;
+        }
+        else {
+          if (settingData.otpLogin) {
+            _initialRoute = routes.LoginRoute;
+          }
+          else {
+            _initialRoute = routes.EmailLoginRoute;
+          }
+        }
       }
     }
     super.initState();

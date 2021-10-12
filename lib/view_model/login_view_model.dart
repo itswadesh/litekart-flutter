@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:anne/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../components/base/tz_dialog.dart';
@@ -108,15 +109,18 @@ class EmailLoginViewModel extends ChangeNotifier{
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.login()),
-          variables: {'email': email, 'password': password},
+          variables: {'email': email, 'password': password, 'store':store.id},
         ),
       );
       if (!result.hasException) {
+        print(result.data.toString());
+        print(tempToken);
         loginStatus=true;
         token = tempToken;
         await addCookieToSF(token);
         _dialog.close();
       } else {
+        log(result.exception.toString());
         _dialog.close();
       }
     // } catch (e) {
@@ -153,7 +157,7 @@ class RegisterViewModel extends ChangeNotifier{
           variables: {'email': email, 'password': password,'passwordConfirmation':cPassword,'firstName':firstName,'lastName':lastName},
         ),
       );
-      log(result.exception.graphqlErrors[0].message.toString());
+
       if (!result.hasException) {
 
         registerStatus = true;
@@ -161,7 +165,7 @@ class RegisterViewModel extends ChangeNotifier{
         await addCookieToSF(token);
         _dialog.close();
       } else {
-        errorMessage = result.exception.graphqlErrors[0].message.toString();
+
         _dialog.close();
       }
     // } catch (e) {

@@ -1,3 +1,4 @@
+import 'package:anne/utility/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import '../../model/user.dart';
 import '../../repository/auth_repository.dart';
@@ -38,6 +39,7 @@ class ProfileModel extends ChangeNotifier {
     _user = null;
     token = "";
     tempToken = "";
+    await deleteCookieFromSF();
     notifyListeners();
   }
 }

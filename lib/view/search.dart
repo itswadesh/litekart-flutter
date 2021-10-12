@@ -18,6 +18,7 @@ import '../../values/event_constant.dart';
 import '../../view_model/category_view_model.dart';
 import '../../view_model/product_view_model.dart';
 import '../../values/route_path.dart' as routes;
+import '../main.dart';
 import 'product_list.dart';
 import '../../components/widgets/loading.dart';
 
@@ -33,7 +34,7 @@ class _SearchPage extends State<SearchPage> {
   TextEditingController searchText = TextEditingController();
 
   FocusNode _focusNode;
-
+  bool showSuggestion = false;
   @override
   void initState() {
     _focusNode = FocusNode();
@@ -63,7 +64,14 @@ class _SearchPage extends State<SearchPage> {
               // onSubmitted: ,
               controller: searchText,
               onChanged: (search) {
-                setState(() {});
+                setState(() {
+                  if(searchText.text == "" || searchText.text == null){
+                    showSuggestion = false;
+                  }
+                  else{
+                    showSuggestion  = true;
+                  }
+                });
               },
               onSubmitted: (search) {
                 locator<NavigationService>().pushNamed(routes.ProductList,
@@ -88,7 +96,7 @@ class _SearchPage extends State<SearchPage> {
               ),
             ),
           )),
-      body: searchText.text == "" || searchText.text == null
+      body: !showSuggestion
           ? SingleChildScrollView(
               child: Column(
                 children: [SizedBox(height: ScreenUtil().setWidth(15),),SearchCategoriesClass(), TopPickClass()],
@@ -105,31 +113,33 @@ class _SearchPage extends State<SearchPage> {
                   default:
                     if (snapshot.hasError) {
                       // if error then this message is shown
-                      return Center(
-                          child: Text(
-                        "Something Went Wrong .",
-                        style: TextStyle(color: Colors.red),
-                      ));
-                    } else if (snapshot.data != null) {
-                      //return Container();
+                      showSuggestion = false;
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [SizedBox(height: ScreenUtil().setWidth(15),),SearchCategoriesClass(), TopPickClass()],
+                        ),
+                      );
+                    } else if (snapshot.data != null && snapshot.data["data"]!=null && snapshot.data["data"].length!=0) {
                       return InkWell(
                           onTap: () {
-                            Map<String, dynamic> data = {
-                              "id": EVENT_SEARCH_SUGGESTIONS_LIST,
-                              "suggestions": snapshot.data,
-                              "event": "list",
-                            };
-                            Tracking(
-                                event: EVENT_SEARCH_SUGGESTIONS_LIST,
-                                data: data);
+                            // Map<String, dynamic> data = {
+                            //   "id": EVENT_SEARCH_SUGGESTIONS_LIST,
+                            //   "suggestions": snapshot.data,
+                            //   "event": "list",
+                            // };
+                            // Tracking(
+                            //     event: EVENT_SEARCH_SUGGESTIONS_LIST,
+                            //     data: data);
                           },
                           child: getList(snapshot.data["data"]));
-                    } else
-                      return Center(
-                          child: Text(
-                        "No Data Found ",
-                        style: TextStyle(color: Colors.white),
-                      ));
+                    } else {
+                      showSuggestion = false;
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [SizedBox(height: ScreenUtil().setWidth(15),),SearchCategoriesClass(), TopPickClass()],
+                        ),
+                      );
+                    }
                 }
               }),
     );
@@ -141,12 +151,15 @@ class _SearchPage extends State<SearchPage> {
     response = await dio.get((ApiEndpoint()).searchHint, queryParameters: {
       // "category": categoryName.toString(),
       "q": searchText.text,
+      "store": store.id
     });
 
     if (response.statusCode == 200) {
       print(response.data);
       return response.data;
     } else {
+      showSuggestion = false;
+      return null;
       // setState(() {
       //   isLoading = false;
       // });

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import "package:flutter/material.dart";
 import "package:graphql_flutter/graphql_flutter.dart";
@@ -11,6 +12,7 @@ class GraphQLConfiguration {
   HttpLink httpLink = HttpLink((ApiEndpoint()).graphQlUrl,
       defaultHeaders: {"cookie": token, "content-type": "application/json"},
       httpResponseDecoder: (response) async {
+    log("Cookie is heree   "+response.headers.toString());
     /*log("Response Header : " + response.headers.toString());
     log("Response Body : " + response.body);*/
     if (response.headers.containsKey("set-cookie")) {

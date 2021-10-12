@@ -57,7 +57,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     skipStatus = false;
     _TextAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _transTween = Tween(begin: Offset(0, 77), end: Offset(0, -40))
+    _transTween = Tween(begin: Offset(0, 57), end: Offset(0, -55))
         .animate(_TextAnimationController);
     this.initDynamicLinks();
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -111,7 +111,9 @@ class _Home extends State<Home> with TickerProviderStateMixin{
       key: scaffoldKey,
           drawer: HomeDrawer(),
           body:
-               Stack(children: [
+          SafeArea(
+          bottom: false,
+          child:  Stack(children: [
                  Container(
                    color: Color(0xffffffff),
                    child:
@@ -121,7 +123,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                        children: [
     Consumer<CategoryViewModel>(
     builder: (BuildContext context, value, Widget child) {
-    return value.status=="empty"||value.status=="error"?SizedBox(height: ScreenUtil().setWidth(150)): SizedBox(height: ScreenUtil().setWidth(240));}),
+    return value.status=="empty"||value.status=="error"?SizedBox(height: ScreenUtil().setWidth(150)): SizedBox(height: ScreenUtil().setWidth(215));}),
                          //  SearchCategoriesClass(),
                          BannersSliderClass(),
                          ListDealsClass(),
@@ -134,7 +136,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                      ),
                    ),
                  ),
-                 Align(
+          Align(
                    alignment: Alignment.topCenter,
                    child: AnimatedBuilder(
     animation: _TextAnimationController,
@@ -149,10 +151,20 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                  ))),
                  Align(
                    alignment: Alignment.topCenter,
+                   child: Transform.translate(
+                     offset: Offset(0,-50),
+                     child:Container(
+                       height: ScreenUtil().setWidth(100),
+                       color: Color(0xffffffff),
+                     ),
+                   ),
+                 ),
+                 Align(
+                   alignment: Alignment.topCenter,
                    child: Container(
-                     height: ScreenUtil().setWidth(90),
+                     height: ScreenUtil().setWidth(70),
                      color: Color(0xffffffff),
-                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(25), ScreenUtil().setWidth(20), ScreenUtil().setWidth(0)),
+                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(0), ScreenUtil().setWidth(20), ScreenUtil().setWidth(0)),
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
@@ -241,7 +253,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                    ),
                  ),
                ],)
-        );
+        ));
   }
 }
 
