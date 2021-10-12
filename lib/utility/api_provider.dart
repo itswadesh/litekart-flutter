@@ -38,7 +38,7 @@ class ApiProvider {
         ),
       );
       if (resultData.hasException) {
-        print(resultData.exception);
+        
         responseData = {"status": "error"};
       } else {
         if (resultData.data["channels"] == null) {
@@ -52,7 +52,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+ 
       responseData = {"status": "error"};
     }
     return responseData;
@@ -73,15 +73,15 @@ class ApiProvider {
         variables: {"domain":ApiEndpoint().domainName}
         ),
       );
-      log("This is it ....... "+resultData.data.toString());
+      
       if (resultData.hasException) {
-        print(resultData.exception);
+        
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null || resultData.data["storeOne"] == null) {
           responseData = {"status": "empty"};
         } else {
-          log(resultData.data["storeOne"].toString());
+          
           responseData = {
             "status": "completed",
             "value": resultData.data["storeOne"]
@@ -89,7 +89,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+     
       responseData = {"status": "error"};
     }
     return responseData;
@@ -107,7 +107,7 @@ class ApiProvider {
             document: gql(addMutation.settings())),
       );
       if (resultData.hasException) {
-        print(resultData.exception);
+       
         responseData = {"status": "error"};
       } else {
         if (resultData.data["settings"] == null) {
@@ -120,7 +120,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+     
       responseData = {"status": "error"};
     }
     return responseData;
@@ -138,7 +138,7 @@ class ApiProvider {
             document: gql(addMutation.product()), variables: {"id": productId}),
       );
       if (resultData.hasException) {
-        print(resultData.exception);
+       
         responseData = {"status": "error"};
       } else {
         if (resultData.data["product"] == null) {
@@ -151,7 +151,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+      
       responseData = {"status": "error"};
     }
     return responseData;
@@ -170,7 +170,7 @@ class ApiProvider {
         ),
       );
       if (resultData.hasException) {
-        print(resultData.exception);
+      
         responseData = {"status": "error"};
       } else {
         if (resultData.data["myAddresses"] == null ||
@@ -184,7 +184,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+     
       responseData = {"status": "error"};
     }
     return responseData;
@@ -213,7 +213,7 @@ class ApiProvider {
         }),
       );
       if (result.hasException) {
-        print(result.exception.graphqlErrors);
+        
         statusResponse = false;
       } else {
         statusResponse = true;
@@ -243,10 +243,10 @@ class ApiProvider {
     );
 
     if (result.hasException) {
-      print(result.exception.toString());
+     
       return null;
     } else {
-      print(result.data.toString());
+      
       return {
         "state": result.data["getLocationFromZip"]["state"],
         "country": result.data["getLocationFromZip"]["country"],
@@ -261,7 +261,7 @@ class ApiProvider {
     User _user;
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
-    log("here is the token from get profile page : "+token.toString());
+    
     QueryResult resultData = await _client1.mutate(
       MutationOptions(
         document: gql(addMutation.me()),
@@ -271,7 +271,7 @@ class ApiProvider {
       ),
     );
     if (resultData.hasException) {
-      log("prfile error"+ resultData.exception.toString());
+    
       await deleteCookieFromSF();
     } else {
       _user = User.fromJson(resultData.data["me"]);
@@ -300,7 +300,7 @@ class ApiProvider {
     // var byteData = image.readAsBytesSync();
       final mimeTypeData = lookupMimeType(image.path,
           headerBytes: [0xFF, 0xD8]).split('/');
-      print(mimeTypeData[1]);
+     
       var file = Multipartfile.MultipartFile.fromString(
           "image",
           image.path,
@@ -317,7 +317,7 @@ class ApiProvider {
               'folder': 'avatar',
             }),
       );
-      log(resultLink.exception.toString());
+      
       if (!resultLink.hasException && resultLink.data!=null && resultLink.data['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
@@ -377,7 +377,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -411,7 +411,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+  
     }
     return responseData;
   }
@@ -444,7 +444,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+     
     }
     return responseData;
   }
@@ -528,7 +528,7 @@ class ApiProvider {
         ),
       );
       if (resultData.hasException) {
-        print(resultData.exception.toString());
+        
         responseData = {"status": "error"};
       } else {
         if (resultData.data["cart"] == null) {
@@ -544,7 +544,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+      
       responseData = {"status": "error"};
     }
     return responseData;
@@ -565,7 +565,7 @@ class ApiProvider {
         }),
       );
       if (resultData.hasException) {
-        print(resultData.exception.toString());
+        
         responseData = {"status": "error"};
       } else {
         token = tempToken;
@@ -582,7 +582,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e.toString());
+     
       responseData = {"status": "error"};
     }
     return responseData;
@@ -609,7 +609,7 @@ class ApiProvider {
         }
       }
     } catch (e) {
-      print(e);
+      
       responseData = {"status": false};
     }
     return responseData;
@@ -626,7 +626,7 @@ class ApiProvider {
         ),
       );
       if (resultData.hasException) {
-        print(resultData.exception.toString());
+        
         responseData = {"status": "error"};
       } else {
         if (resultData.data["coupons"] == null ||
@@ -641,7 +641,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -660,14 +660,14 @@ class ApiProvider {
               'store':store.id,'img':true,'sort':"featuredSort"}),
       );
       if (resultData.hasException) {
-        print(resultData.exception);
+
         responseData = {"status": "error"};
       } else {
         if (resultData.data["categories"] == null ||
             resultData.data["categories"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          log("here is category data "+resultData.data["categories"].toString());
+          
           responseData = {
             "status": "completed",
             "value": resultData.data["categories"]
@@ -676,7 +676,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -703,7 +703,7 @@ class ApiProvider {
                 DateTime.now().millisecondsSinceEpoch) {
           responseData = {"status": "empty"};
         } else {
-          print(resultData.data["listDeals"]["data"].toString());
+
           responseData = {
             "status": "error",
             "value": resultData.data["listDeals"]
@@ -715,7 +715,7 @@ class ApiProvider {
     } catch (e) {
       responseData = {"status": "error"};
       // _apiResponse = ApiResponse.error(e.toString());
-      print(e);
+      
     }
     return responseData;
   }
@@ -743,7 +743,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -758,20 +758,20 @@ class ApiProvider {
             document: gql(addMutation.trending()), variables: {"type": "sale"}),
       );
       if (resultData.hasException) {
-        log(resultData.exception.toString());
+       
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
             resultData.data["trending"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          print(resultData.data["trending"].toString());
+          
           responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -792,13 +792,13 @@ class ApiProvider {
             resultData.data["trending"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          print(resultData.data["trending"].toString());
+
           responseData = {"status": "completed", "value": resultData.data};
         }
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -817,7 +817,7 @@ class ApiProvider {
         }
       ));
 
-      log("hiiiiiiii     "+resultData.data.toString());
+   
 
       if (resultData.hasException) {
         responseData = {"status": "error"};
@@ -834,7 +834,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -849,7 +849,7 @@ class ApiProvider {
             variables: {"product": id, "variant": id}),
       );
     } catch (e) {
-      print(e);
+      
     }
   }
 
@@ -879,7 +879,7 @@ class ApiProvider {
     var ag = "";
     var dc = "";
     var pb = "";
-    log(urlLink.toString());
+   
     if (urlLink != "" && urlLink != null) {
       if (urlLink.contains(apiEndpoint.externalLink)) {
         if (await canLaunch(urlLink)) {
@@ -934,18 +934,7 @@ class ApiProvider {
         //     "${urlLink.split("brand=")[1].contains("&") ? "&" : "\n"}")[0] : "";
       }
     }
-    log(sort);
-    log(categoryName + cn);
-    log(searchText + st);
-    log(brand + br);
-    log(color + cl);
-    log(size + sz);
-    log(gender + gd);
-    log(priceRange + pr);
-    log(ageGroup + ag);
-    log(discount + dc);
-    log(page.toString());
-    log(pb + parentBrand);
+   
     var response = await dio.get((ApiEndpoint()).productList, queryParameters: {
       "categories": categoryName + cn,
       "q": searchText + st,
@@ -1008,7 +997,7 @@ class ApiProvider {
     QueryResult resultBrainTree = await _client.mutate(
       MutationOptions(document: gql(addMutation.brainTreeToken())),
     );
-    log("stipe error :: "+resultBrainTree.exception.toString());
+    
     return resultBrainTree.data;
   }
 
@@ -1025,7 +1014,7 @@ class ApiProvider {
         'token':token
       }),
     );
-    log(resultStripe.exception.toString());
+   
     if(resultStripe.hasException){
       resultData = {
         "status":"error",
@@ -1082,11 +1071,11 @@ class ApiProvider {
       if (response.statusCode == 200) {
         return true;
       } else {
-        log(response.data);
+        
         return false;
       }
     } catch (e) {
-      log(e.toString());
+      
       return false;
     }
   }
@@ -1095,7 +1084,7 @@ class ApiProvider {
 
   fetchMyOrders(page, skip, limit, search, sort, String status) async {
     Map responseData;
-    print(status);
+
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
@@ -1109,7 +1098,7 @@ class ApiProvider {
         // "sort":sort,
         // "status": status
       }));
-      print(resultData.data.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1127,13 +1116,13 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
 
   orderItem(id) async {
-    log(id);
+
     Map responseData;
 
     try {
@@ -1141,7 +1130,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
           document: gql(addMutation.orderItem()), variables: {"id": id}));
-      print(resultData.exception.toString());
+     
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1156,7 +1145,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+     
     }
     return responseData;
   }
@@ -1224,7 +1213,7 @@ class ApiProvider {
           "store":store.id
         }
       ));
-      print(resultData.data.toString());
+      
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1237,7 +1226,7 @@ class ApiProvider {
       }
     } catch (e) {
       responseData = {"status": "error"};
-      print(e);
+      
     }
     return responseData;
   }
@@ -1259,8 +1248,7 @@ class ApiProvider {
             "message": message,
             "store":store.id
           }));
-      print(resultData.data.toString());
-      print(resultData.exception.toString());
+      
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

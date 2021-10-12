@@ -27,7 +27,7 @@ class SettingViewModel with ChangeNotifier {
     var resultData = await settingsRepository.settings();
     status = resultData["status"];
     if (status == "completed") {
-      log("Setting Data is as ..... "+resultData["value"].toString());
+
       _settingResponse = SettingData.fromJson(resultData["value"]);
       return _settingResponse;
     }

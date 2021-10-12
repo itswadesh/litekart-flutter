@@ -292,7 +292,7 @@ class _Cart extends State<Cart> {
                             width: ScreenUtil().setWidth(386),
                             child: CouponError());
                       }
-                      print(value.couponResponse.data[0].code);
+
                       return Container(
                         height: ScreenUtil().setWidth(350),
                         width: ScreenUtil().setWidth(386),
@@ -463,7 +463,7 @@ class _CartBillCard extends State<CartBillCard> {
     // TODO: implement build
     return Consumer<CartViewModel>(
         builder: (BuildContext context, value, Widget child) {
-      print(value.cartResponse.items.length);
+
       if (value.cartResponse == null || value.cartResponse.items.length == 0) {
         return Container();
       }
@@ -781,7 +781,7 @@ class _CartBillCard extends State<CartBillCard> {
                         width: ScreenUtil().setWidth(386),
                         child: CouponError());
                   }
-                  print(value.couponResponse.data[0].code);
+
                   return Container(
                     height: ScreenUtil().setWidth(350),
                     width: ScreenUtil().setWidth(386),

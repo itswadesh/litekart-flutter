@@ -147,8 +147,7 @@ class _ProductDetail extends State<ProductDetail>
     setState(() {
       _linkMessage = dynamicUrl.toString();
     });
-    print(_linkMessage);
-    print(dynamicUrl);
+
     return dynamicUrl;
   }
 
@@ -260,10 +259,10 @@ class _ProductDetail extends State<ProductDetail>
                                     const Duration(milliseconds: 100),
                                 maxScale: 2.5,
                                 onZoomStart: () {
-                                  print('Start zooming');
+
                                 },
                                 onZoomEnd: () {
-                                  print('Stop zooming');
+
                                 },
                               ));
                         },
@@ -467,7 +466,7 @@ class _ProductDetail extends State<ProductDetail>
                           builder: (QueryResult result,
                               {VoidCallback refetch, FetchMore fetchMore}) {
                             if (result.hasException) {
-                              print(result.exception.toString());
+
                               return Container();
                             } else if (result.isLoading) {
                               return Container();
@@ -476,7 +475,7 @@ class _ProductDetail extends State<ProductDetail>
                             } else {
                               var productGroup = ProductGroup.fromJson(
                                   result.data["product_group"]);
-                              print(result.data["product_group"]["colorGroup"]);
+
                               return Column(
                                 children: [
                                   productGroup.colorGroup.length > 0
@@ -1436,13 +1435,13 @@ class _RatingClass extends State<RatingClass> {
         builder: (QueryResult result,
             {VoidCallback refetch, FetchMore fetchMore}) {
           if (result.hasException) {
-            print(result.exception.toString());
+
             return Container();
           }
           if (result.isLoading) {
             return Container();
           }
-          print(jsonEncode(result.data["reviewSummary"]));
+
           if (result.data == null) {
             return Container(
 
@@ -1586,7 +1585,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
             builder: (QueryResult result,
                 {VoidCallback refetch, FetchMore fetchMore}) {
               if (result.hasException) {
-                print(result.exception.toString());
+
                 return Container();
               }
               if (result.isLoading) {

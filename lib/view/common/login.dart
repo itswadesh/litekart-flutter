@@ -471,7 +471,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 errorAnimationController: errorController,
                 controller: _otpController,
                 onCompleted: (v) {
-                  print("Completed");
+
                   _autoLogin(model);
                 },
                 onChanged: (value) {

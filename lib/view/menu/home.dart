@@ -64,7 +64,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
       try {
         (UpdateAlert()).versionCheck((context));
       } catch (e) {
-        print(e);
+
       }
     });
     scrollController.addListener((){_scrollListener();});
@@ -87,19 +87,19 @@ class _Home extends State<Home> with TickerProviderStateMixin{
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
           final Uri deepLink = dynamicLink?.link;
           if (deepLink != null) {
-            log("vhbbj"+deepLink.path);
+
             locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
           }
         },
         onError: (OnLinkErrorException e) async {
-          print('onLinkError');
-          print(e.message);
+
+
         }
     );
     final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
     if (deepLink != null) {
-      log("yhhhhh"+deepLink.path);
+
       locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
     }
   }
@@ -385,11 +385,11 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
             .fetchYouMayLikeData();
         return Container();
       } else if (value.youMayLikeStatus == "empty") {
-        log("heere empt");
+
 
         return SizedBox.shrink();
       } else if (value.youMayLikeStatus == "error") {
-        log("heere");
+
         return SizedBox.shrink();
       }
       return Column(children: [
@@ -584,7 +584,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
       } else if (value.statusSlider == "error") {
         return Container();
       } else {
-        log("This is Slider length"+value.sliderResponse.data.length.toString());
+
         return value.sliderResponse.data.length>0? Container(
           child: CarouselSlider.builder(
             itemCount: value.sliderResponse.data.length,
@@ -616,7 +616,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
 
                      for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
                      {
-                       print(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name);
+
                        if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==value.sliderResponse.data[index].link.split(ApiEndpoint().brandLink)[1]){
 
                          locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
@@ -760,10 +760,10 @@ class _BannersClass extends State<BannersClass> {
 
                         }
                         else if(bannerResponse.groupByBanner[i].data[index].link.contains(ApiEndpoint().brandLink)){
-                          log("here");
+
                           for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
                           {
-                            log(i.toString());
+
                             if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[index].link.split(ApiEndpoint().brandLink)[1]){
                               locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
                             }

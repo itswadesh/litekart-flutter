@@ -26,7 +26,7 @@ class WishlistViewModel with ChangeNotifier {
       _wishlistResponse = WishlistResponse.fromJson(resultData["value"]);
       _pagingController.appendLastPage(_wishlistResponse.data);
     }
-    log("hi there       "+status);
+
     notifyListeners();
   }
 

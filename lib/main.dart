@@ -58,11 +58,11 @@ void main() async {
   setupLocator();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   token = await getCookieFromSF();
-  print(token);
+
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
   User user = await ProfileModel().returnProfile();
-  print(user);
+
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) async {

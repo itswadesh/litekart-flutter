@@ -62,7 +62,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 // var screen = 1;
   @override
   Widget build(BuildContext context) {
-    print(widget.facet["all_aggs"]);
+
     // TODO: implement build
     return Container(
         height: ScreenUtil().setWidth(420),
@@ -218,7 +218,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["brands"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -271,7 +271,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["colors"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -323,7 +323,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["sizes"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["sizes"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -449,7 +449,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["genders"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -501,7 +501,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["price"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["price"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -553,7 +553,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["age"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["age"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {
@@ -607,7 +607,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["discount"]["all"]["buckets"][index];
-          print(item);
+
           return ListTile(
             onTap: () {
               Map<String, dynamic> data = {

@@ -2736,7 +2736,7 @@ class _Checkout extends State<Checkout> {
           await StripePayment.createTokenWithCard(
             creditCard,
           ).then((token) async{
-            log("${token.tokenId}");
+
             var stripe = await stripeRepository.stripe(selectedAddressId, token.tokenId);
 
             if(stripe["status"]=="completed"){
@@ -2757,14 +2757,14 @@ class _Checkout extends State<Checkout> {
         double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
         var tokenizationKey = await brainTreeRepository.brainTreeToken();
         final request = BraintreePayPalRequest(amount: amount.toString());
-        log(tokenizationKey["braintreeToken"]);
+
         try {
           final result = await Braintree.requestPaypalNonce(
             tokenizationKey["braintreeToken"],
             request,
           );
           _dialog.close();
-        log(result.description);
+
         } catch(e){
           _dialog.close();
           handlePaymentFailure(e.toString());
@@ -2864,7 +2864,7 @@ class _Checkout extends State<Checkout> {
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
     QueryResult result = await checkoutRepository.order(orderId);
-    print(result.data.toString());
+
     if (!result.hasException) {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
@@ -2879,7 +2879,7 @@ class _Checkout extends State<Checkout> {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
       });
-      print(result.exception);
+
       final snackBar = SnackBar(
         backgroundColor: Colors.black,
         content: InkWell(
@@ -2983,7 +2983,7 @@ class _Checkout extends State<Checkout> {
                     width: ScreenUtil().setWidth(386),
                     child: errorMessage());
               }
-              print(value.couponResponse.data[0].code);
+
               return Container(
                 height: ScreenUtil().setWidth(350),
                 width: ScreenUtil().setWidth(386),

@@ -155,7 +155,7 @@ class _SearchPage extends State<SearchPage> {
     });
 
     if (response.statusCode == 200) {
-      print(response.data);
+
       return response.data;
     } else {
       showSuggestion = false;
@@ -172,7 +172,7 @@ class _SearchPage extends State<SearchPage> {
         itemCount: data.length,
         itemBuilder: (BuildContext context, index) {
           var item = data[index];
-          print(item);
+
           return InkWell(
             onTap: () {
               Map<String, dynamic> data = {

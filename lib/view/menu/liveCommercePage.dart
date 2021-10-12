@@ -108,10 +108,10 @@ class _StreamList extends State<StreamList>{
         }
         return Loading();
       } else if (value.status == "empty") {
-        log("here empty");
+
         return SizedBox.shrink();
       } else if (value.status == "error") {
-        log("in error");
+
         return SizedBox.shrink();
       } else {
     return Container(

@@ -25,7 +25,7 @@ class BrandPage extends StatefulWidget {
 class _BrandPageState extends State<BrandPage> {
   @override
   Widget build(BuildContext context) {
-    log(widget.brand.name);
+
     return Scaffold(
         appBar: AppBar(
           leading: InkWell(
@@ -160,7 +160,7 @@ class SubBrandBrandPage extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<BrandResponse> snapshot) {
         if (snapshot.hasData) {
           BrandResponse bannerData = snapshot.data;
-          print('view :: $bannerData');
+
           return Container(
             height: bannerData.data.length > 0 ? ScreenUtil().setWidth(61) : 0,
             margin: EdgeInsets.fromLTRB(
@@ -219,7 +219,7 @@ class PickedBrandPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(brandName);
+
     return FutureBuilder<Map<String, List<BannerData>>>(
       future: viewModel.fetchPickedBannerData(),
       builder: (BuildContext context,
@@ -256,7 +256,7 @@ class PickedBrandPage extends StatelessWidget {
                             child: ListView.separated(
                               itemBuilder: (_, int _index) {
                                 BannerData banner = data[key][_index];
-                                print(banner.link);
+
                                 return InkWell(
                                     onTap: () async{
 
@@ -324,7 +324,6 @@ class BrandVideo extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<BannerData> snapshot) {
         if (snapshot.hasData) {
           BannerData bannerData = snapshot.data;
-          print("banner data : ${bannerData.link}");
           return Container(
            // color: Colors.indigo,
             width: ScreenUtil().setWidth(380),

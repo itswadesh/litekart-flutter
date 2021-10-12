@@ -18,12 +18,11 @@ class StoreViewModel with ChangeNotifier {
    fetchStore() async {
     var resultData = await storeRepository.store();
     status = resultData["status"];
-    log(resultData["value"]["currencySymbol"].toString());
+
     if (status == "completed") {
-      log(resultData["value"]["currencySymbol"].toString());
-      log("Store Data is as ....  "+_storeResponse.toString());
+
       _storeResponse = StoreData.fromJson(resultData["value"]);
-      log("Store Data is as ....  "+_storeResponse.currencySymbol.toString());
+
       store = _storeResponse;
       return _storeResponse;
     }

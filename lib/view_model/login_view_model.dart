@@ -38,7 +38,7 @@ class LoginViewModel extends ChangeNotifier {
           document: gql(addMutation.getOtp()),
           variables: {'phone': "+91" + mobile}),
     );
-    print(jsonEncode(result.data));
+
     showOtpUi = true;
     _dialog.close();
     notifyListeners();
@@ -49,7 +49,7 @@ class LoginViewModel extends ChangeNotifier {
     try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      print(graphQLConfiguration.httpLink);
+
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.verifyOtp()),
@@ -105,7 +105,7 @@ class EmailLoginViewModel extends ChangeNotifier{
    // try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      print(graphQLConfiguration.httpLink);
+
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.login()),
@@ -113,14 +113,13 @@ class EmailLoginViewModel extends ChangeNotifier{
         ),
       );
       if (!result.hasException) {
-        print(result.data.toString());
-        print(tempToken);
+
         loginStatus=true;
         token = tempToken;
         await addCookieToSF(token);
         _dialog.close();
       } else {
-        log(result.exception.toString());
+
         _dialog.close();
       }
     // } catch (e) {
@@ -150,7 +149,7 @@ class RegisterViewModel extends ChangeNotifier{
    // try {
       GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
       GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      print(graphQLConfiguration.httpLink);
+
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.register()),

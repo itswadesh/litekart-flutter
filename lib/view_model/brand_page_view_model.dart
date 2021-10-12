@@ -39,7 +39,7 @@ class BrandPageViewModel extends ChangeNotifier {
 
       if (_data != null) processedMap = groupBy(_data, (obj) => obj.groupTitle);
     } catch (e) {
-      print('e :: $e');
+
     }
 
     return processedMap;
@@ -51,7 +51,7 @@ class BrandPageViewModel extends ChangeNotifier {
       var responseData =
           await brandRepository.fetchSubBrandData(pageId: brand.id);
 
-      print('responseData :: $responseData');
+
       response =  BrandResponse.fromJson(responseData['value']);
     } catch (e) {}
     return response;

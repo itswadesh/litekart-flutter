@@ -305,7 +305,7 @@ class _ProductList extends State<ProductList> {
                                       dc.forEach((element) {
                                         discount = discount + element + ",";
                                       });
-                                      print(brand);
+
                                       brandArr = bn;
                                       colorArr = cl;
                                       sizeArr = sz;
@@ -314,7 +314,7 @@ class _ProductList extends State<ProductList> {
                                       ageGroupArr = ag;
                                       discountArr = dc;
                                       page = 0;
-                                      print(brand);
+
                                       _pagingController.refresh();
                                     }),
                               ));
@@ -372,10 +372,10 @@ class _ProductList extends State<ProductList> {
         categoryName, searchText.text, brand, color, size, gender,priceRange,ageGroup,discount,page, parentBrand,brandId,urlLink,sort);
     if (response.statusCode == 200) {
       try {
-        print(response.data.toString());
+
         count = response.data["count"];
         facet = response.data["facets"];
-        print("hi  there    "+facet.toString());
+
         final isLastPage = response.data["data"].length < 40;
         if (isLastPage) {
           _pagingController.appendLastPage(response.data["data"]);
@@ -384,7 +384,7 @@ class _ProductList extends State<ProductList> {
           _pagingController.appendPage(response.data["data"], nextPageKey);
         }
       } catch (error) {
-        print(error.toString());
+
         _pagingController.error = error;
       }
       setState(() {

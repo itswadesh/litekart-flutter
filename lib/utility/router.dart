@@ -29,8 +29,7 @@ import '../../view/zoom_image.dart';
 import '../main.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
-  debugPrint('Route Name => ${settings.name}');
-  debugPrint('Route Arguments  => ${settings.arguments}');
+
   String productId;
   var productList;
   var orderTrackData;
@@ -52,8 +51,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     returnData = settings.arguments as Map<String, dynamic>;
   }
   if (settings.name == routes.ProductList) {
-    print("here");
-    print(settings.arguments.toString());
+
     productList = settings.arguments as Map<String, dynamic>;
   }
   Map data;

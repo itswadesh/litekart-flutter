@@ -18,8 +18,7 @@ class MegaMenuViewModel with ChangeNotifier {
   fetchMegaMenu() async {
     var resultData = await megaMenuRepository.fetchMegaMenu();
     status = resultData["status"];
-    log("Status of mega menu is "+status);
-    log("value from mega menu"+resultData["value"].toString());
+
     if (status == "completed") {
       _topMegaMenuResponse = TopMegaMenuResponse.fromJson(resultData["value"]);
     }

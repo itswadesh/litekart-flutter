@@ -22,9 +22,9 @@ class BannerViewModel with ChangeNotifier {
     var resultData = await bannerRepository.fetchBannerData();
     statusBanner = resultData["status"];
     if (statusBanner == "completed") {
-      print(resultData["value"].toString());
+
       _bannerResponse = BannerResponse.fromJson(resultData["value"]);
-      print(_bannerResponse.groupByBanner[0]);
+
     }
     notifyListeners();
   }
