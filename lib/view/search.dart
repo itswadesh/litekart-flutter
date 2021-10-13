@@ -169,6 +169,7 @@ class _SearchPage extends State<SearchPage> {
 
   Widget getList(data) {
     return ListView.builder(
+      padding: EdgeInsets.all(0),
         itemCount: data.length,
         itemBuilder: (BuildContext context, index) {
           var item = data[index];

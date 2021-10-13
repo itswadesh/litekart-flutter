@@ -1975,7 +1975,7 @@ getOtp(phone: \$phone){
     mutation stripe(\$address: ID, \$paymentMethodId: String!) {
       stripe(address: \$address, paymentMethodId: \$paymentMethodId) {
         id
-   
+        clientSecret
   }
     }
     """;

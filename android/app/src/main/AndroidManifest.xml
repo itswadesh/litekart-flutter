@@ -19,9 +19,10 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
    <application
         tools:replace="android:label"
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="androidx.multidex.MultiDexApplication"
         android:label="Anne"
         android:icon="@mipmap/launcher_icon"
+
        >
        <activity
             android:name=".MainActivity"

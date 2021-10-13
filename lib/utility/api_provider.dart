@@ -1004,14 +1004,14 @@ class ApiProvider {
   //
 
 
-  stripe(addressId,token) async{
+  stripe(addressId,paymentMethodId) async{
     Map resultData ;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult resultStripe = await _client.mutate(
       MutationOptions(document: gql(addMutation.stripe()), variables: {
         'address': addressId,
-        'paymentMethodId':token
+        'paymentMethodId':paymentMethodId
       }),
     );
    
