@@ -2729,6 +2729,7 @@ class _Checkout extends State<Checkout> {
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
           try {
+            log("stripe"+settingData.stripePublishableKey.toString());
            await stripe.StripePlatform.instance.initialise(
                 publishableKey: settingData.stripePublishableKey);
             // CreditCard creditCard = CreditCard(
@@ -2738,19 +2739,31 @@ class _Checkout extends State<Checkout> {
             //   expYear: int.parse(_selectedYear.name),
             //   cvc: cvv.text,
             // );
-            var _card = stripe.CardDetails();
-            _card.copyWith(number: cardNumber.text.replaceAll("-", ""));
-            _card.copyWith(expirationMonth: _selectedMonth.value);
-            _card.copyWith(expirationYear: int.parse(_selectedYear.name));
-            _card.copyWith(cvc: cvv.text);
-           await stripe.Stripe.instance.dangerouslyUpdateCardDetails(_card);
+           log(cardNumber.text.replaceAll("-", ""));
+           log(_selectedMonth.value.toString());
+           stripe.CardDetails card = stripe.CardDetails(
+                  number: cardNumber.text.replaceAll("-", ""),
+                  expirationMonth: _selectedMonth.value,
+                  expirationYear: int.parse(_selectedYear.name),
+                  cvc: cvv.text
+              );
+            // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
+            //     expirationMonth: _selectedMonth.value,
+            //     expirationYear: int.parse(_selectedYear.name),
+            //     cvc: cvv.text
+            // );
+            // _card.copyWith(expirationMonth: _selectedMonth.value);
+            // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
+            // _card.copyWith(cvc: cvv.text);
+            print(card.toString());
+           await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
             log("here");
             var params =  stripe.PaymentMethodParams.card(
               billingDetails: stripe.BillingDetails(
                 name: cardHolder.text
               )
             );
-           log("here 1");
+           log("here 1"+params.toString());
 
            //  final params = stripe.CreateTokenParams(
            //  );
@@ -2763,8 +2776,9 @@ class _Checkout extends State<Checkout> {
             if(stripeData["status"]=="completed") {
               // var confirmResult = await stripe.StripePlatform.instance
               //     .confirmPayment(stripeData["value"]["clientSecret"], params);
-              final confirmResult = await stripe.Stripe.instance
+              final confirmResult = await stripe.StripePlatform.instance
                   .handleCardAction(stripeData["value"]['clientSecret']);
+              log(confirmResult.toString());
               _dialog.close();
               handlePaymentSuccess("credit", confirmResult.id);
             }
@@ -2907,7 +2921,8 @@ class _Checkout extends State<Checkout> {
     TzDialog _dialog = TzDialog(
         context, TzDialogType.progress);
     _dialog.show();
-    await checkoutRepository.paySuccessPageHit(orderId);
+   var rs = await checkoutRepository.paySuccessPageHit(orderId);
+    log(rs.exception.toString());
     // FormData cashFreeData;
     // cashFreeData = FormData.fromMap({
     //   "txStatus":value["txStatus"],
@@ -2922,7 +2937,7 @@ class _Checkout extends State<Checkout> {
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
     QueryResult result = await checkoutRepository.order(orderId);
-
+    log(result.exception.toString());
     if (!result.hasException) {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
