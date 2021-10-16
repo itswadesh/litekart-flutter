@@ -1570,8 +1570,116 @@ getOtp(phone: \$phone){
   }
 
   paySuccessPageHit() {
-    return """mutation paySuccessPageHit(\$id: ID!) {
-  paySuccessPageHit(id: \$id)
+    return """mutation paySuccessPageHit(\$orderId: ID, \$paymentReferenceId: String) {
+  paySuccessPageHit(
+    orderId: \$orderId
+    paymentReferenceId: \$paymentReferenceId
+  ) {
+    id
+    orderNo
+    otp
+    createdAt
+    paySuccess
+    paymentMode
+    paymentStatus
+    paymentCurrency
+    paymentReferenceId
+    paymentOrderId
+    paymentReceipt
+    invoiceId
+    paymentGateway
+    codPaid
+    baseCodPaid
+    amountPaid
+    amountDue
+    paymentMsg
+    paymentTime
+    paid
+    totalAmountRefunded
+    baseTotalAmountRefunded
+    amount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    baseAmount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    userFirstName
+    userLastName
+    userPhone
+    userEmail
+    address {
+      firstName
+      lastName
+      town
+      city
+      state
+      zip
+      address
+      lat
+      lng
+    }
+    items {
+      id
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      barcode
+      img
+      imgCdn
+      slug
+      price
+      basePrice
+      qty
+      shippingCharge
+      baseShippingCharge
+      tax
+      baseTax
+      time
+      options
+      brandName
+      brandImg
+      color
+      size
+      status
+      type
+      returnReason
+
+      vendorAddress {
+        firstName
+        lastName
+        town
+        city
+        state
+        zip
+        address
+        lat
+        lng
+      }
+      status
+      orderHistory {
+        status
+        title
+        body
+        icon
+        public
+        index
+        time
+      }
+      amountRefunded
+      baseAmountRefunded
+    }
+  }
 }""";
   }
 
@@ -1939,9 +2047,147 @@ getOtp(phone: \$phone){
 }""";
   }
 
+  brainTreeMakePayment(){
+    return """mutation braintreeMakePayment(\$nonce: String!, \$token: String!) {
+  braintreeMakePayment(nonce: \$nonce, token: \$token) {
+    id
+    orderNo
+    otp
+    createdAt
+    paySuccess
+    paymentMode
+    paymentStatus
+    paymentCurrency
+    paymentReferenceId
+    paymentOrderId
+    paymentReceipt
+    invoiceId
+    paymentGateway
+    codPaid
+    baseCodPaid
+    amountPaid
+    amountDue
+    paymentMsg
+    paymentTime
+    paid
+    totalAmountRefunded
+    baseTotalAmountRefunded
+    amount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    baseAmount {
+      qty
+      subtotal
+      tax
+      discount
+      total
+      shipping
+    }
+    userFirstName
+    userLastName
+    userPhone
+    userEmail
+    address {
+      firstName
+      lastName
+      town
+      city
+      state
+      zip
+      address
+      lat
+      lng
+    }
+    items {
+      id
+      pid
+      posInvoiceNo
+      itemOrderNo
+      name
+      barcode
+      img
+      slug
+      price
+      basePrice
+      qty
+      shippingCharge
+      baseShippingCharge
+      tax
+      baseTax
+      time
+      options
+      brandName
+      brandImg
+      color
+      size
+      status
+      type
+      returnReason
+
+      vendorAddress {
+        firstName
+        lastName
+        town
+        city
+        state
+        zip
+        address
+        lat
+        lng
+      }
+      status
+      orderHistory {
+        status
+        title
+        body
+        icon
+        public
+        index
+        time
+      }
+      amountRefunded
+      baseAmountRefunded
+    }
+  }
+}""";
+  }
+
   brainTreeToken(){
-    return"""mutation braintreeToken {
-  braintreeToken
+    return"""mutation braintreeToken(\$address: ID) {
+  braintreeToken(address: \$address) {
+    id
+    paymentOrderId
+    paymentMode
+    paymentGateway
+    referenceId
+    txMsg
+    txTime
+    invoiceId
+    receipt
+    paid
+    amountPaid
+    amountDue
+    amountRefunded
+    currency
+    captured
+    status
+    orderId
+    notes
+    refundStatus
+    description
+    email
+    contact
+    fee
+    tax
+    errorCode
+    errorDescription
+    token
+  }
 }""";
   }
 

@@ -978,27 +978,102 @@ class ApiProvider {
   }
 
   paySuccessPageHit(id) async {
+    Map responseData;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    try{
     QueryResult result = await _client.mutate(
       MutationOptions(
           document: gql(addMutation.paySuccessPageHit()),
-          variables: {'id': id}),
+          variables: {'orderId': id}),
     );
-    return result;
+
+    if (result.hasException) {
+      responseData = {"status": "error"};
+    } else {
+      if (result.data==null||result.data["paySuccessPageHit"] == null) {
+        responseData = {"status": "empty"};
+      } else {
+        responseData = {
+          "status": "completed",
+          "value": result.data["paySuccessPageHit"]
+        };
+      }
+    }
+  } catch (e) {
+      log(e.toString());
+  responseData = {"status": "error"};
+
+  }
+    return responseData;
   }
 
 
   // Stripe APi
 
-  brainTreeToken() async{
+  brainTreeToken(id) async{
+    Map responseData;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult resultBrainTree = await _client.mutate(
-      MutationOptions(document: gql(addMutation.brainTreeToken())),
+    try{
+    var result = await _client.mutate(
+      MutationOptions(document: gql(addMutation.brainTreeToken()),
+      variables: {
+        "address":id
+      }
+      ),
     );
-    
-    return resultBrainTree.data;
+    if (result.hasException) {
+      responseData = {"status": "error"};
+    } else {
+      if (result.data==null||result.data["brainTreeToken"] == null) {
+
+        responseData = {"status": "empty"};
+      } else {
+        responseData = {
+          "status": "completed",
+          "value": result.data["brainTreeToken"]
+        };
+      }
+    }
+  } catch (e) {
+  responseData = {"status": "error"};
+
+  }
+  return responseData;
+  }
+
+  brainTreeMakePayment(nonce,tokenID) async{
+    Map responseData;
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    try{
+    QueryResult result = await _client.mutate(
+      MutationOptions(document: gql(addMutation.brainTreeMakePayment()),
+          variables: {
+            "nonce":nonce,
+            "token":tokenID
+          }
+      ),
+    );
+
+    if (result.hasException) {
+      responseData = {"status": "error"};
+    } else {
+      if (result.data==null||result.data["brainTreeMakePayment"] == null) {
+        responseData = {"status": "empty"};
+      } else {
+        responseData = {
+          "status": "completed",
+          "value": result.data["brainTreeMakePayment"]
+        };
+      }
+    }
+  } catch (e) {
+  responseData = {"status": "error"};
+
+  }
+  return responseData;
   }
 
   //

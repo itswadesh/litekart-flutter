@@ -2774,12 +2774,13 @@ class _Checkout extends State<Checkout> {
            var stripeData = await stripeRepository.stripe(
                 selectedAddressId, result.id);
             if(stripeData["status"]=="completed") {
-              // var confirmResult = await stripe.StripePlatform.instance
-              //     .confirmPayment(stripeData["value"]["clientSecret"], params);
-              final confirmResult = await stripe.StripePlatform.instance
-                  .handleCardAction(stripeData["value"]['clientSecret']);
+              var confirmResult = await stripe.StripePlatform.instance
+                  .confirmPayment(stripeData["value"]["clientSecret"], params);
+              // final confirmResult = await stripe.StripePlatform.instance
+              //     .handleCardAction(stripeData["value"]['clientSecret']);
               log(confirmResult.toString());
               _dialog.close();
+
               handlePaymentSuccess("credit", confirmResult.id);
             }
             else if(stripeData["status"]=="error"){
@@ -2827,26 +2828,42 @@ class _Checkout extends State<Checkout> {
       else if(paymentMethod=="paypal"){
         BrainTreeRepository brainTreeRepository = BrainTreeRepository();
         double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
-        var tokenizationKey = await brainTreeRepository.brainTreeToken();
-        final request = BraintreePayPalRequest(amount: amount.toString());
+        
+        var responseTokenData = await brainTreeRepository.brainTreeToken(selectedAddressId);
+        if(responseTokenData["status"]=="completed") {
+          final request = BraintreePayPalRequest(
+              amount: amount.toString(), currencyCode: store.currencyCode);
 
-        try {
-          final result = await Braintree.requestPaypalNonce(
-            tokenizationKey["braintreeToken"],
-            request,
-          );
-          _dialog.close();
+          try {
+            final result = await Braintree.requestPaypalNonce(
+              responseTokenData["value"]["token"],
+              request,
+            );
+              var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.nonce, token);
+              if(responseMakePayment["status"]=="completed"){
 
-        } catch(e){
-          _dialog.close();
-          handlePaymentFailure(e.toString());
+                setState(() {
+                  buttonStatusOrder = !buttonStatusOrder;
+                });
+                _dialog.close();
+               handlePaymentSuccess("paypal",  responseMakePayment["value"]["id"]);
+              }
+              else{
+                setState(() {
+                  buttonStatusOrder = !buttonStatusOrder;
+                });
+                handlePaymentFailure("Something Went Wrong...");
+              }
+
+          } catch (e) {
+            _dialog.close();
+            handlePaymentFailure(e.toString());
+          }
         }
-        // if(result["status"]=="completed"){
-        //   handlePaymentSuccess("credit", result["value"]["paymentOrderId"]);
-        // }
-        // else if(result["status"]=="error"){
-        //   handlePaymentFailure(result["error"]);
-        // }
+        else{
+          _dialog.close();
+          handlePaymentFailure("Something Went Wrong...");
+        }
       }
 
 
@@ -2921,14 +2938,6 @@ class _Checkout extends State<Checkout> {
     TzDialog _dialog = TzDialog(
         context, TzDialogType.progress);
     _dialog.show();
-   var rs = await checkoutRepository.paySuccessPageHit(orderId);
-    log(rs.exception.toString());
-    // FormData cashFreeData;
-    // cashFreeData = FormData.fromMap({
-    //   "txStatus":value["txStatus"],
-    //   "txMessage":value["txMessage"],
-    //   ""
-    // });
 
    // bool response = await cashfreeRepository.captureCashFree(value);
     // log(response.toString());
@@ -2936,18 +2945,34 @@ class _Checkout extends State<Checkout> {
         .changeStatus("loading");
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
-    QueryResult result = await checkoutRepository.order(orderId);
-    log(result.exception.toString());
-    if (!result.hasException) {
+    var result =  await checkoutRepository.paySuccessPageHit(orderId);
+
+    if (result["status"]=="completed") {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
       });
-      CheckOutResponse checkoutResponse =
-          CheckOutResponse.fromJson(result.data["order"]);
-      _dialog.close();
-      locator<NavigationService>()
-          .pushReplacementNamed(routes.OrderConfirm, args: checkoutResponse);
-    } else {
+      log("in here");
+      try {
+        CheckOutResponse checkoutResponse =
+        CheckOutResponse.fromJson(result["value"]);
+        _dialog.close();
+        locator<NavigationService>()
+            .pushReplacementNamed(routes.OrderConfirm, args: checkoutResponse);
+      } catch(e) {
+        log(e.toString());
+        _dialog.close();
+        final snackBar = SnackBar(
+          backgroundColor: Colors.black,
+          content:  Text(
+            e.toString(),
+            style: TextStyle(color: Color(0xffffffff)),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        locator<NavigationService>()
+            .pushReplacementNamed(routes.ManageOrder);
+      }
+      } else {
       _dialog.close();
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
@@ -2955,24 +2980,14 @@ class _Checkout extends State<Checkout> {
 
       final snackBar = SnackBar(
         backgroundColor: Colors.black,
-        content: InkWell(
-          onTap: () {
-            Map<String, dynamic> data = {
-              "id": EVENT_ORDER_PLACEMENT_FAILURE,
-              "paymentType": paymentMethod,
-              //"cartValue" : value.cartResponse.subtotal.toString(),
-              "paymentData": {},
-              "event": "payment-failed",
-            };
-            Tracking(event: EVENT_ORDER_PLACEMENT_FAILURE, data: data);
-          },
-          child: Text(
+        content:  Text(
             'Something went wrong.',
             style: TextStyle(color: Color(0xffffffff)),
           ),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        );
+       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      locator<NavigationService>()
+          .pushReplacementNamed(routes.ManageOrder);
     }
   }
 
