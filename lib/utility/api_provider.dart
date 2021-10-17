@@ -977,7 +977,7 @@ class ApiProvider {
     return result;
   }
 
-  paySuccessPageHit(id) async {
+  paySuccessPageHit(orderId,paymentReferenceId) async {
     Map responseData;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -985,10 +985,11 @@ class ApiProvider {
     QueryResult result = await _client.mutate(
       MutationOptions(
           document: gql(addMutation.paySuccessPageHit()),
-          variables: {'orderId': id}),
+          variables: {'orderId': orderId,'paymentReferenceId':paymentReferenceId}),
     );
 
     if (result.hasException) {
+      log(result.exception.toString());
       responseData = {"status": "error"};
     } else {
       if (result.data==null||result.data["paySuccessPageHit"] == null) {
@@ -1026,13 +1027,13 @@ class ApiProvider {
     if (result.hasException) {
       responseData = {"status": "error"};
     } else {
-      if (result.data==null||result.data["brainTreeToken"] == null) {
+      if (result.data==null||result.data["braintreeToken"] == null) {
 
         responseData = {"status": "empty"};
       } else {
         responseData = {
           "status": "completed",
-          "value": result.data["brainTreeToken"]
+          "value": result.data["braintreeToken"]
         };
       }
     }

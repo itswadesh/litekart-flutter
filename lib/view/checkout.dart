@@ -2774,15 +2774,20 @@ class _Checkout extends State<Checkout> {
            var stripeData = await stripeRepository.stripe(
                 selectedAddressId, result.id);
             if(stripeData["status"]=="completed") {
-              var confirmResult = await stripe.StripePlatform.instance
-                  .confirmPayment(stripeData["value"]["clientSecret"], params);
-              // final confirmResult = await stripe.StripePlatform.instance
-              //     .handleCardAction(stripeData["value"]['clientSecret']);
-              log(confirmResult.toString());
-              _dialog.close();
-
-              handlePaymentSuccess("credit", confirmResult.id);
-            }
+              try {
+                var confirmResult = await stripe.StripePlatform.instance
+                    .confirmPayment(
+                    stripeData["value"]["clientSecret"], params);
+                // final confirmResult = await stripe.StripePlatform.instance
+                //     .handleCardAction(stripeData["value"]['clientSecret']);
+                log(confirmResult.toString());
+                _dialog.close();
+                handlePaymentSuccess("credit", confirmResult.id);
+              } catch (e){
+                _dialog.close();
+                handlePaymentFailure("Payment Authentication Failed !!");
+              }
+              }
             else if(stripeData["status"]=="error"){
               _dialog.close();
               handlePaymentFailure(stripeData["error"].toString());
@@ -2831,14 +2836,21 @@ class _Checkout extends State<Checkout> {
         
         var responseTokenData = await brainTreeRepository.brainTreeToken(selectedAddressId);
         if(responseTokenData["status"]=="completed") {
+         try{
           final request = BraintreePayPalRequest(
-              amount: amount.toString(), currencyCode: store.currencyCode);
-
-          try {
+              amount: amount.toString(), currencyCode: store.currencyCode,
+              displayName: "Anne",
+              billingAgreementDescription:
+              'I hereby agree to pay to Anne.'
+          );
+          log(request.toString());
+            log(responseTokenData["value"]["token"]);
             final result = await Braintree.requestPaypalNonce(
               responseTokenData["value"]["token"],
               request,
             );
+            log("here");
+
               var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.nonce, token);
               if(responseMakePayment["status"]=="completed"){
 
@@ -2855,7 +2867,7 @@ class _Checkout extends State<Checkout> {
                 handlePaymentFailure("Something Went Wrong...");
               }
 
-          } catch (e) {
+          } catch(e) {
             _dialog.close();
             handlePaymentFailure(e.toString());
           }
@@ -2945,8 +2957,13 @@ class _Checkout extends State<Checkout> {
         .changeStatus("loading");
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
-    var result =  await checkoutRepository.paySuccessPageHit(orderId);
-
+    var result;
+    if(paymentMode=="credit") {
+      result = await checkoutRepository.paySuccessPageHit("",orderId);
+    }
+    else if(paymentMode=="paypal"){
+      result = await checkoutRepository.paySuccessPageHit(orderId,"");
+    }
     if (result["status"]=="completed") {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;

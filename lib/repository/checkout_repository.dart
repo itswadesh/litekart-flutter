@@ -11,7 +11,7 @@ class CheckoutRepository {
     return _apiProvider.order(id);
   }
 
-  paySuccessPageHit(id){
-    return _apiProvider.paySuccessPageHit(id);
+  paySuccessPageHit(id,refId){
+    return _apiProvider.paySuccessPageHit(id,refId);
   }
 }
