@@ -1057,6 +1057,8 @@ class ApiProvider {
           }
       ),
     );
+    log(result.exception.toString());
+    log(result.data.toString());
 
     if (result.hasException) {
       responseData = {"status": "error"};

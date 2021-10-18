@@ -2837,30 +2837,40 @@ class _Checkout extends State<Checkout> {
         var responseTokenData = await brainTreeRepository.brainTreeToken(selectedAddressId);
         if(responseTokenData["status"]=="completed") {
          try{
-          final request = BraintreePayPalRequest(
-              amount: amount.toString(), currencyCode: store.currencyCode,
-              displayName: "Anne",
-              billingAgreementDescription:
-              'I hereby agree to pay to Anne.'
-          );
-          log(request.toString());
+          // final request = BraintreePayPalRequest(
+          //     amount: amount.toString(), currencyCode: store.currencyCode,
+          //     displayName: "Anne",
+          //     billingAgreementDescription:
+          //     'I hereby agree to pay to Anne.'
+          // );
+          // log(request.toString());
             log(responseTokenData["value"]["token"]);
-            final result = await Braintree.requestPaypalNonce(
-              responseTokenData["value"]["token"],
-              request,
-            );
-            log("here");
 
-              var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.nonce, token);
+            // final result = await Braintree.requestPaypalNonce(
+            //   // responseTokenData["value"]["token"],
+            //   "sandbox_8hxpnkht_kzdtzv2btm4p7s5j",
+            //   request,
+            // );
+            var request = BraintreeDropInRequest(
+              clientToken: responseTokenData["value"]["token"],
+              requestThreeDSecureVerification: true,
+              collectDeviceData: true,
+              cardEnabled: true,
+            );
+            final result = await BraintreeDropIn.start(request);
+
+           log("here i come");
+              var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
               if(responseMakePayment["status"]=="completed"){
 
                 setState(() {
                   buttonStatusOrder = !buttonStatusOrder;
                 });
                 _dialog.close();
-               handlePaymentSuccess("paypal",  responseMakePayment["value"]["id"]);
+               handlePaymentSuccess("paypal",  responseMakePayment["value"]["paymentOrderId"]);
               }
               else{
+                _dialog.close();
                 setState(() {
                   buttonStatusOrder = !buttonStatusOrder;
                 });
