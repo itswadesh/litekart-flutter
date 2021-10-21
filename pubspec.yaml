@@ -82,6 +82,7 @@ dependencies:
   #stripe_payment: ^1.1.4
   flutter_braintree: ^2.0.0+1
   flutter_stripe: ^2.0.0
+  youtube_player_flutter: ^8.0.0
 
 
 

@@ -1,3 +1,4 @@
+import 'package:anne/view/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,9 +35,18 @@ class _ZoomImageState extends State<ZoomImage> {
             PageView.builder(
               itemCount: widget.imageLinks.length,
               itemBuilder: (_, int index) {
-                return PinchZoom(
+                return widget.imageLinks[index].contains("https://www.youtube.com/")?
+                //Column(children: [
+                  //SizedBox(height: ScreenUtil().setWidth(175),),
+                  YoutubeVideoPlayClass(widget.imageLinks[index])
+
+                //],)
+                    : PinchZoom(
                     child: Image.network(
                       widget.imageLinks[index],
+                      errorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png");
+                      }),
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.contain,

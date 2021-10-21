@@ -362,7 +362,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.groupByBanner()),
-            variables: {"type": "hero",
+            variables: {"type": "hero","pageId":"home","store":store.id
               }),
       );
       if (resultData.hasException) {
@@ -390,7 +390,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.groupByBanner()),
-            variables: {"type": "picked",
+            variables: {"type": "picked","pageId":"home","store":store.id
             }),
       );
       if (resultData.hasException) {
@@ -429,6 +429,7 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
+        log("Video :: "+resultData.data.toString());
         if (resultData.data["banners"] == null) {
           responseData = {"status": "empty"};
         } else {

@@ -1,8 +1,9 @@
-import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter/widgets.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/values/colors.dart';
-import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/rendering.dart';
@@ -32,8 +33,8 @@ import '../../values/route_path.dart' as routes;
 import '../../view_model/product_detail_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
 import 'package:flutter_html/flutter_html.dart';
-
 import '../main.dart';
+
 class ProductDetail extends StatefulWidget {
   final productId;
 
@@ -77,7 +78,8 @@ class _ProductDetail extends State<ProductDetail>
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_TextAnimationController);
 
-    productId = widget.productId;
+   // productId = widget.productId;
+    productId = "61644dceaf07bf876d2c9f72";
     Provider.of<ProductDetailViewModel>(context, listen: false)
         .changeStatus("loading");
     pageController =
@@ -237,6 +239,7 @@ class _ProductDetail extends State<ProductDetail>
                         },
                         itemCount: productData.images.length,
                         itemBuilder: (_, int index) {
+                          log(productData.images[index]);
                           return InkWell(
                               onTap: () {
                                 locator<NavigationService>()
@@ -245,8 +248,19 @@ class _ProductDetail extends State<ProductDetail>
                                   "index": index
                                 });
                               },
-                              child: PinchZoom(
+                              child: productData.images[index].contains("https://www.youtube.com/")?
+                                  Column(children: [
+                                    SizedBox(height: ScreenUtil().setWidth(175),),
+                                    YoutubeVideoPlayClass(productData.images[index]),
+
+
+                                  ],)
+
+                                  :PinchZoom(
                                 child: FadeInImage.assetNetwork(
+                                  imageErrorBuilder: ((context,object,stackTrace){
+                                    return Image.asset("assets/images/logo.png");
+                                  }),
                                   placeholder: 'assets/images/loading.gif',
                                   image: productData.images[index]
                                       .toString()
@@ -1404,6 +1418,87 @@ class _ProductDetail extends State<ProductDetail>
       ));
     }
     return children;
+  }
+}
+
+class YoutubeVideoPlayClass extends StatefulWidget{
+  final link;
+  YoutubeVideoPlayClass(this.link);
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _YoutubeVideoPlayClass();
+  }
+}
+
+class _YoutubeVideoPlayClass extends State<YoutubeVideoPlayClass>{
+
+   YoutubePlayerController _controller;
+   String  _id;
+   TextEditingController _seekToController;
+   PlayerState _playerState;
+   bool _isPlayerReady = false;
+  var link;
+  @override
+  void initState() {
+    link = widget.link;
+   _id = YoutubePlayer.convertUrlToId(widget.link);
+    _controller = YoutubePlayerController(
+      initialVideoId: _id,
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: true,
+        disableDragSeek: false,
+        loop: true,
+        isLive: false,
+        forceHD: false,
+       // enableCaption: true,
+      ),
+    )..addListener(listener);
+
+    _playerState = PlayerState.unknown;
+
+    super.initState();
+  }
+
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+      });
+    }
+  }
+   @override
+   void deactivate() {
+     // Pauses video while navigating to next page.
+     _controller.pause();
+     super.deactivate();
+   }
+
+   @override
+   void dispose() {
+     _controller.dispose();
+     _seekToController.dispose();
+     super.dispose();
+   }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return  YoutubePlayer(
+      controller: _controller,
+      showVideoProgressIndicator: true,
+      progressIndicatorColor: AppColors.primaryElement,
+      // progressColors: ProgressColors(
+      //   playedColor: AppColors.primaryElement,
+      //   handleColor: AppColors.primaryElement,
+      // ),
+      onReady : () {
+        setState(() {
+          _isPlayerReady = true;
+        });
+
+      },
+    );
   }
 }
 
