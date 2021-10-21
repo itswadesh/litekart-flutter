@@ -62,6 +62,9 @@ class _ProductListCard extends State<ProductListCard> {
                     width: ScreenUtil().setWidth(203),
                     color: Color(0xffffffff),
                     child: FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png");
+                      }),
                       placeholder: 'assets/images/loading.gif',
                       image: item.images[0],
                       height: ScreenUtil().setWidth(203),

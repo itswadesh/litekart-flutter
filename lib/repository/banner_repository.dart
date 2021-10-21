@@ -9,7 +9,14 @@ class BannerRepository {
     return _apiProvider.fetchBannerData();
   }
 
+  fetchPickedBannerData() {
+    return _apiProvider.fetchPickedBannerData();
+  }
+
   fetchSliderData() {
     return _apiProvider.fetchBanners(type: BANNER_TYPE_SLIDER, pageId: "home", sort: "sort");
+  }
+  fetchVideoBannerData(){
+    return _apiProvider.fetchBanners(type: BANNER_TYPE_VIDEO, pageId: "home", sort: "sort");
   }
 }

@@ -28,13 +28,14 @@ class BannerResponse {
 
 class GroupByBannerList {
   List<BannerData> data;
-
-  GroupByBannerList({this.data});
+  String title;
+  GroupByBannerList({this.data,this.title});
 
   factory GroupByBannerList.fromJson(Map<String, dynamic> json) =>
       GroupByBannerList(
         data: List<BannerData>.from(
             json["data"].map((x) => BannerData.fromJson(x))),
+        title: json["_id"]["title"]??""
       );
 }
 

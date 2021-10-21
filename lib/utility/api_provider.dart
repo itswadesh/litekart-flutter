@@ -382,6 +382,35 @@ class ApiProvider {
     return responseData;
   }
 
+  fetchPickedBannerData() async {
+    Map responseData;
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.groupByBanner()),
+            variables: {"type": "picked",
+            }),
+      );
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        log(resultData.data["groupByBanner"].toString());
+        if (resultData.data["groupByBanner"] == null ||
+            resultData.data["groupByBanner"].length == null) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {"status": "completed", "value": resultData.data};
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+
+    }
+    return responseData;
+  }
+
   fetchBanners(
       {String pageId, @required String type, String sort, bool active}) async {
     Map<String, dynamic> variables = {"type": type};

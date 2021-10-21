@@ -2858,24 +2858,23 @@ class _Checkout extends State<Checkout> {
               cardEnabled: true,
             );
             final result = await BraintreeDropIn.start(request);
-
-           log("here i come");
-              var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
-              if(responseMakePayment["status"]=="completed"){
-
-                setState(() {
-                  buttonStatusOrder = !buttonStatusOrder;
-                });
-                _dialog.close();
-               handlePaymentSuccess("paypal",  responseMakePayment["value"]["paymentOrderId"]);
-              }
-              else{
-                _dialog.close();
-                setState(() {
-                  buttonStatusOrder = !buttonStatusOrder;
-                });
-                handlePaymentFailure("Something Went Wrong...");
-              }
+            log("here i come");
+           log(result.paymentMethodNonce.nonce);
+              // var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
+              // if(responseMakePayment["status"]=="completed"){
+              //   setState(() {
+              //     buttonStatusOrder = !buttonStatusOrder;
+              //   });
+              //   _dialog.close();
+              //  handlePaymentSuccess("paypal",  responseMakePayment["value"]["paymentOrderId"]);
+              // }
+              // else{
+              //   _dialog.close();
+              //   setState(() {
+              //     buttonStatusOrder = !buttonStatusOrder;
+              //   });
+              //   handlePaymentFailure("Something Went Wrong...");
+              // }
 
           } catch(e) {
             _dialog.close();
