@@ -315,9 +315,9 @@ class ApiProvider {
             variables: {
               'files': [file],
               'folder': 'avatar',
+              'store': store.id
             }),
       );
-      
       if (!resultLink.hasException && resultLink.data!=null && resultLink.data['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
@@ -336,6 +336,7 @@ class ApiProvider {
           return true;
         }
       }
+      log("here");
       return false;
     }
   }

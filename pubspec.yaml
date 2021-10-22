@@ -83,6 +83,7 @@ dependencies:
   flutter_braintree: ^2.0.0+1
   flutter_stripe: ^2.0.0
   youtube_player_flutter: ^8.0.0
+  flutter_facebook_login: ^3.0.0
 
 
 
