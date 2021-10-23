@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:developer';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import '../../view_model/cart_view_model.dart';
 import '../../view_model/login_view_model.dart';
 import 'package:provider/provider.dart';
 import './login.dart';
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -50,15 +52,24 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => RegisterViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: RegisterViewModel()),
+        ChangeNotifierProvider.value(value: GoogleLoginViewModel()),
+        ChangeNotifierProvider.value(value: FacebookLoginViewModel()),
+      ],
       child: Consumer<RegisterViewModel>(
         builder: (context, model, child) =>  Scaffold(
               key: scaffoldKey,
-              body: loadUi(model),
+              body: AnnotatedRegion<SystemUiOverlayStyle>(
+    value: SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.transparent
+    ),
+    child: SafeArea(
+    child: loadUi(model)),
             ),
       ),
-    );
+    ));
   }
 
   Widget loadUi(RegisterViewModel model) {
@@ -68,7 +79,7 @@ class _RegisterState extends State<Register> {
         padding: EdgeInsets.only(left:ScreenUtil().setWidth(20), right: ScreenUtil().setWidth(20)),
         //  color: Colors.white70,
         child: Column(children:[
-          SizedBox(height: ScreenUtil().setWidth(60),),
+          SizedBox(height: ScreenUtil().setWidth(30),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -350,8 +361,26 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
+              SizedBox(height: ScreenUtil().setWidth(15),),
+              Container(
+                width: ScreenUtil().setWidth(324),
+                child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Already Have An Account? "),
+                    InkWell(
+                      onTap: (){
+                        locator<NavigationService>()
+                            .pushReplacementNamed(routes.EmailLoginRoute);
+                      },
+                      child: Text("Login Here",style: TextStyle(color: Colors.blue),),
+                    )
+                  ],
+                ),
+              ),
               SizedBox(
-                height: ScreenUtil().setWidth(30),
+                height: ScreenUtil().setWidth(20),
               ),
               Container(
                 padding: EdgeInsets.only(left: ScreenUtil().setWidth(10),right: ScreenUtil().setWidth(10)),
@@ -369,53 +398,37 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               SizedBox(
-                height: ScreenUtil().setWidth(30),
+                height: ScreenUtil().setWidth(20),
               ),
               Container(
                   width: ScreenUtil().setWidth(324),
-                  height: ScreenUtil().setHeight(45),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      side: BorderSide(
-                          width: 2, color: Color(0xffe3e3e3)),
-                    ),
-                    onPressed: () async {
-                      locator<NavigationService>()
-                          .pushReplacementNamed(routes.LoginRoute);
-                    },
-                    child: Container(
-                      // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.phone_android,
-                            color: Color(0xff414141),
-                            size: ScreenUtil().setWidth(18),
-                          ),
-                          SizedBox(
-                            width: ScreenUtil().setWidth(12),
-                          ),
-                      Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child:  Text(
-                            "MOBILE LOGIN",
-                            style: TextStyle(
-                                color: Color(0xff414141),
-                                fontSize: ScreenUtil().setSp(
-                                  16,
-                                ),
-                                fontWeight: FontWeight.w600),
-                          ))
-                        ],
-                      ),
-                    ),
-                  )),
+                  child:
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Consumer<GoogleLoginViewModel>(
+                          builder: (context, googleModel, child) =>   InkWell(
+
+                            onTap: () async{
+                                await googleModel.handleGoogleLogin();
+                            },
+                            child: Image.asset("assets/images/google.png"),
+                          )),
+                      Consumer<FacebookLoginViewModel>(
+                          builder: (context, facebookModel, child) =>   InkWell(
+
+                            onTap: () async{
+                              facebookModel.handleFacebookLogin();
+                            },
+                            child: Image.asset("assets/images/facebook.png"),
+                          )),
+                    ],
+                  )
+              ),
               SizedBox(height: ScreenUtil().setWidth(25),),
               Container(
                 decoration: BoxDecoration(
-
+                  //color: AppColors.primaryElement,
                     borderRadius: BorderRadius.circular(
                         ScreenUtil().setWidth(5))),
                 width: ScreenUtil().setWidth(324),
@@ -430,24 +443,25 @@ class _RegisterState extends State<Register> {
                     ),
                     onPressed: () async {
                       locator<NavigationService>()
-                          .pushReplacementNamed(routes.EmailLoginRoute);
+                          .pushReplacementNamed(routes.LoginRoute);
+
                     },
                     child:  Container(
                       //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-
+                      // color:  AppColors.primaryElement,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.email_outlined,
+                            Icons.phone_android,
                             color: AppColors.primaryElement,
                             size: ScreenUtil().setWidth(20),
                           ),
                           SizedBox(
                             width: ScreenUtil().setWidth(12),
                           ),
-                      Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child: Text(
-                            "EMAIL LOGIN",
+                          Transform.translate(offset: Offset(0,ScreenUtil().setWidth(1.5)),child:Text(
+                            "MOBILE LOGIN",
                             style: TextStyle(
                                 color: AppColors.primaryElement,
                                 fontSize: ScreenUtil().setSp(

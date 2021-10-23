@@ -62,10 +62,10 @@ class _ProductCard extends State<ProductCard> {
                         return Image.asset("assets/images/logo.png");
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.img+"?tr=h-193,w-193,fo-auto",
+                      image: item.img+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   // Row(

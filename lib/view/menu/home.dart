@@ -13,6 +13,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../service/navigation/navigation_service.dart';
@@ -99,8 +100,12 @@ class _Home extends State<Home> with TickerProviderStateMixin{
       key: scaffoldKey,
           drawer: HomeDrawer(),
           body:
+          AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent
+          ),
+          child:
           SafeArea(
-          bottom: false,
           child:  Stack(children: [
                  Container(
                    color: Color(0xffffffff),
@@ -243,7 +248,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                    ),
                  ),
                ],)
-        ));
+        )));
   }
 }
 

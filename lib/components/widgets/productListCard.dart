@@ -66,10 +66,10 @@ class _ProductListCard extends State<ProductListCard> {
                         return Image.asset("assets/images/logo.png");
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.images[0],
+                      image: item.images[0]+"?tr=w-203,fo-auto",
                       height: ScreenUtil().setWidth(203),
                       width: ScreenUtil().setWidth(203),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Align(

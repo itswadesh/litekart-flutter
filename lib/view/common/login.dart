@@ -85,10 +85,15 @@ class _LoginState extends State<Login> with CodeAutoFill {
       child: Consumer<LoginViewModel>(
         builder: (context, model, child) =>  Scaffold(
               key: scaffoldKey,
-              body: loadUi(model),
+              body: AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle.dark.copyWith(
+                    statusBarColor: Colors.transparent
+                ),
+                child: SafeArea(
+                  child: loadUi(model),
             ),
       ),
-    );
+    )));
   }
 
   Widget loadUi(LoginViewModel model) {
@@ -98,7 +103,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
         padding: EdgeInsets.only(left:ScreenUtil().setWidth(20), right: ScreenUtil().setWidth(20)),
         //  color: Colors.white70,
         child: Column(children:[
-          SizedBox(height: ScreenUtil().setWidth(100),),
+          SizedBox(height: ScreenUtil().setWidth(30),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

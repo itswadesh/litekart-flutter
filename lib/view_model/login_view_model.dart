@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:anne/main.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../components/base/tz_dialog.dart';
 import '../../enum/tz_dialog_type.dart';
@@ -170,6 +172,80 @@ class RegisterViewModel extends ChangeNotifier{
     // } catch (e) {
     //   _dialog.close();
     // }
+    notifyListeners();
+  }
+}
+
+class GoogleLoginViewModel extends ChangeNotifier{
+  final NavigationService _navigationService = locator<NavigationService>();
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  QueryMutation addMutation = QueryMutation();
+  TzDialog _dialog;
+  // bool resendEnable = true;
+  // int resendTrial = 0;
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+  bool googleStatus = false;
+  String errorMessage = "Something went wrong !!";
+  GoogleLoginViewModel() {
+    _dialog = TzDialog(
+        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+  }
+
+  handleGoogleLogin() async {
+    _dialog.show();
+    var result;
+    try {
+     result = await _googleSignIn.signIn();
+     log(result);
+    } catch (error) {
+      googleStatus = false;
+      print(error);
+      _dialog.close();
+    }
+   notifyListeners();
+  }
+}
+
+class FacebookLoginViewModel extends ChangeNotifier{
+  final NavigationService _navigationService = locator<NavigationService>();
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  QueryMutation addMutation = QueryMutation();
+  TzDialog _dialog;
+  bool fbStatus = false;
+  String errorMessage = "Something went wrong !!";
+  FacebookLoginViewModel() {
+    _dialog = TzDialog(
+        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+  }
+
+  handleFacebookLogin() async {
+    _dialog.show();
+    final fb = FacebookLogin();
+    final res = await fb.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
+
+    switch (res.status) {
+      case FacebookLoginStatus.success:
+        final FacebookAccessToken accessToken = res.accessToken;
+        log('Access token: ${accessToken.token}');
+        break;
+      case FacebookLoginStatus.cancel:
+        fbStatus = false;
+        _dialog.close();
+        break;
+      case FacebookLoginStatus.error:
+        fbStatus  = false;
+        _dialog.close();
+        print('Error while log in: ${res.error}');
+        break;
+    }
     notifyListeners();
   }
 }

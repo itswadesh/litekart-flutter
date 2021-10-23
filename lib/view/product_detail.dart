@@ -78,8 +78,8 @@ class _ProductDetail extends State<ProductDetail>
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_TextAnimationController);
 
-   // productId = widget.productId;
-    productId = "61644dceaf07bf876d2c9f72";
+    productId = widget.productId;
+   // productId = "61644dceaf07bf876d2c9f72";
     Provider.of<ProductDetailViewModel>(context, listen: false)
         .changeStatus("loading");
     pageController =
@@ -264,7 +264,7 @@ class _ProductDetail extends State<ProductDetail>
                                   placeholder: 'assets/images/loading.gif',
                                   image: productData.images[index]
                                       .toString()
-                                      .trim()+"?tr=h-600,w-414,fo-auto",
+                                      .trim()+"?tr=w-414,fo-auto",
                                   width: MediaQuery.of(context).size.width,
                                   height: ScreenUtil().setWidth(600),
                                   fit: BoxFit.contain,

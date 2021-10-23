@@ -163,10 +163,10 @@ class _WishCard extends State<WishCard> {
                   Container(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product.img+"?tr=h-213,w-193,fo-auto",
+                      image: item.product.img+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Container(

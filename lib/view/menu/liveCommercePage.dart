@@ -10,6 +10,7 @@ import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,12 @@ class _LiveCommerceState extends State<LiveCommercePage>{
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: Container(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent
+    ),
+    child: SafeArea(
+    child: Container(
         height: MediaQuery.of(context).size.height,
         color: Color(0xffffffff),
         child: Stack(
@@ -82,7 +88,7 @@ class _LiveCommerceState extends State<LiveCommercePage>{
           )
         ],
       ),),
-    );
+    )));
   }
 }
 

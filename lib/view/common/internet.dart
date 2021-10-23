@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Internet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent
+    ),
+    child: SafeArea(
+    child: Center(
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,6 +46,6 @@ class Internet extends StatelessWidget {
           ),
         ),
       ),
-    );
+    )));
   }
 }

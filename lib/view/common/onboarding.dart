@@ -84,8 +84,11 @@ class _OnboardingState extends State<Onboarding> {
         builder: (context, model, child) => WillPopScope(
             child: Scaffold(
               body: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.light,
-                child: Container(
+    value: SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.transparent
+    ),
+    child: SafeArea(
+    child: Container(
                   decoration: BoxDecoration(color: AppColors.primaryBackground),
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 40.0),
@@ -128,7 +131,7 @@ class _OnboardingState extends State<Onboarding> {
                       ],
                     ),
                   ),
-                ),
+                )),
               ),
               bottomSheet: _currentPage == _numPages - 1
                   ? InkWell(
