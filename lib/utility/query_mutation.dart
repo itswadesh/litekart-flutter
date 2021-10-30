@@ -98,7 +98,6 @@ class QueryMutation {
     closed
     closedMessage
     country
-    currency
     currencyCode
     currencyDecimals
     currencySymbol
@@ -389,6 +388,49 @@ class QueryMutation {
     verified
     active
     avatar
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
+  googleOneTap(){
+  return """mutation googleOneTap(\$credential: String!) {
+  googleOneTap(credential: \$credential) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    avatar
+    avatarCdn
+    role
+    verified
+    active
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
+
+  facebookMobileLogin(){
+   return  """mutation facebookMobileLogin(\$accessToken: String!) {
+  facebookMobileLogin(accessToken: \$accessToken) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    avatar
+    avatarCdn
+    role
+    verified
+    active
     provider
     createdAt
     updatedAt
@@ -1352,7 +1394,7 @@ getOtp(phone: \$phone){
           address {
             address
           }
-          store
+         
         }
         status
       }
@@ -1387,7 +1429,7 @@ getOtp(phone: \$phone){
           address {
             address
           }
-          store
+          
         }
         status
       }
@@ -2173,7 +2215,6 @@ getOtp(phone: \$phone){
     amountPaid
     amountDue
     amountRefunded
-    currency
     captured
     status
     orderId
@@ -2201,7 +2242,6 @@ getOtp(phone: \$phone){
     transactions {
       amount {
         total
-        currency
       }
       description
     }

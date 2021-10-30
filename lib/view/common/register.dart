@@ -411,6 +411,20 @@ class _RegisterState extends State<Register> {
 
                             onTap: () async{
                                 await googleModel.handleGoogleLogin();
+                                if (googleModel.googleStatus) {
+                                  token = tempToken;
+                                  await Provider.of<ProfileModel>(context, listen: false)
+                                      .getProfile();
+                                  await Provider.of<CartViewModel>(context, listen: false)
+                                      .changeStatus("loading");
+                                  locator<NavigationService>()
+                                      .pushNamedAndRemoveUntil(routes.HomeRoute);
+                                } else {
+                                  final snackBar = SnackBar(
+                                    content: Text('Something Went Wrong During Authentication'),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                }
                             },
                             child: Image.asset("assets/images/google.png"),
                           )),
@@ -418,7 +432,21 @@ class _RegisterState extends State<Register> {
                           builder: (context, facebookModel, child) =>   InkWell(
 
                             onTap: () async{
-                              facebookModel.handleFacebookLogin();
+                             await facebookModel.handleFacebookLogin();
+                             if (facebookModel.fbStatus) {
+                               token = tempToken;
+                               await Provider.of<ProfileModel>(context, listen: false)
+                                   .getProfile();
+                               await Provider.of<CartViewModel>(context, listen: false)
+                                   .changeStatus("loading");
+                               locator<NavigationService>()
+                                   .pushNamedAndRemoveUntil(routes.HomeRoute);
+                             } else {
+                               final snackBar = SnackBar(
+                                 content: Text('Something Went Wrong During Authentication'),
+                               );
+                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                             }
                             },
                             child: Image.asset("assets/images/facebook.png"),
                           )),

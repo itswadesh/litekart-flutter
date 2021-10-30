@@ -10,7 +10,7 @@ class StoreData {
   });
   factory StoreData.fromJson(Map<String, dynamic> json)=>StoreData(
       id:json["id"],
-      currency: json["currency"],
+      //currency: json["currency"],
       currencyCode: json["currencyCode"],
       currencyDecimals: json["currencyDecimals"],
       currencySymbol: json["currencySymbol"]

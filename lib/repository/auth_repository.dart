@@ -15,4 +15,5 @@ class AuthRepository {
   removeProfile() {
     return _apiProvider.removeProfile();
   }
+
 }

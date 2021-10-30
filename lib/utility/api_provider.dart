@@ -257,6 +257,45 @@ class ApiProvider {
 
   // Auth Apis
 
+  Future<bool> facebookMobileLogin(accessToken) async {
+    GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+    print(accessToken);
+    QueryResult resultData = await _client1.mutate(
+      MutationOptions(
+          document: gql(addMutation.facebookMobileLogin()),
+          variables: {
+            "accessToken":accessToken
+          }
+      ),
+    );
+    if (resultData.hasException) {
+      print(resultData.toString());
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> googleOneTap(accessToken) async {
+    GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+
+    QueryResult resultData = await _client1.mutate(
+      MutationOptions(
+          document: gql(addMutation.googleOneTap()),
+          variables: {
+            "credential":accessToken
+          }
+      ),
+    );
+    if (resultData.hasException) {
+      return false;
+    }
+    return true;
+  }
+
+
+
   Future<User> getProfile() async {
     User _user;
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -1095,12 +1134,12 @@ class ApiProvider {
     if (result.hasException) {
       responseData = {"status": "error"};
     } else {
-      if (result.data==null||result.data["brainTreeMakePayment"] == null) {
+      if (result.data==null || result.data["braintreeMakePayment"] == null) {
         responseData = {"status": "empty"};
       } else {
         responseData = {
           "status": "completed",
-          "value": result.data["brainTreeMakePayment"]
+          "value": result.data["braintreeMakePayment"]
         };
       }
     }
@@ -1208,7 +1247,7 @@ class ApiProvider {
         // "sort":sort,
         // "status": status
       }));
-
+      log(resultData.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:anne/main.dart';
+import 'package:anne/repository/login_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -198,10 +199,14 @@ class GoogleLoginViewModel extends ChangeNotifier{
 
   handleGoogleLogin() async {
     _dialog.show();
-    var result;
+
     try {
-     result = await _googleSignIn.signIn();
-     log(result);
+    final result = await _googleSignIn.signIn();
+     log(result.id);
+    LoginRepository loginRepository = LoginRepository();
+    log(result.id);
+    googleStatus = await loginRepository.googleOneTap(result.id);
+    _dialog.close();
     } catch (error) {
       googleStatus = false;
       print(error);
@@ -230,23 +235,48 @@ class FacebookLoginViewModel extends ChangeNotifier{
       FacebookPermission.publicProfile,
       FacebookPermission.email,
     ]);
+    log("in hereeeee");
+    print("in hereeeee");
 
-    switch (res.status) {
-      case FacebookLoginStatus.success:
-        final FacebookAccessToken accessToken = res.accessToken;
-        log('Access token: ${accessToken.token}');
-        break;
-      case FacebookLoginStatus.cancel:
-        fbStatus = false;
-        _dialog.close();
-        break;
-      case FacebookLoginStatus.error:
-        fbStatus  = false;
-        _dialog.close();
-        print('Error while log in: ${res.error}');
-        break;
+    if(res.status ==  FacebookLoginStatus.success){
+      log("in hereeeee");
+      print("in hereeeee");
+
+      LoginRepository loginRepository = LoginRepository();
+      final FacebookAccessToken accessToken = res.accessToken;
+      fbStatus = await loginRepository.facebookMobileLogin(accessToken.token);
+      _dialog.close();
     }
+    else if(res.status == FacebookLoginStatus.cancel){
+      fbStatus = false;
+      _dialog.close();
+    }
+    else if(res.status == FacebookLoginStatus.error){
+      fbStatus  = false;
+      _dialog.close();
+      print('Error while log in: ${res.error}');
+    }
+    //
+    // switch (res.status) {
+    //   case FacebookLoginStatus.success:
+    //     final FacebookAccessToken accessToken = res.accessToken;
+    //
+    //     fbStatus = true;
+    //     log('Access token: ${accessToken.token}');
+    //     break;
+    //   case FacebookLoginStatus.cancel:
+    //     fbStatus = false;
+    //     _dialog.close();
+    //     break;
+    //   case FacebookLoginStatus.error:
+    //     fbStatus  = false;
+    //     _dialog.close();
+    //     print('Error while log in: ${res.error}');
+    //     break;
+    // }
     notifyListeners();
   }
+
+
 }
 
