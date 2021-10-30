@@ -1279,7 +1279,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
           document: gql(addMutation.orderItem()), variables: {"id": id}));
-     
+     log(resultData.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

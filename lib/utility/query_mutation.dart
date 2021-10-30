@@ -1546,7 +1546,7 @@ getOtp(phone: \$phone){
     returnCourierName
     days
     type
-    #order level info
+    
     orderNo
     otp
     createdAt
@@ -1605,7 +1605,7 @@ getOtp(phone: \$phone){
       address {
         address
       }
-      store
+     
     }
   }
 }""";
