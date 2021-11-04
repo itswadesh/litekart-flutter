@@ -44,7 +44,7 @@ class _LiveCommerceState extends State<LiveCommercePage>{
                 Container(
                     color: AppColors.primaryElement,
                     width: double.infinity,
-                    height: ScreenUtil().setWidth(150)
+                    height: ScreenUtil().setWidth(130)
                 ),
         Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-60)),
           child: Column(children :[
@@ -59,9 +59,9 @@ class _LiveCommerceState extends State<LiveCommercePage>{
             child : Container(
               color: AppColors.primaryElement,
               width: double.infinity,
-              height: ScreenUtil().setWidth(100),
+              height: ScreenUtil().setWidth(80),
               child: Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: 10),
                 child: TextFormField(
 
                   // onSubmitted: ,

@@ -383,7 +383,7 @@ class _EmailLoginState extends State<EmailLogin> {
                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                          }
                         },
-                        child: Image.asset("assets/images/facebook.png",height:35,width:35),
+                        child: Image.asset("assets/images/facebook.png",height:40,width:40),
                       )),
                     ],
                   )

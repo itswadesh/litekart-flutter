@@ -37,6 +37,7 @@ class ApiProvider {
         }
         ),
       );
+      log(resultData.toString());
       if (resultData.hasException) {
         
         responseData = {"status": "error"};
@@ -73,7 +74,7 @@ class ApiProvider {
         variables: {"domain":ApiEndpoint().domainName}
         ),
       );
-      
+      log("Store Result is  "+resultData.toString());
       if (resultData.hasException) {
         
         responseData = {"status": "error"};

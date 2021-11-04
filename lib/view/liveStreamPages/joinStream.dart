@@ -220,7 +220,7 @@ class _JoinStreamPageState extends State<JoinStreamPage>
   }
 
   Widget buildControlPanel3(BuildContext context) {
-    List<Widget> children = List();
+    List<Widget> children = [];
     if (Platform.isIOS) {
       children.add(Expanded(
           child: buildControlButton(
@@ -538,7 +538,7 @@ class _JoinStreamPageState extends State<JoinStreamPage>
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==1234)),
+      child: buildVideoView(context, _remoteSessions[0]),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

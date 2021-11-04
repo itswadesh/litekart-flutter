@@ -1,4 +1,5 @@
 
+import 'dart:developer';
 import 'dart:io';
 import 'package:anne/response_handler/channelResponse.dart';
 
@@ -15,7 +16,7 @@ class LiveStreamSetUp {
 
 
   Future<void> startRTC(BuildContext context,String cid, int uid,String joinStatus, ChannelData channelData) async {
-
+    log("here in startRTC");
     final permissions = [Permission.camera, Permission.microphone];
     if (Platform.isAndroid) {
       permissions.add(Permission.storage);
@@ -94,6 +95,7 @@ class LiveStreamSetUp {
                     )));
       }
       else{
+        log("here in joinRTC");
         Navigator.push(
             context,
             MaterialPageRoute(
