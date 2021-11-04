@@ -61,8 +61,10 @@ void main() async {
 
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
-  User user = await ProfileModel().returnProfile();
-
+User user;	
+if(token!=null && token!=""){
+   user = await ProfileModel().returnProfile();
+	}
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) async {

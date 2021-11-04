@@ -139,7 +139,7 @@ class _OnboardingState extends State<Onboarding> {
                         model.getStarted();
                       },
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.09,
+                        height: MediaQuery.of(context).size.height * 0.08,
                         width: double.infinity,
                         color: AppColors.primaryElement,
                         child: Center(

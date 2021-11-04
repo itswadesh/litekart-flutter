@@ -94,6 +94,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         height: ScreenUtil().setWidth(220),
         child: ListView.builder(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             scrollDirection: Axis.horizontal,
             itemCount: bannerResponse.groupByBanner[i].data.length,
             itemBuilder: (BuildContext context, index) {
@@ -143,7 +144,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
                         image: bannerResponse
                             .groupByBanner[i].data[index].img+"?tr=h-220,fo-auto",
                       ),
-                      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), 0, ScreenUtil().setWidth(10), 0),
+                      margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 0, 0, 0),
                     ),
                   ),
                 ]),

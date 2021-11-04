@@ -142,7 +142,7 @@ class _BannersClass extends State<BannersClass> {
                           image: bannerResponse
                               .groupByBanner[i].data[index].img+"?tr=h-160,fo-auto",
                         ),
-                        margin: EdgeInsets.fromLTRB(0, 10, ScreenUtil().setWidth(10), 0),
+                        margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 10, 0, 0),
                       ),
                     ),
                   ]),

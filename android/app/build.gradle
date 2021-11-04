@@ -34,13 +34,16 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     compileSdkVersion 30
-
+    buildToolsVersion "30.0.2"
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     lintOptions {
         checkReleaseBuilds false
+    }
+    lintOptions {
+        disable 'InvalidPackage'
     }
 
     defaultConfig {
@@ -63,9 +66,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -84,3 +93,4 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.facebook.android:facebook-login:latest.release'
 }
+

@@ -50,7 +50,7 @@ class _ProductListCard extends State<ProductListCard> {
         child: Container(
           width: ScreenUtil().setWidth(203),
           //     height: ScreenUtil().setWidth(269),
-          height: ScreenUtil().setWidth(274),
+          height: ScreenUtil().setWidth(264),
           child: Column(
             children: [
               Container(
@@ -216,9 +216,9 @@ class _ProductListCard extends State<ProductListCard> {
                             : Container()
                       ],
                     ),
-                    SizedBox(
-                      height: ScreenUtil().setWidth(5),
-                    ),
+                    // SizedBox(
+                    //   height: ScreenUtil().setWidth(5),
+                    // ),
 
 
                     // SizedBox(height: ScreenUtil().setWidth(19),),

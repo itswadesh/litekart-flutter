@@ -213,7 +213,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["brands"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =

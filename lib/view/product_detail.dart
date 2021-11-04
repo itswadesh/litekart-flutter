@@ -1548,10 +1548,10 @@ class _RatingClass extends State<RatingClass> {
                   border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: ScreenUtil().setWidth(12),
-                ),
+
                 Container(
                     padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
                     child: Text(
@@ -1568,7 +1568,6 @@ class _RatingClass extends State<RatingClass> {
                   size: ScreenUtil().setWidth(14),
                   color: AppColors.primaryElement2,
                 ),
-                SizedBox(width: ScreenUtil().setWidth(12),)
               ],
             ));
           }
@@ -1583,10 +1582,10 @@ class _RatingClass extends State<RatingClass> {
                     border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: ScreenUtil().setWidth(12),
-                    ),
+
                     Container(
                         padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
                         child: Text(
@@ -1603,7 +1602,7 @@ class _RatingClass extends State<RatingClass> {
                       size: ScreenUtil().setWidth(14),
                       color: AppColors.primaryElement2,
                     ),
-                    SizedBox(width: ScreenUtil().setWidth(12),)
+
                   ],
                 ));
           }
@@ -1618,10 +1617,10 @@ class _RatingClass extends State<RatingClass> {
                     border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: ScreenUtil().setWidth(12),
-                    ),
+
                     Container(
                         padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
                         child: Text(
@@ -1638,7 +1637,6 @@ class _RatingClass extends State<RatingClass> {
                       size: ScreenUtil().setWidth(14),
                       color: AppColors.primaryElement2,
                     ),
-                    SizedBox(width: ScreenUtil().setWidth(12),)
                   ],
                 ));
 

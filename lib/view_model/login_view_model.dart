@@ -202,7 +202,8 @@ class GoogleLoginViewModel extends ChangeNotifier{
 
     try {
     final result = await _googleSignIn.signIn();
-     log(result.id);
+     log("googke id is -- "+result.id);
+print("googke id is -- "+result.id);
     LoginRepository loginRepository = LoginRepository();
     log(result.id);
     googleStatus = await loginRepository.googleOneTap(result.id);

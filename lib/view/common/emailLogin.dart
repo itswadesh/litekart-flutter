@@ -302,7 +302,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 width: ScreenUtil().setWidth(324),
                 child:
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Didn't Have Any Account? "),
                     InkWell(
@@ -361,7 +361,7 @@ class _EmailLoginState extends State<EmailLogin> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         },
-                        child: Image.asset("assets/images/google.png"),
+                        child: Image.asset("assets/images/google.png",height:35,width:35),
                       )),
                       Consumer<FacebookLoginViewModel>(
                         builder: (context, facebookModel, child) =>   InkWell(
@@ -383,7 +383,7 @@ class _EmailLoginState extends State<EmailLogin> {
                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                          }
                         },
-                        child: Image.asset("assets/images/facebook.png"),
+                        child: Image.asset("assets/images/facebook.png",height:35,width:35),
                       )),
                     ],
                   )
