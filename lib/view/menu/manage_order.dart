@@ -834,6 +834,7 @@ class ListOrderData extends StatelessWidget{
                 child: Column(
                    children: <Widget>[
                      ListTile(
+                       contentPadding: EdgeInsets.only(left: 0),
                        title:   Text(
                                    orderData.items[0].status,
                                    style: TextStyle(
@@ -999,7 +1000,7 @@ class ListOrderData extends StatelessWidget{
                        mainAxisAlignment: MainAxisAlignment.start,
                        children: <Widget>[
                          Container(
-                           width: ScreenUtil().setWidth(188),
+                           width: ScreenUtil().setWidth(230),
                            child: Text(
                              items[index].brandName ?? "",
                              style: TextStyle(
@@ -1017,7 +1018,7 @@ class ListOrderData extends StatelessWidget{
                      mainAxisAlignment: MainAxisAlignment.start,
                      children: <Widget>[
                        Container(
-                         width: ScreenUtil().setWidth(188),
+                         width: ScreenUtil().setWidth(230),
                          child: Text(
                            items[index].name,
                            style: TextStyle(

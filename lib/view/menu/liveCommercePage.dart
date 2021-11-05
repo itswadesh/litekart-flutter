@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../values/route_path.dart' as routes;
 
 class LiveCommercePage extends StatefulWidget{
   @override
@@ -144,7 +145,8 @@ class StreamCard extends StatelessWidget{
        onTap: (){
           log(channelData.httpPullUrl.toString()
           );
-          locator<NavigationService>().push(MaterialPageRoute(builder: (context)=>JoinLiveStreamPlayerPage(channelData)));
+         locator<NavigationService>().pushNamed(routes.LiveStreamPlayer,args: channelData);
+          // locator<NavigationService>().push(MaterialPageRoute(builder: (context)=>JoinLiveStreamPlayerPage(channelData)));
          // LiveStreamSetUp()
          //     .startRTC(context, channelData.cid, int.parse(channelData.code), 'join',channelData);
        },

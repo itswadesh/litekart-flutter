@@ -118,6 +118,7 @@ class _MegaMenu extends State<MegaMenu> {
 
   topMenuCard(MegaMenuResponse megamenu, bool colorStatus) {
     Color color = gradientColors[Random().nextInt(gradientColors.length)];
+    Icon trailingIcon = Icon(Icons.keyboard_arrow_down);
     return Container(
 
           decoration: BoxDecoration(
@@ -138,6 +139,18 @@ class _MegaMenu extends State<MegaMenu> {
           child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
     child: ExpansionTile(
+      onExpansionChanged: (value){
+        setState(() {
+          if(trailingIcon  == Icon(Icons.keyboard_arrow_up)){
+            trailingIcon  = Icon(Icons.keyboard_arrow_down);
+          }
+          else{
+            trailingIcon  = Icon(Icons.keyboard_arrow_up);
+          }
+        });
+      },
+
+      trailing: Transform.translate(offset: Offset(0,ScreenUtil().setWidth(33)),child: trailingIcon),
       collapsedBackgroundColor:  color,
               title: Container(
                   //padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),

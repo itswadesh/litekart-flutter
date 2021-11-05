@@ -219,7 +219,9 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           var item =
               widget.facet["all_aggs"]["brands"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+              child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -257,7 +259,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -266,13 +268,15 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["colors"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["colors"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+          child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -310,7 +314,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -319,12 +323,14 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["sizes"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["sizes"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+          child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -362,7 +368,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -444,13 +450,15 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-      padding: EdgeInsets.only(top: 0),
+      padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["genders"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
               widget.facet["all_aggs"]["genders"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+          child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -488,7 +496,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -497,12 +505,14 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["price"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["price"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+          child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -540,7 +550,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -549,12 +559,14 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["age"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["age"]["all"]["buckets"][index];
 
-          return ListTile(
+          return Container(
+              height: ScreenUtil().setWidth(50),
+          child: ListTile(
             onTap: () {
               Map<String, dynamic> data = {
                 "id": "EVENT_PRODUCT_LIST_SORTED_BY",
@@ -592,7 +604,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
+          ));
         });
   }
 
@@ -600,8 +612,10 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
     //final TabController tabController = DefaultTabController.of(context);
 
     //TextEditingController _brand = TextEditingController();
-    return ListView.builder(
-        padding: EdgeInsets.only(top: 0),
+    return Container(
+        height: ScreenUtil().setWidth(50),
+    child: ListView.builder(
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount:
             widget.facet["all_aggs"]["discount"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
@@ -647,6 +661,6 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
           );
-        });
+        }));
   }
 }

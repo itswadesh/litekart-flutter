@@ -694,14 +694,14 @@ class _CartBillCard extends State<CartBillCard> {
                                 14,
                               ))),*/
                       SizedBox(
-                        height: ScreenUtil().setWidth(21.5),
+                        height: ScreenUtil().setWidth(18),
                       ),
                       Divider(
                         thickness: ScreenUtil().setWidth(0.4),
                         color: Color(0xffb9b9b9),
                       ),
                       SizedBox(
-                        height: ScreenUtil().setWidth(21.5),
+                        height: ScreenUtil().setWidth(18),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1007,7 +1007,7 @@ class _CartCard extends State<CartCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
-                          width: ScreenUtil().setWidth(188),
+                          width: ScreenUtil().setWidth(250),
                           child: Text(
                             cartData.name,
                             style: TextStyle(
@@ -1088,43 +1088,45 @@ class _CartCard extends State<CartCard> {
                                         event: EVENT_CART_DECREASE_ITEM_COUNT,
                                         data: data);
                                   },
-                                   child: Icon(FontAwesomeIcons.minusCircle, color: Color(0xff818181),size: 22,)
-                            // Container(
-                                  //   margin: EdgeInsets.fromLTRB(
-                                  //       ScreenUtil().setWidth(6),
-                                  //       0,
-                                  //       ScreenUtil().setWidth(6),
-                                  //       0),
-                                  //   width: ScreenUtil().radius(22),
-                                  //   height: ScreenUtil().radius(22),
-                                  //   decoration: new BoxDecoration(
-                                  //     color: Color(0xffefefef),
-                                  //     border: Border(
-                                  //         bottom: BorderSide(
-                                  //             color: Color(0xff707070),
-                                  //             width:
-                                  //                 ScreenUtil().setWidth(0.5)),
-                                  //         top: BorderSide(
-                                  //             color: Color(0xff707070),
-                                  //             width:
-                                  //                 ScreenUtil().setWidth(0.5)),
-                                  //         left: BorderSide(
-                                  //             color: Color(0xff707070),
-                                  //             width:
-                                  //                 ScreenUtil().setWidth(0.5)),
-                                  //         right: BorderSide(
-                                  //             color: Color(0xff707070),
-                                  //             width:
-                                  //                 ScreenUtil().setWidth(0.5))),
-                                  //     shape: BoxShape.circle,
-                                  //   ),
-                                  //   child: Center(
-                                  //       child: Text(
-                                  //     "-",
-                                  //     style: TextStyle(
-                                  //         fontSize: ScreenUtil().setSp(14)),
-                                  //   )),
-                                  // )
+                                   child:
+                                  // Icon(FontAwesomeIcons.minusCircle, color: Color(0xff818181),size: 22,)
+                            Container(
+                                    // margin: EdgeInsets.fromLTRB(
+                                    //     ScreenUtil().setWidth(6),
+                                    //     0,
+                                    //     ScreenUtil().setWidth(6),
+                                    //     0),
+                                    width: ScreenUtil().radius(22),
+                                    height: ScreenUtil().radius(22),
+                                    decoration: new BoxDecoration(
+                                      color: Color(0xffefefef),
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Color(0xff707070),
+                                              width:
+                                                  ScreenUtil().setWidth(0.5)),
+                                          top: BorderSide(
+                                              color: Color(0xff707070),
+                                              width:
+                                                  ScreenUtil().setWidth(0.5)),
+                                          left: BorderSide(
+                                              color: Color(0xff707070),
+                                              width:
+                                                  ScreenUtil().setWidth(0.5)),
+                                          right: BorderSide(
+                                              color: Color(0xff707070),
+                                              width:
+                                                  ScreenUtil().setWidth(0.5))),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      "-",
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(15))
+                                            ,textAlign: TextAlign.center
+                                    )),
+                                  )
                           )
                               : new Container(),
                           SizedBox(width: 4,),
@@ -1154,39 +1156,39 @@ class _CartCard extends State<CartCard> {
                                     data: data);
                               },
                               child:
-                              Icon(FontAwesomeIcons.plusCircle,color: Color(0xff818181),size: 22,)
-                              // Container(
-                              //   margin: EdgeInsets.fromLTRB(
-                              //       ScreenUtil().setWidth(6),
-                              //       0,
-                              //       ScreenUtil().setWidth(6),
-                              //       0),
-                              //   width: ScreenUtil().radius(22),
-                              //   height: ScreenUtil().radius(22),
-                              //   padding: EdgeInsets.only(bottom: 3),
-                              //   decoration: new BoxDecoration(
-                              //     color: Color(0xffefefef),
-                              //     border: Border(
-                              //         bottom: BorderSide(
-                              //             color: Color(0xff707070),
-                              //             width: ScreenUtil().setWidth(0.5)),
-                              //         top: BorderSide(
-                              //             color: Color(0xff707070),
-                              //             width: ScreenUtil().setWidth(0.5)),
-                              //         left: BorderSide(
-                              //             color: Color(0xff707070),
-                              //             width: ScreenUtil().setWidth(0.5)),
-                              //         right: BorderSide(
-                              //             color: Color(0xff707070),
-                              //             width: ScreenUtil().setWidth(0.5))),
-                              //     shape: BoxShape.circle,
-                              //   ),
-                              //   child: Center(
-                              //     child: Text("+",
-                              //         style: TextStyle(
-                              //             fontSize: ScreenUtil().setSp(14))),
-                              //   ),
-                              // )
+                              //Icon(FontAwesomeIcons.plusCircle,color: Color(0xff818181),size: 22,)
+                              Container(
+                                // margin: EdgeInsets.fromLTRB(
+                                //     ScreenUtil().setWidth(6),
+                                //     0,
+                                //     ScreenUtil().setWidth(6),
+                                //     0),
+                                width: ScreenUtil().radius(22),
+                                height: ScreenUtil().radius(22),
+                               // padding: EdgeInsets.only(bottom: 3),
+                                decoration: new BoxDecoration(
+                                  color: Color(0xffefefef),
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Color(0xff707070),
+                                          width: ScreenUtil().setWidth(0.5)),
+                                      top: BorderSide(
+                                          color: Color(0xff707070),
+                                          width: ScreenUtil().setWidth(0.5)),
+                                      left: BorderSide(
+                                          color: Color(0xff707070),
+                                          width: ScreenUtil().setWidth(0.5)),
+                                      right: BorderSide(
+                                          color: Color(0xff707070),
+                                          width: ScreenUtil().setWidth(0.5))),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text("+",
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(15)),textAlign: TextAlign.center,),
+                                ),
+                              )
     )
                         ]),
 

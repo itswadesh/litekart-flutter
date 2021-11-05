@@ -341,7 +341,7 @@ class _ProductList extends State<ProductList> {
             padding: EdgeInsets.all(0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
-                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(264),
+                    ScreenUtil().setWidth(183) / ScreenUtil().setWidth(255),
                 crossAxisCount: 2),
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(

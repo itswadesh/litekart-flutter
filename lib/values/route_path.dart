@@ -26,3 +26,4 @@ const String ReturnPageRoute = "ReturnPage";
 const String AddReviewRoute = "AddReviewRoute";
 const String ZoomImageRoute = "ZoomImageRoute";
 const String LiveCommerce = "LiveCommerce";
+const String LiveStreamPlayer = "LiveStreamPlayer";

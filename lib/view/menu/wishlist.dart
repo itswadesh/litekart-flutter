@@ -45,7 +45,7 @@ class _WishlistState extends State<Wishlist> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+       // automaticallyImplyLeading: false,
         title: Text(
           "Wishlist",
           style: TextStyle(

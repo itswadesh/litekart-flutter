@@ -70,6 +70,7 @@ class _MyProfileState extends State<MyProfile> {
                               child: Column(children :[ Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(width: ScreenUtil().setWidth(20),),
                                     InkWell(
@@ -86,10 +87,16 @@ class _MyProfileState extends State<MyProfile> {
                                             ),
                                           ),)),
                                     SizedBox(width: ScreenUtil().setWidth(20),),
-                                    Transform.translate(offset: Offset(0,ScreenUtil().setWidth(18)),
-                                      child: Container(
-                                        child: Text(value.user.email??value.user.phone??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(20),fontWeight: FontWeight.w600),)
-                                      ),)
+                                   // Transform.translate(offset: Offset(0,ScreenUtil().setWidth(18)),
+                                      //child:
+                                     Column(children:[
+                                       SizedBox(height: ScreenUtil().setWidth(60),),
+                                       Container(
+                                        width: ScreenUtil().setWidth(250),
+                                        child: Text(value.user.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(18),fontWeight: FontWeight.w600),)
+                          ),
+                                     ]
+                              )
                                   ],
                                 ),
                               ),

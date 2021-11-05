@@ -1,5 +1,7 @@
+import 'package:anne/response_handler/channelResponse.dart';
 import 'package:anne/view/common/emailLogin.dart';
 import 'package:anne/view/common/register.dart';
+import 'package:anne/view/liveStreamPages/joinLiveStreamPage.dart';
 import 'package:anne/view/menu.dart';
 import 'package:anne/view/menu/wishlist.dart';
 import 'package:anne/view/profile/profileEditPage.dart';
@@ -40,6 +42,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       settings.name == routes.AddReviewRoute) {
     productId = settings.arguments;
   }
+
+
   if (settings.name == routes.OrderConfirm) {
     checkoutResponse = settings.arguments;
   }
@@ -89,6 +93,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       break;
     case routes.OrderConfirm:
       return ScaleRoute(page: OrderConfirm(checkoutResponse));
+      break;
+    case routes.LiveStreamPlayer:
+      return ScaleRoute(page: JoinLiveStreamPlayerPage(settings.arguments));
       break;
     case routes.OrderTrack:
       return ScaleRoute(page: OrderTracking(orderTrackData["id"],
@@ -154,13 +161,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
       break;
     case routes.Wishlist:
-      return ScaleRoute(page: Consumer<MenuViewModel>(
-        builder: (context, model, view) {
-          model.updateIndex(2);
-          return Menu(model);
-        },
-      ));
-     // return ScaleRoute(page: Wishlist());
+      // return ScaleRoute(page: Consumer<MenuViewModel>(
+      //   builder: (context, model, view) {
+      //     model.updateIndex(2);
+      //     return Menu(model);
+      //   },
+      // ));
+      return ScaleRoute(page: Wishlist());
       break;
     case routes.CheckOut:
       return ScaleRoute(page: Checkout());

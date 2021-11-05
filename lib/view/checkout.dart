@@ -1982,7 +1982,7 @@ class _Checkout extends State<Checkout> {
                   Container(
                     width: ScreenUtil().setWidth(250),
                     child: Text(
-                      "Make this a primary Address",
+                      "Make this as my default Address",
                       style: TextStyle(
                           color: Color(0xff5c5c5c),
                           fontSize: ScreenUtil().setSp(

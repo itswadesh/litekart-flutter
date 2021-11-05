@@ -715,54 +715,54 @@ class _ProductDetail extends State<ProductDetail>
                           },
                         ),
 
-                        Consumer<SettingViewModel>(builder:
-                            (BuildContext context, value, Widget child) {
-                          if (value.status == "loading") {
-                            Provider.of<SettingViewModel>(context,
-                                    listen: false)
-                                .fetchSettings();
-                            return Container();
-                          }
-                          if (value.status == "empty") {
-                            return Container();
-                          }
-                          if (value.status == "error") {
-                            return Container();
-                          }
-                          if (value.settingResponse.liveCommerce) {
-                            return Container(
-                              margin: EdgeInsets.only(top: ScreenUtil().setWidth(34),bottom: ScreenUtil().setWidth(34)),
-                              width: ScreenUtil().setWidth(150),
-                              height: ScreenUtil().setHeight(42),
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                  ),
-                                  side: BorderSide(
-                                      width: 2,
-                                      color: AppColors.primaryElement),
-                                ),
-                                onPressed: () async {
-                                  // LiveStreamSetUp()
-                                  //     .startRTC(context, "1234", 123, 'join');
-                                },
-                                child: Text(
-                                  "Join Stream",
-                                  style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(
-                                        16,
-                                      ),
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryElement,
-                                      fontFamily: 'Montserrat'),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        }),
+                        // Consumer<SettingViewModel>(builder:
+                        //     (BuildContext context, value, Widget child) {
+                        //   if (value.status == "loading") {
+                        //     Provider.of<SettingViewModel>(context,
+                        //             listen: false)
+                        //         .fetchSettings();
+                        //     return Container();
+                        //   }
+                        //   if (value.status == "empty") {
+                        //     return Container();
+                        //   }
+                        //   if (value.status == "error") {
+                        //     return Container();
+                        //   }
+                        //   if (value.settingResponse.liveCommerce) {
+                        //     return Container(
+                        //       margin: EdgeInsets.only(top: ScreenUtil().setWidth(34),bottom: ScreenUtil().setWidth(34)),
+                        //       width: ScreenUtil().setWidth(150),
+                        //       height: ScreenUtil().setHeight(42),
+                        //       child: OutlinedButton(
+                        //         style: OutlinedButton.styleFrom(
+                        //           shape: RoundedRectangleBorder(
+                        //             borderRadius: BorderRadius.circular(40.0),
+                        //           ),
+                        //           side: BorderSide(
+                        //               width: 2,
+                        //               color: AppColors.primaryElement),
+                        //         ),
+                        //         onPressed: () async {
+                        //           // LiveStreamSetUp()
+                        //           //     .startRTC(context, "1234", 123, 'join');
+                        //         },
+                        //         child: Text(
+                        //           "Join Stream",
+                        //           style: TextStyle(
+                        //               fontSize: ScreenUtil().setSp(
+                        //                 16,
+                        //               ),
+                        //               fontWeight: FontWeight.w500,
+                        //               color: AppColors.primaryElement,
+                        //               fontFamily: 'Montserrat'),
+                        //         ),
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     return Container();
+                        //   }
+                        // }),
                         // SizedBox(
                         //   height: ScreenUtil().setWidth(34),
                         // ),
@@ -994,7 +994,7 @@ class _ProductDetail extends State<ProductDetail>
                             ),
                             Container(
                               margin: EdgeInsets.fromLTRB(
-                                  0, 0, ScreenUtil().setWidth(8), 0),
+                                  0, 0, ScreenUtil().setWidth(0), 0),
                               width: ScreenUtil().radius(45),
                               height: ScreenUtil().radius(45),
                               decoration: new BoxDecoration(
@@ -1021,7 +1021,7 @@ class _ProductDetail extends State<ProductDetail>
                                   // Transform.translate(
                                   //   offset: Offset(-10, 0),
                                   //   child:
-                                  CartLogo(22),
+                                  CartLogo(24),
                             )
                           ],
                         )),
