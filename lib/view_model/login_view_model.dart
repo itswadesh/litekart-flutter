@@ -207,6 +207,10 @@ print("googke id is -- "+result.id);
     LoginRepository loginRepository = LoginRepository();
     log(result.id);
     googleStatus = await loginRepository.googleOneTap(result.id);
+    if(googleStatus) {
+      token = tempToken;
+      await addCookieToSF(token);
+    }
     _dialog.close();
     } catch (error) {
       googleStatus = false;
@@ -246,6 +250,10 @@ class FacebookLoginViewModel extends ChangeNotifier{
       LoginRepository loginRepository = LoginRepository();
       final FacebookAccessToken accessToken = res.accessToken;
       fbStatus = await loginRepository.facebookMobileLogin(accessToken.token);
+     if(fbStatus) {
+       token = tempToken;
+       await addCookieToSF(token);
+     }
       _dialog.close();
     }
     else if(res.status == FacebookLoginStatus.cancel){
