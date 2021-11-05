@@ -81,6 +81,9 @@ class _BannersClass extends State<BannersClass> {
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: FadeInImage.assetNetwork(
+			imageErrorBuilder: ((context,object,stackTrace){
+                            return Image.asset("assets/images/logo.png");
+                          }),
                 placeholder: 'assets/images/loading.gif',
                 image: bannerResponse.groupByBanner[i].data[0].img+"?tr=w-414,fo-auto"),
           )));
@@ -89,6 +92,7 @@ class _BannersClass extends State<BannersClass> {
           height: 10,
         ),
       );
+if(bannerResponse.groupByBanner[i].data.length>1){
       children.add(Container(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         height: 185,
@@ -152,6 +156,7 @@ class _BannersClass extends State<BannersClass> {
               }
             }),
       ));
+}
     }
     return children;
   }

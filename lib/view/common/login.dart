@@ -216,18 +216,18 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         height: ScreenUtil().setWidth(80),
                           margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                           child: TextField(
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.phone,
                             focusNode: _focusNode,
                             controller: _mobileController,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            // inputFormatters: <TextInputFormatter>[
+                            //   FilteringTextInputFormatter.digitsOnly
+                            // ],
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                               fontSize: ScreenUtil().setSp(20),
                             ),
-                            maxLength: 10,
+                            maxLength: 15,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black54),
@@ -238,18 +238,18 @@ class _LoginState extends State<Login> with CodeAutoFill {
                               errorText: _phoneFieldValidate
                                   ? "Please enter valid mobile number"
                                   : null,
-                              prefix: Opacity(
-                                opacity: 0.4986,
-                                child: Text(
-                                  "+91 ",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: ScreenUtil().setSp(20),
-                                  ),
-                                ),
-                              ),
+                              // prefix: Opacity(
+                              //   opacity: 0.4986,
+                              //   child: Text(
+                              //     "+91 ",
+                              //     textAlign: TextAlign.left,
+                              //     style: TextStyle(
+                              //       color: Colors.black,
+                              //       fontWeight: FontWeight.w500,
+                              //       fontSize: ScreenUtil().setSp(20),
+                              //     ),
+                              //   ),
+                              // ),
                             ),
                             onChanged: (value) async {
                               if (value.length == 10) {

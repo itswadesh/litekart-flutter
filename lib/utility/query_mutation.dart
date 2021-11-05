@@ -97,7 +97,6 @@ class QueryMutation {
     city
     closed
     closedMessage
-   
     currencyCode
     currencyDecimals
     currencySymbol

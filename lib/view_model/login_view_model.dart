@@ -39,7 +39,7 @@ class LoginViewModel extends ChangeNotifier {
     QueryResult result = await _client.mutate(
       MutationOptions(
           document: gql(addMutation.getOtp()),
-          variables: {'phone': "+91" + mobile}),
+          variables: {'phone':  mobile}),
     );
 
     showOtpUi = true;
@@ -56,7 +56,7 @@ class LoginViewModel extends ChangeNotifier {
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.verifyOtp()),
-          variables: {'phone': "+91" + mobile, 'otp': otp},
+          variables: {'phone':  mobile, 'otp': otp},
         ),
       );
       if (!result.hasException) {

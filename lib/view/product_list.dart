@@ -373,7 +373,7 @@ class _ProductList extends State<ProductList> {
     if (response.statusCode == 200) {
       try {
 
-        count = response.data["count"];
+        count = response.data["count"]??0;
         facet = response.data["facets"];
 
         final isLastPage = response.data["data"].length < 40;

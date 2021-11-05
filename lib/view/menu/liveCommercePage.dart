@@ -4,7 +4,10 @@ import 'dart:developer';
 
 import 'package:anne/components/widgets/loading.dart';
 import 'package:anne/response_handler/channelResponse.dart';
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
+import 'package:anne/view/liveStreamPages/joinLiveStreamPage.dart';
 import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
 import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
@@ -139,8 +142,11 @@ class StreamCard extends StatelessWidget{
   Widget build(BuildContext context) {
    return InkWell(
        onTap: (){
-         LiveStreamSetUp()
-             .startRTC(context, channelData.cid, int.parse(channelData.code), 'join',channelData);
+          log(channelData.httpPullUrl.toString()
+          );
+          locator<NavigationService>().push(MaterialPageRoute(builder: (context)=>JoinLiveStreamPlayerPage(channelData)));
+         // LiveStreamSetUp()
+         //     .startRTC(context, channelData.cid, int.parse(channelData.code), 'join',channelData);
        },
        child: Container(
      height: ScreenUtil().setWidth(450),
@@ -151,7 +157,7 @@ class StreamCard extends StatelessWidget{
        border: Border.all(color: Color(0xfff3f3f3),width: 5),
        borderRadius: BorderRadius.circular(ScreenUtil().radius(25),),
      image: DecorationImage(
-         image: NetworkImage(channelData.img),
+         image: channelData.img!=null? NetworkImage(channelData.img):AssetImage("assets/images/logo.png"),
        fit: BoxFit.cover
      ),
      ),

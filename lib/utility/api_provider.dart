@@ -289,6 +289,7 @@ class ApiProvider {
           }
       ),
     );
+    print(resultData.toString());
     if (resultData.hasException) {
       return false;
     }
@@ -1006,6 +1007,10 @@ class ApiProvider {
         //     "${urlLink.split("brand=")[1].contains("&") ? "&" : "\n"}")[0] : "";
       }
     }
+    print((ApiEndpoint()).productList);
+    print(categoryName + cn);
+    log((ApiEndpoint()).productList);
+    log(categoryName + cn);
    
     var response = await dio.get((ApiEndpoint()).productList, queryParameters: {
       "categories": categoryName + cn,
@@ -1023,6 +1028,9 @@ class ApiProvider {
       "store": store.id
       // "brand": bi
     });
+    log(response.realUri.toString());
+	log(response.toString());
+	print(response.toString());
     return response;
   }
 

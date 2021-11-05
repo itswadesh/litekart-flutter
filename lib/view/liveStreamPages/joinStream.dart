@@ -538,7 +538,7 @@ class _JoinStreamPageState extends State<JoinStreamPage>
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: buildVideoView(context, _remoteSessions[0]),
+      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==channelData.user.id)),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
