@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:anne/response_handler/channelResponse.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'settings.dart';
@@ -9,26 +10,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nertc/nertc.dart';
 import 'config.dart';
 
-class CallPage extends StatefulWidget {
+class JoinVideoCallPage extends StatefulWidget {
   final String cid;
   final int uid;
+  final ChannelData channelData;
 
-  CallPage({Key key, @required this.cid, @required this.uid});
+  JoinVideoCallPage({Key key, @required this.cid, @required this.uid, this.channelData});
 
   @override
-  _CallPageState createState() {
-    return _CallPageState();
+  _JoinVideoCallPageState createState() {
+    return _JoinVideoCallPageState();
   }
 }
 
-class _CallPageState extends State<CallPage>
+class _JoinVideoCallPageState extends State<JoinVideoCallPage>
     with
         NERtcChannelEventCallback,
         NERtcStatsEventCallback,
         NERtcDeviceEventCallback {
   Settings _settings;
+  ChannelData channelData;
   NERtcEngine _engine = NERtcEngine();
-  List<_UserSession> _remoteSessions = List();
+  List<_UserSession> _remoteSessions =[];
   _UserSession _localSession = _UserSession();
 
   bool _showControlPanel = false;
@@ -60,6 +63,7 @@ class _CallPageState extends State<CallPage>
 
   @override
   void initState() {
+    channelData = widget.channelData;
     super.initState();
     _initSettings().then((value) => _initRtcEngine());
   }
@@ -82,9 +86,9 @@ class _CallPageState extends State<CallPage>
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(widget.cid),
+          title: Text(channelData.name),
         ),
         body: buildCallingWidget(context),
       ),
@@ -216,7 +220,7 @@ class _CallPageState extends State<CallPage>
   }
 
   Widget buildControlPanel3(BuildContext context) {
-    List<Widget> children = List();
+    List<Widget> children = [];
     if (Platform.isIOS) {
       children.add(Expanded(
           child: buildControlButton(
@@ -243,9 +247,9 @@ class _CallPageState extends State<CallPage>
               });
             } else {
               _initCallbacks()
-                  .then((value) => _initAudio())
-                  .then((value) => _initVideo())
-                  .then((value) => _initRenderer())
+                 // .then((value) => _initAudio())
+                 // .then((value) => _initVideo())
+                 //  .then((value) => _initRenderer())
                   .then((value) => _engine.joinChannel('', widget.cid, widget.uid))
                   .then((value) {
                 if (value == 0) {
@@ -474,7 +478,7 @@ class _CallPageState extends State<CallPage>
             });
           },
           Text(
-              isEarBackEnabled ? 'Ear Return' : 'Ear Back Off',
+            isEarBackEnabled ? 'Ear Return' : 'Ear Back Off',
             style: TextStyle(fontSize: 12),
           ),
         )));
@@ -519,7 +523,7 @@ class _CallPageState extends State<CallPage>
             });
           },
           Text(
-              'Upload Log',
+            'Upload Log',
             style: TextStyle(fontSize: 12),
           ),
         )));
@@ -532,9 +536,9 @@ class _CallPageState extends State<CallPage>
 
   Widget buildVideoViews(BuildContext context) {
     return Container(
-      height: ScreenUtil().setWidth(700),
-      width: ScreenUtil().setWidth(400),
-      child: buildVideoView(context, _localSession),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==channelData.user.id)),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -586,21 +590,19 @@ class _CallPageState extends State<CallPage>
         serverRecordVideo: _settings.serverRecordVideo,
         serverRecordMode:
         NERtcServerRecordMode.values[_settings.serverRecordMode],
-        videoSendMode: NERtcVideoSendMode.values[_settings.videoSendMode],
+       // videoSendMode: NERtcVideoSendMode.values[_settings.videoSendMode],
         videoEncodeMode:
         NERtcMediaCodecMode.values[_settings.videoEncodeMediaCodecMode],
         videoDecodeMode:
         NERtcMediaCodecMode.values[_settings.videoDecodeMediaCodecMode]);
     // 错误异常需要处理
+   // _engine.joinChannel('', widget.cid, widget.uid);
     _engine
         .create(
         appKey: Config.APP_KEY,
         channelEventCallback: this,
         options: options)
         .then((value) => _initCallbacks())
-        .then((value) => _initAudio())
-        .then((value) => _initVideo())
-        .then((value) => _initRenderer())
         .then((value) => _engine.joinChannel('', widget.cid, widget.uid))
         .catchError((e) {
       Fluttertoast.showToast(
@@ -613,31 +615,6 @@ class _CallPageState extends State<CallPage>
     return _engine.deviceManager.setEventCallback(this);
   }
 
-  Future<int> _initAudio() async {
-    await _engine.enableLocalAudio(isAudioEnabled);
-    return _engine.setAudioProfile(
-        NERtcAudioProfile.values[_settings.audioProfile],
-        NERtcAudioScenario.values[_settings.audioScenario]);
-  }
-
-  Future<int> _initVideo() async {
-    await _engine.enableLocalVideo(isVideoEnabled);
-    await _engine.enableDualStreamMode(_settings.enableDualStreamMode);
-    NERtcVideoConfig config = NERtcVideoConfig();
-    config.videoProfile = _settings.videoProfile;
-    config.frameRate = _settings.videoFrameRate;
-    config.degradationPrefer = _settings.degradationPreference;
-    config.frontCamera = _settings.frontFacingCamera;
-    config.videoCropMode = _settings.videoCropMode;
-    return _engine.setLocalVideoConfig(config);
-  }
-
-  Future<void> _initRenderer() async {
-    _localSession.renderer = await VideoRendererFactory.createVideoRenderer();
-    _localSession.renderer.setMirror(isFrontCamera && isFrontCameraMirror);
-    _localSession.renderer.attachToLocalVideo();
-    setState(() {});
-  }
 
   void _releaseRtcEngine() {
     _engine.release();

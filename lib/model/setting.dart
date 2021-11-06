@@ -4,12 +4,14 @@ class SettingData {
   bool otpLogin;
   String stripePublishableKey;
   String brainTreePublicKey;
+  String googleClientId;
   SettingData({
     this.id,
     this.liveCommerce,
     this.otpLogin,
     this.stripePublishableKey,
-    this.brainTreePublicKey
+    this.brainTreePublicKey,
+    this.googleClientId
 });
 
   factory SettingData.fromJson(Map<String, dynamic> json)=>SettingData(
@@ -17,6 +19,7 @@ class SettingData {
       liveCommerce: json["liveCommerce"],
       otpLogin: json["otpLogin"],
       stripePublishableKey: json["stripePublishableKey"],
-      brainTreePublicKey : json["brainTreePublicKey"]
+      brainTreePublicKey : json["brainTreePublicKey"],
+      googleClientId: json["GOOGLE_CLIENT_ID"]
       );
 }

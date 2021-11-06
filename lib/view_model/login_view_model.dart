@@ -15,6 +15,9 @@ import '../../utility/locator.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/query_mutation.dart';
 import '../../utility/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+
 
 class LoginViewModel extends ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -186,9 +189,10 @@ class GoogleLoginViewModel extends ChangeNotifier{
   // int resendTrial = 0;
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
+      'email'
     ],
+   clientId: "1919831472-br1ip90icukdbph24aefod6dr5v481rs.apps.googleusercontent.com"
+   // clientId:settingData.googleClientId
   );
   bool googleStatus = false;
   String errorMessage = "Something went wrong !!";
@@ -199,20 +203,35 @@ class GoogleLoginViewModel extends ChangeNotifier{
 
   handleGoogleLogin() async {
     _dialog.show();
-
     try {
-    final result = await _googleSignIn.signIn();
-     log("googke id is -- "+result.id);
-print("googke id is -- "+result.id);
-    LoginRepository loginRepository = LoginRepository();
-    log(result.id);
-    googleStatus = await loginRepository.googleOneTap(result.id);
-    if(googleStatus) {
-      token = tempToken;
-      await addCookieToSF(token);
+    final GoogleSignInAccount result = await _googleSignIn.signIn();
+    if (result != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await result.authentication;
+      // final AuthCredential credential = GoogleAuthProvider.credential(
+      //   accessToken: googleSignInAuthentication.accessToken,
+      //   idToken: googleSignInAuthentication.idToken,
+      // );
+       LoginRepository loginRepository = LoginRepository();
+      // log(result.id);
+       log(googleSignInAuthentication.idToken);
+      // log(credential.providerId);
+      // log(credential.signInMethod);
+      // log(credential.token.toString());
+      googleStatus = await loginRepository.googleOneTap(googleSignInAuthentication.idToken);
+      if (googleStatus) {
+        token = tempToken;
+        await addCookieToSF(token);
+      }
+      _dialog.close();
     }
-    _dialog.close();
-    } catch (error) {
+    else{
+      googleStatus = false;
+      _dialog.close();
+    }
+
+    }
+    catch (error) {
       googleStatus = false;
       print(error);
       _dialog.close();
@@ -220,6 +239,68 @@ print("googke id is -- "+result.id);
    notifyListeners();
   }
 }
+
+
+class AppleLoginViewModel extends ChangeNotifier{
+  final NavigationService _navigationService = locator<NavigationService>();
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  QueryMutation addMutation = QueryMutation();
+  TzDialog _dialog;
+  // bool resendEnable = true;
+  // int resendTrial = 0;
+
+  bool appleStatus = false;
+  String errorMessage = "Something went wrong !!";
+  AppleLoginViewModel() {
+    _dialog = TzDialog(
+        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+  }
+
+  handleAppleLogin() async {
+    _dialog.show();
+
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId:
+          'com.aboutyou.dart_packages.sign_in_with_apple.example',
+          redirectUri: Uri.parse(
+            'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
+          ),
+        ),
+      );
+      log(credential.toString());
+      // if (credential != null) {
+      //
+      //   LoginRepository loginRepository = LoginRepository();
+      //
+      //   appleStatus = await loginRepository.appleLogin(credential);
+      //   if (appleStatus) {
+      //     token = tempToken;
+      //     await addCookieToSF(token);
+      //   }
+      //   _dialog.close();
+      // }
+      // else{
+      //   appleStatus = false;
+      //   _dialog.close();
+      // }
+
+    }
+    catch (error) {
+      appleStatus = false;
+      print(error);
+      _dialog.close();
+    }
+    notifyListeners();
+  }
+}
+
+
 
 class FacebookLoginViewModel extends ChangeNotifier{
   final NavigationService _navigationService = locator<NavigationService>();

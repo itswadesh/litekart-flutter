@@ -86,6 +86,8 @@ dependencies:
   flutter_login_facebook: ^1.1.0
   google_sign_in: ^5.2.0
   colorful_safe_area: ^0.3.0
+  sign_in_with_apple: ^3.2.0
+
 
 
 

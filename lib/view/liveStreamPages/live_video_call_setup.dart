@@ -4,16 +4,15 @@ import 'dart:io';
 import 'package:anne/response_handler/channelResponse.dart';
 
 import '../../enum/streamOptions.dart';
-import '../liveStreamPages/joinStream.dart';
+import '../liveStreamPages/joinVideoCall.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'createStream.dart';
+import 'createVideoCall.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 
 
-class LiveStreamSetUp {
-
+class LiveVideoCallSetUp {
 
   Future<void> startRTC(BuildContext context,String cid, int uid,String joinStatus, ChannelData channelData) async {
     log("here in startRTC");
@@ -89,7 +88,7 @@ class LiveStreamSetUp {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    CallPage(
+                    CreateVideoCallPage(
                       cid: cid,
                       uid: uid,
                     )));
@@ -100,7 +99,7 @@ class LiveStreamSetUp {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    JoinStreamPage(
+                    JoinVideoCallPage(
                       cid: cid,
                       uid: uid,
                       channelData: channelData

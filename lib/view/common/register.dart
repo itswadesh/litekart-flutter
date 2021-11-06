@@ -57,6 +57,8 @@ class _RegisterState extends State<Register> {
         ChangeNotifierProvider.value(value: RegisterViewModel()),
         ChangeNotifierProvider.value(value: GoogleLoginViewModel()),
         ChangeNotifierProvider.value(value: FacebookLoginViewModel()),
+        ChangeNotifierProvider.value(value: AppleLoginViewModel()),
+
       ],
       child: Consumer<RegisterViewModel>(
         builder: (context, model, child) =>  Scaffold(
@@ -427,6 +429,27 @@ class _RegisterState extends State<Register> {
                                 }
                             },
                             child: Image.asset("assets/images/google.png",height:35,width:35),
+                          )),
+                      Consumer<AppleLoginViewModel>(
+                          builder: (context, appleModel, child) =>   InkWell(
+                            onTap: () async{
+                              await appleModel.handleAppleLogin();
+                              if (appleModel.appleStatus) {
+                                token = tempToken;
+                                await Provider.of<ProfileModel>(context, listen: false)
+                                    .getProfile();
+                                await Provider.of<CartViewModel>(context, listen: false)
+                                    .changeStatus("loading");
+                                locator<NavigationService>()
+                                    .pushNamedAndRemoveUntil(routes.HomeRoute);
+                              } else {
+                                final snackBar = SnackBar(
+                                  content: Text('Something Went Wrong During Authentication'),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
+                            },
+                            child: Image.asset("assets/images/apple.png",height:32,width:32),
                           )),
                       Consumer<FacebookLoginViewModel>(
                           builder: (context, facebookModel, child) =>   InkWell(

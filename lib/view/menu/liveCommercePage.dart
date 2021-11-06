@@ -8,7 +8,7 @@ import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view/liveStreamPages/joinLiveStreamPage.dart';
-import 'package:anne/view/liveStreamPages/live_stream_setup.dart';
+import 'package:anne/view/liveStreamPages/live_video_call_setup.dart';
 import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/cupertino.dart';
