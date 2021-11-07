@@ -84,14 +84,14 @@ class LiveVideoCallSetUp {
       openAppSettings();
     } else {
       if (joinStatus == "start") {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    CreateVideoCallPage(
-                      cid: cid,
-                      uid: uid,
-                    )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             CreateVideoCallPage(
+        //               cid: cid,
+        //               uid: uid,
+        //             )));
       }
       else{
         log("here in joinRTC");

@@ -191,8 +191,7 @@ class GoogleLoginViewModel extends ChangeNotifier{
     scopes: [
       'email'
     ],
-   clientId: "1919831472-br1ip90icukdbph24aefod6dr5v481rs.apps.googleusercontent.com"
-   // clientId:settingData.googleClientId
+    clientId:settingData.googleClientId
   );
   bool googleStatus = false;
   String errorMessage = "Something went wrong !!";
@@ -208,16 +207,7 @@ class GoogleLoginViewModel extends ChangeNotifier{
     if (result != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
       await result.authentication;
-      // final AuthCredential credential = GoogleAuthProvider.credential(
-      //   accessToken: googleSignInAuthentication.accessToken,
-      //   idToken: googleSignInAuthentication.idToken,
-      // );
        LoginRepository loginRepository = LoginRepository();
-      // log(result.id);
-       log(googleSignInAuthentication.idToken);
-      // log(credential.providerId);
-      // log(credential.signInMethod);
-      // log(credential.token.toString());
       googleStatus = await loginRepository.googleOneTap(googleSignInAuthentication.idToken);
       if (googleStatus) {
         token = tempToken;
@@ -246,8 +236,7 @@ class AppleLoginViewModel extends ChangeNotifier{
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
   TzDialog _dialog;
-  // bool resendEnable = true;
-  // int resendTrial = 0;
+
 
   bool appleStatus = false;
   String errorMessage = "Something went wrong !!";

@@ -2,6 +2,80 @@ class QueryMutation {
 
   // Live Commerce
 
+  myScheduleDemos(){
+    return """query myScheduleDemos(
+  \$page: Int
+  \$skip: Int
+  \$limit: Int
+  \$search: String
+  \$sort: String
+  \$q: String
+) {
+  myScheduleDemos(
+    page: \$page
+    skip: \$skip
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    q: \$q
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      scheduleDateTime
+      title
+      img
+      imgCdn
+      product {
+        id
+        name
+        img
+        imgCdn
+        slug
+        price
+        mrp
+      }
+      products {
+        id
+        name
+        img
+        slug
+        price
+        mrp
+      }
+      user {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+      users {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+    }
+  }
+}""";
+  }
+
+
+
+  neteaseToken(){
+   return """query neteaseToken(\$channel: String) {
+  neteaseToken(channel: \$channel) {
+    uid
+    token
+    appkey
+  }
+}""";
+  }
+
   channels(){
     return """query channels(
   \$page: Int

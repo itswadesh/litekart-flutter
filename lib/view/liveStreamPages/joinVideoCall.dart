@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:anne/repository/channel_repository.dart';
 import 'package:anne/response_handler/channelResponse.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +36,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
   _UserSession _localSession = _UserSession();
 
   bool _showControlPanel = false;
-
+  var neteaseData ;
   // Control 1
   bool isAudioEnabled = false;
   bool isVideoEnabled = false;
@@ -538,7 +539,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==channelData.user.id)),
+      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==neteaseData["uid"])),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -582,6 +583,10 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
   }
 
   void _initRtcEngine() async {
+    ChannelRepository channelRepository = ChannelRepository();
+
+     neteaseData = await channelRepository.neteaseToken(channelData.id);
+
     _localSession.uid = widget.uid;
     NERtcOptions options = NERtcOptions(
         audioAutoSubscribe: _settings.autoSubscribeAudio,
@@ -599,11 +604,11 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
    // _engine.joinChannel('', widget.cid, widget.uid);
     _engine
         .create(
-        appKey: Config.APP_KEY,
+        appKey: neteaseData["appkey"],
         channelEventCallback: this,
         options: options)
         .then((value) => _initCallbacks())
-        .then((value) => _engine.joinChannel('', widget.cid, widget.uid))
+        .then((value) => _engine.joinChannel(neteaseData["token"], widget.cid, neteaseData[""]))
         .catchError((e) {
       Fluttertoast.showToast(
           msg: 'catchError:' + e, gravity: ToastGravity.CENTER);

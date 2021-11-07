@@ -6,4 +6,9 @@ class ChannelRepository {
   fetchChannelData(page, skip, limit, search, sort, user, q) {
     return _apiProvider.fetchChannelData(page, skip, limit, search, sort, user, q);
   }
+
+  neteaseToken(id){
+    return _apiProvider.neteaseToken(id);
+  }
+
 }
