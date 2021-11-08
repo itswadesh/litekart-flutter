@@ -2,9 +2,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:anne/response_handler/channelResponse.dart';
+import 'package:anne/response_handler/scheduleResponse.dart';
 
 import '../../enum/streamOptions.dart';
-import '../liveStreamPages/joinVideoCall.dart';
+import 'joinVideoCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'createVideoCall.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/widgets.dart';
 
 class LiveVideoCallSetUp {
 
-  Future<void> startRTC(BuildContext context,String cid, int uid,String joinStatus, ChannelData channelData) async {
+  Future<void> startRTC(BuildContext context,String cid,String joinStatus, ScheduleData scheduleData) async {
     log("here in startRTC");
     final permissions = [Permission.camera, Permission.microphone];
     if (Platform.isAndroid) {
@@ -101,8 +102,7 @@ class LiveVideoCallSetUp {
                 builder: (context) =>
                     JoinVideoCallPage(
                       cid: cid,
-                      uid: uid,
-                      channelData: channelData
+                      channelData: scheduleData
                     )));
       }
     }

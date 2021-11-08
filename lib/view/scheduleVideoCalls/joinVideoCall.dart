@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:anne/repository/channel_repository.dart';
+import 'package:anne/repository/schedule_repository.dart';
 import 'package:anne/response_handler/channelResponse.dart';
+import 'package:anne/response_handler/scheduleResponse.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'settings.dart';
@@ -9,14 +11,13 @@ import 'utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nertc/nertc.dart';
-import 'config.dart';
+
 
 class JoinVideoCallPage extends StatefulWidget {
   final String cid;
-  final int uid;
-  final ChannelData channelData;
+  final ScheduleData channelData;
 
-  JoinVideoCallPage({Key key, @required this.cid, @required this.uid, this.channelData});
+  JoinVideoCallPage({Key key, @required this.cid, this.channelData});
 
   @override
   _JoinVideoCallPageState createState() {
@@ -30,7 +31,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
         NERtcStatsEventCallback,
         NERtcDeviceEventCallback {
   Settings _settings;
-  ChannelData channelData;
+  ScheduleData scheduleData;
   NERtcEngine _engine = NERtcEngine();
   List<_UserSession> _remoteSessions =[];
   _UserSession _localSession = _UserSession();
@@ -64,7 +65,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
 
   @override
   void initState() {
-    channelData = widget.channelData;
+    scheduleData = widget.channelData;
     super.initState();
     _initSettings().then((value) => _initRtcEngine());
   }
@@ -89,7 +90,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          title: Text(channelData.name),
+          title: Text(scheduleData.title),
         ),
         body: buildCallingWidget(context),
       ),
@@ -251,7 +252,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
                  // .then((value) => _initAudio())
                  // .then((value) => _initVideo())
                  //  .then((value) => _initRenderer())
-                  .then((value) => _engine.joinChannel('', widget.cid, widget.uid))
+                  .then((value) => _engine.joinChannel('', widget.cid, neteaseData["uid"]))
                   .then((value) {
                 if (value == 0) {
                   setState(() {
@@ -539,7 +540,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: buildVideoView(context, _remoteSessions.firstWhere((element) => element.uid==neteaseData["uid"])),
+      child: buildVideoView(context, _remoteSessions.first),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -583,11 +584,11 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
   }
 
   void _initRtcEngine() async {
-    ChannelRepository channelRepository = ChannelRepository();
+    ScheduleRepository scheduleRepository = ScheduleRepository();
 
-     neteaseData = await channelRepository.neteaseToken(channelData.id);
+     neteaseData = await scheduleRepository.neteaseToken(scheduleData.id);
 
-    _localSession.uid = widget.uid;
+    _localSession.uid = neteaseData["uid"];
     NERtcOptions options = NERtcOptions(
         audioAutoSubscribe: _settings.autoSubscribeAudio,
         serverRecordSpeaker: _settings.serverRecordSpeaker,
@@ -608,7 +609,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
         channelEventCallback: this,
         options: options)
         .then((value) => _initCallbacks())
-        .then((value) => _engine.joinChannel(neteaseData["token"], widget.cid, neteaseData[""]))
+        .then((value) => _engine.joinChannel(neteaseData["token"], widget.cid, neteaseData["uid"]))
         .catchError((e) {
       Fluttertoast.showToast(
           msg: 'catchError:' + e, gravity: ToastGravity.CENTER);
