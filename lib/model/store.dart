@@ -1,10 +1,10 @@
 class StoreData {
 
-  String id;
-  String currency;
-  String currencyCode;
-  int currencyDecimals;
-  String currencySymbol;
+  String? id;
+  String? currency;
+  String? currencyCode;
+  int? currencyDecimals;
+  String? currencySymbol;
   StoreData({
     this.id,this.currency,this.currencyCode,this.currencyDecimals,this.currencySymbol
   });

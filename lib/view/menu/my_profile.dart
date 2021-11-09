@@ -41,8 +41,8 @@ class _MyProfileState extends State<MyProfile> {
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           title: Consumer<ProfileModel>(
-        builder: (BuildContext context, value, Widget child) {return Text(
-            value.user.firstName??"User Profile",
+        builder: (BuildContext context, value, Widget? child) {return Text(
+            value.user!.firstName??"User Profile",
             style: TextStyle(
                 color: Color(0xff757575),
                 fontSize: ScreenUtil().setSp(
@@ -60,7 +60,7 @@ class _MyProfileState extends State<MyProfile> {
                     color: Color(0xfff5f5f5),
                     height: MediaQuery.of(context).size.height,
                     child: Consumer<ProfileModel>(
-                        builder: (BuildContext context, value, Widget child) {
+                        builder: (BuildContext context, value, Widget? child) {
                       return SingleChildScrollView(
                           child: Container(
                         child: Column(
@@ -83,7 +83,7 @@ class _MyProfileState extends State<MyProfile> {
                                             child: Container(
                                               height: ScreenUtil().setWidth(120),
                                               width: ScreenUtil().setWidth(120),
-                                              child: value.user.avatar!=null? Image.network(value.user.avatar+"?tr=h-120,f0-auto"):Image.asset("assets/images/user.png")
+                                              child: value.user!.avatar!=null? Image.network(value.user!.avatar!+"?tr=h-120,f0-auto"):Image.asset("assets/images/user.png")
                                             ),
                                           ),)),
                                     SizedBox(width: ScreenUtil().setWidth(20),),
@@ -93,7 +93,7 @@ class _MyProfileState extends State<MyProfile> {
                                        SizedBox(height: ScreenUtil().setWidth(60),),
                                        Container(
                                         width: ScreenUtil().setWidth(250),
-                                        child: Text(value.user.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(18),fontWeight: FontWeight.w600),)
+                                        child: Text(value.user!.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(18),fontWeight: FontWeight.w600),)
                           ),
                                      ]
                               )

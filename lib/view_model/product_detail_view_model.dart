@@ -4,12 +4,12 @@ import '../../repository/products_repository.dart';
 import '../../utility/query_mutation.dart';
 
 class ProductDetailViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   var buttonStatus  = "ADD TO BAG";
   QueryMutation addMutation = QueryMutation();
   ProductsRepository productsRepository = ProductsRepository();
-  ProductDetailData _productDetailResponse;
-  ProductDetailData get productDetailResponse {
+  ProductDetailData? _productDetailResponse;
+  ProductDetailData? get productDetailResponse {
     return _productDetailResponse;
   }
 

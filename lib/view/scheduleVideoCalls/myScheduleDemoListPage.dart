@@ -59,7 +59,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
   }
   getScheduleList() {
     return Consumer<ScheduleViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
 
           if (value.status == "loading") {
             Provider.of<ScheduleViewModel>(context, listen: false).fetchMyScheduleDemo();
@@ -74,7 +74,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
             Container(
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
                 child:  Consumer<ScheduleViewModel>(
-                    builder: (BuildContext context, value, Widget child) {
+                    builder: (BuildContext context, value, Widget? child) {
                       return PagedGridView(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio:
@@ -82,7 +82,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
                             crossAxisCount: 2),
                         pagingController: value.pagingController,
                         builderDelegate: PagedChildBuilderDelegate(
-                            itemBuilder: (context, item, index) => ScheduleCard(item),
+                            itemBuilder: (context, dynamic item, index) => ScheduleCard(item),
                             // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                             //   error: _pagingController.error,
                             //   onTryAgain: () => _pagingController.refresh(),
@@ -114,7 +114,7 @@ class ScheduleCard extends StatefulWidget {
 }
 
 class _ScheduleCard extends State<ScheduleCard> {
-  ScheduleData item;
+  ScheduleData? item;
 
   @override
   void initState() {
@@ -145,7 +145,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                   Container(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product.imgCdn+"?tr=w-193,fo-auto",
+                      image: item!.product!.imgCdn!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
@@ -205,7 +205,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
-                    item.product.name,
+                    item!.product!.name!,
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -240,7 +240,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(10),),
                       Text(
-                        "${store.currencySymbol} " + item.product.price.toString() + " ",
+                        "${store!.currencySymbol} " + item!.product!.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -248,9 +248,9 @@ class _ScheduleCard extends State<ScheduleCard> {
                             fontWeight: FontWeight.w600,
                             color: Color(0xff4a4a4a)),
                       ),
-                      item.product.price < item.product.mrp
+                      item!.product!.price! < item!.product!.mrp!
                           ? Text(
-                        " ${store.currencySymbol} " + item.product.mrp.toString(),
+                        " ${store!.currencySymbol} " + item!.product!.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
@@ -259,9 +259,9 @@ class _ScheduleCard extends State<ScheduleCard> {
                             color: Color(0xff4a4a4a)),
                       )
                           : Container(),
-                      item.product.price < item.product.mrp
+                      item!.product!.price! < item!.product!.mrp!
                           ? Flexible(child: Text(
-                        " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
+                        " (${(100 - ((item!.product!.price! / item!.product!.mrp!) * 100)).toInt()} % off)",
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
@@ -276,7 +276,7 @@ class _ScheduleCard extends State<ScheduleCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
-                    await LiveVideoCallSetUp().startRTC(context, item.id, 'join',item);
+                    await LiveVideoCallSetUp().startRTC(context, item!.id, 'join',item);
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(183),

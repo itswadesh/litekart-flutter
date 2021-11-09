@@ -6,11 +6,11 @@ import '../../repository/settings_repository.dart';
 import '../../utility/query_mutation.dart';
 
 class SettingViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
   SettingsRepository settingsRepository = SettingsRepository();
-  SettingData _settingResponse;
-  SettingData get settingResponse {
+  SettingData? _settingResponse;
+  SettingData? get settingResponse {
     return _settingResponse;
   }
 

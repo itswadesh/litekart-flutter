@@ -1,10 +1,10 @@
 import '../../model/category.dart';
 
 class CategoriesResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<CategoryData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<CategoryData>? data;
 
   CategoriesResponse({this.count, this.page, this.data, this.pageSize});
 

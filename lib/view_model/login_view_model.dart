@@ -20,18 +20,18 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 
 class LoginViewModel extends ChangeNotifier {
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
-  bool otpStatus;
+  late TzDialog _dialog;
+  late bool otpStatus;
   bool showOtpUi = false;
   bool resendEnable = true;
   int resendTrial = 0;
 
   LoginViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
   void sendOtp(String mobile) async {
@@ -92,17 +92,17 @@ class LoginViewModel extends ChangeNotifier {
 
 
 class EmailLoginViewModel extends ChangeNotifier{
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
+  late TzDialog _dialog;
   bool loginStatus = false;
   // bool resendEnable = true;
   // int resendTrial = 0;
 
   EmailLoginViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
    login(String email, String password) async {
@@ -115,7 +115,7 @@ class EmailLoginViewModel extends ChangeNotifier{
       QueryResult result = await _client.mutate(
         MutationOptions(
           document: gql(addMutation.login()),
-          variables: {'email': email, 'password': password, 'store':store.id},
+          variables: {'email': email, 'password': password, 'store':store!.id},
         ),
       );
       if (!result.hasException) {
@@ -137,17 +137,17 @@ class EmailLoginViewModel extends ChangeNotifier{
 
 
 class RegisterViewModel extends ChangeNotifier{
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
+  late TzDialog _dialog;
   // bool resendEnable = true;
   // int resendTrial = 0;
   bool registerStatus = false;
   String errorMessage = "Something went wrong !!";
   RegisterViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
    register(String email, String password, String cPassword, String firstName, String lastName) async {
@@ -181,29 +181,29 @@ class RegisterViewModel extends ChangeNotifier{
 }
 
 class GoogleLoginViewModel extends ChangeNotifier{
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
+  late TzDialog _dialog;
   // bool resendEnable = true;
   // int resendTrial = 0;
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email'
     ],
-    clientId:settingData.googleClientId
+    clientId:settingData!.googleClientId
   );
   bool googleStatus = false;
   String errorMessage = "Something went wrong !!";
   GoogleLoginViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
   handleGoogleLogin() async {
     _dialog.show();
     try {
-    final GoogleSignInAccount result = await _googleSignIn.signIn();
+    final GoogleSignInAccount? result = await _googleSignIn.signIn();
     if (result != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
       await result.authentication;
@@ -232,17 +232,17 @@ class GoogleLoginViewModel extends ChangeNotifier{
 
 
 class AppleLoginViewModel extends ChangeNotifier{
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
+  late TzDialog _dialog;
 
 
   bool appleStatus = false;
   String errorMessage = "Something went wrong !!";
   AppleLoginViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
   handleAppleLogin() async {
@@ -292,15 +292,15 @@ class AppleLoginViewModel extends ChangeNotifier{
 
 
 class FacebookLoginViewModel extends ChangeNotifier{
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
-  TzDialog _dialog;
+  late TzDialog _dialog;
   bool fbStatus = false;
   String errorMessage = "Something went wrong !!";
   FacebookLoginViewModel() {
     _dialog = TzDialog(
-        _navigationService.navigationKey.currentContext, TzDialogType.progress);
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
   handleFacebookLogin() async {
@@ -318,7 +318,7 @@ class FacebookLoginViewModel extends ChangeNotifier{
       print("in hereeeee");
 
       LoginRepository loginRepository = LoginRepository();
-      final FacebookAccessToken accessToken = res.accessToken;
+      final FacebookAccessToken accessToken = res.accessToken!;
       fbStatus = await loginRepository.facebookMobileLogin(accessToken.token);
      if(fbStatus) {
        token = tempToken;

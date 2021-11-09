@@ -1,61 +1,61 @@
 
 class OrderTrackResponse{
- String id;
- String orderId;
- String status;
- String pid;
- String posInvoiceNo;
- String itemOrderNo;
- String name;
- String slug;
- String img;
- String tracking;
- double shippingCharge;
- double price;
- int qty;
- int tax;
- String brandName;
- String brandImg;
- String size;
- String color;
- String trackingId;
- String returnTrackingId;
- String courierName;
- String returnCourierName;
- int days;
- String type;
+ String? id;
+ String? orderId;
+ String? status;
+ String? pid;
+ String? posInvoiceNo;
+ String? itemOrderNo;
+ String? name;
+ String? slug;
+ String? img;
+ String? tracking;
+ double? shippingCharge;
+ double? price;
+ int? qty;
+ int? tax;
+ String? brandName;
+ String? brandImg;
+ String? size;
+ String? color;
+ String? trackingId;
+ String? returnTrackingId;
+ String? courierName;
+ String? returnCourierName;
+ int? days;
+ String? type;
   //order level info
- String orderNo;
- String otp;
- String createdAt;
- String paySuccess;
- String paymentMode;
- String paymentStatus;
- String paymentCurrency;
- String paymentReferenceId;
- String paymentOrderId;
- String paymentReceipt;
- String paymentId;
- String invoiceId;
- String paymentGateway;
- double codPaid;
- double amountPaid;
- double amountDue;
- String paymentMsg;
- String paymentTime;
- bool paid;
- String userFirstName;
- String userLastName;
- String userPhone;
- String userEmail;
- String invoiceLink;
- String returnValidTill;
+ String? orderNo;
+ String? otp;
+ String? createdAt;
+ String? paySuccess;
+ String? paymentMode;
+ String? paymentStatus;
+ String? paymentCurrency;
+ String? paymentReferenceId;
+ String? paymentOrderId;
+ String? paymentReceipt;
+ String? paymentId;
+ String? invoiceId;
+ String? paymentGateway;
+ double? codPaid;
+ double? amountPaid;
+ double? amountDue;
+ String? paymentMsg;
+ String? paymentTime;
+ bool? paid;
+ String? userFirstName;
+ String? userLastName;
+ String? userPhone;
+ String? userEmail;
+ String? invoiceLink;
+ String? returnValidTill;
 //   user {
 //   id;
 //   firstName
 // }
-OrderTrackAddress address;
-List<OrderTrackHistory> orderHistory;
+OrderTrackAddress? address;
+List<OrderTrackHistory>? orderHistory;
 
 OrderTrackResponse({
    this.id,this.type,this.address,this.amountDue,this.amountPaid,
@@ -127,17 +127,17 @@ factory OrderTrackResponse.fromJson(Map<String,dynamic> json)=>OrderTrackRespons
 
 
 class OrderTrackAddress{
- String phone;
- String email;
- String  firstName;
- String lastName;
- String town;
- String city;
- String state;
- int zip;
- String address;
- String lat;
- String lng;
+ String? phone;
+ String? email;
+ String?  firstName;
+ String? lastName;
+ String? town;
+ String? city;
+ String? state;
+ int? zip;
+ String? address;
+ String? lat;
+ String? lng;
 
  OrderTrackAddress(
      {
@@ -168,14 +168,14 @@ class OrderTrackAddress{
 
 
 class OrderTrackHistory {
- String id;
- String status;
- String title;
- String body;
- String icon;
- bool public;
- int index;
- String time;
+ String? id;
+ String? status;
+ String? title;
+ String? body;
+ String? icon;
+ bool? public;
+ int? index;
+ String? time;
 
  OrderTrackHistory({
    this.status,this.id,this.title,this.body,this.icon,this.index,this.public,this.time

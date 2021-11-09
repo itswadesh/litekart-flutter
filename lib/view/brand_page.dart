@@ -14,9 +14,9 @@ import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 
 class BrandPage extends StatefulWidget {
-  final BrandData brand;
+  final BrandData? brand;
 
-  const BrandPage({Key key, @required this.brand}) : super(key: key);
+  const BrandPage({Key? key, required this.brand}) : super(key: key);
 
   @override
   _BrandPageState createState() => _BrandPageState();
@@ -39,14 +39,14 @@ class _BrandPageState extends State<BrandPage> {
           title: Container(
               height: 35,
               child: Image.network(
-                widget.brand.img,
+                widget.brand!.img!,
               )),
         ),
         body: Container(
           child: ChangeNotifierProvider(
             create: (BuildContext context) => BrandPageViewModel(widget.brand),
             child: Consumer<BrandPageViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               return SingleChildScrollView(
                 // child: ConstrainedBox(
                 //   constraints: BoxConstraints(
@@ -60,7 +60,7 @@ class _BrandPageState extends State<BrandPage> {
                       SliderBrandPage(viewModel: value),
                       SizedBox(height: 10),
                       SubBrandBrandPage(viewModel: value),
-                      PickedBrandPage(viewModel: value, brandName: widget.brand.slug),
+                      PickedBrandPage(viewModel: value, brandName: widget.brand!.slug),
                       BrandVideo(viewModel: value),
                     ],
                   ),
@@ -75,16 +75,16 @@ class _BrandPageState extends State<BrandPage> {
 class SliderBrandPage extends StatelessWidget {
   final BrandPageViewModel viewModel;
 
-  const SliderBrandPage({Key key, @required this.viewModel}) : super(key: key);
+  const SliderBrandPage({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<BannerData>>(
+    return FutureBuilder<List<BannerData>?>(
       future: viewModel.fetchSliderBannerData(), // async work
       builder:
-          (BuildContext context, AsyncSnapshot<List<BannerData>> snapshot) {
-        if (snapshot.hasData && snapshot.data.length>0) {
-          List<BannerData> bannerData = snapshot.data;
+          (BuildContext context, AsyncSnapshot<List<BannerData>?> snapshot) {
+        if (snapshot.hasData && snapshot.data!.length>0) {
+          List<BannerData> bannerData = snapshot.data!;
           return CarouselSlider.builder(
             itemCount: bannerData.length,
             options: CarouselOptions(
@@ -150,36 +150,36 @@ class SliderBrandPage extends StatelessWidget {
 class SubBrandBrandPage extends StatelessWidget {
   final BrandPageViewModel viewModel;
 
-  const SubBrandBrandPage({Key key, @required this.viewModel})
+  const SubBrandBrandPage({Key? key, required this.viewModel})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BrandResponse>(
+    return FutureBuilder<BrandResponse?>(
       future: viewModel.fetchSubBrandData(), // async work
-      builder: (BuildContext context, AsyncSnapshot<BrandResponse> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<BrandResponse?> snapshot) {
         if (snapshot.hasData) {
-          BrandResponse bannerData = snapshot.data;
+          BrandResponse bannerData = snapshot.data!;
 
           return Container(
-            height: bannerData.data.length > 0 ? ScreenUtil().setWidth(61) : 0,
+            height: bannerData.data!.length > 0 ? ScreenUtil().setWidth(61) : 0,
             margin: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(30), 0, ScreenUtil().setWidth(30), 0),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: bannerData.data.length,
+                itemCount: bannerData.data!.length,
                 itemBuilder: (_, index) {
-                  if (bannerData.data[index] != null) {
+                  if (bannerData.data![index] != null) {
                     return
                       InkWell(
                           onTap: (){
-                            if(bannerData.data[index].name==null || bannerData.data[index].name==""){
+                            if(bannerData.data![index].name==null || bannerData.data![index].name==""){
 
                             }
                             else{
                               locator<NavigationService>().push(MaterialPageRoute(
                                   builder: (context) => ProductList(
-                                      "", "", bannerData.data[index].name,"","","")));
+                                      "", "", bannerData.data![index].name,"","","")));
                             }
                           },
                           child:
@@ -192,8 +192,8 @@ class SubBrandBrandPage extends StatelessWidget {
                         color: Colors.transparent,
                         image: new DecorationImage(
                           fit: BoxFit.contain,
-                          image: bannerData.data[index].img != null
-                              ? NetworkImage(bannerData.data[index].img)
+                          image: bannerData.data![index].img != null
+                              ? NetworkImage(bannerData.data![index].img!)
                               : NetworkImage(
                                   'https://next.anne.com/icon.png'),
                         ),
@@ -215,17 +215,17 @@ class SubBrandBrandPage extends StatelessWidget {
 class PickedBrandPage extends StatelessWidget {
   final BrandPageViewModel viewModel;
   final brandName;
-  const PickedBrandPage({Key key, @required this.viewModel, this.brandName}) : super(key: key);
+  const PickedBrandPage({Key? key, required this.viewModel, this.brandName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<Map<String, List<BannerData>>>(
+    return FutureBuilder<Map<String?, List<BannerData>>?>(
       future: viewModel.fetchPickedBannerData(),
       builder: (BuildContext context,
-          AsyncSnapshot<Map<String, List<BannerData>>> snapshot) {
+          AsyncSnapshot<Map<String?, List<BannerData>>?> snapshot) {
         if (snapshot.hasData) {
-          Map<String, List<BannerData>> data = snapshot.data;
+          Map<String?, List<BannerData>> data = snapshot.data!;
 
           return
             // Expanded(
@@ -255,7 +255,7 @@ class PickedBrandPage extends StatelessWidget {
                           Expanded(
                             child: ListView.separated(
                               itemBuilder: (_, int _index) {
-                                BannerData banner = data[key][_index];
+                                BannerData banner = data[key]![_index];
 
                                 return InkWell(
                                     onTap: () async{
@@ -274,7 +274,7 @@ class PickedBrandPage extends StatelessWidget {
                                       // }
                                       else{
                                         locator<NavigationService>().push(MaterialPageRoute(
-                                            builder: (context) => ProductList("", "", "", banner.link.contains("parentBrand")?"":brandName, "",
+                                            builder: (context) => ProductList("", "", "", banner.link!.contains("parentBrand")?"":brandName, "",
                                                 banner.link)));
                                       }
                                     },
@@ -287,7 +287,7 @@ class PickedBrandPage extends StatelessWidget {
                                   ),
                                 ));
                               },
-                              itemCount: data[key].length,
+                              itemCount: data[key]!.length,
                               scrollDirection: Axis.horizontal,
                               separatorBuilder:
                                   (BuildContext context, int index) {
@@ -315,21 +315,21 @@ class PickedBrandPage extends StatelessWidget {
 class BrandVideo extends StatelessWidget {
   final BrandPageViewModel viewModel;
 
-  const BrandVideo({Key key, @required this.viewModel}) : super(key: key);
+  const BrandVideo({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BannerData>(
+    return FutureBuilder<BannerData?>(
       future: viewModel.fetchVideoBannerData(), // async work
-      builder: (BuildContext context, AsyncSnapshot<BannerData> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<BannerData?> snapshot) {
         if (snapshot.hasData) {
-          BannerData bannerData = snapshot.data;
+          BannerData bannerData = snapshot.data!;
           return Container(
            // color: Colors.indigo,
             width: ScreenUtil().setWidth(380),
             height: 200,
             child: ChewieClass(
-              videoPlayerController: VideoPlayerController.network(bannerData.img),
+              videoPlayerController: VideoPlayerController.network(bannerData.img!),
               looping: true,
             ),
             //height: MediaQuery.of(context).size.height * 0.10,
@@ -344,10 +344,10 @@ class BrandVideo extends StatelessWidget {
 
 class ChewieClass extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
-  final bool looping;
+  final bool? looping;
 
   const ChewieClass(
-      {Key key, @required this.videoPlayerController, this.looping})
+      {Key? key, required this.videoPlayerController, this.looping})
       : super(key: key);
 
   @override
@@ -355,7 +355,7 @@ class ChewieClass extends StatefulWidget {
 }
 
 class _ChewieClassState extends State<ChewieClass> {
-  ChewieController _chewieController;
+  late ChewieController _chewieController;
   
   @override
   void initState() {
@@ -367,7 +367,7 @@ class _ChewieClassState extends State<ChewieClass> {
       aspectRatio: 20 / 9,
       autoInitialize: true,
       autoPlay: true,
-      looping: widget.looping,
+      looping: widget.looping!,
       showControls: false,
       showControlsOnInitialize: false,
       showOptions: false,

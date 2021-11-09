@@ -1,37 +1,37 @@
 import '../../response_handler/brandResponse.dart';
 
 class ProductData {
-  String id;
-  String sku;
-  String slug;
-  String name;
-  String type;
-  double price;
-  double mrp;
-  int stock;
-  String img;
-  List<String> images;
-  String time;
-  bool active;
-  int popularity;
-  int position;
-  bool trending;
-  bool featured;
-  bool hot;
-  bool sale;
-  bool recommend;
-  String title;
-  String metaDescription;
-  String keywords;
-  String itemId;
-  BrandData brand;
-  String description;
-  String barcode;
-  List<LiveStream> channels;
+  String? id;
+  String? sku;
+  String? slug;
+  String? name;
+  String? type;
+  double? price;
+  double? mrp;
+  int? stock;
+  String? img;
+  List<String>? images;
+  String? time;
+  bool? active;
+  int? popularity;
+  int? position;
+  bool? trending;
+  bool? featured;
+  bool? hot;
+  bool? sale;
+  bool? recommend;
+  String? title;
+  String? metaDescription;
+  String? keywords;
+  String? itemId;
+  BrandData? brand;
+  String? description;
+  String? barcode;
+  List<LiveStream>? channels;
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
-  ProductColor color;
-  ProductSize size;
+  ProductColor? color;
+  ProductSize? size;
 
   //ProductSize size;
   // List<ProductVariant> variants;
@@ -129,44 +129,44 @@ class ProductData {
 }
 
 class ProductDetailData {
-  String id;
-  String sku;
-  String slug;
-  String name;
-  String type;
-  double price;
-  double mrp;
-  int stock;
-  String img;
-  List<String> images;
-  String time;
-  bool active;
-  int popularity;
-  int position;
-  bool trending;
-  bool featured;
-  bool hot;
-  bool sale;
-  bool recommend;
-  String title;
-  String metaDescription;
-  String keywords;
-  String itemId;
-  BrandData brand;
-  String description;
-  String barcode;
-  String link;
-  List<String> keyFeature;
-  List<Specifications> specifications;
-  List<ProductDetails> productDetails;
+  String? id;
+  String? sku;
+  String? slug;
+  String? name;
+  String? type;
+  double? price;
+  double? mrp;
+  int? stock;
+  String? img;
+  List<String>? images;
+  String? time;
+  bool? active;
+  int? popularity;
+  int? position;
+  bool? trending;
+  bool? featured;
+  bool? hot;
+  bool? sale;
+  bool? recommend;
+  String? title;
+  String? metaDescription;
+  String? keywords;
+  String? itemId;
+  BrandData? brand;
+  String? description;
+  String? barcode;
+  String? link;
+  List<String>? keyFeature;
+  List<Specifications>? specifications;
+  List<ProductDetails>? productDetails;
 
   // List<SizeGroup> sizeGroup;
   // List<ColorGroup> colorGroup;
-  ProductColor color;
-  ProductSize size;
-  List<Features> features;
-  String countryOfOrigin;
-  String warranty;
+  ProductColor? color;
+  ProductSize? size;
+  List<Features>? features;
+  String? countryOfOrigin;
+  String? warranty;
 
   //ProductSize size;
   // List<ProductVariant> variants;
@@ -288,15 +288,15 @@ class ProductDetailData {
 }
 
 class ProductVariant {
-  String id;
-  String name;
-  int stock;
-  double weight;
-  String sku;
-  int mrp;
-  int price;
-  List<String> images;
-  bool active;
+  String? id;
+  String? name;
+  int? stock;
+  double? weight;
+  String? sku;
+  int? mrp;
+  int? price;
+  List<String>? images;
+  bool? active;
 
   ProductVariant(
       {this.stock,
@@ -322,9 +322,9 @@ class ProductVariant {
 }
 
 class ColorGroup {
-  String id;
-  String slug;
-  ColorData color;
+  String? id;
+  String? slug;
+  ColorData? color;
 
   ColorGroup({this.slug, this.id, this.color});
 
@@ -337,8 +337,8 @@ class ColorGroup {
 }
 
 class ColorData {
-  String name;
-  int colorCode;
+  String? name;
+  int? colorCode;
 
   ColorData({this.name, this.colorCode});
 
@@ -359,9 +359,9 @@ class ColorData {
 }
 
 class SizeGroup {
-  String id;
-  String slug;
-  SizeData size;
+  String? id;
+  String? slug;
+  SizeData? size;
 
   SizeGroup({this.slug, this.id, this.size});
 
@@ -373,7 +373,7 @@ class SizeGroup {
 }
 
 class SizeData {
-  String name;
+  String? name;
 
   SizeData({
     this.name,
@@ -385,8 +385,8 @@ class SizeData {
 }
 
 class ProductSize {
-  String name;
-  String id;
+  String? name;
+  String? id;
 
   ProductSize({
     this.id,
@@ -398,8 +398,8 @@ class ProductSize {
 }
 
 class ProductColor {
-  String name;
-  String id;
+  String? name;
+  String? id;
 
   ProductColor({
     this.id,
@@ -411,9 +411,9 @@ class ProductColor {
 }
 
 class Features {
-  String id;
-  String name;
-  String value;
+  String? id;
+  String? name;
+  String? value;
 
   Features({this.name, this.id, this.value});
 
@@ -422,9 +422,9 @@ class Features {
 }
 
 class Specifications {
-  String id;
-  String name;
-  String value;
+  String? id;
+  String? name;
+  String? value;
 
   Specifications({this.name, this.id, this.value});
 
@@ -433,9 +433,9 @@ class Specifications {
 }
 
 class ProductDetails {
-  String id;
-  String name;
-  String value;
+  String? id;
+  String? name;
+  String? value;
 
   ProductDetails({this.name, this.id, this.value});
 
@@ -446,11 +446,11 @@ class ProductDetails {
 
 class LiveStream {
 
- String id;
- String title;
- String img;
- String scheduleDateTime;
- StreamUser user ;
+ String? id;
+ String? title;
+ String? img;
+ String? scheduleDateTime;
+ StreamUser? user ;
 
  LiveStream({
    this.id,this.img,this.title,this.user,this.scheduleDateTime
@@ -468,8 +468,8 @@ class LiveStream {
 
 class StreamUser {
 
-  String firstName;
-  String lastName;
+  String? firstName;
+  String? lastName;
 
   StreamUser({
     this.firstName,this.lastName

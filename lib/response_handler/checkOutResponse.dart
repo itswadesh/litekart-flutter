@@ -1,16 +1,16 @@
 import '../../model/address.dart';
 
 class CheckOutResponse {
-  String id;
-  String orderNo;
-  String otp;
-  CheckOutAmount amount;
-  String paymentOrderId;
-  String delivery;
-  List<CheckOutData> items;
-  Address address;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? orderNo;
+  String? otp;
+  CheckOutAmount? amount;
+  String? paymentOrderId;
+  String? delivery;
+  List<CheckOutData>? items;
+  Address? address;
+  String? createdAt;
+  String? updatedAt;
 
   CheckOutResponse(
       {this.items,
@@ -41,11 +41,11 @@ class CheckOutResponse {
 }
 
 class CheckOutAmount {
-  int qty;
-  double subtotal;
-  double discount;
-  double shipping;
-  int total;
+  int? qty;
+  double? subtotal;
+  double? discount;
+  double? shipping;
+  int? total;
 
   CheckOutAmount(
       {this.qty, this.discount, this.subtotal, this.shipping, this.total});
@@ -59,14 +59,14 @@ class CheckOutAmount {
 }
 
 class CheckOutData {
-  String status;
-  String pid;
-  String name;
-  String slug;
-  String img;
-  int qty;
-  double price;
-  String brand;
+  String? status;
+  String? pid;
+  String? name;
+  String? slug;
+  String? img;
+  int? qty;
+  double? price;
+  String? brand;
 
   CheckOutData(
       {this.qty,

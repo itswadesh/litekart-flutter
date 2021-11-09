@@ -17,7 +17,7 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   ConnectivityBloc _connectivityBloc = ConnectivityBloc.instance;
-  double aspectRatio;
+  double? aspectRatio;
   final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
@@ -164,9 +164,9 @@ class _OnboardingState extends State<Onboarding> {
   }
 
   Widget getScreens(
-      {@required String image,
-      @required String title,
-      @required String description}) {
+      {required String image,
+      required String title,
+      required String description}) {
     return Padding(
       padding: EdgeInsets.only(top: 40, right: 40, left: 40, bottom: 10),
       child: Column(

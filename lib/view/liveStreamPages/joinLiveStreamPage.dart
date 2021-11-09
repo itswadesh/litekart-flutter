@@ -8,7 +8,7 @@ import 'package:video_player/video_player.dart';
 
 
 class JoinLiveStreamPlayerPage extends StatefulWidget{
-  final ChannelData channelData;
+  final ChannelData? channelData;
   JoinLiveStreamPlayerPage(this.channelData);
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +19,7 @@ class JoinLiveStreamPlayerPage extends StatefulWidget{
 
 class _JoinLiveStreamPlayerPage extends State<JoinLiveStreamPlayerPage>{
 
-  ChannelData channelData;
+  ChannelData? channelData;
   @override
   void initState() {
     channelData = widget.channelData;
@@ -32,7 +32,7 @@ class _JoinLiveStreamPlayerPage extends State<JoinLiveStreamPlayerPage>{
           appBar: AppBar(
               backgroundColor: Colors.white,
               title:  Text(
-                    channelData.title,
+                    channelData!.title!,
                     style: TextStyle(
                         color: Color(0xff757575),
                         fontSize: ScreenUtil().setSp(
@@ -45,7 +45,7 @@ class _JoinLiveStreamPlayerPage extends State<JoinLiveStreamPlayerPage>{
           body: Container(
               width: MediaQuery.of(context).size.width,
               child: StreamPlayerPage(
-            videoPlayerController: VideoPlayerController.network(channelData.httpPullUrl),
+            videoPlayerController: VideoPlayerController.network(channelData!.httpPullUrl!),
           ))
         );
   }
@@ -53,10 +53,10 @@ class _JoinLiveStreamPlayerPage extends State<JoinLiveStreamPlayerPage>{
 
 class StreamPlayerPage extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
-  final bool looping;
+  final bool? looping;
 
   const StreamPlayerPage(
-      {Key key, @required this.videoPlayerController, this.looping})
+      {Key? key, required this.videoPlayerController, this.looping})
       : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class StreamPlayerPage extends StatefulWidget {
 }
 
 class _StreamPlayerState extends State<StreamPlayerPage> {
-  ChewieController _chewieController;
+  late ChewieController _chewieController;
 
   @override
   void initState() {

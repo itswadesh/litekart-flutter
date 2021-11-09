@@ -7,8 +7,8 @@ import '../../service/navigation/navigation_service.dart';
 import '../../utility/locator.dart';
 
 class ZoomImage extends StatefulWidget {
-  final List<String> imageLinks;
-  final int index;
+  final List<String>? imageLinks;
+  final int? index;
 
   ZoomImage(this.imageLinks, this.index);
 
@@ -17,12 +17,12 @@ class ZoomImage extends StatefulWidget {
 }
 
 class _ZoomImageState extends State<ZoomImage> {
-  PageController pageController;
+  PageController? pageController;
 
   @override
   void initState() {
     pageController = PageController(
-        initialPage: widget.index, keepPage: true, viewportFraction: 1);
+        initialPage: widget.index!, keepPage: true, viewportFraction: 1);
     super.initState();
   }
 
@@ -33,17 +33,17 @@ class _ZoomImageState extends State<ZoomImage> {
         child: Stack(
           children: [
             PageView.builder(
-              itemCount: widget.imageLinks.length,
+              itemCount: widget.imageLinks!.length,
               itemBuilder: (_, int index) {
-                return widget.imageLinks[index].contains("https://www.youtube.com/")?
+                return widget.imageLinks![index].contains("https://www.youtube.com/")?
                 //Column(children: [
                   //SizedBox(height: ScreenUtil().setWidth(175),),
-                  YoutubeVideoPlayClass(widget.imageLinks[index])
+                  YoutubeVideoPlayClass(widget.imageLinks![index])
 
                 //],)
                     : PinchZoom(
                     child: Image.network(
-                      widget.imageLinks[index],
+                      widget.imageLinks![index],
                       errorBuilder: ((context,object,stackTrace){
                         return Image.asset("assets/images/logo.png");
                       }),
@@ -60,7 +60,7 @@ class _ZoomImageState extends State<ZoomImage> {
               alignment: Alignment.centerLeft,
               child: InkWell(
                 onTap: () {
-                  pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.easeIn);
+                  pageController!.previousPage(duration: Duration(milliseconds: 100), curve: Curves.easeIn);
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -79,7 +79,7 @@ class _ZoomImageState extends State<ZoomImage> {
               alignment: Alignment.centerRight,
               child: InkWell(
                 onTap: () {
-                  pageController.nextPage(duration: Duration(milliseconds: 100), curve: Curves.easeInOut);
+                  pageController!.nextPage(duration: Duration(milliseconds: 100), curve: Curves.easeInOut);
                 },
                 child: Container(
                   margin: EdgeInsets.only(

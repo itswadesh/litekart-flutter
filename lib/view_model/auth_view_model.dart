@@ -8,10 +8,10 @@ import '../utility/graphQl.dart';
 class ProfileModel extends ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  User _user;
+  User? _user;
   bool editStatus = false;
   AuthRepository authRepository = AuthRepository();
-  User get user {
+  User? get user {
     return _user;
   }
 
@@ -20,7 +20,7 @@ class ProfileModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<User> returnProfile() async {
+  Future<User?> returnProfile() async {
     _user = await authRepository.getProfile();
     return _user;
   }

@@ -1,10 +1,10 @@
 import '../../model/address.dart';
 
 class AddressResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<Address> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<Address>? data;
 
   AddressResponse({this.count, this.page, this.data, this.pageSize});
 

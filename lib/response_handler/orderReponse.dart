@@ -1,10 +1,10 @@
 
 
 class OrderResponse {
-  int count;
-  int pageSize;
-  int page;
-  List<OrderData> data;
+  int? count;
+  int? pageSize;
+  int? page;
+  List<OrderData>? data;
 
   OrderResponse({this.data, this.pageSize, this.page, this.count});
 
@@ -18,31 +18,31 @@ class OrderResponse {
 }
 
 class OrderData {
- String id;
- String orderNo;
- String otp;
- String createdAt;
- String updatedAt;
-  String paymentMode;
- String paymentStatus;
- String paymentCurrency;
- String paymentReferenceId;
- String paymentOrderId;
- String paymentReceipt;
- String invoiceId;
- String paymentGateway;
- double codPaid;
- double amountPaid;
- double amountDue;
- String paymentMsg;
- String paymentTime;
- bool paid;
- OrderAmount amount;
- String userFirstName;
- String userLastName;
- String userPhone;
- OrderAddress address;
- List<OrderItems> items;
+ String? id;
+ String? orderNo;
+ String? otp;
+ String? createdAt;
+ String? updatedAt;
+  String? paymentMode;
+ String? paymentStatus;
+ String? paymentCurrency;
+ String? paymentReferenceId;
+ String? paymentOrderId;
+ String? paymentReceipt;
+ String? invoiceId;
+ String? paymentGateway;
+ double? codPaid;
+ double? amountPaid;
+ double? amountDue;
+ String? paymentMsg;
+ String? paymentTime;
+ bool? paid;
+ OrderAmount? amount;
+ String? userFirstName;
+ String? userLastName;
+ String? userPhone;
+ OrderAddress? address;
+ List<OrderItems>? items;
 
  OrderData({
    this.id,this.items,this.paymentMode,this.updatedAt,
@@ -85,25 +85,25 @@ class OrderData {
 }
 
 class OrderItems {
-  String id;
-  String pid;
-  String posInvoiceNo;
-  String itemOrderNo;
-  String name;
-  String barcode;
-  String img;
-  String slug;
-  double price;
-  int qty;
-  double shippingCharge;
-  double tax;
-  String time;
-  String options;
-  String brandName;
-  String brandImg;
-  String status;
-  List<OrderStatus> orderStatus;
-  OrderVendor vendor;
+  String? id;
+  String? pid;
+  String? posInvoiceNo;
+  String? itemOrderNo;
+  String? name;
+  String? barcode;
+  String? img;
+  String? slug;
+  double? price;
+  int? qty;
+  double? shippingCharge;
+  double? tax;
+  String? time;
+  String? options;
+  String? brandName;
+  String? brandImg;
+  String? status;
+  List<OrderStatus>? orderStatus;
+  OrderVendor? vendor;
 
   OrderItems({
     this.id,
@@ -139,11 +139,11 @@ class OrderItems {
 }
 
 class OrderVendor {
-  String firstName;
-  String lastName;
-  String phone;
+  String? firstName;
+  String? lastName;
+  String? phone;
  // String address;
-  String store;
+  String? store;
 
   OrderVendor({
     //this.address,
@@ -161,10 +161,10 @@ class OrderVendor {
 }
 
 class OrderStatus {
- String id;
- String event;
- String trackingId;
- String courierName;
+ String? id;
+ String? event;
+ String? trackingId;
+ String? courierName;
 
  OrderStatus({
    this.id,this.courierName,this.event,this.trackingId
@@ -182,17 +182,17 @@ class OrderStatus {
 
 class OrderAddress {
 
-  String firstName;
-  String lastName;
-  String address;
-  String town;
-  String city;
-  String lat;
-  String lng;
-  String state;
-  int zip;
-  String email;
-  String phone;
+  String? firstName;
+  String? lastName;
+  String? address;
+  String? town;
+  String? city;
+  String? lat;
+  String? lng;
+  String? state;
+  int? zip;
+  String? email;
+  String? phone;
 
 
   OrderAddress(
@@ -225,12 +225,12 @@ class OrderAddress {
 }
 
 class OrderAmount {
-  int qty;
-  double subtotal;
-  double tax;
-  double discount;
-  double total;
-  double shipping;
+  int? qty;
+  double? subtotal;
+  double? tax;
+  double? discount;
+  double? total;
+  double? shipping;
 
   OrderAmount({this.tax,this.qty,this.discount,this.subtotal,this.shipping,this.total});
 

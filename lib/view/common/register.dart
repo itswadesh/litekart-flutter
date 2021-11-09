@@ -31,7 +31,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _cPasswordController = TextEditingController();
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isCheckBox = true;
@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_focusNode);
     });
     super.initState();
@@ -319,7 +319,7 @@ class _RegisterState extends State<Register> {
               ),
               InkWell(
                 onTap: () async {
-                  _focusNode.unfocus();
+                  _focusNode!.unfocus();
                   await model.register(_emailController.text,_passwordController.text,_cPasswordController.text,_firstNameController.text,_lastNameController.text);
                   if (model.registerStatus) {
                     token = tempToken;

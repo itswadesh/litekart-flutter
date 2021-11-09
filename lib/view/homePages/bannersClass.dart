@@ -34,7 +34,7 @@ class _BannersClass extends State<BannersClass> {
 
   Widget getBannersList() {
     return Consumer<BannerViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.statusBanner == "loading") {
             Provider.of<BannerViewModel>(context, listen: false).fetchBannerData();
             return Container();
@@ -43,14 +43,14 @@ class _BannersClass extends State<BannersClass> {
           } else if (value.statusBanner == "error") {
             return SizedBox.shrink();
           } else {
-            return Column(children: getColumn(value.bannerResponse));
+            return Column(children: getColumn(value.bannerResponse!));
           }
         });
   }
 
   getColumn(BannerResponse bannerResponse) {
     List<Widget> children = [];
-    for (int i = 0; i < bannerResponse.groupByBanner.length; i++) {
+    for (int i = 0; i < bannerResponse.groupByBanner!.length; i++) {
       children.add(
         SizedBox(
           height: 10,
@@ -59,22 +59,22 @@ class _BannersClass extends State<BannersClass> {
       children.add(InkWell(
           onTap: () async {
 
-            if (bannerResponse.groupByBanner[i].data[0].link == null ||
-                bannerResponse.groupByBanner[i].data[0].link == "") {
+            if (bannerResponse.groupByBanner![i].data![0].link == null ||
+                bannerResponse.groupByBanner![i].data![0].link == "") {
 
             }
-            else if(bannerResponse.groupByBanner[i].data[0].link.contains(ApiEndpoint().brandLink)){
-              for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+            else if(bannerResponse.groupByBanner![i].data![0].link!.contains(ApiEndpoint().brandLink!)){
+              for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data!.length;i++)
               {
-                if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[0].link.split(ApiEndpoint().brandLink)[1]){
-                  locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                if(Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i].name!.toLowerCase()==bannerResponse.groupByBanner![i].data![0].link!.split(ApiEndpoint().brandLink!)[1]){
+                  locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i]});
                 }
               }
             }
             else{
               locator<NavigationService>().push(MaterialPageRoute(
                   builder: (context) => ProductList("", "", "", "", "",
-                      bannerResponse.groupByBanner[i].data[0].link)));
+                      bannerResponse.groupByBanner![i].data![0].link)));
             }
           },
           child: Container(
@@ -85,22 +85,22 @@ class _BannersClass extends State<BannersClass> {
                             return Image.asset("assets/images/logo.png");
                           }),
                 placeholder: 'assets/images/loading.gif',
-                image: bannerResponse.groupByBanner[i].data[0].img+"?tr=w-414,fo-auto"),
+                image: bannerResponse.groupByBanner![i].data![0].img!+"?tr=w-414,fo-auto"),
           )));
       children.add(
         SizedBox(
           height: 10,
         ),
       );
-if(bannerResponse.groupByBanner[i].data.length>1){
+if(bannerResponse.groupByBanner![i].data!.length>1){
       children.add(Container(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         height: 185,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: bannerResponse.groupByBanner[i].data.length,
+            itemCount: bannerResponse.groupByBanner![i].data!.length,
             itemBuilder: (BuildContext context, index) {
-              if (bannerResponse.groupByBanner[0].data != null) {
+              if (bannerResponse.groupByBanner![0].data != null) {
                 return InkWell(
                   onTap: () {},
                   child: Column(children: [
@@ -114,24 +114,24 @@ if(bannerResponse.groupByBanner[i].data.length>1){
                         Tracking(event: EVENT_HOME_PROMO_BANNER, data: data);
 
 
-                        if (bannerResponse.groupByBanner[i].data[index].link == null ||
-                            bannerResponse.groupByBanner[i].data[index].link == "") {
+                        if (bannerResponse.groupByBanner![i].data![index].link == null ||
+                            bannerResponse.groupByBanner![i].data![index].link == "") {
 
                         }
-                        else if(bannerResponse.groupByBanner[i].data[index].link.contains(ApiEndpoint().brandLink)){
+                        else if(bannerResponse.groupByBanner![i].data![index].link!.contains(ApiEndpoint().brandLink!)){
 
-                          for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+                          for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data!.length;i++)
                           {
 
-                            if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[index].link.split(ApiEndpoint().brandLink)[1]){
-                              locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                            if(Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i].name!.toLowerCase()==bannerResponse.groupByBanner![i].data![index].link!.split(ApiEndpoint().brandLink!)[1]){
+                              locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i]});
                             }
                           }
                         }
                         else{
                           locator<NavigationService>().push(MaterialPageRoute(
                               builder: (context) => ProductList("", "", "", "", "",
-                                  bannerResponse.groupByBanner[i].data[index].link)));
+                                  bannerResponse.groupByBanner![i].data![index].link)));
                         }
                       },
                       child: index == 0
@@ -144,7 +144,7 @@ if(bannerResponse.groupByBanner[i].data.length>1){
                           }),
                           placeholder: 'assets/images/loading.gif',
                           image: bannerResponse
-                              .groupByBanner[i].data[index].img+"?tr=h-160,fo-auto",
+                              .groupByBanner![i].data![index].img!+"?tr=h-160,fo-auto",
                         ),
                         margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 10, 0, 0),
                       ),

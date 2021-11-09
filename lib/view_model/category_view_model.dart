@@ -4,12 +4,12 @@ import '../../response_handler/categoryResponse.dart';
 import '../../utility/query_mutation.dart';
 
 class CategoryViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
   CategoryRepository categoryRepository = CategoryRepository();
-  CategoriesResponse _categoriesResponse;
+  CategoriesResponse? _categoriesResponse;
 
-  CategoriesResponse get categoryResponse {
+  CategoriesResponse? get categoryResponse {
     return _categoriesResponse;
   }
 

@@ -107,7 +107,7 @@ class _StreamList extends State<StreamList>{
   @override
   Widget build(BuildContext context) {
     return Consumer<ChannelViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
         Provider.of<ChannelViewModel>(context, listen: false)
             .fetchChannelData(null,null,null,"","","","");
@@ -128,9 +128,9 @@ class _StreamList extends State<StreamList>{
       height: ScreenUtil().setWidth(450),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: value.channelResponse.data.length,
+          itemCount: value.channelResponse!.data!.length,
           itemBuilder: (BuildContext context, index){
-          return StreamCard(value.channelResponse.data[index]);
+          return StreamCard(value.channelResponse!.data![index]);
       }),
     );}});
   }
@@ -159,7 +159,7 @@ class StreamCard extends StatelessWidget{
        border: Border.all(color: Color(0xfff3f3f3),width: 5),
        borderRadius: BorderRadius.circular(ScreenUtil().radius(25),),
      image: DecorationImage(
-         image: channelData.img!=null? NetworkImage(channelData.img):AssetImage("assets/images/logo.png"),
+         image: (channelData.img!=null? NetworkImage(channelData.img!):AssetImage("assets/images/logo.png")) as ImageProvider<Object>,
        fit: BoxFit.cover
      ),
      ),

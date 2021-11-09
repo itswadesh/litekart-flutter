@@ -37,7 +37,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
 
   Widget getBannersList() {
     return Consumer<BannerViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.statusPickedBanner == "loading") {
             Provider.of<BannerViewModel>(context, listen: false).fetchPickedBannerData();
             return Container();
@@ -46,15 +46,15 @@ class _PickedBannersClass extends State<PickedBannersClass> {
           } else if (value.statusPickedBanner == "error") {
             return SizedBox.shrink();
           } else {
-            return Column(children: getColumn(value.pickedBannerResponse));
+            return Column(children: getColumn(value.pickedBannerResponse!));
           }
         });
   }
 
   getColumn(BannerResponse bannerResponse) {
     List<Widget> children = [];
-    for (int i = 0; i < bannerResponse.groupByBanner.length; i++) {
-      log(bannerResponse.groupByBanner[i].title);
+    for (int i = 0; i < bannerResponse.groupByBanner!.length; i++) {
+      log(bannerResponse.groupByBanner![i].title!);
       children.add( Container(
         color:Color(0xffffffff),
         height: ScreenUtil().setWidth(15),
@@ -81,7 +81,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
         //   width: 2.0, // This would be the width of the underline
         // ))),
         child: Text(
-          bannerResponse.groupByBanner[i].title,
+          bannerResponse.groupByBanner![i].title!,
           style: ThemeApp()
               .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
         ),
@@ -96,7 +96,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
         child: ListView.builder(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             scrollDirection: Axis.horizontal,
-            itemCount: bannerResponse.groupByBanner[i].data.length,
+            itemCount: bannerResponse.groupByBanner![i].data!.length,
             itemBuilder: (BuildContext context, index) {
               return InkWell(
                 onTap: () {},
@@ -111,24 +111,24 @@ class _PickedBannersClass extends State<PickedBannersClass> {
                       // Tracking(event: EVENT_HOME_PROMO_BANNER, data: data);
 
 
-                      if (bannerResponse.groupByBanner[i].data[index].link == null ||
-                          bannerResponse.groupByBanner[i].data[index].link == "") {
+                      if (bannerResponse.groupByBanner![i].data![index].link == null ||
+                          bannerResponse.groupByBanner![i].data![index].link == "") {
 
                       }
-                      else if(bannerResponse.groupByBanner[i].data[index].link.contains(ApiEndpoint().brandLink)){
+                      else if(bannerResponse.groupByBanner![i].data![index].link!.contains(ApiEndpoint().brandLink!)){
 
-                        for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+                        for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data!.length;i++)
                         {
 
-                          if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==bannerResponse.groupByBanner[i].data[index].link.split(ApiEndpoint().brandLink)[1]){
-                            locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                          if(Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i].name!.toLowerCase()==bannerResponse.groupByBanner![i].data![index].link!.split(ApiEndpoint().brandLink!)[1]){
+                            locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i]});
                           }
                         }
                       }
                       else{
                         locator<NavigationService>().push(MaterialPageRoute(
                             builder: (context) => ProductList("", "", "", "", "",
-                                bannerResponse.groupByBanner[i].data[index].link)));
+                                bannerResponse.groupByBanner![i].data![index].link)));
                       }
                     },
                     child:  Container(
@@ -142,7 +142,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
                         }),
                         placeholder: 'assets/images/loading.gif',
                         image: bannerResponse
-                            .groupByBanner[i].data[index].img+"?tr=h-220,fo-auto",
+                            .groupByBanner![i].data![index].img!+"?tr=h-220,fo-auto",
                       ),
                       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 0, 0, 0),
                     ),

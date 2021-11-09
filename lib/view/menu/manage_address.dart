@@ -29,7 +29,7 @@ class _ManageAddressState extends State<ManageAddress> {
   var primaryAddressBox = -1;
   var buttonStatusAddress = true;
   var buttonStatusOrder = true;
-  String addressId = "new";
+  String? addressId = "new";
   TextEditingController _phone = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _pin = TextEditingController();
@@ -91,20 +91,20 @@ class _ManageAddressState extends State<ManageAddress> {
           onTap: () {
             setState(() {
               _phone.text = Provider.of<ProfileModel>(context, listen: false)
-                      .user
+                      .user!
                       .phone ??
                   "";
               _firstName.text =
                   Provider.of<ProfileModel>(context, listen: false)
-                          .user
+                          .user!
                           .firstName ??
                       "";
               _lastName.text = Provider.of<ProfileModel>(context, listen: false)
-                      .user
+                      .user!
                       .lastName ??
                   "";
               _email.text = Provider.of<ProfileModel>(context, listen: false)
-                      .user
+                      .user!
                       .email ??
                   "";
               newAddress = !newAddress;
@@ -212,7 +212,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'First Name is Required';
                       }
                       return null;
@@ -244,7 +244,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Last Name is Required';
                       }
                       return null;
@@ -276,7 +276,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Email is Required';
                       }
                       return null;
@@ -308,7 +308,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Phone number is Required';
                       }
                       return null;
@@ -355,7 +355,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty && value.length != 6) {
+                      if (value!.isEmpty && value.length != 6) {
                         return 'A 6 digit Pin is Required';
                       }
                       return null;
@@ -407,7 +407,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'City Name is Required';
                       }
                       return null;
@@ -440,7 +440,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'State Name is Required';
                       }
                       return null;
@@ -473,7 +473,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Country Name is Required';
                       }
                       return null;
@@ -506,7 +506,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Address is Required';
                       }
                       return null;
@@ -538,7 +538,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   Container(
                       child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Town Name is Required';
                       }
                       return null;
@@ -609,10 +609,10 @@ class _ManageAddressState extends State<ManageAddress> {
                   InkWell(
                     onTap: () async {
                       if (buttonStatusAddress) {
-                        if (!_formKey.currentState.validate()) {
+                        if (!_formKey.currentState!.validate()) {
                           return;
                         }
-                        _formKey.currentState.save();
+                        _formKey.currentState!.save();
                         primaryAddressBox = -1;
                         setState(() {
                           primaryAddressBox = -1;
@@ -697,7 +697,7 @@ class _ManageAddressState extends State<ManageAddress> {
 
   getDeliveryOptionCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
         Provider.of<AddressViewModel>(context, listen: false)
             .fetchAddressData();
@@ -735,12 +735,12 @@ class _ManageAddressState extends State<ManageAddress> {
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: value.addressResponse.data.length,
+            itemCount: value.addressResponse!.data!.length,
             itemBuilder: (BuildContext context, index) {
               return GestureDetector(
                 onTap: () async {
                   await Provider.of<AddressViewModel>(context, listen: false)
-                      .selectAddress(value.addressResponse.data[index]);
+                      .selectAddress(value.addressResponse!.data![index]);
                 },
                 child: Material(
                     //    color: Color(0xfff3f3f3),
@@ -810,7 +810,7 @@ class _ManageAddressState extends State<ManageAddress> {
                             EdgeInsets.only(left: ScreenUtil().setWidth(26)),
                             width: double.infinity,
                             child: Text(
-                              "${(value.addressResponse.data[index].firstName + " " + value.addressResponse.data[index].lastName) ?? "User"}",
+                              "${(value.addressResponse!.data![index].firstName! + " " + value.addressResponse!.data![index].lastName!) ?? "User"}",
                               style: TextStyle(
                                   color: Color(0xff525252),
                                   fontSize: ScreenUtil().setSp(
@@ -827,7 +827,7 @@ class _ManageAddressState extends State<ManageAddress> {
                         width: double.infinity,
                         child: Text(
                           "Address : " +
-                              value.addressResponse.data[index].address
+                              value.addressResponse!.data![index].address
                                   .toString(),
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
@@ -845,7 +845,7 @@ class _ManageAddressState extends State<ManageAddress> {
                         width: double.infinity,
                         child: Text(
                           "Pin : " +
-                              value.addressResponse.data[index].zip.toString(),
+                              value.addressResponse!.data![index].zip.toString(),
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -861,7 +861,7 @@ class _ManageAddressState extends State<ManageAddress> {
                             EdgeInsets.only(left: ScreenUtil().setWidth(26)),
                         width: double.infinity,
                         child: Text(
-                          value.addressResponse.data[index].phone.toString(),
+                          value.addressResponse!.data![index].phone.toString(),
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -877,7 +877,7 @@ class _ManageAddressState extends State<ManageAddress> {
                             EdgeInsets.only(left: ScreenUtil().setWidth(26)),
                         width: double.infinity,
                         child: Text(
-                          value.addressResponse.data[index].email.toString(),
+                          value.addressResponse!.data![index].email.toString(),
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -935,28 +935,28 @@ class _ManageAddressState extends State<ManageAddress> {
                           InkWell(
                               onTap: () async {
                                 addressId =
-                                    value.addressResponse.data[index].id;
+                                    value.addressResponse!.data![index].id;
                                 _phone.text =
-                                    value.addressResponse.data[index].phone;
+                                    value.addressResponse!.data![index].phone!;
                                 _address.text =
-                                    value.addressResponse.data[index].address;
+                                    value.addressResponse!.data![index].address!;
                                 _pin.text = value
-                                    .addressResponse.data[index].zip
+                                    .addressResponse!.data![index].zip
                                     .toString();
                                 _email.text =
-                                    value.addressResponse.data[index].email;
+                                    value.addressResponse!.data![index].email!;
                                 _town.text =
-                                    value.addressResponse.data[index].town;
+                                    value.addressResponse!.data![index].town!;
                                 _city.text =
-                                    value.addressResponse.data[index].city;
+                                    value.addressResponse!.data![index].city!;
                                 _country.text =
-                                    value.addressResponse.data[index].country;
+                                    value.addressResponse!.data![index].country!;
                                 _state.text =
-                                    value.addressResponse.data[index].state;
+                                    value.addressResponse!.data![index].state!;
                                 _firstName.text = value
-                                    .addressResponse.data[index].firstName;
+                                    .addressResponse!.data![index].firstName!;
                                 _lastName.text = value
-                                    .addressResponse.data[index].lastName;
+                                    .addressResponse!.data![index].lastName!;
                                 setState(() {
                                   newAddress = !newAddress;
                                 });
@@ -979,7 +979,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 await Provider.of<AddressViewModel>(context,
                                     listen: false)
                                     .deleteAddress(
-                                    value.addressResponse.data[index].id);
+                                    value.addressResponse!.data![index].id);
                               },
                               child: Container(
                                 width: ScreenUtil().setWidth(215),

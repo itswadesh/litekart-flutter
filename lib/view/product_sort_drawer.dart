@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../service/event/tracking.dart';
 import '../../values/event_constant.dart';
 
-typedef SortValue = Function(String);
+typedef SortValue = Function(String?);
 
 class ProductSortDrawer extends StatefulWidget {
   final sort;
@@ -90,7 +90,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
                             child: Container(
                                 padding: EdgeInsets.only(bottom: ScreenUtil().setWidth(25)),
                                 child: Text(
-                                                  sorts[index]["name"],
+                                                  sorts[index]["name"]!,
                                                   style: TextStyle(
                                                       color: (sorts[index]["val"] == sort)
                                               ?Color(0xff000000):Color(0xff656565),

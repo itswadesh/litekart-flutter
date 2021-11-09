@@ -24,7 +24,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCard extends State<ProductCard> {
-  ProductData  item;
+  late ProductData  item;
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _ProductCard extends State<ProductCard> {
                         return Image.asset("assets/images/logo.png");
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.img+"?tr=w-193,fo-auto",
+                      image: item.img!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
@@ -127,7 +127,7 @@ class _ProductCard extends State<ProductCard> {
                       child: Text(
                         item.brand == null
                             ? ""
-                            : (item.brand.name ?? ""),
+                            : (item.brand!.name ?? ""),
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(
                             12,
@@ -143,7 +143,7 @@ class _ProductCard extends State<ProductCard> {
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
                           ScreenUtil().setWidth(20), 0),
-                      child: Text(item.name,
+                      child: Text(item.name!,
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -161,7 +161,7 @@ class _ProductCard extends State<ProductCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
-                        "${store.currencySymbol} " + item.price.toString() + " ",
+                        "${store!.currencySymbol} " + item.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -169,9 +169,9 @@ class _ProductCard extends State<ProductCard> {
                             fontWeight: FontWeight.w600,
                             color: Color(0xff4a4a4a)),
                       ),
-                      item.price < item.mrp
+                      item.price! < item.mrp!
                           ? Text(
-                        " ${store.currencySymbol} " + item.mrp.toString(),
+                        " ${store!.currencySymbol} " + item.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
@@ -180,9 +180,9 @@ class _ProductCard extends State<ProductCard> {
                             color: Color(0xff4a4a4a)),
                       )
                           : Container(),
-                      item.price < item.mrp
+                      item.price! < item.mrp!
                           ? Flexible(child: Text(
-                        " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
+                        " (${(100 - ((item.price! / item.mrp!) * 100)).toInt()} % off)",
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(

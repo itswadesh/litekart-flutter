@@ -31,7 +31,7 @@ class _VideoBannersClass extends State<VideoBannersClass> {
 
   Widget getBannersList() {
     return Consumer<BannerViewModel>(
-        builder: (BuildContext context, BannerViewModel value, Widget child) {
+        builder: (BuildContext context, BannerViewModel value, Widget? child) {
           if (value.statusVideoBanner == "loading") {
             Provider.of<BannerViewModel>(context, listen: false).fetchVideoBannerData();
             return Container();
@@ -41,12 +41,12 @@ class _VideoBannersClass extends State<VideoBannersClass> {
             return Container();
           } else {
 
-            return value.videoBannerResponse.data.length>0? Container(
+            return value.videoBannerResponse!.data!.length>0? Container(
               // color: Colors.indigo,
               width: ScreenUtil().setWidth(380),
               height: 200,
               child: ChewieClass(
-                videoPlayerController: VideoPlayerController.network(value.videoBannerResponse.data[0].img),
+                videoPlayerController: VideoPlayerController.network(value.videoBannerResponse!.data![0].img!),
                 looping: true,
               ),
               //height: MediaQuery.of(context).size.height * 0.10,

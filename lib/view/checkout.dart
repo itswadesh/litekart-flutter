@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 //import 'package:flutter_braintree/flutter_braintree.dart';
@@ -76,7 +77,7 @@ class _Checkout extends State<Checkout> {
   var primaryAddressBox = -1;
   var buttonStatusAddress = true;
   var buttonStatusOrder = true;
-  String addressId = "new";
+  String? addressId = "new";
   TextEditingController cvv = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _address = TextEditingController();
@@ -105,8 +106,8 @@ class _Checkout extends State<Checkout> {
     ListItem(12, "12"),
   ];
 
-  List<DropdownMenuItem<ListItem>> _dropdownMonthItems;
-  ListItem _selectedMonth;
+  List<DropdownMenuItem<ListItem>>? _dropdownMonthItems;
+  ListItem? _selectedMonth;
 
   List<ListItem> _dropdownYear = [
     ListItem(1, "21"),
@@ -121,17 +122,17 @@ class _Checkout extends State<Checkout> {
     ListItem(10, "30"),
   ];
 
-  List<DropdownMenuItem<ListItem>> _dropdownYearItems;
-  ListItem _selectedYear;
+  List<DropdownMenuItem<ListItem>>? _dropdownYearItems;
+  ListItem? _selectedYear;
   final cardNumber = MaskedTextController(mask: '0000-0000-0000-0000');
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     _dropdownMonthItems = buildDropDownMenuItems(_dropdownMonth);
-    _selectedMonth = _dropdownMonthItems[0].value;
+    _selectedMonth = _dropdownMonthItems![0].value;
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
-    _selectedYear = _dropdownYearItems[0].value;
+    _selectedYear = _dropdownYearItems![0].value;
     super.initState();
     // StripePayment.setOptions(StripeOptions(
     //     publishableKey: settingData.stripePublishableKey,
@@ -142,7 +143,7 @@ class _Checkout extends State<Checkout> {
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
     List<DropdownMenuItem<ListItem>> items = [];
-    for (ListItem listItem in listItems) {
+    for (ListItem listItem in listItems as Iterable<ListItem>) {
       items.add(
         DropdownMenuItem(
           child: Text(
@@ -202,7 +203,7 @@ class _Checkout extends State<Checkout> {
 
   getBillCard() {
     return Consumer<CartViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           return Material(
               color: Color(0xfff3f3f3),
               // borderRadius: BorderRadius.circular(2),
@@ -314,7 +315,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + value.cartResponse
+                            Text("${store!.currencySymbol} " + value.cartResponse!
                                 .subtotal.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
@@ -335,7 +336,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text(value.cartResponse.qty.toString(),
+                            Text(value.cartResponse!.qty.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
                                     fontSize: ScreenUtil().setSp(
@@ -346,7 +347,7 @@ class _Checkout extends State<Checkout> {
                         SizedBox(
                           height: ScreenUtil().setWidth(16),
                         ),
-                        value.cartResponse.discount.amount > 0
+                        value.cartResponse!.discount!.amount! > 0
                             ? Column(
                           children: [
                             Row(
@@ -360,8 +361,8 @@ class _Checkout extends State<Checkout> {
                                           16,
                                         ))),
                                 Text(
-                                    "${store.currencySymbol} " +
-                                        value.cartResponse.discount.amount
+                                    "${store!.currencySymbol} " +
+                                        value.cartResponse!.discount!.amount
                                             .toString(),
                                     style: TextStyle(
                                         color: Color(0xff616161),
@@ -385,7 +386,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + value.cartResponse
+                            Text("${store!.currencySymbol} " + value.cartResponse!
                                 .shipping.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
@@ -394,7 +395,7 @@ class _Checkout extends State<Checkout> {
                                     )))
                           ],
                         ),
-                        value.promocodeStatus
+                        value.promocodeStatus!
                             ? SizedBox(
                           height: ScreenUtil().setWidth(16),
                         ) : Container(),
@@ -427,7 +428,7 @@ class _Checkout extends State<Checkout> {
                         //         ],
                         //       )
                         //     : SizedBox.shrink(),
-                        value.promocodeStatus
+                        value.promocodeStatus!
                             ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -438,11 +439,11 @@ class _Checkout extends State<Checkout> {
                                       16,
                                     ))),
                             Text(
-                                value.promocodeStatus
+                                value.promocodeStatus!
                                     ? "Applied"
                                     : "Not Applied",
                                 style: TextStyle(
-                                    color: value.promocodeStatus
+                                    color: value.promocodeStatus!
                                         ? AppColors.primaryElement2
                                         : Colors.red,
                                     fontSize: ScreenUtil().setSp(
@@ -482,8 +483,8 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + (value
-                                .cartResponse.total).toString(),
+                            Text("${store!.currencySymbol} " + (value
+                                .cartResponse!.total).toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff000000),
@@ -506,7 +507,7 @@ class _Checkout extends State<Checkout> {
 
   getDeliveryCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           return Container(
             // padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -530,7 +531,7 @@ class _Checkout extends State<Checkout> {
                                 : Colors.grey),
                       ),
                       onPressed: () async {
-                        paymentHandle(value.selectedAddress.id);
+                        paymentHandle(value.selectedAddress!.id);
                       },
                       child: Text(
                         'Place Order',
@@ -566,8 +567,8 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "${value.selectedAddress.firstName + " " +
-                      value.selectedAddress.lastName ?? "User"}",
+                  "${value.selectedAddress!.firstName! + " " +
+                      value.selectedAddress!.lastName! ?? "User"}",
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -581,7 +582,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "Address : " + value.selectedAddress.address.toString(),
+                  "Address : " + value.selectedAddress!.address.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -596,7 +597,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "Pin : " + value.selectedAddress.zip.toString(),
+                  "Pin : " + value.selectedAddress!.zip.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -610,7 +611,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  value.selectedAddress.phone.toString(),
+                  value.selectedAddress!.phone.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -624,7 +625,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  value.selectedAddress.email.toString(),
+                  value.selectedAddress!.email.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -639,7 +640,7 @@ class _Checkout extends State<Checkout> {
 
   getDeliveryOptionCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.status == "loading") {
             Provider.of<AddressViewModel>(context, listen: false)
                 .fetchAddressData();
@@ -680,13 +681,13 @@ class _Checkout extends State<Checkout> {
 
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: value.addressResponse.data.length,
+                itemCount: value.addressResponse!.data!.length,
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
                     onTap: () async {
                       await Provider.of<AddressViewModel>(
                           context, listen: false)
-                          .selectAddress(value.addressResponse.data[index]);
+                          .selectAddress(value.addressResponse!.data![index]);
                     },
                     child: Material(
                         color: Color(0xfffffff),
@@ -723,9 +724,9 @@ class _Checkout extends State<Checkout> {
                                         //   },
                                         //   child:
                                         (value.selectedAddress != null &&
-                                            (value.selectedAddress.id ==
-                                                value.addressResponse
-                                                    .data[index].id))
+                                            (value.selectedAddress!.id ==
+                                                value.addressResponse!
+                                                    .data![index].id))
                                             ? Icon(
                                           Icons.check_circle,
                                           color: AppColors.primaryElement,
@@ -743,10 +744,10 @@ class _Checkout extends State<Checkout> {
                                         Container(
                                           width: ScreenUtil().setWidth(245),
                                           child: Text(
-                                            "${(value.addressResponse
-                                                .data[index].firstName + " " +
-                                                value.addressResponse
-                                                    .data[index].lastName) ??
+                                            "${(value.addressResponse!
+                                                .data![index].firstName! + " " +
+                                                value.addressResponse!
+                                                    .data![index].lastName!) ??
                                                 "User"}",
                                             style: TextStyle(
                                                 color: Color(0xff525252),
@@ -767,7 +768,7 @@ class _Checkout extends State<Checkout> {
                                       width: double.infinity,
                                       child: Text(
                                         "Address : " +
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .address
                                                 .toString(),
                                         style: TextStyle(
@@ -787,7 +788,7 @@ class _Checkout extends State<Checkout> {
                                       width: double.infinity,
                                       child: Text(
                                         "Pin : " +
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .zip.toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -805,7 +806,7 @@ class _Checkout extends State<Checkout> {
                                           left: ScreenUtil().setWidth(26)),
                                       width: double.infinity,
                                       child: Text(
-                                        value.addressResponse.data[index].phone
+                                        value.addressResponse!.data![index].phone
                                             .toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -823,7 +824,7 @@ class _Checkout extends State<Checkout> {
                                           left: ScreenUtil().setWidth(26)),
                                       width: double.infinity,
                                       child: Text(
-                                        value.addressResponse.data[index].email
+                                        value.addressResponse!.data![index].email
                                             .toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -883,38 +884,38 @@ class _Checkout extends State<Checkout> {
                                   InkWell(
                                       onTap: () async {
                                         addressId =
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .id;
                                         _phone.text =
-                                            value.addressResponse.data[index]
-                                                .phone;
+                                            value.addressResponse!.data![index]
+                                                .phone!;
                                         _address.text =
-                                            value.addressResponse.data[index]
-                                                .address;
+                                            value.addressResponse!.data![index]
+                                                .address!;
                                         _pin.text = value
-                                            .addressResponse.data[index].zip
+                                            .addressResponse!.data![index].zip
                                             .toString();
                                         _email.text =
-                                            value.addressResponse.data[index]
-                                                .email;
+                                            value.addressResponse!.data![index]
+                                                .email!;
                                         _town.text =
-                                            value.addressResponse.data[index]
-                                                .town;
+                                            value.addressResponse!.data![index]
+                                                .town!;
                                         _city.text =
-                                            value.addressResponse.data[index]
-                                                .city;
+                                            value.addressResponse!.data![index]
+                                                .city!;
                                         _country.text =
-                                            value.addressResponse.data[index]
-                                                .country;
+                                            value.addressResponse!.data![index]
+                                                .country!;
                                         _state.text =
-                                            value.addressResponse.data[index]
-                                                .state;
+                                            value.addressResponse!.data![index]
+                                                .state!;
                                         _firstName.text = value
-                                            .addressResponse.data[index]
-                                            .firstName;
+                                            .addressResponse!.data![index]
+                                            .firstName!;
                                         _lastName.text = value
-                                            .addressResponse.data[index]
-                                            .lastName;
+                                            .addressResponse!.data![index]
+                                            .lastName!;
                                         setState(() {
                                           newAddress = !newAddress;
                                         });
@@ -941,7 +942,7 @@ class _Checkout extends State<Checkout> {
                                             context,
                                             listen: false)
                                             .deleteAddress(
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .id);
                                       },
                                       child: Container(
@@ -1286,7 +1287,7 @@ class _Checkout extends State<Checkout> {
                         ),
                       ),
                       Consumer<CartViewModel>(
-                          builder: (BuildContext context, value, Widget child) {
+                          builder: (BuildContext context, value, Widget? child) {
                             return Container(
                                 color: Color(0xffffffff),
                                 child:
@@ -1308,9 +1309,9 @@ class _Checkout extends State<Checkout> {
                                           mainAxisAlignment: MainAxisAlignment
                                               .spaceBetween,
                                           children: [
-                                            Text(value.promocodeStatus
+                                            Text(value.promocodeStatus!
                                                 ? "Applied Promocode (" +
-                                                value.promocode + ")"
+                                                value.promocode! + ")"
                                                 : "Apply Promocode"),
                                             Icon(FontAwesomeIcons.angleRight,
                                               color: Color(0xffd0d0d0),
@@ -1362,14 +1363,14 @@ class _Checkout extends State<Checkout> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<CartViewModel>(builder:
-                      (BuildContext context, value, Widget child) {
+                      (BuildContext context, value, Widget? child) {
                     if (value.cartResponse == null ||
-                        value.cartResponse.items.length == 0) {
+                        value.cartResponse!.items!.length == 0) {
                       return Container();
                     }
                     return Text(
-                        "TOTAL : ${store.currencySymbol} " +
-                            (value.cartResponse.total).toString()
+                        "TOTAL : ${store!.currencySymbol} " +
+                            (value.cartResponse!.total).toString()
                         //"$total"
                         ,
                         style: TextStyle(
@@ -1457,14 +1458,14 @@ class _Checkout extends State<Checkout> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<CartViewModel>(builder:
-                      (BuildContext context, value, Widget child) {
+                      (BuildContext context, value, Widget? child) {
                     if (value.cartResponse == null ||
-                        value.cartResponse.items.length == 0) {
+                        value.cartResponse!.items!.length == 0) {
                       return Container();
                     }
                     return Text(
-                        "TOTAL : ${store.currencySymbol} " +
-                            (value.cartResponse.total).toString()
+                        "TOTAL : ${store!.currencySymbol} " +
+                            (value.cartResponse!.total).toString()
                         //"$total"
                         ,
                         style: TextStyle(
@@ -1475,7 +1476,7 @@ class _Checkout extends State<Checkout> {
                   }),
                   Container(
                     child: Consumer<AddressViewModel>(
-    builder: (BuildContext context, value, Widget child) {
+    builder: (BuildContext context, value, Widget? child) {
     return  Container(
                             width: ScreenUtil().setWidth(150),
                             height: ScreenUtil().setHeight(42),
@@ -1492,7 +1493,7 @@ class _Checkout extends State<Checkout> {
                                         : Colors.grey),
                               ),
                               onPressed: () async {
-                                paymentHandle(value.selectedAddress.id);
+                                paymentHandle(value.selectedAddress!.id);
                               },
                               child: Text(
                                 "PLACE ORDER",
@@ -1536,24 +1537,24 @@ class _Checkout extends State<Checkout> {
               setState(() {
                 _phone.text = Provider
                     .of<ProfileModel>(context, listen: false)
-                    .user
+                    .user!
                     .phone ??
                     "";
                 _firstName.text =
                     Provider
                         .of<ProfileModel>(context, listen: false)
-                        .user
+                        .user!
                         .firstName ??
                         "";
                 _lastName.text =
                     Provider
                         .of<ProfileModel>(context, listen: false)
-                        .user
+                        .user!
                         .lastName ??
                         "";
                 _email.text = Provider
                     .of<ProfileModel>(context, listen: false)
-                    .user
+                    .user!
                     .email ??
                     "";
                 newAddress = !newAddress;
@@ -1601,7 +1602,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'First Name is Required';
                       }
                       return null;
@@ -1633,7 +1634,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Last Name is Required';
                       }
                       return null;
@@ -1665,7 +1666,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Email is Required';
                       }
                       return null;
@@ -1697,7 +1698,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Phone number is Required';
                       }
                       return null;
@@ -1744,7 +1745,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty && value.length != 6) {
+                      if (value!.isEmpty && value.length != 6) {
                         return 'A 6 digit Pin is Required';
                       }
                       return null;
@@ -1796,7 +1797,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'City Name is Required';
                       }
                       return null;
@@ -1829,7 +1830,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'State Name is Required';
                       }
                       return null;
@@ -1862,7 +1863,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Country Name is Required';
                       }
                       return null;
@@ -1895,7 +1896,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Address is Required';
                       }
                       return null;
@@ -1927,7 +1928,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Town Name is Required';
                       }
                       return null;
@@ -2008,10 +2009,10 @@ class _Checkout extends State<Checkout> {
                   ),
                   onPressed: () async {
                     if (buttonStatusAddress) {
-                      if (!_formKey.currentState.validate()) {
+                      if (!_formKey.currentState!.validate()) {
                         return;
                       }
-                      _formKey.currentState.save();
+                      _formKey.currentState!.save();
                       primaryAddressBox = -1;
                       setState(() {
                         primaryAddressBox = -1;
@@ -2718,7 +2719,7 @@ class _Checkout extends State<Checkout> {
   }
 
   void paymentHandle(selectedAddressId) async {
-    double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
+    double? amount = Provider.of<CartViewModel>(context,listen: false).cartResponse!.total;
     if (buttonStatusOrder) {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
@@ -2729,9 +2730,9 @@ class _Checkout extends State<Checkout> {
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
           try {
-            log("stripe"+settingData.stripePublishableKey.toString());
+            log("stripe"+settingData!.stripePublishableKey.toString());
            await stripe.StripePlatform.instance.initialise(
-                publishableKey: settingData.stripePublishableKey);
+                publishableKey: settingData!.stripePublishableKey!);
             // CreditCard creditCard = CreditCard(
             //   number: cardNumber.text.replaceAll("-", ""),
             //   name: cardHolder.text,
@@ -2740,11 +2741,11 @@ class _Checkout extends State<Checkout> {
             //   cvc: cvv.text,
             // );
            log(cardNumber.text.replaceAll("-", ""));
-           log(_selectedMonth.value.toString());
+           log(_selectedMonth!.value.toString());
            stripe.CardDetails card = stripe.CardDetails(
                   number: cardNumber.text.replaceAll("-", ""),
-                  expirationMonth: _selectedMonth.value,
-                  expirationYear: int.parse(_selectedYear.name),
+                  expirationMonth: _selectedMonth!.value,
+                  expirationYear: int.parse(_selectedYear!.name),
                   cvc: cvv.text
               );
             // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
@@ -2832,7 +2833,7 @@ class _Checkout extends State<Checkout> {
 
       else if(paymentMethod=="paypal"){
         BrainTreeRepository brainTreeRepository = BrainTreeRepository();
-        double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
+        double? amount = Provider.of<CartViewModel>(context,listen: false).cartResponse!.total;
         
         var responseTokenData = await brainTreeRepository.brainTreeToken(selectedAddressId);
         if(responseTokenData["status"]=="completed") {
@@ -2857,7 +2858,7 @@ class _Checkout extends State<Checkout> {
               collectDeviceData: true,
               cardEnabled: true,
             );
-            final result = await BraintreeDropIn.start(request);
+            final result = await (BraintreeDropIn.start(request) as FutureOr<BraintreeDropInResult>);
             log("here i come");
            log(result.paymentMethodNonce.nonce);
               var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
@@ -2966,7 +2967,7 @@ class _Checkout extends State<Checkout> {
         .changeStatus("loading");
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
-    var result;
+    late var result;
     if(paymentMode=="credit") {
       result = await checkoutRepository.paySuccessPageHit("",orderId);
     }
@@ -3075,7 +3076,7 @@ class _Checkout extends State<Checkout> {
               ],
             ),
             content: Consumer<CartViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               if (value.statusPromo == "loading") {
                 Provider.of<CartViewModel>(context, listen: false)
                     .listCoupons();
@@ -3115,7 +3116,7 @@ class _Checkout extends State<Checkout> {
                     Container(
                       height: ScreenUtil().setWidth(250),
                       child: ListView.builder(
-                          itemCount: value.couponResponse.data.length,
+                          itemCount: value.couponResponse!.data!.length,
                           itemBuilder: (BuildContext build, index) {
                             return Container(
                               child: Column(
@@ -3128,13 +3129,13 @@ class _Checkout extends State<Checkout> {
                                                   context,
                                                   listen: false)
                                               .selectPromoCode(value
-                                                  .couponResponse
-                                                  .data[index]
+                                                  .couponResponse!
+                                                  .data![index]
                                                   .code);
                                         },
-                                        child: ((value.promocode ==
-                                                value.couponResponse.data[index]
-                                                    .code))
+                                        child: value.promocode ==
+                                                value.couponResponse!.data![index]
+                                                    .code
                                             ? Icon(
                                                 Icons.check_box,
                                                 color: AppColors.primaryElement,
@@ -3160,8 +3161,8 @@ class _Checkout extends State<Checkout> {
                                             width: ScreenUtil().setWidth(96),
                                             child: Center(
                                                 child: Text(
-                                              value.couponResponse.data[index]
-                                                  .code,
+                                              value.couponResponse!.data![index]
+                                                  .code!,
                                               style: TextStyle(
                                                   color: AppColors.primaryElement,
                                                   fontSize: ScreenUtil().setSp(
@@ -3179,7 +3180,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "Saves upto ${store.currencySymbol} ${value.couponResponse.data[index].maxAmount}",
+                                      "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),
@@ -3193,7 +3194,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "${value.couponResponse.data[index].text}",
+                                      "${value.couponResponse!.data![index].text}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),

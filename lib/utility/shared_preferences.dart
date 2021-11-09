@@ -5,10 +5,10 @@ Future<bool> addCookieToSF(cookie) async {
   return prefs.setString('cookie', cookie);
 }
 
-Future<String> getCookieFromSF() async {
+Future<String?> getCookieFromSF() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return String
-  String cookie = prefs.getString('cookie');
+  String? cookie = prefs.getString('cookie');
   return cookie;
 }
 
@@ -21,7 +21,7 @@ Future<bool> deleteCookieFromSF() async {
 Future<bool> showOnBoardingStatus() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.containsKey('showOnBoard')) {
-    if (prefs.getBool('showOnBoard')) {
+    if (prefs.getBool('showOnBoard')!) {
       return true;
     } else {
       changeOnBoardingStatus(false);

@@ -71,7 +71,7 @@ class ProductViewSpecialCard extends StatelessWidget {
                               0,
                               ScreenUtil().setWidth(17),
                               0),
-                          child: Text(productData.name,
+                          child: Text(productData.name!,
                               style: TextStyle(
                                   color: Color(0xff4A4A4A),
                                   fontSize: ScreenUtil().setSp(
@@ -92,7 +92,7 @@ class ProductViewSpecialCard extends StatelessWidget {
                           child: Text(
                             productData.brand == null
                                 ? ""
-                                : (productData.brand.name ?? ""),
+                                : (productData.brand!.name ?? ""),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -137,7 +137,7 @@ class ProductViewSpecialCard extends StatelessWidget {
                                   color: AppColors.primaryElement2,
                                 ),
                               ),
-                              productData.price < productData.mrp
+                              productData.price! < productData.mrp!
                                   ? Text(
                                       " ₹ " + productData.mrp.toString(),
                                       style: TextStyle(
@@ -165,7 +165,7 @@ class ProductViewSpecialCard extends StatelessWidget {
                 offset: Offset(ScreenUtil().setWidth(8), 0),
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/images/loading.gif',
-                  image: productData.img,
+                  image: productData.img!,
                   width: ScreenUtil().setWidth(70),
                   height: ScreenUtil().setWidth(125),
                   fit: BoxFit.cover,

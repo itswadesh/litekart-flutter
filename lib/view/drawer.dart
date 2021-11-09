@@ -80,8 +80,8 @@ class _HomeDrawer extends State<HomeDrawer> {
                       child: Container(
                           height: ScreenUtil().setWidth(90),
                           width: ScreenUtil().setWidth(90),
-                          child: (user.user !=null && user.user.avatar != null)
-                              ? Image.network(user.user.avatar,fit: BoxFit.contain,height: ScreenUtil().setWidth(90),
+                          child: (user.user !=null && user.user!.avatar != null)
+                              ? Image.network(user.user!.avatar!,fit: BoxFit.contain,height: ScreenUtil().setWidth(90),
                             width: ScreenUtil().setWidth(90),)
                               : Image.asset("assets/images/user.png",fit: BoxFit.contain,height: ScreenUtil().setWidth(90),
                             width: ScreenUtil().setWidth(90),)),
@@ -105,7 +105,7 @@ class _HomeDrawer extends State<HomeDrawer> {
                   padding: EdgeInsets.only(left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
 
                   child: Text(
-                    "${user.user!=null?(user.user.firstName ?? "User"):"User"}",
+                    "${user.user!=null?(user.user!.firstName ?? "User"):"User"}",
                     style: TextStyle(color: Color(0xff616161), fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),
                     textAlign: TextAlign.left,
                   ),
@@ -127,7 +127,7 @@ class _HomeDrawer extends State<HomeDrawer> {
     });
   }
 
-  Widget _createMenuDrawerItem({IconData icon, String text, String routePath}) {
+  Widget _createMenuDrawerItem({IconData? icon, String? text, String? routePath}) {
     return Consumer<MenuViewModel>(builder: (context, model, child) {
       return Container(
 
@@ -139,18 +139,18 @@ class _HomeDrawer extends State<HomeDrawer> {
               ),
               title:
                   //   Text(text, style: ThemeApp().textThemeGrey(),),
-                 Transform.translate(offset: Offset(-ScreenUtil().setWidth(25),0), child: Text(text,
+                 Transform.translate(offset: Offset(-ScreenUtil().setWidth(25),0), child: Text(text!,
                       style: TextStyle(color: Color(0xff616161), fontSize: 16),
                       textAlign: TextAlign.left)),
               onTap: () {
                 if(text=="Shop By Categories") {
                   locator<NavigationService>().pushNamed(
-                      routePath);
+                      routePath!);
                 }
                 else{
                   if(token!=null && token!=""){
                     locator<NavigationService>().pushNamed(
-                        routePath);
+                        routePath!);
                   }
                   else{
                     locator<NavigationService>().pushNamed(

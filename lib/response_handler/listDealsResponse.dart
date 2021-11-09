@@ -1,10 +1,10 @@
 import '../../model/product.dart';
 
 class ListDealsResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<DealsData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<DealsData>? data;
 
   ListDealsResponse({this.count, this.page, this.data, this.pageSize});
 
@@ -19,14 +19,14 @@ class ListDealsResponse {
 }
 
 class DealsData {
-  String id;
-  String name;
-  String startTime;
-  String endTime;
-  String startTimeISO;
-  String endTimeISO;
-  List<ProductData> products;
-  bool active;
+  String? id;
+  String? name;
+  String? startTime;
+  String? endTime;
+  String? startTimeISO;
+  String? endTimeISO;
+  List<ProductData>? products;
+  bool? active;
 
   DealsData(
       {this.id,

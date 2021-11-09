@@ -30,12 +30,12 @@ class _EmailLoginState extends State<EmailLogin> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_focusNode);
     });
     super.initState();
@@ -254,7 +254,7 @@ class _EmailLoginState extends State<EmailLogin> {
               ),
               InkWell(
                 onTap: () async {
-                  _focusNode.unfocus();
+                  _focusNode!.unfocus();
                       await model.login(_emailController.text,_passwordController.text);
                   if (model.loginStatus) {
                     token = tempToken;

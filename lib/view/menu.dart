@@ -22,7 +22,7 @@ class Menu extends StatefulWidget{
 
 class _MenuState extends State<Menu>{
 
-  MenuViewModel model;
+  late MenuViewModel model;
   @override
   void initState() {
     model = widget.model;

@@ -29,15 +29,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with CodeAutoFill {
   bool _phoneFieldValidate = false;
-  TextEditingController _mobileController;
-  FocusNode _focusNode;
-  String appSignature;
-  String otpCode;
+  TextEditingController? _mobileController;
+  FocusNode? _focusNode;
+  String? appSignature;
+  String? otpCode;
   int otpResendLimit = 5;
 
   TextEditingController _otpController = TextEditingController()..text = "";
 
-  StreamController<ErrorAnimationType> errorController;
+  StreamController<ErrorAnimationType>? errorController;
 
   bool hasError = false;
   String currentText = "";
@@ -51,7 +51,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
 
     errorController = StreamController<ErrorAnimationType>();
     _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_focusNode);
     });
     super.initState();
@@ -67,14 +67,14 @@ class _LoginState extends State<Login> with CodeAutoFill {
   void codeUpdated() {
     setState(() {
       otpCode = code;
-      _otpController.text = otpCode;
+      _otpController.text = otpCode!;
     });
   }
 
   @override
   void dispose() {
-    _mobileController.dispose();
-    errorController.close();
+    _mobileController!.dispose();
+    errorController!.close();
     super.dispose();
   }
 
@@ -265,18 +265,18 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         onTap: () async {
                           if (model.resendEnable &&
                               model.resendTrial < otpResendLimit) {
-                            if (_mobileController.text.isEmpty) {
+                            if (_mobileController!.text.isEmpty) {
                               setState(() {
                                 _phoneFieldValidate = true;
                               });
                             } else {
-                              if (_mobileController.text.length < otpResendLimit) {
+                              if (_mobileController!.text.length < otpResendLimit) {
                                 setState(() {
                                   _phoneFieldValidate = true;
                                 });
                               } else {
-                                _focusNode.unfocus();
-                                model.sendOtp(_mobileController.text);
+                                _focusNode!.unfocus();
+                                model.sendOtp(_mobileController!.text);
                               }
                             }
                             listenForCode();
@@ -490,12 +490,12 @@ class _LoginState extends State<Login> with CodeAutoFill {
           GestureDetector(
             onTap: () {
               if (model.resendEnable && model.resendTrial < otpResendLimit) {
-                if (_mobileController.text.isEmpty) {
+                if (_mobileController!.text.isEmpty) {
                   _phoneFieldValidate = true;
-                } else if (_mobileController.text.length < otpResendLimit) {
+                } else if (_mobileController!.text.length < otpResendLimit) {
                   _phoneFieldValidate = true;
-                } else if (_mobileController.text.length == otpResendLimit) {
-                  model.sendOtp(_mobileController.text);
+                } else if (_mobileController!.text.length == otpResendLimit) {
+                  model.sendOtp(_mobileController!.text);
                 }
               }
             },
@@ -521,11 +521,11 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         (model?.resendTrial ?? 0) < otpResendLimit
                         ? CountdownTimer(
                       widgetBuilder: ((BuildContext context,
-                          CurrentRemainingTime time) {
+                          CurrentRemainingTime? time) {
                         return Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            "wait ${time.sec.toString()} second",
+                            "wait ${time!.sec.toString()} second",
                             style: TextStyle(
                               color: AppColors.primaryElement,
                               fontWeight: FontWeight.w500,
@@ -552,14 +552,14 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 onLoading(context);
                 if (currentText.length != 4) {
                   Navigator.pop(context);
-                  errorController.add(ErrorAnimationType
+                  errorController!.add(ErrorAnimationType
                       .shake); // Triggering error shake animation
                   setState(() {
                     hasError = true;
                   });
                 } else {
                   await model.validateOtp(
-                      _mobileController.text, _otpController.text);
+                      _mobileController!.text, _otpController.text);
                   if (model.otpStatus) {
                     token = tempToken;
                     await Provider.of<ProfileModel>(context, listen: false)
@@ -611,7 +611,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
     if (tryAutoLogin && _otpController.text.length == 4 && model != null) {
       tryAutoLogin = false;
       onLoading(context);
-      await model.validateOtp(_mobileController.text, _otpController.text);
+      await model.validateOtp(_mobileController!.text, _otpController.text);
       if (model.otpStatus) {
         await Provider.of<ProfileModel>(context, listen: false).getProfile();
 

@@ -45,7 +45,7 @@ class _ProductList extends State<ProductList> {
   var searchVisible = false;
   ProductsRepository productsRepository = ProductsRepository();
   // ProductResponse productResponse;
-  String categoryName;
+  String? categoryName;
   final PagingController _pagingController = PagingController(firstPageKey: 0);
   List brandArr = [];
   List colorArr = [];
@@ -54,11 +54,11 @@ class _ProductList extends State<ProductList> {
   List priceRangeArr = [];
   List ageGroupArr = [];
   List discountArr = [];
-  String urlLink = "";
-  var brandId = "";
-  var brand = "";
+  String? urlLink = "";
+  String? brandId = "";
+  String? brand = "";
   var color = "";
-  var parentBrand = "";
+  String? parentBrand = "";
   var size = "";
   var gender = "";
   var priceRange = "";
@@ -66,7 +66,7 @@ class _ProductList extends State<ProductList> {
   var discount = "";
   int page = 0;
   var count = 0;
-  var sort = "-createdAt";
+  String? sort = "-createdAt";
   var facet;
   TextEditingController searchText = TextEditingController();
 
@@ -285,7 +285,7 @@ class _ProductList extends State<ProductList> {
                                       ageGroup = "";
                                       discount = "";
                                       bn.forEach((element) {
-                                        brand = brand + element + ",";
+                                        brand = brand! + element + ",";
                                       });
                                       cl.forEach((element) {
                                         color = color + element + ",";
@@ -345,7 +345,7 @@ class _ProductList extends State<ProductList> {
                 crossAxisCount: 2),
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, item, index) =>
+                itemBuilder: (context, dynamic item, index) =>
                     ProductListCard(item ?? ProductListData()),
                 // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                 //   error: _pagingController.error,
@@ -485,7 +485,7 @@ class _ProductList extends State<ProductList> {
                                                   width: ScreenUtil().setWidth(150),
                                                   child: Center(
                                                       child: Text(
-                                                        sorts[index]["name"],
+                                                        sorts[index]["name"]!,
                                                         style: TextStyle(
                                                             color: AppColors.primaryElement,
                                                             fontSize:

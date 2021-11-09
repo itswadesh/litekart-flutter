@@ -1,8 +1,8 @@
 class SliderResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<BannerData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<BannerData>? data;
 
   SliderResponse({this.count, this.page, this.data, this.pageSize});
 
@@ -16,7 +16,7 @@ class SliderResponse {
 }
 
 class BannerResponse {
-  List<GroupByBannerList> groupByBanner;
+  List<GroupByBannerList>? groupByBanner;
 
   BannerResponse({this.groupByBanner});
 
@@ -27,8 +27,8 @@ class BannerResponse {
 }
 
 class GroupByBannerList {
-  List<BannerData> data;
-  String title;
+  List<BannerData>? data;
+  String? title;
   GroupByBannerList({this.data,this.title});
 
   factory GroupByBannerList.fromJson(Map<String, dynamic> json) =>
@@ -40,17 +40,17 @@ class GroupByBannerList {
 }
 
 class BannerData {
-  String id;
-  String img;
-  String type;
-  String link;
-  String heading;
-  String pageId;
-  String groupId;
-  String groupTitle;
-  bool active;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? img;
+  String? type;
+  String? link;
+  String? heading;
+  String? pageId;
+  String? groupId;
+  String? groupTitle;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
 
   BannerData(
       {this.id,

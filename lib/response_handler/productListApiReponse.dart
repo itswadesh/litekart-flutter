@@ -1,8 +1,8 @@
 class ProductListApiResponse {
-  int count;
-  int took;
-  int page;
-  List<ProductListData> data;
+  int? count;
+  int? took;
+  int? page;
+  List<ProductListData>? data;
 
   ProductListApiResponse({this.data, this.page, this.count, this.took});
 
@@ -18,13 +18,13 @@ class ProductListApiResponse {
 }
 
 class ProductListData {
-  String id;
-  String name;
-  String brand;
-  List images;
-  double price;
-  double mrp;
-  int stock;
+  String? id;
+  String? name;
+  String? brand;
+  List? images;
+  double? price;
+  double? mrp;
+  int? stock;
 
   ProductListData(
       {this.id,
@@ -53,9 +53,9 @@ class ProductListData {
               : [],
           price: json["_source"] != null
               ? double.parse(json["_source"]["price"].toString()) ?? 0.0
-              : "",
+              : "" as double?,
           mrp: json["_source"] != null
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
-              : "",
+              : "" as double?,
           stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0);
 }

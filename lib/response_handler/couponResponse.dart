@@ -1,8 +1,8 @@
 class CouponResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<CouponData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<CouponData>? data;
 
   CouponResponse({this.count, this.page, this.data, this.pageSize});
 
@@ -16,22 +16,22 @@ class CouponResponse {
 }
 
 class CouponData {
-  bool active;
-  String createdAt;
-  String updatedAt;
-  String id;
-  String code;
-  int value;
-  String type;
-  String info;
-  String msg;
-  String text;
-  String terms;
-  String color;
-  int minimumCartValue;
-  int maxAmount;
-  String validFromDate;
-  String validToDate;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
+  String? id;
+  String? code;
+  int? value;
+  String? type;
+  String? info;
+  String? msg;
+  String? text;
+  String? terms;
+  String? color;
+  int? minimumCartValue;
+  int? maxAmount;
+  String? validFromDate;
+  String? validToDate;
 
   CouponData({
     this.id,

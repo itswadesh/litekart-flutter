@@ -41,13 +41,13 @@ class ApiProvider {
 
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["myScheduleDemos"] == null) {
+        if (resultData.data!["myScheduleDemos"] == null) {
           responseData = {"status": "empty"};
         } else {
 
           responseData = {
             "status": "completed",
-            "value": resultData.data["myScheduleDemos"]
+            "value": resultData.data!["myScheduleDemos"]
           };
         }
       }
@@ -85,13 +85,13 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["channels"] == null) {
+        if (resultData.data!["channels"] == null) {
           responseData = {"status": "empty"};
         } else {
 
           responseData = {
             "status": "completed",
-            "value": resultData.data["channels"]
+            "value": resultData.data!["channels"]
           };
         }
       }
@@ -120,13 +120,13 @@ class ApiProvider {
 
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["neteaseToken"] == null) {
+        if (resultData.data!["neteaseToken"] == null) {
           responseData = {"status": "empty"};
         } else {
 
           responseData = {
             "status": "completed",
-            "value": resultData.data["neteaseToken"]
+            "value": resultData.data!["neteaseToken"]
           };
         }
       }
@@ -157,13 +157,13 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        if (resultData.data == null || resultData.data["storeOne"] == null) {
+        if (resultData.data == null || resultData.data!["storeOne"] == null) {
           responseData = {"status": "empty"};
         } else {
           
           responseData = {
             "status": "completed",
-            "value": resultData.data["storeOne"]
+            "value": resultData.data!["storeOne"]
           };
         }
       }
@@ -189,12 +189,12 @@ class ApiProvider {
        
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["settings"] == null) {
+        if (resultData.data!["settings"] == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["settings"]
+            "value": resultData.data!["settings"]
           };
         }
       }
@@ -220,12 +220,12 @@ class ApiProvider {
        
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["product"] == null) {
+        if (resultData.data!["product"] == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["product"]
+            "value": resultData.data!["product"]
           };
         }
       }
@@ -252,13 +252,13 @@ class ApiProvider {
       
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["myAddresses"] == null ||
-            resultData.data["myAddresses"]["data"].length == 0) {
+        if (resultData.data!["myAddresses"] == null ||
+            resultData.data!["myAddresses"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["myAddresses"]
+            "value": resultData.data!["myAddresses"]
           };
         }
       }
@@ -288,7 +288,7 @@ class ApiProvider {
           'state': state,
           'zip': int.parse(pin),
           'phone': phone,
-          'store':store.id
+          'store':store!.id
         }),
       );
       if (result.hasException) {
@@ -327,9 +327,9 @@ class ApiProvider {
     } else {
       
       return {
-        "state": result.data["getLocationFromZip"]["state"],
-        "country": result.data["getLocationFromZip"]["country"],
-        "city": result.data["getLocationFromZip"]["city"],
+        "state": result.data!["getLocationFromZip"]["state"],
+        "country": result.data!["getLocationFromZip"]["country"],
+        "city": result.data!["getLocationFromZip"]["city"],
       };
     }
   }
@@ -376,8 +376,8 @@ class ApiProvider {
 
 
 
-  Future<User> getProfile() async {
-    User _user;
+  Future<User?> getProfile() async {
+    User? _user;
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
     
@@ -385,7 +385,7 @@ class ApiProvider {
       MutationOptions(
         document: gql(addMutation.me()),
         variables: {
-          "store":store.id
+          "store":store!.id
         }
       ),
     );
@@ -393,7 +393,7 @@ class ApiProvider {
     
       await deleteCookieFromSF();
     } else {
-      _user = User.fromJson(resultData.data["me"]);
+      _user = User.fromJson(resultData.data!["me"]);
     }
     return _user;
   }
@@ -409,7 +409,7 @@ class ApiProvider {
       'email': email,
       'lastName': lastName,
       'gender': gender,
-          "store":store.id
+          "store":store!.id
     }));
     if(!result.hasException){
       return true;
@@ -418,7 +418,7 @@ class ApiProvider {
   else {
     // var byteData = image.readAsBytesSync();
       final mimeTypeData = lookupMimeType(image.path,
-          headerBytes: [0xFF, 0xD8]).split('/');
+          headerBytes: [0xFF, 0xD8])!.split('/');
      
       var file = Multipartfile.MultipartFile.fromString(
           "image",
@@ -434,23 +434,23 @@ class ApiProvider {
             variables: {
               'files': [file],
               'folder': 'avatar',
-              'store': store.id
+              'store': store!.id
             }),
       );
       log(resultLink.toString());
-      if (!resultLink.hasException && resultLink.data!=null && resultLink.data['fileUpload'] != null) {
+      if (!resultLink.hasException && resultLink.data!=null && resultLink.data!['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
                 document: gql(addMutation.updateProfile()), variables: {
                   'avatar': resultLink
-                      .data['fileUpload']
+                      .data!['fileUpload']
                   [0]['url'],
               'phone': phone,
               'firstName': firstName,
               'email': email,
               'lastName': lastName,
               'gender': gender,
-              "store":store.id
+              "store":store!.id
             }));
         if(!result.hasException){
           return true;
@@ -466,7 +466,7 @@ class ApiProvider {
     GraphQLClient _client = graphQLConfiguration1.clientToQuery();
     await _client
         .mutate(MutationOptions(document: gql(addMutation.signOut()),variables: {
-          "store":store.id
+          "store":store!.id
     }));
     token = "";
     tempToken = "";
@@ -483,14 +483,14 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.groupByBanner()),
-            variables: {"type": "hero","pageId":"home","store":store.id
+            variables: {"type": "hero","pageId":"home","store":store!.id
               }),
       );
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["groupByBanner"] == null ||
-            resultData.data["groupByBanner"].length == null) {
+        if (resultData.data!["groupByBanner"] == null ||
+            resultData.data!["groupByBanner"].length == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {"status": "completed", "value": resultData.data};
@@ -511,15 +511,15 @@ class ApiProvider {
       var resultData = await _client1.mutate(
         MutationOptions(
             document: gql(addMutation.groupByBanner()),
-            variables: {"type": "picked","pageId":"home","store":store.id
+            variables: {"type": "picked","pageId":"home","store":store!.id
             }),
       );
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        log(resultData.data["groupByBanner"].toString());
-        if (resultData.data["groupByBanner"] == null ||
-            resultData.data["groupByBanner"].length == null) {
+        log(resultData.data!["groupByBanner"].toString());
+        if (resultData.data!["groupByBanner"] == null ||
+            resultData.data!["groupByBanner"].length == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {"status": "completed", "value": resultData.data};
@@ -533,12 +533,12 @@ class ApiProvider {
   }
 
   fetchBanners(
-      {String pageId, @required String type, String sort, bool active}) async {
+      {String? pageId, required String type, String? sort, bool? active}) async {
     Map<String, dynamic> variables = {"type": type};
     if (pageId != null) variables['pageId'] = pageId;
     if (sort != null) variables['sort'] = sort;
     variables['isMobile'] = true;
-    variables['store'] = store.id;
+    variables['store'] = store!.id;
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -551,12 +551,12 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         log("Video :: "+resultData.data.toString());
-        if (resultData.data["banners"] == null) {
+        if (resultData.data!["banners"] == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["banners"]
+            "value": resultData.data!["banners"]
           };
         }
       }
@@ -567,7 +567,7 @@ class ApiProvider {
     return responseData;
   }
 
-  fetchSubBrand({@required String pageId}) async {
+  fetchSubBrand({required String? pageId}) async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -584,12 +584,12 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["brands"] == null) {
+        if (resultData.data!["brands"] == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["brands"]
+            "value": resultData.data!["brands"]
           };
         }
       }
@@ -611,19 +611,19 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.brands()),
             variables: {"sort": "sort", "limit": 5, "page": 0,
-              'store':store.id},
+              'store':store!.id},
             fetchPolicy: FetchPolicy.noCache),
       );
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["brands"] == null ||
-            resultData.data["brands"]["data"].length == 0) {
+        if (resultData.data!["brands"] == null ||
+            resultData.data!["brands"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["brands"]
+            "value": resultData.data!["brands"]
           };
         }
       }
@@ -647,13 +647,13 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["parentBrands"] == null ||
-            resultData.data["parentBrands"]["data"].length == 0) {
+        if (resultData.data!["parentBrands"] == null ||
+            resultData.data!["parentBrands"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["parentBrands"]
+            "value": resultData.data!["parentBrands"]
           };
         }
       }
@@ -674,7 +674,7 @@ class ApiProvider {
         MutationOptions(
           document: gql(addMutation.cart(),),
           variables: {
-            'store':store.id
+            'store':store!.id
           }
         ),
       );
@@ -682,15 +682,15 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["cart"] == null) {
+        if (resultData.data!["cart"] == null) {
           responseData = {"status": "empty"};
-        } else if (resultData.data["cart"]["items"] == null ||
-            resultData.data["cart"]["items"].length == 0) {
+        } else if (resultData.data!["cart"]["items"] == null ||
+            resultData.data!["cart"]["items"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["cart"]
+            "value": resultData.data!["cart"]
           };
         }
       }
@@ -722,13 +722,13 @@ class ApiProvider {
         token = tempToken;
         await addCookieToSF(token);
 
-        if (resultData.data["addToCart"] == null ||
-            resultData.data["addToCart"]["items"].length == 0) {
+        if (resultData.data!["addToCart"] == null ||
+            resultData.data!["addToCart"]["items"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["addToCart"]
+            "value": resultData.data!["addToCart"]
           };
         }
       }
@@ -752,8 +752,8 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": false};
       } else {
-        if (resultData.data["applyCoupon"] == null ||
-            resultData.data["applyCoupon"]["items"].length == 0) {
+        if (resultData.data!["applyCoupon"] == null ||
+            resultData.data!["applyCoupon"]["items"].length == 0) {
           responseData = {"status": false};
         } else {
           responseData = {"status": true, "promocodeStatus": true};
@@ -780,13 +780,13 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["coupons"] == null ||
-            resultData.data["coupons"]["data"].length == 0) {
+        if (resultData.data!["coupons"] == null ||
+            resultData.data!["coupons"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["coupons"]
+            "value": resultData.data!["coupons"]
           };
         }
       }
@@ -808,20 +808,20 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.categories()),
             variables: {"shopbycategory": true,
-              'store':store.id,'img':true,'sort':"featuredSort"}),
+              'store':store!.id,'img':true,'sort':"featuredSort"}),
       );
       if (resultData.hasException) {
 
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["categories"] == null ||
-            resultData.data["categories"]["data"].length == 0) {
+        if (resultData.data!["categories"] == null ||
+            resultData.data!["categories"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           
           responseData = {
             "status": "completed",
-            "value": resultData.data["categories"]
+            "value": resultData.data!["categories"]
           };
         }
       }
@@ -834,7 +834,7 @@ class ApiProvider {
 
   // List Deals Api
 
-  Future<void> fetchDealsData() async {
+   fetchDealsData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -848,16 +848,16 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["listDeals"] == null ||
-            resultData.data["listDeals"]["data"].length == 0 ||
-            int.parse(resultData.data["listDeals"]["data"][0]["endTimeISO"]) <
+            resultData.data!["listDeals"] == null ||
+            resultData.data!["listDeals"]["data"].length == 0 ||
+            int.parse(resultData.data!["listDeals"]["data"][0]["endTimeISO"]) <
                 DateTime.now().millisecondsSinceEpoch) {
           responseData = {"status": "empty"};
         } else {
 
           responseData = {
             "status": "error",
-            "value": resultData.data["listDeals"]
+            "value": resultData.data!["listDeals"]
           };
         }
       }
@@ -873,7 +873,7 @@ class ApiProvider {
 
   // product apis
 
-  Future<void> fetchHotData() async {
+  fetchHotData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -886,7 +886,7 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["trending"].length == 0) {
+            resultData.data!["trending"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {"status": "completed", "value": resultData.data};
@@ -899,7 +899,7 @@ class ApiProvider {
     return responseData;
   }
 
-  Future<void> fetchYouMayLikeData() async {
+   fetchYouMayLikeData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -913,7 +913,7 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["trending"].length == 0) {
+            resultData.data!["trending"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           
@@ -927,7 +927,7 @@ class ApiProvider {
     return responseData;
   }
 
-  Future<void> fetchSuggestedData() async {
+   fetchSuggestedData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -940,7 +940,7 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["trending"].length == 0) {
+            resultData.data!["trending"].length == 0) {
           responseData = {"status": "empty"};
         } else {
 
@@ -956,7 +956,7 @@ class ApiProvider {
 
   // wishlist api
 
-  Future<void> fetchWishListData() async {
+   fetchWishListData() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -964,7 +964,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.myWishlist()),
         variables: {
-          "store":store.id
+          "store":store!.id
         }
       ));
 
@@ -973,13 +973,13 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data["myWishlist"] == null ||
-            resultData.data["myWishlist"]["data"].length == 0) {
+        if (resultData.data!["myWishlist"] == null ||
+            resultData.data!["myWishlist"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["myWishlist"]
+            "value": resultData.data!["myWishlist"]
           };
         }
       }
@@ -1020,16 +1020,16 @@ class ApiProvider {
       brandId,
       urlLink,
       sort) async {
-    var cn = "";
-    var st = "";
-    var br = "";
-    var cl = "";
-    var sz = "";
-    var gd = "";
-    var pr = "";
-    var ag = "";
-    var dc = "";
-    var pb = "";
+    String? cn = "";
+    String? st = "";
+    String? br = "";
+    String? cl = "";
+    String? sz = "";
+    String? gd = "";
+    String? pr = "";
+    String? ag = "";
+    String? dc = "";
+    String? pb = "";
    
     if (urlLink != "" && urlLink != null) {
       if (urlLink.contains(apiEndpoint.externalLink)) {
@@ -1087,10 +1087,10 @@ class ApiProvider {
     }
     print((ApiEndpoint()).productList);
     print(categoryName + cn);
-    log((ApiEndpoint()).productList);
+    log((ApiEndpoint()).productList!);
     log(categoryName + cn);
    
-    var response = await dio.get((ApiEndpoint()).productList, queryParameters: {
+    var response = await dio.get((ApiEndpoint()).productList!, queryParameters: {
       "categories": categoryName + cn,
       "q": searchText + st,
       "brands": brand + br,
@@ -1103,7 +1103,7 @@ class ApiProvider {
       "sort": sort,
       "page": page,
       "parentBrands": parentBrand + pb,
-      "store": store.id
+      "store": store!.id
       // "brand": bi
     });
     log(response.realUri.toString());
@@ -1150,12 +1150,12 @@ class ApiProvider {
       log(result.exception.toString());
       responseData = {"status": "error"};
     } else {
-      if (result.data==null||result.data["paySuccessPageHit"] == null) {
+      if (result.data==null||result.data!["paySuccessPageHit"] == null) {
         responseData = {"status": "empty"};
       } else {
         responseData = {
           "status": "completed",
-          "value": result.data["paySuccessPageHit"]
+          "value": result.data!["paySuccessPageHit"]
         };
       }
     }
@@ -1185,13 +1185,13 @@ class ApiProvider {
     if (result.hasException) {
       responseData = {"status": "error"};
     } else {
-      if (result.data==null||result.data["braintreeToken"] == null) {
+      if (result.data==null||result.data!["braintreeToken"] == null) {
 
         responseData = {"status": "empty"};
       } else {
         responseData = {
           "status": "completed",
-          "value": result.data["braintreeToken"]
+          "value": result.data!["braintreeToken"]
         };
       }
     }
@@ -1221,12 +1221,12 @@ class ApiProvider {
     if (result.hasException) {
       responseData = {"status": "error"};
     } else {
-      if (result.data==null || result.data["braintreeMakePayment"] == null) {
+      if (result.data==null || result.data!["braintreeMakePayment"] == null) {
         responseData = {"status": "empty"};
       } else {
         responseData = {
           "status": "completed",
-          "value": result.data["braintreeMakePayment"]
+          "value": result.data!["braintreeMakePayment"]
         };
       }
     }
@@ -1267,7 +1267,7 @@ class ApiProvider {
       else {
         resultData = {
           "status": "completed",
-          "value": resultStripe.data["stripe"]
+          "value": resultStripe.data!["stripe"]
         };
       }
     }
@@ -1303,7 +1303,7 @@ class ApiProvider {
 
   captureCashFree(data) async {
     try {
-      var response = await dio.post(apiEndpoint.cashFreeEndpoint, data: data);
+      var response = await dio.post(apiEndpoint.cashFreeEndpoint!, data: data);
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -1326,7 +1326,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(
           MutationOptions(document: gql(addMutation.myOrders()), variables: {
-            "store":store.id
+            "store":store!.id
         // "page":page,
         // "skip":skip,
         // "limit":limit,
@@ -1339,14 +1339,14 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["myOrders"] == null ||
-            resultData.data["myOrders"]["data"].length == 0) {
+            resultData.data!["myOrders"] == null ||
+            resultData.data!["myOrders"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
 
           responseData = {
             "status": "completed",
-            "value": resultData.data["myOrders"]
+            "value": resultData.data!["myOrders"]
           };
         }
       }
@@ -1370,12 +1370,12 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        if (resultData.data == null || resultData.data["orderItem"] == null) {
+        if (resultData.data == null || resultData.data!["orderItem"] == null) {
           responseData = {"status": "empty"};
         } else {
           responseData = {
             "status": "completed",
-            "value": resultData.data["orderItem"]
+            "value": resultData.data!["orderItem"]
           };
         }
       }
@@ -1430,7 +1430,7 @@ class ApiProvider {
         document: gql(addMutation.myTokens()),
       ),
     );
-    if (result.hasException || result.data["count"] == 0) {
+    if (result.hasException || result.data!["count"] == 0) {
       return false;
     }
     return true;
@@ -1438,7 +1438,7 @@ class ApiProvider {
 
   // Mega Menu
 
-  Future<void> fetchMegaMenu() async {
+  fetchMegaMenu() async {
     Map responseData;
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
@@ -1446,7 +1446,7 @@ class ApiProvider {
       var resultData = await _client1.mutate(MutationOptions(
         document: gql(addMutation.megamenu()),
         variables: {
-          "store":store.id
+          "store":store!.id
         }
       ));
       
@@ -1454,7 +1454,7 @@ class ApiProvider {
         responseData = {"status": "error"};
       } else {
         if (resultData.data == null ||
-            resultData.data["megamenu"].length == 0) {
+            resultData.data!["megamenu"].length == 0) {
           responseData = {"status": "empty"};
         } else {
           responseData = {"status": "completed", "value": resultData.data};
@@ -1482,7 +1482,7 @@ class ApiProvider {
             "pid": pid,
             "rating": rating,
             "message": message,
-            "store":store.id
+            "store":store!.id
           }));
       
       if (resultData.hasException) {

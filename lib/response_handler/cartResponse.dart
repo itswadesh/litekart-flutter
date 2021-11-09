@@ -1,11 +1,11 @@
 class CartResponse {
-  int qty;
-  double subtotal;
-  DiscountModel discount;
-  String shipping;
-  double total;
-  int tax;
-  List<CartData> items;
+  int? qty;
+  double? subtotal;
+  DiscountModel? discount;
+  String? shipping;
+  double? total;
+  int? tax;
+  List<CartData>? items;
 
   CartResponse(
       {this.items,
@@ -28,15 +28,15 @@ class CartResponse {
 }
 
 class CartData {
-  String pid;
-  String slug;
-  String name;
-  double price;
-  String img;
-  String tracking;
-  String options;
-  int qty;
-  String brand;
+  String? pid;
+  String? slug;
+  String? name;
+  double? price;
+  String? img;
+  String? tracking;
+  String? options;
+  int? qty;
+  String? brand;
 
   CartData(
       {this.name,
@@ -62,10 +62,10 @@ class CartData {
 }
 
 class DiscountModel {
-  String code;
-  int value;
-  String text;
-  double amount;
+  String? code;
+  int? value;
+  String? text;
+  double? amount;
 
   DiscountModel({this.value, this.text, this.code, this.amount});
 
@@ -77,7 +77,7 @@ class DiscountModel {
 }
 
 class ShippingModel {
-  double charge;
+  double? charge;
 
   ShippingModel({this.charge});
 
@@ -86,9 +86,9 @@ class ShippingModel {
 }
 
 class TaxModel {
-  double cgst;
-  double sgst;
-  double igst;
+  double? cgst;
+  double? sgst;
+  double? igst;
 
   TaxModel({this.cgst, this.igst, this.sgst});
 

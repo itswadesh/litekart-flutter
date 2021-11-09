@@ -1,18 +1,18 @@
 import 'package:anne/utility/api_endpoint.dart';
 
 class User {
-  String id;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
-  String gender;
-  String role;
-  bool verified;
-  bool active;
-  String provider;
-  String avatar;
-  List<UserAddress> address;
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? gender;
+  String? role;
+  bool? verified;
+  bool? active;
+  String? provider;
+  String? avatar;
+  List<UserAddress>? address;
 
   User(
       {this.active,
@@ -60,12 +60,12 @@ class User {
 }
 
 class UserAddress {
-  String address;
-  String town;
-  String city;
+  String? address;
+  String? town;
+  String? city;
 
-  String state;
-  int zip;
+  String? state;
+  int? zip;
 
   UserAddress({this.address, this.city, this.state, this.town, this.zip});
 

@@ -5,28 +5,28 @@ import '../../utility/query_mutation.dart';
 
 class BannerViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  var statusSlider = "loading";
-  var statusBanner = "loading";
-  var statusPickedBanner = "loading";
-  var statusVideoBanner = "loading";
+  String? statusSlider = "loading";
+  String? statusBanner = "loading";
+  String? statusPickedBanner = "loading";
+  String? statusVideoBanner = "loading";
   BannerRepository bannerRepository = BannerRepository();
-  SliderResponse _sliderResponse;
-  SliderResponse get sliderResponse {
+  SliderResponse? _sliderResponse;
+  SliderResponse? get sliderResponse {
     return _sliderResponse;
   }
 
-  SliderResponse _videoBannerResponse;
-  SliderResponse get videoBannerResponse {
+  SliderResponse? _videoBannerResponse;
+  SliderResponse? get videoBannerResponse {
     return _videoBannerResponse;
   }
 
-  BannerResponse _bannerResponse;
-  BannerResponse get bannerResponse {
+  BannerResponse? _bannerResponse;
+  BannerResponse? get bannerResponse {
     return _bannerResponse;
   }
 
-  BannerResponse _pickedBannerResponse;
-  BannerResponse get pickedBannerResponse {
+  BannerResponse? _pickedBannerResponse;
+  BannerResponse? get pickedBannerResponse {
     return _pickedBannerResponse;
   }
 

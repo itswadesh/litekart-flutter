@@ -1,12 +1,13 @@
 import '../../values/functions.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 
 enum HomeCardLayout { Single, Grid, List }
 
-HomeCardLayout getHomeCardLayoutFromString(String layout) {
+HomeCardLayout? getHomeCardLayoutFromString(String layout) {
   if (layout != null) {
     layout = "HomeCardLayout.${formatString(layout)}";
     return HomeCardLayout.values
-        .firstWhere((f) => f.toString() == layout, orElse: () => null);
+        .firstWhereOrNull((f) => f.toString() == layout);
   } else {
     return null;
   }
@@ -14,11 +15,11 @@ HomeCardLayout getHomeCardLayoutFromString(String layout) {
 
 enum HomeRouteType { App, Url, Api }
 
-HomeRouteType getHomeRouteTypeFromString(String route) {
+HomeRouteType? getHomeRouteTypeFromString(String? route) {
   if (route != null) {
     route = "HomeRouteType.${formatString(route)}";
     return HomeRouteType.values
-        .firstWhere((f) => f.toString() == route, orElse: () => null);
+        .firstWhereOrNull((f) => f.toString() == route);
   } else {
     return null;
   }

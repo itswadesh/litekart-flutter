@@ -5,16 +5,16 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../utility/query_mutation.dart';
 
 class ScheduleViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
   ScheduleRepository scheduleRepository = ScheduleRepository();
   final PagingController _pagingController = PagingController(firstPageKey: 0);
   PagingController get pagingController {
     return _pagingController;
   }
-  ScheduleListResponse _scheduleListResponse;
+  ScheduleListResponse? _scheduleListResponse;
 
-  ScheduleListResponse get scheduleListResponse {
+  ScheduleListResponse? get scheduleListResponse {
     return _scheduleListResponse;
   }
 
@@ -23,7 +23,7 @@ class ScheduleViewModel with ChangeNotifier {
     status = resultData["status"];
     if (status == "completed") {
       _scheduleListResponse = ScheduleListResponse.fromJson(resultData["value"]);
-      _pagingController.appendLastPage(_scheduleListResponse.data);
+      _pagingController.appendLastPage(_scheduleListResponse!.data!);
     }
     notifyListeners();
   }

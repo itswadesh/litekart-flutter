@@ -79,7 +79,7 @@ class _WishlistState extends State<Wishlist> {
 
   getWishList() {
     return Consumer<WishlistViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           log("hiii there");
       if (value.status == "loading") {
           Provider.of<WishlistViewModel>(context, listen: false).fetchData();
@@ -94,7 +94,7 @@ class _WishlistState extends State<Wishlist> {
         Container(
           padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
             child:  Consumer<WishlistViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               return PagedGridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio:
@@ -102,7 +102,7 @@ class _WishlistState extends State<Wishlist> {
                     crossAxisCount: 2),
                 pagingController: value.pagingController,
                 builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) => WishCard(item),
+                    itemBuilder: (context, dynamic item, index) => WishCard(item),
                     // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                     //   error: _pagingController.error,
                     //   onTryAgain: () => _pagingController.refresh(),
@@ -132,7 +132,7 @@ class WishCard extends StatefulWidget {
 }
 
 class _WishCard extends State<WishCard> {
-  WishlistData item;
+  late WishlistData item;
 
   @override
   void initState() {
@@ -150,7 +150,7 @@ class _WishCard extends State<WishCard> {
       ),
       child: InkWell(
         onTap: () async {
-          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product.id);
+          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product!.id);
         },
         child: Container(
           width: ScreenUtil().setWidth(183),
@@ -163,7 +163,7 @@ class _WishCard extends State<WishCard> {
                   Container(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product.img+"?tr=w-193,fo-auto",
+                      image: item.product!.img!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
@@ -184,7 +184,7 @@ class _WishCard extends State<WishCard> {
                             _dialog.show();
                             await Provider.of<WishlistViewModel>(context,
                                     listen: false)
-                                .toggleItem(item.product.id);
+                                .toggleItem(item.product!.id);
                             _dialog.close();
                           },
                           child: Container(
@@ -225,7 +225,7 @@ class _WishCard extends State<WishCard> {
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
-                    item.product.brand,
+                    item.product!.brand!,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(
                         14,
@@ -260,7 +260,7 @@ class _WishCard extends State<WishCard> {
                 children: [
                   SizedBox(width: ScreenUtil().setWidth(10),),
                   Text(
-                    "${store.currencySymbol} " + item.product.price.toString() + " ",
+                    "${store!.currencySymbol} " + item.product!.price.toString() + " ",
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -268,9 +268,9 @@ class _WishCard extends State<WishCard> {
                         fontWeight: FontWeight.w600,
                         color: Color(0xff4a4a4a)),
                   ),
-                  item.product.price < item.product.mrp
+                  item.product!.price! < item.product!.mrp!
                       ? Text(
-                          " ${store.currencySymbol} " + item.product.mrp.toString(),
+                          " ${store!.currencySymbol} " + item.product!.mrp.toString(),
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               fontSize: ScreenUtil().setSp(
@@ -279,9 +279,9 @@ class _WishCard extends State<WishCard> {
                               color: Color(0xff4a4a4a)),
                         )
                       : Container(),
-                  item.product.price < item.product.mrp
+                  item.product!.price! < item.product!.mrp!
                       ? Flexible(child: Text(
-                          " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
+                          " (${(100 - ((item.product!.price! / item.product!.mrp!) * 100)).toInt()} % off)",
                           style: TextStyle(
                               color: AppColors.primaryElement2,
                               fontSize: ScreenUtil().setSp(
@@ -301,9 +301,9 @@ class _WishCard extends State<WishCard> {
                     TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
                     _dialog.show();
                     await Provider.of<CartViewModel>(context, listen: false)
-                        .cartAddItem(item.product.id, item.product.id, 1, false);
+                        .cartAddItem(item.product!.id, item.product!.id, 1, false);
                     await Provider.of<WishlistViewModel>(context, listen: false)
-                        .toggleItem(item.product.id);
+                        .toggleItem(item.product!.id);
 
                     _dialog.close();
 

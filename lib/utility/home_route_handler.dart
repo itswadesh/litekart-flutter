@@ -79,14 +79,14 @@ _handleAppRoute(DynamicRoute homeRoute) async {
         case routes.ProductList:
           Map arguments;
           arguments = {
-            "searchKey": homeRoute.arguments['searchKey'] ?? "",
-            "category": homeRoute.arguments["category"] ?? "",
-            "brandName": homeRoute.arguments["brandName"] ?? ""
+            "searchKey": homeRoute.arguments!['searchKey'] ?? "",
+            "category": homeRoute.arguments!["category"] ?? "",
+            "brandName": homeRoute.arguments!["brandName"] ?? ""
           };
           _navigationService.pushNamed(routes.ProductList, args: arguments);
           break;
         case routes.MyProfile:
-          User user = await ProfileModel().returnProfile();
+          User? user = await ProfileModel().returnProfile();
           if (user != null) {
             _navigationService.pushNamed(routes.MyProfile);
           } else {
@@ -94,12 +94,12 @@ _handleAppRoute(DynamicRoute homeRoute) async {
           }
           break;
         case routes.ProductDetailRoute:
-          String argument = homeRoute.arguments["id"];
+          String? argument = homeRoute.arguments!["id"];
           _navigationService.pushNamed(routes.ProductDetailRoute,
               args: argument);
           break;
         default:
-          _navigationService.pushNamed(homeRoute.target);
+          _navigationService.pushNamed(homeRoute.target!);
           break;
       }
     } else {

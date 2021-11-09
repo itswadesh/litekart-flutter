@@ -83,9 +83,9 @@ class _Cart extends State<Cart> {
   }
 
   Widget getCartList() {
-    final NavigationService _navigationService = locator<NavigationService>();
+    final NavigationService? _navigationService = locator<NavigationService>();
     return Consumer<CartViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
         Provider.of<CartViewModel>(context, listen: false).fetchCartData();
         return Loading();
@@ -114,7 +114,7 @@ class _Cart extends State<Cart> {
                         20,
                         ScreenUtil().setWidth(18)),
                     child: Text(
-                      "${value.cartResponse.items.length} Items",
+                      "${value.cartResponse!.items!.length} Items",
                       style: TextStyle(
                           color: Color(0xff616161),
                           fontSize: ScreenUtil().setSp(
@@ -155,8 +155,8 @@ class _Cart extends State<Cart> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(value.promocodeStatus
-                            ?"Applied Promocode ("+ value.promocode+")"
+                        Text(value.promocodeStatus!
+                            ?"Applied Promocode ("+ value.promocode!+")"
                             : "Apply Promocode"),
                         Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
                       ],
@@ -187,7 +187,7 @@ class _Cart extends State<Cart> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Total : ${store.currencySymbol} ${value.cartResponse.total}",
+                  Text("Total : ${store!.currencySymbol} ${value.cartResponse!.total}",
                       style: TextStyle(
                           color: Color(0xff383838),
                           fontSize: ScreenUtil().setSp(
@@ -213,9 +213,9 @@ class _Cart extends State<Cart> {
                             ),
                             onPressed: () async {
                               if (user.user != null) {
-                                _navigationService.pushNamed(routes.CheckOut);
+                                _navigationService!.pushNamed(routes.CheckOut);
                               } else {
-                                _navigationService.pushNamed(routes.LoginRoute);
+                                _navigationService!.pushNamed(routes.LoginRoute);
                               }
                             },
                             child: Text(
@@ -272,7 +272,7 @@ class _Cart extends State<Cart> {
               ),
               content: Container(
                 child: Consumer<CartViewModel>(
-                    builder: (BuildContext context, value, Widget child) {
+                    builder: (BuildContext context, value, Widget? child) {
                       if (value.statusPromo == "loading") {
                         Provider.of<CartViewModel>(context, listen: false)
                             .listCoupons();
@@ -309,7 +309,7 @@ class _Cart extends State<Cart> {
                             Container(
                               height: ScreenUtil().setWidth(250),
                               child: ListView.builder(
-                                  itemCount: value.couponResponse.data.length,
+                                  itemCount: value.couponResponse!.data!.length,
                                   itemBuilder: (BuildContext build, index) {
                                     return Container(
                                       child: Column(
@@ -322,13 +322,13 @@ class _Cart extends State<Cart> {
                                                       context,
                                                       listen: false)
                                                       .selectPromoCode(value
-                                                      .couponResponse
-                                                      .data[index]
+                                                      .couponResponse!
+                                                      .data![index]
                                                       .code);
                                                 },
-                                                child: ((value.promocode ==
-                                                    value.couponResponse
-                                                        .data[index].code))
+                                                child: value.promocode ==
+                                                    value.couponResponse!
+                                                        .data![index].code
                                                     ? Icon(
                                                   Icons.check_box,
                                                   color: AppColors.primaryElement,
@@ -356,8 +356,8 @@ class _Cart extends State<Cart> {
                                                     width: ScreenUtil().setWidth(96),
                                                     child: Center(
                                                         child: Text(
-                                                          value.couponResponse.data[index]
-                                                              .code,
+                                                          value.couponResponse!.data![index]
+                                                              .code!,
                                                           style: TextStyle(
                                                               color: AppColors.primaryElement,
                                                               fontSize:
@@ -376,7 +376,7 @@ class _Cart extends State<Cart> {
                                                 left: ScreenUtil().setWidth(35)),
                                             width: double.infinity,
                                             child: Text(
-                                              "Saves upto ${store.currencySymbol} ${value.couponResponse.data[index].maxAmount}",
+                                              "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
                                               style: TextStyle(
                                                   color: Color(0xff3a3a3a),
                                                   fontSize: ScreenUtil().setSp(14)),
@@ -390,7 +390,7 @@ class _Cart extends State<Cart> {
                                                 left: ScreenUtil().setWidth(35)),
                                             width: double.infinity,
                                             child: Text(
-                                              "${value.couponResponse.data[index].text}",
+                                              "${value.couponResponse!.data![index].text}",
                                               style: TextStyle(
                                                   color: Color(0xff3a3a3a),
                                                   fontSize: ScreenUtil().setSp(14)),
@@ -462,9 +462,9 @@ class _CartBillCard extends State<CartBillCard> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Consumer<CartViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
 
-      if (value.cartResponse == null || value.cartResponse.items.length == 0) {
+      if (value.cartResponse == null || value.cartResponse!.items!.length == 0) {
         return Container();
       }
       return Material(
@@ -553,7 +553,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store.currencySymbol} " + value.cartResponse.subtotal.toString(),
+                          Text("${store!.currencySymbol} " + value.cartResponse!.subtotal.toString(),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -573,7 +573,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text(value.cartResponse.qty.toString(),
+                          Text(value.cartResponse!.qty.toString(),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -584,7 +584,7 @@ class _CartBillCard extends State<CartBillCard> {
                       SizedBox(
                         height: ScreenUtil().setWidth(16),
                       ),
-                      value.cartResponse.discount.amount > 0.0
+                      value.cartResponse!.discount!.amount! > 0.0
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -595,8 +595,8 @@ class _CartBillCard extends State<CartBillCard> {
                                           16,
                                         ))),
                                 Text(
-                                    "${store.currencySymbol} " +
-                                        value.cartResponse.discount.amount
+                                    "${store!.currencySymbol} " +
+                                        value.cartResponse!.discount!.amount
                                             .toString(),
                                     style: TextStyle(
                                         color: Color(0xff616161),
@@ -607,7 +607,7 @@ class _CartBillCard extends State<CartBillCard> {
                             )
                           : Container(),
 
-                      value.cartResponse.discount.amount > 0.0
+                      value.cartResponse!.discount!.amount! > 0.0
                           ? SizedBox(
                               height: ScreenUtil().setWidth(16),
                             )
@@ -621,7 +621,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store.currencySymbol} " + value.cartResponse.shipping.toString(),
+                          Text("${store!.currencySymbol} " + value.cartResponse!.shipping.toString(),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -630,7 +630,7 @@ class _CartBillCard extends State<CartBillCard> {
                         ],
                       ),
 
-                      value.promocodeStatus
+                      value.promocodeStatus!
                           ? SizedBox(
                         height: ScreenUtil().setWidth(16),
                       ):Container(),
@@ -658,7 +658,7 @@ class _CartBillCard extends State<CartBillCard> {
                       //         height: ScreenUtil().setWidth(16),
                       //       )
                       //     : SizedBox.shrink(),
-                      value.promocodeStatus
+                      value.promocodeStatus!
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -669,11 +669,11 @@ class _CartBillCard extends State<CartBillCard> {
                                           16,
                                         ))),
                                 Text(
-                                    value.promocodeStatus
+                                    value.promocodeStatus!
                                         ? "Applied"
                                         : "Not Applied",
                                     style: TextStyle(
-                                        color: value.promocodeStatus
+                                        color: value.promocodeStatus!
                                             ? AppColors.primaryElement2
                                             : Colors.red,
                                         fontSize: ScreenUtil().setSp(
@@ -713,7 +713,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store.currencySymbol} " + (value.cartResponse.total).toString(),
+                          Text("${store!.currencySymbol} " + (value.cartResponse!.total).toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xff000000),
@@ -759,7 +759,7 @@ class _CartBillCard extends State<CartBillCard> {
               ),
               content: Container(
                 child: Consumer<CartViewModel>(
-                    builder: (BuildContext context, value, Widget child) {
+                    builder: (BuildContext context, value, Widget? child) {
                   if (value.statusPromo == "loading") {
                     Provider.of<CartViewModel>(context, listen: false)
                         .listCoupons();
@@ -798,7 +798,7 @@ class _CartBillCard extends State<CartBillCard> {
                         Container(
                           height: ScreenUtil().setWidth(250),
                           child: ListView.builder(
-                              itemCount: value.couponResponse.data.length,
+                              itemCount: value.couponResponse!.data!.length,
                               itemBuilder: (BuildContext build, index) {
                                 return Container(
                                   child: Column(
@@ -811,13 +811,13 @@ class _CartBillCard extends State<CartBillCard> {
                                                       context,
                                                       listen: false)
                                                   .selectPromoCode(value
-                                                      .couponResponse
-                                                      .data[index]
+                                                      .couponResponse!
+                                                      .data![index]
                                                       .code);
                                             },
-                                            child: ((value.promocode ==
-                                                    value.couponResponse
-                                                        .data[index].code))
+                                            child: value.promocode ==
+                                                    value.couponResponse!
+                                                        .data![index].code
                                                 ? Icon(
                                                     Icons.check_box,
                                                     color: AppColors.primaryElement,
@@ -845,8 +845,8 @@ class _CartBillCard extends State<CartBillCard> {
                                                 width: ScreenUtil().setWidth(96),
                                                 child: Center(
                                                     child: Text(
-                                                  value.couponResponse.data[index]
-                                                      .code,
+                                                  value.couponResponse!.data![index]
+                                                      .code!,
                                                   style: TextStyle(
                                                       color: AppColors.primaryElement,
                                                       fontSize:
@@ -865,7 +865,7 @@ class _CartBillCard extends State<CartBillCard> {
                                             left: ScreenUtil().setWidth(35)),
                                         width: double.infinity,
                                         child: Text(
-                                          "Saves upto ${store.currencySymbol} ${value.couponResponse.data[index].maxAmount}",
+                                          "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
                                           style: TextStyle(
                                               color: Color(0xff3a3a3a),
                                               fontSize: ScreenUtil().setSp(14)),
@@ -879,7 +879,7 @@ class _CartBillCard extends State<CartBillCard> {
                                             left: ScreenUtil().setWidth(35)),
                                         width: double.infinity,
                                         child: Text(
-                                          "${value.couponResponse.data[index].text}",
+                                          "${value.couponResponse!.data![index].text}",
                                           style: TextStyle(
                                               color: Color(0xff3a3a3a),
                                               fontSize: ScreenUtil().setSp(14)),
@@ -948,23 +948,23 @@ class _CartCard extends State<CartCard> {
     // TODO: implement build
     // ignore: missing_required_param
     return Consumer<CartViewModel>(
-      builder: (BuildContext context, value, Widget child) {
+      builder: (BuildContext context, value, Widget? child) {
         return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: value.cartResponse.items.length,
+            itemCount: value.cartResponse!.items!.length,
             itemBuilder: (BuildContext context, index) {
               return GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          ProductDetail(value.cartResponse.items[index].pid)));
+                          ProductDetail(value.cartResponse!.items![index].pid)));
                 },
                 child: Material(
                   color: Color(0xfff3f3f3),
                   // borderRadius: BorderRadius.circular(2),
                   child: getCard(
-                      value.cartResponse.items[index], value.cartResponse),
+                      value.cartResponse!.items![index], value.cartResponse),
                 ),
               );
             });
@@ -972,7 +972,7 @@ class _CartCard extends State<CartCard> {
     );
   }
 
-  Widget getCard(CartData cartData, CartResponse response) {
+  Widget getCard(CartData cartData, CartResponse? response) {
     return Card(
       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(0), 0,
           ScreenUtil().setWidth(0), ScreenUtil().setWidth(10)),
@@ -993,7 +993,7 @@ class _CartCard extends State<CartCard> {
             new ClipRRect(
                 child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/loading.gif',
-              image: cartData.img+"?tr=h-102,w-92,fo-auto",
+              image: cartData.img!+"?tr=h-102,w-92,fo-auto",
               fit: BoxFit.contain,
               width: ScreenUtil().setWidth(92),
               height: ScreenUtil().setWidth(102),
@@ -1009,7 +1009,7 @@ class _CartCard extends State<CartCard> {
                         Container(
                           width: ScreenUtil().setWidth(250),
                           child: Text(
-                            cartData.name,
+                            cartData.name!,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Color(0xff616161),
@@ -1043,7 +1043,7 @@ class _CartCard extends State<CartCard> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        "${store.currencySymbol} " + cartData.price.toString(),
+                        "${store!.currencySymbol} " + cartData.price.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: AppColors.primaryElement2,
@@ -1081,7 +1081,7 @@ class _CartCard extends State<CartCard> {
                                       "id": EVENT_CART_DECREASE_ITEM_COUNT,
                                       "itemId": cartData.pid,
                                       "cartItems": cartData,
-                                      "cartValue": response.subtotal,
+                                      "cartValue": response!.subtotal,
                                       "event": "tap",
                                     };
                                     Tracking(
@@ -1148,7 +1148,7 @@ class _CartCard extends State<CartCard> {
                                   "id": EVENT_CART_INCREASE_ITEM_COUNT,
                                   "itemId": cartData.pid,
                                   "cartItems": cartData,
-                                  "cartValue": response.subtotal,
+                                  "cartValue": response!.subtotal,
                                   "event": "tap",
                                 };
                                 Tracking(
@@ -1215,7 +1215,7 @@ class _CartCard extends State<CartCard> {
                   await  Provider.of<CartViewModel>(context,
                         listen: false)
                         .cartAddItem(cartData.pid, cartData.pid,
-                        -cartData.qty, false);
+                        -cartData.qty!, false);
                   _dialog.close();
                   },
                   child: Container(
@@ -1242,7 +1242,7 @@ class _CartCard extends State<CartCard> {
                     Provider.of<CartViewModel>(context,
                         listen: false)
                         .cartAddItem(cartData.pid, cartData.pid,
-                        -cartData.qty, false);
+                        -cartData.qty!, false);
                    _dialog.close();
 
                   },

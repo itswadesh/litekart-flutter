@@ -76,7 +76,7 @@ class _OrderTracking extends State<OrderTracking> {
           height: MediaQuery.of(context).size.height,
        //   color: Color(0xfff3f3f3),
           child: Consumer<OrderViewModel>(
-              builder: (BuildContext context, value, Widget child) {
+              builder: (BuildContext context, value, Widget? child) {
                 if (value.trackOrderStatus == "loading") {
                   Provider.of<OrderViewModel>(context, listen: false).fetchOrderTrack(widget.id);
                   return Loading();
@@ -88,7 +88,7 @@ class _OrderTracking extends State<OrderTracking> {
                 if (value.trackOrderStatus == "error") {
                   return errorMessage();
                 }
-                return getOrderTrackDetails(value.orderTrackResponse);
+                return getOrderTrackDetails(value.orderTrackResponse!);
               })));
 
 
@@ -97,14 +97,14 @@ class _OrderTracking extends State<OrderTracking> {
   getProductCard(OrderTrackResponse orderTrackResponse) {
 
     double progressIndi = 0.05;
-    if(orderTrackResponse.orderHistory[5].time!=null){
+    if(orderTrackResponse.orderHistory![5].time!=null){
       progressIndi  = 1.0;
     }
-    else if(orderTrackResponse.orderHistory[1].time!=null||orderTrackResponse.orderHistory[2].time!=null||orderTrackResponse.orderHistory[3].time!=null
-    ||orderTrackResponse.orderHistory[4].time!=null){
+    else if(orderTrackResponse.orderHistory![1].time!=null||orderTrackResponse.orderHistory![2].time!=null||orderTrackResponse.orderHistory![3].time!=null
+    ||orderTrackResponse.orderHistory![4].time!=null){
       progressIndi = 0.5;
     }
-    else if(orderTrackResponse.orderHistory[0].time!=null){
+    else if(orderTrackResponse.orderHistory![0].time!=null){
       progressIndi = 0.05;
     }
     return GestureDetector(
@@ -146,7 +146,7 @@ class _OrderTracking extends State<OrderTracking> {
                     Column(
                       children: [
                         Text(
-                orderTrackResponse.orderHistory[0].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[0].time) * 1000))}":"",
+                orderTrackResponse.orderHistory![0].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![0].time!) * 1000))}":"",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(11),
                               color:Color(0xff989898)
@@ -167,7 +167,7 @@ class _OrderTracking extends State<OrderTracking> {
                     Column(
                       children: [
                         Text(
-                          orderTrackResponse.orderHistory[1].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[1].time) * 1000))}":"",
+                          orderTrackResponse.orderHistory![1].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![1].time!) * 1000))}":"",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(11),
                               color:Color(0xff989898)
@@ -188,7 +188,7 @@ class _OrderTracking extends State<OrderTracking> {
                     Column(
                       children: [
                         Text(
-                          orderTrackResponse.orderHistory[5].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[5].time) * 1000))}":"",
+                          orderTrackResponse.orderHistory![5].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![5].time!) * 1000))}":"",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(11),
                               color:Color(0xff989898)
@@ -227,7 +227,7 @@ class _OrderTracking extends State<OrderTracking> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    (orderTrackResponse.returnValidTill!=null && int.parse(orderTrackResponse.returnValidTill)>=DateTime.now().millisecondsSinceEpoch && orderTrackResponse.orderHistory[6].time==null)?
+                    (orderTrackResponse.returnValidTill!=null && int.parse(orderTrackResponse.returnValidTill!)>=DateTime.now().millisecondsSinceEpoch && orderTrackResponse.orderHistory![6].time==null)?
                     InkWell(
                         onTap: (){
                         locator<NavigationService>().pushNamed(routes.ReturnPageRoute,args: {
@@ -283,7 +283,7 @@ class _OrderTracking extends State<OrderTracking> {
                 new ClipRRect(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
-                      image: items.img+"?tr=h-102,fo-auto",
+                      image: items.img!+"?tr=h-102,fo-auto",
                       fit: BoxFit.contain,
                       width: ScreenUtil().setWidth(92),
                       height: ScreenUtil().setWidth(102),
@@ -301,7 +301,7 @@ class _OrderTracking extends State<OrderTracking> {
                             Container(
                               width: ScreenUtil().setWidth(188),
                               child: Text(
-                                items.name,
+                                items.name!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff616161),
@@ -361,22 +361,22 @@ class _OrderTracking extends State<OrderTracking> {
   getUpdatesCard(OrderTrackResponse orderTrackResponse) {
     int progressStep = 1;
 
-    if(orderTrackResponse.orderHistory[8].time!=null){
+    if(orderTrackResponse.orderHistory![8].time!=null){
       progressStep  = 6;
     }
-    else if(orderTrackResponse.orderHistory[6].time!=null){
+    else if(orderTrackResponse.orderHistory![6].time!=null){
       progressStep  = 5;
     }
-   else if(orderTrackResponse.orderHistory[5].time!=null){
+   else if(orderTrackResponse.orderHistory![5].time!=null){
       progressStep  = 4;
     }
-    else if(orderTrackResponse.orderHistory[3].time!=null){
+    else if(orderTrackResponse.orderHistory![3].time!=null){
       progressStep = 3;
     }
-    else if(orderTrackResponse.orderHistory[2].time!=null){
+    else if(orderTrackResponse.orderHistory![2].time!=null){
       progressStep = 2;
     }
-    else if(orderTrackResponse.orderHistory[0].time!=null){
+    else if(orderTrackResponse.orderHistory![0].time!=null){
       progressStep = 1;
     }
     return GestureDetector(
@@ -467,14 +467,14 @@ class _OrderTracking extends State<OrderTracking> {
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ),
-                            orderTrackResponse.orderHistory[6].time!=null?  Container(
+                            orderTrackResponse.orderHistory![6].time!=null?  Container(
                               height: 75,
                               child: Text(
                                 "Return Initiated",
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ):Container(),
-                            orderTrackResponse.orderHistory[6].time!=null?  Container(
+                            orderTrackResponse.orderHistory![6].time!=null?  Container(
                               height: 75,
                               child: Text(
                                 "Return Done",
@@ -490,13 +490,13 @@ class _OrderTracking extends State<OrderTracking> {
                               borderRadius: BorderRadius.circular(10)),
                           width: 14,
                           child: StepProgressIndicator(
-                            totalSteps: orderTrackResponse.orderHistory[6].time!=null? 6:4,
+                            totalSteps: orderTrackResponse.orderHistory![6].time!=null? 6:4,
                             currentStep: progressStep,
                             size: 15,
                             padding: 0,
                             selectedColor: Colors.transparent,
                             unselectedColor: Color(0xfff3f3f3),
-                            fallbackLength: orderTrackResponse.orderHistory[6].time!=null? 450:300,
+                            fallbackLength: orderTrackResponse.orderHistory![6].time!=null? 450:300,
                             roundedEdges: Radius.circular(10),
                             direction: Axis.vertical,
                             customStep: (index, color, _) =>
@@ -527,7 +527,7 @@ class _OrderTracking extends State<OrderTracking> {
                             Container(
                               height: 75,
                               child: Text(
-                                  orderTrackResponse.orderHistory[0].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[0].time) * 1000))}":"",
+                                  orderTrackResponse.orderHistory![0].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![0].time!) * 1000))}":"",
 
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
@@ -535,7 +535,7 @@ class _OrderTracking extends State<OrderTracking> {
                             Container(
                               height: 75,
                               child: Text(
-                                orderTrackResponse.orderHistory[2].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[2].time) * 1000))}":"",
+                                orderTrackResponse.orderHistory![2].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![2].time!) * 1000))}":"",
 
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
@@ -543,7 +543,7 @@ class _OrderTracking extends State<OrderTracking> {
                             Container(
                               height: 75,
                               child: Text(
-                                  orderTrackResponse.orderHistory[3].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[3].time) * 1000))}":"",
+                                  orderTrackResponse.orderHistory![3].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![3].time!) * 1000))}":"",
                                   
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
@@ -551,25 +551,25 @@ class _OrderTracking extends State<OrderTracking> {
                             Container(
                               height: 75,
                               child: Text(
-                                  orderTrackResponse.orderHistory[5].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[5].time) * 1000))}":"",
+                                  orderTrackResponse.orderHistory![5].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![5].time!) * 1000))}":"",
                                   
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ),
-                            orderTrackResponse.orderHistory[6].time!=null?
+                            orderTrackResponse.orderHistory![6].time!=null?
                             Container(
                               height: 75,
                               child: Text(
-                                orderTrackResponse.orderHistory[6].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[6].time) * 1000))}":"",
+                                orderTrackResponse.orderHistory![6].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![6].time!) * 1000))}":"",
 
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ):Container(),
-                            orderTrackResponse.orderHistory[6].time!=null?
+                            orderTrackResponse.orderHistory![6].time!=null?
                             Container(
                               height: 75,
                               child: Text(
-                                orderTrackResponse.orderHistory[8].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory[8].time) * 1000))}":"",
+                                orderTrackResponse.orderHistory![8].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![8].time!) * 1000))}":"",
 
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
@@ -580,16 +580,16 @@ class _OrderTracking extends State<OrderTracking> {
                     ],
                   ),
                 ),
-                orderTrackResponse.orderHistory[5].time==null?  Container(
+                orderTrackResponse.orderHistory![5].time==null?  Container(
                   padding: EdgeInsets.all(14),
                   color: Color(0xfff3f3f3),
                   child: Text(
-                    "Your Order will arrive on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch((int.parse(orderTrackResponse.orderHistory[0].time) * 1000)+(86400000000*7)))}",
+                    "Your Order will arrive on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch((int.parse(orderTrackResponse.orderHistory![0].time!) * 1000)+(86400000000*7)))}",
                     style: ThemeApp().textThemeGrey(),
                   ),
                 ):Container(),
 
-                orderTrackResponse.orderHistory[5].time!=null? InkWell(
+                orderTrackResponse.orderHistory![5].time!=null? InkWell(
                     onTap: () async {
                       await locator<NavigationService>().pushNamed(
                           routes.AddReviewRoute,
@@ -694,7 +694,7 @@ class _OrderTracking extends State<OrderTracking> {
                       Container(
                         width: double.infinity,
                         child: Text(
-                          "${address.firstName + " " + address.lastName ?? "User"}",
+                          "${address.firstName! + " " + address.lastName! ?? "User"}",
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -817,7 +817,7 @@ class _OrderTracking extends State<OrderTracking> {
                       Container(
                         width: double.infinity,
                         child: Text(
-                          "${address.firstName + " " + address.lastName ?? "User"}",
+                          "${address.firstName! + " " + address.lastName! ?? "User"}",
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(

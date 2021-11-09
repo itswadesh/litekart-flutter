@@ -1,20 +1,20 @@
 class CategoryData {
-  String id;
-  String name;
-  String img;
-  String namePath;
-  String slug;
-  int level;
-  String metaTitle;
-  String metaDescription;
-  String metaKeywords;
-  int position;
-  bool megaMenu;
-  bool active;
-  bool featured;
-  bool shopbycategory;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? name;
+  String? img;
+  String? namePath;
+  String? slug;
+  int? level;
+  String? metaTitle;
+  String? metaDescription;
+  String? metaKeywords;
+  int? position;
+  bool? megaMenu;
+  bool? active;
+  bool? featured;
+  bool? shopbycategory;
+  String? createdAt;
+  String? updatedAt;
 
   CategoryData(
       {this.id,

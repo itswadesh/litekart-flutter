@@ -21,7 +21,7 @@ class ProductListCard extends StatefulWidget {
 }
 
 class _ProductListCard extends State<ProductListCard> {
-  ProductListData item;
+  late ProductListData item;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _ProductListCard extends State<ProductListCard> {
                         return Image.asset("assets/images/logo.png");
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.images[0]+"?tr=w-203,fo-auto",
+                      image: item.images![0]+"?tr=w-203,fo-auto",
                       height: ScreenUtil().setWidth(203),
                       width: ScreenUtil().setWidth(203),
                       fit: BoxFit.contain,
@@ -167,7 +167,7 @@ class _ProductListCard extends State<ProductListCard> {
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15),
                             0, ScreenUtil().setWidth(15), 0),
-                        child: Text(item.name,
+                        child: Text(item.name!,
                             style: TextStyle(
                                 color: Color(0xff7f7f7f),
                                 fontSize: ScreenUtil().setSp(
@@ -185,7 +185,7 @@ class _ProductListCard extends State<ProductListCard> {
                           width: ScreenUtil().setWidth(15),
                         ),
                         Text(
-                          "${store.currencySymbol} " + item.price.toString() + " ",
+                          "${store!.currencySymbol} " + item.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -193,9 +193,9 @@ class _ProductListCard extends State<ProductListCard> {
                               fontWeight: FontWeight.w600,
                               color: Color(0xff4a4a4a)),
                         ),
-                        item.price < item.mrp
+                        item.price! < item.mrp!
                             ? Text(
-                                " ${store.currencySymbol} " + item.mrp.toString(),
+                                " ${store!.currencySymbol} " + item.mrp.toString(),
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(
@@ -204,9 +204,9 @@ class _ProductListCard extends State<ProductListCard> {
                                     color: Color(0xff4a4a4a)),
                               )
                             : Container(),
-                        item.price < item.mrp
+                        item.price! < item.mrp!
                             ? Text(
-                                " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
+                                " (${(100 - ((item.price! / item.mrp!) * 100)).toInt()} % off)",
                                 style: TextStyle(
                                     color: AppColors.primaryElement2,
                                     fontSize: ScreenUtil().setSp(

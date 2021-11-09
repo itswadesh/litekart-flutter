@@ -1,18 +1,18 @@
 class Address {
-  String id;
-  String email;
-  String firstName;
-  String lastName;
-  String address;
-  String town;
-  String city;
-  String country;
-  String state;
-  int zip;
-  String phone;
-  bool active;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? address;
+  String? town;
+  String? city;
+  String? country;
+  String? state;
+  int? zip;
+  String? phone;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
 
   Address(
       {this.id,

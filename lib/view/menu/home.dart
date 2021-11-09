@@ -35,8 +35,8 @@ class _Home extends State<Home> with TickerProviderStateMixin{
   var counter = 4;
   var searchVisible = false;
   QueryMutation addMutation = QueryMutation();
-  Animation<Offset> _transTween;
-  AnimationController _TextAnimationController;
+  late Animation<Offset> _transTween;
+  late AnimationController _TextAnimationController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
  // double bottomAppSize = ScreenUtil().setWidth(130);
   ScrollController scrollController = ScrollController();
@@ -49,7 +49,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     _transTween = Tween(begin: Offset(0, 57), end: Offset(0, -55))
         .animate(_TextAnimationController);
     this.initDynamicLinks();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       try {
         (UpdateAlert()).versionCheck((context));
       } catch (e) {
@@ -60,7 +60,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     super.initState();
   }
 
-  bool _scrollListener() {
+   _scrollListener() {
     if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
       _TextAnimationController.animateTo(105);
       return true;
@@ -73,8 +73,8 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-          final Uri deepLink = dynamicLink?.link;
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+          final Uri? deepLink = dynamicLink?.link;
           if (deepLink != null) {
 
             locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
@@ -85,8 +85,8 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
         }
     );
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
+    final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri? deepLink = data?.link;
     if (deepLink != null) {
 
       locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
@@ -115,7 +115,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                      child: Column(
                        children: [
     Consumer<CategoryViewModel>(
-    builder: (BuildContext context, value, Widget child) {
+    builder: (BuildContext context, value, Widget? child) {
     return value.status=="empty"||value.status=="error"?SizedBox(height: ScreenUtil().setWidth(150)): SizedBox(height: ScreenUtil().setWidth(215));}),
                          //  SearchCategoriesClass(),
                          BannersSliderClass(),
@@ -168,7 +168,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                            children: [
                              InkWell(
                                        onTap: () {
-                                         scaffoldKey.currentState.openDrawer();
+                                         scaffoldKey.currentState!.openDrawer();
                                        },
                                        child: Icon(
                                          Icons.menu,

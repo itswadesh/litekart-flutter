@@ -1,8 +1,8 @@
 class WishlistResponse {
-  int count;
-  int pageSize;
-  int page;
-  List<WishlistData> data;
+  int? count;
+  int? pageSize;
+  int? page;
+  List<WishlistData>? data;
 
   WishlistResponse({this.data, this.pageSize, this.page, this.count});
 
@@ -16,11 +16,11 @@ class WishlistResponse {
 }
 
 class WishlistData {
-  bool active;
-  String createdAt;
-  String updatedAt;
-  String id;
-  WishlistProduct product;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
+  String? id;
+  WishlistProduct? product;
 
   WishlistData(
       {this.active, this.createdAt, this.updatedAt, this.id, this.product});
@@ -35,12 +35,12 @@ class WishlistData {
 }
 
 class WishlistProduct {
-  String id;
-  String name;
-  String img;
-  double price;
-  double mrp;
-  String brand;
+  String? id;
+  String? name;
+  String? img;
+  double? price;
+  double? mrp;
+  String? brand;
 
   WishlistProduct(
       {this.id, this.name, this.price, this.mrp, this.img, this.brand});
@@ -50,7 +50,7 @@ class WishlistProduct {
           id: json["id"] ?? "",
           name: json["name"] ?? "",
           img: json["imgCdn"] ?? "avc",
-          price: double.parse(json["price"].toString()) ?? "",
-          mrp: double.parse(json["mrp"].toString()) ?? "",
+          price: double.parse(json["price"].toString()) ?? "" as double?,
+          mrp: double.parse(json["mrp"].toString()) ?? "" as double?,
           brand: json["brand"] != null ? (json["brand"]["name"] ?? "") : "");
 }

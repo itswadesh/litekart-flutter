@@ -1,10 +1,10 @@
 import '../../enum/home_card_layout.dart';
 
 class DynamicRoute {
-  String target;
-  HomeRouteType type;
-  Map<String, dynamic> arguments;
-  String message;
+  String? target;
+  HomeRouteType? type;
+  Map<String, dynamic>? arguments;
+  String? message;
   DynamicRoute(this.target, this.type, this.arguments, this.message);
 
   DynamicRoute.fromMap(Map<String, dynamic> map) {

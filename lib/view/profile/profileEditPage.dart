@@ -26,7 +26,7 @@ class _ProfileEditState extends State<ProfileEdit> {
   String selectedGender = "Male";
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  File _image;
+  File? _image;
   final picker = ImagePicker();
   var image;
   _pickImageFromGallery() async {
@@ -44,15 +44,15 @@ class _ProfileEditState extends State<ProfileEdit> {
       Provider.of<ProfileModel>(context, listen: false).getProfile();
     }
     _phone.text =
-        Provider.of<ProfileModel>(context, listen: false).user.phone ?? "";
+        Provider.of<ProfileModel>(context, listen: false).user!.phone ?? "";
     _email.text =
-        Provider.of<ProfileModel>(context, listen: false).user.email ?? "";
+        Provider.of<ProfileModel>(context, listen: false).user!.email ?? "";
     _fName.text =
-        Provider.of<ProfileModel>(context, listen: false).user.firstName ?? "";
+        Provider.of<ProfileModel>(context, listen: false).user!.firstName ?? "";
     _lName.text =
-        Provider.of<ProfileModel>(context, listen: false).user.lastName ?? "";
+        Provider.of<ProfileModel>(context, listen: false).user!.lastName ?? "";
     selectedGender =
-        Provider.of<ProfileModel>(context, listen: false).user.gender ??
+        Provider.of<ProfileModel>(context, listen: false).user!.gender ??
             selectedGender;
     super.initState();
   }
@@ -90,7 +90,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     color: Color(0xfff5f5f5),
                     height: MediaQuery.of(context).size.height,
                     child: Consumer<ProfileModel>(
-                        builder: (BuildContext context, value, Widget child) {
+                        builder: (BuildContext context, value, Widget? child) {
                           return Stack(children: [
                             SingleChildScrollView(
                               child: Container(
@@ -108,7 +108,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         ScreenUtil().setHeight(45)),
                                     child:
                                   Column(children:[
-                                    _getImage(value.user.avatar),
+                                    _getImage(value.user!.avatar),
 
                                     SizedBox(height: ScreenUtil().setWidth(20),),
                                  _phone.text==""?Container():   Container(
@@ -376,7 +376,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           height: ScreenUtil().setWidth(120),
                           width: ScreenUtil().setWidth(120),
                           child: Image.file(
-                    _image,
+                    _image!,
                   )))))
               : InkWell(
               onTap: () {

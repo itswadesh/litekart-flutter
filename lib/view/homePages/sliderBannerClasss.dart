@@ -38,7 +38,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
 
   Widget getBannersList() {
     return Consumer<BannerViewModel>(
-        builder: (BuildContext context, BannerViewModel value, Widget child) {
+        builder: (BuildContext context, BannerViewModel value, Widget? child) {
           if (value.statusSlider == "loading") {
             Provider.of<BannerViewModel>(context, listen: false).fetchSliderData();
             return Container();
@@ -48,9 +48,9 @@ class _BannersSliderClass extends State<BannersSliderClass> {
             return Container();
           } else {
 
-            return value.sliderResponse.data.length>0? Container(
+            return value.sliderResponse!.data!.length>0? Container(
               child: CarouselSlider.builder(
-                itemCount: value.sliderResponse.data.length,
+                itemCount: value.sliderResponse!.data!.length,
                 options: CarouselOptions(
                   viewportFraction: 1,
                   aspectRatio: 18 / 10,
@@ -58,38 +58,38 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                   autoPlay: true,
                 ),
                 itemBuilder: (ctx, index, _index) {
-                  if (value.sliderResponse?.data[index] != null) {
+                  if (value.sliderResponse?.data![index] != null) {
                     return InkWell(
                       onTap: () async {
                         Map<String, dynamic> data = {
                           "id": EVENT_HOME_MAIN_SLIDER,
                           "imageUrl":
-                          value.sliderResponse?.data[index].img.toString(),
+                          value.sliderResponse?.data![index].img.toString(),
                           "position": index,
                           "event": "tap",
                         };
                         Tracking(event: EVENT_HOME_MAIN_SLIDER, data: data);
 
 
-                        if (value.sliderResponse.data[index].link == null ||
-                            value.sliderResponse.data[index].link == "") {
+                        if (value.sliderResponse!.data![index].link == null ||
+                            value.sliderResponse!.data![index].link == "") {
 
                         }
-                        else if(value.sliderResponse.data[index].link.contains(ApiEndpoint().brandLink)){
+                        else if(value.sliderResponse!.data![index].link!.contains(ApiEndpoint().brandLink!)){
 
-                          for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse.data.length;i++)
+                          for(int i=0; i<Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data!.length;i++)
                           {
 
-                            if(Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i].name.toLowerCase()==value.sliderResponse.data[index].link.split(ApiEndpoint().brandLink)[1]){
+                            if(Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i].name!.toLowerCase()==value.sliderResponse!.data![index].link!.split(ApiEndpoint().brandLink!)[1]){
 
-                              locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse.data[i]});
+                              locator<NavigationService>().pushNamed(routes.BrandPage,args: {"brandData":Provider.of<BrandViewModel>(context,listen: false).brandResponse!.data![i]});
                             }
                           }
                         }
                         else{
                           locator<NavigationService>().push(MaterialPageRoute(
                               builder: (context) => ProductList("", "", "", "", "",
-                                  value.sliderResponse.data[index].link)));
+                                  value.sliderResponse!.data![index].link)));
                         }
 
                       },
@@ -101,7 +101,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                             width: ScreenUtil().setWidth(414),
                             height:  ScreenUtil().setWidth(4140/18),
                             child: Image.network(
-                              value.sliderResponse?.data[index].img.toString()+"?tr=w-414,fo-auto",
+                              value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
                               width: ScreenUtil().setWidth(414),
                               height:  ScreenUtil().setWidth(4140/18),
                               fit: BoxFit.cover,

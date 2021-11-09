@@ -6,12 +6,12 @@ import '../../response_handler/channelResponse.dart';
 import '../../utility/query_mutation.dart';
 
 class ChannelViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
   ChannelRepository channelRepository = ChannelRepository();
-  ChannelResponse _channelResponse;
+  ChannelResponse? _channelResponse;
 
-  ChannelResponse get channelResponse {
+  ChannelResponse? get channelResponse {
     return _channelResponse;
   }
 

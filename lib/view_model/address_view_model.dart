@@ -6,15 +6,15 @@ import '../../utility/query_mutation.dart';
 
 class AddressViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  Address _selectedAddress;
-  var status = "loading";
-  AddressResponse _addressResponse;
+  Address? _selectedAddress;
+  String? status = "loading";
+  AddressResponse? _addressResponse;
   final AddressRepository addressRepository = AddressRepository();
-  Address get selectedAddress {
+  Address? get selectedAddress {
     return _selectedAddress;
   }
 
-  AddressResponse get addressResponse {
+  AddressResponse? get addressResponse {
     return _addressResponse;
   }
 
@@ -33,7 +33,7 @@ class AddressViewModel with ChangeNotifier {
     statusResponse = await addressRepository.saveAddress(id, email, firstName,
         lastName, address, town, city, country, state, pin, phone);
     await fetchAddressData();
-    selectAddress(_addressResponse.data[0]);
+    selectAddress(_addressResponse!.data![0]);
     notifyListeners();
     return statusResponse;
   }

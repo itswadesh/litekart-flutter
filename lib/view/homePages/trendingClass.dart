@@ -32,7 +32,7 @@ class _TrendingClass extends State<TrendingClass> {
 
   Widget getProductList() {
     return Consumer<ProductViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.trendingStatus == "loading") {
             Provider.of<ProductViewModel>(context, listen: false).fetchHotData();
             return Container();
@@ -79,21 +79,21 @@ class _TrendingClass extends State<TrendingClass> {
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: value.productTrendingResponse.data.length,
+                  itemCount: value.productTrendingResponse!.data!.length,
                   itemBuilder: (BuildContext context, index) {
                     return InkWell(
                       onTap: () {
                         Map<String, dynamic> data = {
                           "id": EVENT_TRENDING,
                           "itemId":
-                          value.productTrendingResponse.data[index].barcode,
+                          value.productTrendingResponse!.data![index].barcode,
                           "event": "tap"
                         };
                         Tracking(event: EVENT_TRENDING, data: data);
                       },
                       child: Column(children: [
                         ProductCard(
-                            value.productTrendingResponse.data[index])
+                            value.productTrendingResponse!.data![index])
                       ]),
                     );
                   }),

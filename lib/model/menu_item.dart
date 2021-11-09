@@ -5,7 +5,7 @@ class MenuItem {
   MenuItemSource source;
   IconData asset;
 
-  String get title => mapping[source];
+  String? get title => mapping[source];
 
   MenuItem(this.source, this.asset);
 

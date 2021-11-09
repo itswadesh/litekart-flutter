@@ -5,10 +5,10 @@ import '../../utility/query_mutation.dart';
 
 class BrandViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  BrandResponse _brandResponse;
-  var status = "loading";
+  BrandResponse? _brandResponse;
+  String? status = "loading";
   BrandRepository brandRepository = BrandRepository();
-  BrandResponse get brandResponse {
+  BrandResponse? get brandResponse {
     return _brandResponse;
   }
 

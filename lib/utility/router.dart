@@ -32,35 +32,35 @@ import '../main.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
 
-  String productId;
+  String? productId;
   var productList;
   var orderTrackData;
   var returnData;
-  CheckOutResponse checkoutResponse;
+  CheckOutResponse? checkoutResponse;
   var arguments = settings.arguments;
   if (settings.name == routes.ProductDetailRoute ||
       settings.name == routes.AddReviewRoute) {
-    productId = settings.arguments;
+    productId = settings.arguments as String?;
   }
 
 
   if (settings.name == routes.OrderConfirm) {
-    checkoutResponse = settings.arguments;
+    checkoutResponse = settings.arguments as CheckOutResponse?;
   }
 
   if (settings.name == routes.OrderTrack) {
-    orderTrackData = settings.arguments as Map<String, dynamic>;
+    orderTrackData = settings.arguments as Map<String, dynamic>?;
   }
   if (settings.name == routes.ReturnPageRoute) {
-    returnData = settings.arguments as Map<String, dynamic>;
+    returnData = settings.arguments as Map<String, dynamic>?;
   }
   if (settings.name == routes.ProductList) {
 
-    productList = settings.arguments as Map<String, dynamic>;
+    productList = settings.arguments as Map<String, dynamic>?;
   }
-  Map data;
+  Map? data;
   if (arguments is Map) {
-    data = settings.arguments as Map<String, dynamic>;
+    data = settings.arguments as Map<String, dynamic>?;
   }
 
   switch (settings.name) {
@@ -95,7 +95,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return ScaleRoute(page: OrderConfirm(checkoutResponse));
       break;
     case routes.LiveStreamPlayer:
-      return ScaleRoute(page: JoinLiveStreamPlayerPage(settings.arguments));
+      return ScaleRoute(page: JoinLiveStreamPlayerPage(settings.arguments as ChannelData?));
       break;
     case routes.OrderTrack:
       return ScaleRoute(page: OrderTracking(orderTrackData["id"],
@@ -125,9 +125,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           settings.arguments as Map<String, dynamic>;
       return ScaleRoute(page:
               ZoomImage(zoomArguments['imageLinks'], zoomArguments['index']));
-      break;
-    case routes.ProfileInfoRoute:
-      return ScaleRoute(page: ProfilePage());
       break;
     case routes.ProfileEditRoute:
       return ScaleRoute(page: ProfileEdit());
@@ -185,7 +182,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       break;
     case routes.BrandPage:
       return ScaleRoute(page:
-              BrandPage(brand: data['brandData'] as BrandData));
+              BrandPage(brand: data!['brandData'] as BrandData?));
       break;
     default:
       return errorPageRoute(settings);
@@ -214,7 +211,7 @@ MaterialPageRoute<dynamic> errorPageRoute(RouteSettings settings) {
 
 
 class ScaleRoute extends PageRouteBuilder {
-  final Widget page;
+  final Widget? page;
   ScaleRoute({this.page})
       : super(
     pageBuilder: (
@@ -222,7 +219,7 @@ class ScaleRoute extends PageRouteBuilder {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
         ) =>
-    page,
+    page!,
     transitionsBuilder: (
         BuildContext context,
         Animation<double> animation,

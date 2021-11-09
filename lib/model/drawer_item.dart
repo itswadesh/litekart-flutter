@@ -6,7 +6,7 @@ class DrawerItem {
   IconData asset;
   VoidCallback onTap;
 
-  String get title => mapping[source];
+  String? get title => mapping[source];
 
   DrawerItem(this.source, this.asset, this.onTap);
 
