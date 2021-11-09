@@ -468,6 +468,27 @@ class QueryMutation {
 }""";
   }
 
+  signInWithApple(){
+    return """mutation signInWithApple(\$code: String!) {
+  signInWithApple(code: \$code) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    avatar
+    avatarCdn
+    role
+    verified
+    active
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
   googleOneTap(){
   return """mutation googleOneTap(\$credential: String!) {
   googleOneTap(credential: \$credential) {

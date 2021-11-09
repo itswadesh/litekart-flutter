@@ -12,4 +12,8 @@ class LoginRepository {
     return _apiProvider!.googleOneTap(accessToken);
   }
 
+  signInWithApple(accessToken){
+    return _apiProvider!.signInWithApple(accessToken);
+  }
+
 }

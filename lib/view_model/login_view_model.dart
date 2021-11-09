@@ -254,31 +254,27 @@ class AppleLoginViewModel extends ChangeNotifier{
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId:
-          'com.aboutyou.dart_packages.sign_in_with_apple.example',
-          redirectUri: Uri.parse(
-            'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
-          ),
-        ),
+        // webAuthenticationOptions: WebAuthenticationOptions(
+        //   clientId:
+        //   'com.aboutyou.dart_packages.sign_in_with_apple.example',
+        //   redirectUri: Uri.parse(
+        //     'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
+        //   ),
+        // ),
       );
-      log(credential.toString());
-      // if (credential != null) {
-      //
-      //   LoginRepository loginRepository = LoginRepository();
-      //
-      //   appleStatus = await loginRepository.appleLogin(credential);
-      //   if (appleStatus) {
-      //     token = tempToken;
-      //     await addCookieToSF(token);
-      //   }
-      //   _dialog.close();
-      // }
-      // else{
-      //   appleStatus = false;
-      //   _dialog.close();
-      // }
-
+      if(credential.authorizationCode.isNotEmpty){
+        LoginRepository loginRepository = LoginRepository();
+        appleStatus = await loginRepository.signInWithApple(credential.authorizationCode);
+        if (appleStatus) {
+          token = tempToken;
+          await addCookieToSF(token);
+        }
+        _dialog.close();
+      }
+      else{
+       appleStatus = false;
+        _dialog.close();
+      }
     }
     catch (error) {
       appleStatus = false;

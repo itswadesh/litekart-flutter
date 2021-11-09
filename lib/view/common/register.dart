@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -430,7 +431,7 @@ class _RegisterState extends State<Register> {
                             },
                             child: Image.asset("assets/images/google.png",height:35,width:35),
                           )),
-                      Consumer<AppleLoginViewModel>(
+                      Visibility(visible: Platform.isIOS ,child:  Consumer<AppleLoginViewModel>(
                           builder: (context, appleModel, child) =>   InkWell(
                             onTap: () async{
                               await appleModel.handleAppleLogin();
@@ -450,7 +451,7 @@ class _RegisterState extends State<Register> {
                               }
                             },
                             child: Image.asset("assets/images/apple.png",height:32,width:32),
-                          )),
+                          ))),
                       Consumer<FacebookLoginViewModel>(
                           builder: (context, facebookModel, child) =>   InkWell(
 

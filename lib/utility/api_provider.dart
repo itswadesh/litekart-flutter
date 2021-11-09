@@ -355,6 +355,25 @@ class ApiProvider {
     return true;
   }
 
+  Future<bool> signInWithApple(accessToken) async {
+    GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+
+    QueryResult resultData = await _client1.mutate(
+      MutationOptions(
+          document: gql(addMutation.signInWithApple()),
+          variables: {
+            "code":accessToken
+          }
+      ),
+    );
+    print(resultData.toString());
+    if (resultData.hasException) {
+      return false;
+    }
+    return true;
+  }
+
   Future<bool> googleOneTap(accessToken) async {
     GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
