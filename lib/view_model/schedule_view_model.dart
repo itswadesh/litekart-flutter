@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anne/repository/schedule_repository.dart';
 import 'package:anne/response_handler/scheduleResponse.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +24,7 @@ class ScheduleViewModel with ChangeNotifier {
     var resultData = await scheduleRepository.fetchMyScheduleDemos();
     status = resultData["status"];
     if (status == "completed") {
+      log("in hereeeeeeee");
       _scheduleListResponse = ScheduleListResponse.fromJson(resultData["value"]);
       _pagingController.appendLastPage(_scheduleListResponse!.data!);
     }

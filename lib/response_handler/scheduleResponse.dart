@@ -21,17 +21,17 @@ class ScheduleListResponse {
 
 class ScheduleData {
   String? id;
-  String? scheduleDateTime;
+  int? scheduleDateTime;
   String? title;
   String? img;
   String? imgCdn;
   ScheduleDataProduct? product;
-  List<ScheduleDataProduct>? products;
+ // List<ScheduleDataProduct>? products;
   ScheduleDataUser? user;
-  List<ScheduleDataUser>? users;
+ // List<ScheduleDataUser>? users;
 
   ScheduleData({
-    this.id,this.title,this.user,this.product,this.img,this.users,this.products,this.scheduleDateTime,this.imgCdn
+    this.id,this.title,this.user,this.product,this.img,this.scheduleDateTime,this.imgCdn
 });
 
   factory ScheduleData.fromJson(Map<String, dynamic> json)=>
@@ -41,9 +41,9 @@ class ScheduleData {
         title: json["title"],
         img: json["img"],
         imgCdn: json["imgCdn"],
-        products: List<ScheduleDataProduct>.from(json["products"].map((x)=>ScheduleDataProduct.fromJson(x))),
+      //  products: List<ScheduleDataProduct>.from(json["products"].map((x)=>ScheduleDataProduct.fromJson(x))),
         product: ScheduleDataProduct.fromJson(json["product"]),
-        users: List<ScheduleDataUser>.from(json["users"].map((x)=>ScheduleDataUser.fromJson(x))),
+       // users: List<ScheduleDataUser>.from(json["users"].map((x)=>ScheduleDataUser.fromJson(x))),
         user: ScheduleDataUser.fromJson(json["user"])
       );
 }

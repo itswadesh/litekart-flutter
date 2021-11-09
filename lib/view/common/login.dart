@@ -561,7 +561,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                   await model.validateOtp(
                       _mobileController!.text, _otpController.text);
                   if (model.otpStatus) {
-                    token = tempToken;
+                    token = tempToken!;
                     await Provider.of<ProfileModel>(context, listen: false)
                         .getProfile();
                     await Provider.of<CartViewModel>(context, listen: false)

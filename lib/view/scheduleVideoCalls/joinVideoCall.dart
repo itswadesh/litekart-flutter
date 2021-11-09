@@ -95,9 +95,9 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
         body: buildCallingWidget(context),
       ),
       // ignore: missing_return
-      onWillPop: () {
-        _requestPop();
-      } as Future<bool> Function()?,
+      onWillPop: () =>
+        _requestPop()
+      ,
     );
   }
 
@@ -252,7 +252,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
                  // .then((value) => _initAudio())
                  // .then((value) => _initVideo())
                  //  .then((value) => _initRenderer())
-                  .then((value) => _engine.joinChannel('', widget.cid!, neteaseData["uid"]))
+                  .then((value) => _engine.joinChannel('', widget.cid!, neteaseData["value"]["uid"]))
                   .then((value) {
                 if (value == 0) {
                   setState(() {
@@ -540,7 +540,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: buildVideoView(context, _remoteSessions.first),
+      child: _remoteSessions.length!=0?buildVideoView(context, _remoteSessions.first):buildVideoView(context, _localSession),
     );
       // GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -579,7 +579,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
     );
   }
 
-  void _requestPop() {
+   _requestPop() {
     Navigator.pop(context);
   }
 
@@ -588,7 +588,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
 
      neteaseData = await scheduleRepository.neteaseToken(scheduleData!.id);
 
-    _localSession.uid = neteaseData["uid"];
+    _localSession.uid = neteaseData["value"]["uid"];
     NERtcOptions options = NERtcOptions(
         audioAutoSubscribe: _settings.autoSubscribeAudio,
         serverRecordSpeaker: _settings.serverRecordSpeaker,
@@ -596,7 +596,7 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
         serverRecordVideo: _settings.serverRecordVideo,
         serverRecordMode:
         NERtcServerRecordMode.values[_settings.serverRecordMode],
-       // videoSendMode: NERtcVideoSendMode.values[_settings.videoSendMode],
+        videoSendMode: NERtcVideoSendMode.values[_settings.videoSendMode],
         videoEncodeMode:
         NERtcMediaCodecMode.values[_settings.videoEncodeMediaCodecMode],
         videoDecodeMode:
@@ -605,11 +605,14 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
    // _engine.joinChannel('', widget.cid, widget.uid);
     _engine
         .create(
-        appKey: neteaseData["appkey"],
+        appKey: neteaseData["value"]["appkey"],
         channelEventCallback: this,
         options: options)
         .then((value) => _initCallbacks())
-        .then((value) => _engine.joinChannel(neteaseData["token"], widget.cid!, neteaseData["uid"]))
+        .then((value) => _initAudio())
+        .then((value) => _initVideo())
+        .then((value) => _initRenderer())
+        .then((value) => _engine.joinChannel(neteaseData["value"]["token"], widget.cid!, neteaseData["value"]["uid"]))
         .catchError((e) {
       Fluttertoast.showToast(
           msg: 'catchError:' + e, gravity: ToastGravity.CENTER);
@@ -619,6 +622,32 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
   Future<int> _initCallbacks() async {
     await _engine.setStatsEventCallback(this);
     return _engine.deviceManager.setEventCallback(this);
+  }
+
+    Future<int> _initAudio() async {
+    await _engine.enableLocalAudio(isAudioEnabled);
+    return _engine.setAudioProfile(
+        NERtcAudioProfile.values[_settings.audioProfile],
+        NERtcAudioScenario.values[_settings.audioScenario]);
+  }
+
+  Future<int> _initVideo() async {
+    await _engine.enableLocalVideo(isVideoEnabled);
+    await _engine.enableDualStreamMode(_settings.enableDualStreamMode);
+    NERtcVideoConfig config = NERtcVideoConfig();
+    config.videoProfile = _settings.videoProfile;
+    config.frameRate = _settings.videoFrameRate;
+    config.degradationPrefer = _settings.degradationPreference;
+    config.frontCamera = _settings.frontFacingCamera;
+    config.videoCropMode = _settings.videoCropMode;
+    return _engine.setLocalVideoConfig(config);
+  }
+
+  Future<void> _initRenderer() async {
+    _localSession.renderer = await VideoRendererFactory.createVideoRenderer();
+    _localSession.renderer!.setMirror(isFrontCamera && isFrontCameraMirror);
+    _localSession.renderer!.attachToLocalVideo();
+    setState(() {});
   }
 
 

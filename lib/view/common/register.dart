@@ -323,7 +323,7 @@ class _RegisterState extends State<Register> {
                   _focusNode!.unfocus();
                   await model.register(_emailController.text,_passwordController.text,_cPasswordController.text,_firstNameController.text,_lastNameController.text);
                   if (model.registerStatus) {
-                    token = tempToken;
+                    token = tempToken!;
                     await Provider.of<ProfileModel>(context, listen: false)
                         .getProfile();
                     await Provider.of<CartViewModel>(context, listen: false)
@@ -415,7 +415,7 @@ class _RegisterState extends State<Register> {
                             onTap: () async{
                                 await googleModel.handleGoogleLogin();
                                 if (googleModel.googleStatus) {
-                                  token = tempToken;
+                                  token = tempToken!;
                                   await Provider.of<ProfileModel>(context, listen: false)
                                       .getProfile();
                                   await Provider.of<CartViewModel>(context, listen: false)
@@ -436,7 +436,7 @@ class _RegisterState extends State<Register> {
                             onTap: () async{
                               await appleModel.handleAppleLogin();
                               if (appleModel.appleStatus) {
-                                token = tempToken;
+                                token = tempToken!;
                                 await Provider.of<ProfileModel>(context, listen: false)
                                     .getProfile();
                                 await Provider.of<CartViewModel>(context, listen: false)
@@ -458,7 +458,7 @@ class _RegisterState extends State<Register> {
                             onTap: () async{
                              await facebookModel.handleFacebookLogin();
                              if (facebookModel.fbStatus) {
-                               token = tempToken;
+                               token = tempToken!;
                                await Provider.of<ProfileModel>(context, listen: false)
                                    .getProfile();
                                await Provider.of<CartViewModel>(context, listen: false)

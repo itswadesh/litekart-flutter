@@ -258,7 +258,7 @@ class _EmailLoginState extends State<EmailLogin> {
                   _focusNode!.unfocus();
                       await model.login(_emailController.text,_passwordController.text);
                   if (model.loginStatus) {
-                    token = tempToken;
+                    token = tempToken!;
                     await Provider.of<ProfileModel>(context, listen: false)
                         .getProfile();
                     await Provider.of<CartViewModel>(context, listen: false)
@@ -349,7 +349,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         onTap: () async{
                         await googleModel.handleGoogleLogin();
                         if (googleModel.googleStatus) {
-                          token = tempToken;
+                          token = tempToken!;
                           await Provider.of<ProfileModel>(context, listen: false)
                               .getProfile();
                           await Provider.of<CartViewModel>(context, listen: false)
@@ -370,7 +370,7 @@ class _EmailLoginState extends State<EmailLogin> {
                             onTap: () async{
                               await appleModel.handleAppleLogin();
                               if (appleModel.appleStatus) {
-                                token = tempToken;
+                                token = tempToken!;
                                 await Provider.of<ProfileModel>(context, listen: false)
                                     .getProfile();
                                 await Provider.of<CartViewModel>(context, listen: false)
@@ -392,7 +392,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         onTap: () async{
                          await facebookModel.handleFacebookLogin();
                          if (facebookModel.fbStatus) {
-                           token = tempToken;
+                           token = tempToken!;
                            await Provider.of<ProfileModel>(context, listen: false)
                                .getProfile();
                            await Provider.of<CartViewModel>(context, listen: false)

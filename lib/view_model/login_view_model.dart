@@ -63,7 +63,7 @@ class LoginViewModel extends ChangeNotifier {
         ),
       );
       if (!result.hasException) {
-        token = tempToken;
+        token = tempToken!;
         await addCookieToSF(token);
         _dialog.close();
         otpStatus = true;
@@ -121,7 +121,7 @@ class EmailLoginViewModel extends ChangeNotifier{
       if (!result.hasException) {
 
         loginStatus=true;
-        token = tempToken;
+        token = tempToken!;
         await addCookieToSF(token);
         _dialog.close();
       } else {
@@ -166,7 +166,7 @@ class RegisterViewModel extends ChangeNotifier{
       if (!result.hasException) {
 
         registerStatus = true;
-        token = tempToken;
+        token = tempToken!;
         await addCookieToSF(token);
         _dialog.close();
       } else {
@@ -210,7 +210,7 @@ class GoogleLoginViewModel extends ChangeNotifier{
        LoginRepository loginRepository = LoginRepository();
       googleStatus = await loginRepository.googleOneTap(googleSignInAuthentication.idToken);
       if (googleStatus) {
-        token = tempToken;
+        token = tempToken!;
         await addCookieToSF(token);
       }
       _dialog.close();
@@ -266,7 +266,7 @@ class AppleLoginViewModel extends ChangeNotifier{
         LoginRepository loginRepository = LoginRepository();
         appleStatus = await loginRepository.signInWithApple(credential.authorizationCode);
         if (appleStatus) {
-          token = tempToken;
+          token = tempToken!;
           await addCookieToSF(token);
         }
         _dialog.close();
@@ -317,7 +317,7 @@ class FacebookLoginViewModel extends ChangeNotifier{
       final FacebookAccessToken accessToken = res.accessToken!;
       fbStatus = await loginRepository.facebookMobileLogin(accessToken.token);
      if(fbStatus) {
-       token = tempToken;
+       token = tempToken!;
        await addCookieToSF(token);
      }
       _dialog.close();

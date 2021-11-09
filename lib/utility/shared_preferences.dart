@@ -1,18 +1,18 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<bool> addCookieToSF(cookie) async {
+ addCookieToSF(cookie) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.setString('cookie', cookie);
 }
 
-Future<String?> getCookieFromSF() async {
+ getCookieFromSF() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return String
   String? cookie = prefs.getString('cookie');
   return cookie;
 }
 
-Future<bool> deleteCookieFromSF() async {
+ deleteCookieFromSF() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return String
   return prefs.remove('cookie');

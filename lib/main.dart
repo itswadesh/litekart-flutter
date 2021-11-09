@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:anne/model/setting.dart';
 import 'package:anne/view_model/channel_view_model.dart';
+import 'package:anne/view_model/schedule_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +63,7 @@ void main() async {
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
 User? user;	
-if(token!=null && token!=""){
+if( token!=""){
    user = await ProfileModel().returnProfile();
 	}
 
@@ -166,6 +167,7 @@ class _MyApp extends State<Main> {
           ChangeNotifierProvider.value(value: SettingViewModel()),
           ChangeNotifierProvider.value(value: ChannelViewModel()),
           ChangeNotifierProvider.value(value: StoreViewModel()),
+          ChangeNotifierProvider.value(value: ScheduleViewModel()),
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,

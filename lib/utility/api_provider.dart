@@ -36,7 +36,7 @@ class ApiProvider {
             }
         ),
       );
-      log(resultData.toString());
+      log(resultData.data!["myScheduleDemos"].toString());
       if (resultData.hasException) {
 
         responseData = {"status": "error"};
@@ -54,6 +54,7 @@ class ApiProvider {
     } catch (e) {
       responseData = {"status": "error"};
     }
+    log(responseData.toString());
     return responseData;
   }
 
@@ -738,7 +739,7 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        token = tempToken;
+        token = tempToken!;
         await addCookieToSF(token);
 
         if (resultData.data!["addToCart"] == null ||

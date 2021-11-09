@@ -5,12 +5,12 @@ import "package:flutter/material.dart";
 import "package:graphql_flutter/graphql_flutter.dart";
 import '../../utility/api_endpoint.dart';
 
-String? token;
-String? tempToken;
+String? token="";
+String? tempToken="";
 
 class GraphQLConfiguration {
   HttpLink httpLink = HttpLink((ApiEndpoint()).graphQlUrl!,
-      defaultHeaders: {"cookie": token!, "content-type": "application/json"},
+      defaultHeaders: {"cookie": token??"", "content-type": "application/json"},
       httpResponseDecoder: (response) async {
 
     /*log("Response Header : " + response.headers.toString());

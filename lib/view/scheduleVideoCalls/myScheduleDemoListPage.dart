@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/components/widgets/cartEmptyMessage.dart';
 import 'package:anne/components/widgets/errorMessage.dart';
@@ -144,6 +146,9 @@ class _ScheduleCard extends State<ScheduleCard> {
                 children: [
                   Container(
                     child: FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png");
+                      }),
                       placeholder: 'assets/images/loading.gif',
                       image: item!.product!.imgCdn!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
