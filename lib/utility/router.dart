@@ -5,6 +5,7 @@ import 'package:anne/view/liveStreamPages/joinLiveStreamPage.dart';
 import 'package:anne/view/menu.dart';
 import 'package:anne/view/menu/wishlist.dart';
 import 'package:anne/view/profile/profileEditPage.dart';
+import 'package:anne/view/scheduleVideoCalls/myScheduleDemoListPage.dart';
 import 'package:anne/view_model/menu_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -140,6 +141,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       break;
     case routes.ManageAddress:
       return ScaleRoute(page: ManageAddress());
+      break;
+    case routes.ScheduleDemoList:
+      return ScaleRoute(page: MyScheduleDemoListPage());
       break;
     case routes.ManageOrder:
       return ScaleRoute(page: Consumer<MenuViewModel>(

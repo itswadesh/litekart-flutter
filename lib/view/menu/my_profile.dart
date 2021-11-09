@@ -109,7 +109,7 @@ class _MyProfileState extends State<MyProfile> {
                                 Divider(),
                             getTiles("Profile Details","Change Your Profile Details",Icons.edit,routes.ProfileEditRoute),
                                 Divider(),
-                                getTiles("Schedule Calls","Check your Upcoming Scheduled Calls",Icons.video_call_outlined,routes.LiveStreamPlayer),
+                                getTiles("Schedule Calls","Check your Upcoming Scheduled Calls",Icons.video_call_outlined,routes.ScheduleDemoList),
                                 Divider(),
                                 SizedBox(height: ScreenUtil().setWidth(15),),
                                 InkWell(
