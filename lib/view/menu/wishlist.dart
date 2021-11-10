@@ -162,6 +162,9 @@ class _WishCard extends State<WishCard> {
                 children: [
                   Container(
                     child: FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png");
+                      }),
                       placeholder: 'assets/images/loading.gif',
                       image: item.product!.img!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
