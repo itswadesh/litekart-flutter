@@ -135,7 +135,7 @@ class _CategoriesClass extends State<CategoriesClass> {
                                                 left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
                                                 right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1))),
                                             shape: BoxShape.circle,
-                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse!.data![index].img ?? 'https://next.anne.com/icon.png'))))),
+                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse!.data![index].img ?? 'https://anne.biz/icon.png'))))),
                                 SizedBox(
                                   height: 10,
                                 ),

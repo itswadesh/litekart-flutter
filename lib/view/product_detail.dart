@@ -126,13 +126,13 @@ class _ProductDetail extends State<ProductDetail>
     var _linkMessage;
     var dynamicUrl;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://anne.com/',
-      link: Uri.parse('https://www.anne.com/$id'),
+      uriPrefix: 'https://anne.biz/',
+      link: Uri.parse('https://www.anne.biz/$id'),
       androidParameters: AndroidParameters(
         packageName: 'com.anne.ind',
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(bundleId: 'com.anne.ind'),
+      iosParameters: IosParameters(bundleId: 'com.anne.anne'),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),

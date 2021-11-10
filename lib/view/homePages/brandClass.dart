@@ -109,7 +109,7 @@ class _BrandClass extends State<BrandClass> {
                                 image: data.img != null
                                     ? NetworkImage(data.img!)
                                     : NetworkImage(
-                                    'https://next.anne.com/icon.png'),
+                                    'https://anne.biz/icon.png'),
                               ),
                             ),
                           ),

@@ -101,7 +101,7 @@ class _AccountDrawer extends State<AccountDrawer> {
             height: 15,
           ),
           Text(
-            "${user.user!.email ?? "email@anne.com"}",
+            "${user.user!.email ?? "support@anne.biz"}",
             style: TextStyle(color: Colors.grey, fontSize: 17),
           ),
         ]),
