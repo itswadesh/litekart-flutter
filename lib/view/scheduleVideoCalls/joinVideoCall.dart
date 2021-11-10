@@ -249,9 +249,9 @@ class _JoinVideoCallPageState extends State<JoinVideoCallPage>
               });
             } else {
               _initCallbacks()
-                 // .then((value) => _initAudio())
-                 // .then((value) => _initVideo())
-                 //  .then((value) => _initRenderer())
+                 .then((value) => _initAudio())
+                 .then((value) => _initVideo())
+                  .then((value) => _initRenderer())
                   .then((value) => _engine.joinChannel('', widget.cid!, neteaseData["value"]["uid"]))
                   .then((value) {
                 if (value == 0) {

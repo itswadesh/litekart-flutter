@@ -1,4 +1,4 @@
-import 'package:connectivity/connectivity.dart';
+//import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../bloc/connectivity_bloc.dart';
@@ -16,7 +16,7 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  ConnectivityBloc _connectivityBloc = ConnectivityBloc.instance;
+ // ConnectivityBloc _connectivityBloc = ConnectivityBloc.instance;
   double? aspectRatio;
   final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
@@ -28,12 +28,12 @@ class _OnboardingState extends State<Onboarding> {
     /*initChat();*/
     Tracking(event: EVENT_ONBOARDING);
     super.initState();
-    _connectivityBloc.initialise();
+   // _connectivityBloc.initialise();
   }
 
   @override
   void dispose() {
-    _connectivityBloc.dispose();
+   // _connectivityBloc.dispose();
     super.dispose();
   }
 
@@ -64,17 +64,17 @@ class _OnboardingState extends State<Onboarding> {
     if (MediaQuery.of(context).size.height < 800) {
       textSizeReduceFactor = 2;
     }
-
-    return StreamBuilder<ConnectivityResult>(
-      builder: (_, AsyncSnapshot<ConnectivityResult> snapshot) {
-        if (snapshot?.data == ConnectivityResult.none) {
-          return Internet();
-        } else {
-          return getBody();
-        }
-      },
-      stream: _connectivityBloc.connectionStream,
-    );
+    return getBody();
+    // return StreamBuilder<ConnectivityResult>(
+    //   builder: (_, AsyncSnapshot<ConnectivityResult> snapshot) {
+    //     if (snapshot?.data == ConnectivityResult.none) {
+    //       return Internet();
+    //     } else {
+    //       return getBody();
+    //     }
+    //   },
+    //  // stream: _connectivityBloc.connectionStream,
+    // );
   }
 
   Widget getBody() {
