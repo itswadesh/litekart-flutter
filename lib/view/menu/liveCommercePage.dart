@@ -160,7 +160,7 @@ class StreamCard extends StatelessWidget{
        borderRadius: BorderRadius.circular(ScreenUtil().radius(25),),
      image: DecorationImage(
          image: (channelData.img!=null? NetworkImage(channelData.img!):AssetImage("assets/images/logo.png")) as ImageProvider<Object>,
-       fit: BoxFit.cover
+       fit: BoxFit.contain
      ),
      ),
 
