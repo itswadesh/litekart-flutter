@@ -132,7 +132,7 @@ class _ProductDetail extends State<ProductDetail>
         packageName: 'com.anne.ind',
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(bundleId: 'com.anne.anne'),
+      iosParameters: IosParameters(bundleId: 'biz.anne.app'),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),

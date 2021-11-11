@@ -1,4 +1,4 @@
-package com.anne.anne
+package biz.anne.app
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

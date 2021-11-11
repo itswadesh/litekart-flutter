@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anne.anne"
+    package="biz.anne.app"
     xmlns:tools="http://schemas.android.com/tools"
     >
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -64,7 +64,7 @@
                <action android:name="android.intent.action.VIEW" />
                <category android:name="android.intent.category.DEFAULT" />
                <category android:name="android.intent.category.BROWSABLE" />
-               <data android:scheme="com.anne.anne.braintree" />
+               <data android:scheme="biz.anne.app.braintree" />
            </intent-filter>
        </activity>
 
