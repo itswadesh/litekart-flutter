@@ -981,6 +981,9 @@ class ListOrderData extends StatelessWidget{
          children: <Widget>[
            new ClipRRect(
                child: (items[index].img!=null && items[index].img!="")?  FadeInImage.assetNetwork(
+                 imageErrorBuilder: ((context,object,stackTrace){
+                   return Image.asset("assets/images/logo.png");
+                 }),
                  placeholder: 'assets/images/loading.gif',
                  image: items[index].img!+"?tr=h-112,w-92,fo-auto",
                  fit: BoxFit.cover,

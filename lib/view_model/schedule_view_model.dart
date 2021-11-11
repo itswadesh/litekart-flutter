@@ -8,6 +8,7 @@ import '../../utility/query_mutation.dart';
 
 class ScheduleViewModel with ChangeNotifier {
   String? status = "loading";
+  bool saveStatus = false;
   QueryMutation addMutation = QueryMutation();
   ScheduleRepository scheduleRepository = ScheduleRepository();
   final PagingController _pagingController = PagingController(firstPageKey: 0);
@@ -28,6 +29,25 @@ class ScheduleViewModel with ChangeNotifier {
       _scheduleListResponse = ScheduleListResponse.fromJson(resultData["value"]);
       _pagingController.appendLastPage(_scheduleListResponse!.data!);
     }
+    notifyListeners();
+  }
+
+  saveScheduleDemo(id,pid,scheduleDateTime,title) async {
+
+    bool resultData = await scheduleRepository.saveScheduleDemo(id, pid, scheduleDateTime,title);
+    if (resultData) {
+      await changeStatus("loading");
+      saveStatus = true;
+    }
+    else {
+      saveStatus = false;
+    }
+    notifyListeners();
+  }
+
+  cancelScheduleCall(id) async {
+    bool resultData = await scheduleRepository.deleteScheduleDemo(id);
+    changeStatus("loading");
     notifyListeners();
   }
 

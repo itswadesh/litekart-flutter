@@ -17,6 +17,57 @@ class ApiProvider {
   Dio dio = Dio();
 
   // Schedule Video
+  saveScheduleDemos(id,pid,scheduleDateTime,title) async{
+
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
+    try {
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.saveScheduleDemo()),
+            variables: {
+              "id":id,
+              "product":pid,
+              "scheduleDateTime":scheduleDateTime,
+              "title":title,
+            }
+        ),
+      );
+      log(resultData.toString());
+      if (resultData.hasException) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+     return false;
+    }
+  }
+
+  deleteScheduleDemo(id) async{
+
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client1 = graphQLConfiguration.clientToQuery();
+    try {
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.deleteScheduleDemo()),
+            variables: {
+              "id":id,
+            }
+        ),
+      );
+      log(resultData.toString());
+      if (resultData.hasException) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
 
   fetchMyScheduleDemos() async{
     Map responseData;

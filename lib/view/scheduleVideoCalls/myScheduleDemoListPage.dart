@@ -156,53 +156,54 @@ class _ScheduleCard extends State<ScheduleCard> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        right: ScreenUtil().setWidth(10),
-                        top: ScreenUtil().setWidth(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                            onTap: () async {
-                              final NavigationService _navigationService = locator<NavigationService>();
-                              TzDialog _dialog =
-                              TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
-                              _dialog.show();
-
-                              _dialog.close();
-                            },
-                            child: Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0, 0, ScreenUtil().setWidth(0), 0),
-                                width: ScreenUtil().radius(30),
-                                height: ScreenUtil().radius(30),
-                                decoration: new BoxDecoration(
-                                  color: Color(0xffd3d3d3),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      top: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      left: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      right: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4))),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Color(0xff454545),
-                                  size: ScreenUtil().setWidth(18),
-                                ))),
-
-                      ],
-                    ),
-                  )
+                  // Container(
+                  //   padding: EdgeInsets.only(
+                  //       right: ScreenUtil().setWidth(10),
+                  //       top: ScreenUtil().setWidth(10)),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       InkWell(
+                  //           onTap: () async {
+                  //             final NavigationService _navigationService = locator<NavigationService>();
+                  //             TzDialog _dialog =
+                  //             TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                  //             _dialog.show();
+                  //             await Provider.of<ScheduleViewModel>(context,
+                  //                 listen: false).cancelScheduleCall(item!.id);
+                  //             _dialog.close();
+                  //           },
+                  //           child: Container(
+                  //               margin: EdgeInsets.fromLTRB(
+                  //                   0, 0, ScreenUtil().setWidth(0), 0),
+                  //               width: ScreenUtil().radius(30),
+                  //               height: ScreenUtil().radius(30),
+                  //               decoration: new BoxDecoration(
+                  //                 color: Color(0xffd3d3d3),
+                  //                 border: Border(
+                  //                     bottom: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     top: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     left: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     right: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4))),
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child: Icon(
+                  //                 Icons.close,
+                  //                 color: Color(0xff454545),
+                  //                 size: ScreenUtil().setWidth(18),
+                  //               ))),
+                  //
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
               Container(

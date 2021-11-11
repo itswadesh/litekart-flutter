@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+
 class ApiEndpoint {
   String? _url;
   String? _endpoint;
@@ -22,10 +23,10 @@ class ApiEndpoint {
       _domainName = "anne.biz";
     }
     else {
-      _endpoint = "https://api.anne.biz/api/";
-      _url = "https://api.anne.biz";
-      _graphQlUrl = "https://api.anne.biz/graphql";
-      _domainName = "anne.biz";
+      _endpoint = "https://next-api.anne.biz/api/";
+      _url = "https://next-api.anne.biz";
+      _graphQlUrl = "https://next-api.anne.biz/graphql";
+      _domainName = "next.anne.biz";
     }
     _productList = "${_endpoint}products/es";
     _cashFreeEndpoint = "${_endpoint}pay/capture-cashfree";

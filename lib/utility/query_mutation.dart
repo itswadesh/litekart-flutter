@@ -2,6 +2,69 @@ class QueryMutation {
 
   // Live Commerce
 
+  deleteScheduleDemo(){
+    return """mutation deleteScheduleDemo(\$id: ID!) {
+  deleteScheduleDemo(id: \$id)
+}""";
+  }
+
+  saveScheduleDemo(){
+    return """mutation saveScheduleDemo(
+  \$id: String!
+  \$product: ID
+  \$products: [ID]
+  \$scheduleDateTime: String
+  \$title: String
+  \$img: String
+) {
+  saveScheduleDemo(
+    id: \$id
+    product: \$product
+    products: \$products
+    scheduleDateTime: \$scheduleDateTime
+    img: \$img
+    title: \$title
+  ) {
+    id
+    scheduleDateTime
+    title
+    img
+    imgCdn
+    product {
+      id
+      name
+      img
+      imgCdn
+      slug
+      price
+      mrp
+    }
+    products {
+      id
+      name
+      img
+      slug
+      price
+      mrp
+    }
+    user {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+    users {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}""";
+  }
+
   myScheduleDemos(){
     return """query myScheduleDemos(
   \$page: Int
