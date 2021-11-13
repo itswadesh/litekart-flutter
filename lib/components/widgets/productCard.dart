@@ -1,18 +1,16 @@
-import 'dart:math';
-
 import 'package:anne/model/product.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
-import 'package:anne/view/product_detail.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/view_model/store_view_model.dart';
-import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../../main.dart';
 import '../../values/route_path.dart' as routes;
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class ProductCard extends StatefulWidget {
   final item;
@@ -57,22 +55,44 @@ class _ProductCard extends State<ProductCard> {
               Stack(
                 children: [
                   Container(
-                    child: imageStatus? FadeInImage.assetNetwork(
-                      imageErrorBuilder: ((context,object,stackTrace){
-
-                          imageStatus = false;
-                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
-                          width: ScreenUtil().setWidth(193),
-                          fit: BoxFit.contain,);
-                      }),
-                      placeholder: 'assets/images/loading.gif',
-                      image: item.img!+"?tr=w-193,fo-auto",
+                    child:
+                    CachedNetworkImage(
+                      fit: BoxFit.contain,
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
-                      fit: BoxFit.contain,
-                    ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
-                      width: ScreenUtil().setWidth(193),
-                      fit: BoxFit.contain,),
+                      imageUrl: item.img!+"?tr=w-193,fo-auto",
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                            width: ScreenUtil().setWidth(193),
+                            fit: BoxFit.contain,),
+
+                            image: imageProvider,
+                              fit: BoxFit.contain,
+
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(193),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,),
+                      errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                              width: ScreenUtil().setWidth(193),
+                              fit: BoxFit.contain,),
+                    ),
+                    // child:  FadeInImage.memoryNetwork(
+                    //   imageErrorBuilder: ((context,object,stackTrace){
+                    //     return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                    //       width: ScreenUtil().setWidth(193),
+                    //       fit: BoxFit.contain,);
+                    //   }),
+                    //   placeholder: kTransparentImage,
+                    //   image: item.img!+"?tr=w-193,fo-auto",
+                    //   height: ScreenUtil().setWidth(193),
+                    //   width: ScreenUtil().setWidth(193),
+                    //   fit: BoxFit.contain,
+                    // )
                   ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
@@ -226,4 +246,5 @@ class _ProductCard extends State<ProductCard> {
       ),
     );
   }
+
 }

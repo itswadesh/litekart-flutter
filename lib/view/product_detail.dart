@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:anne/components/base/tz_dialog.dart';
@@ -257,18 +258,46 @@ class _ProductDetail extends State<ProductDetail>
                                   ],)
 
                                   :PinchZoom(
-                                child: FadeInImage.assetNetwork(
-                                  imageErrorBuilder: ((context,object,stackTrace){
-                                    return Image.asset("assets/images/logo.png");
-                                  }),
-                                  placeholder: 'assets/images/loading.gif',
-                                  image: productData.images![index]
-                                      .toString()
-                                      .trim()+"?tr=w-414,fo-auto",
-                                  width: MediaQuery.of(context).size.width,
-                                  height: ScreenUtil().setWidth(600),
+                                child:
+                                CachedNetworkImage(
                                   fit: BoxFit.contain,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: ScreenUtil().setWidth(600),
+                                  imageUrl: productData.images![index]
+                                          .toString()
+                                          .trim()+"?tr=w-414,fo-auto",
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                                          height: ScreenUtil().setWidth(600),
+                                          fit: BoxFit.contain,),
+
+                                        image: imageProvider,
+                                        fit: BoxFit.contain,
+
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) => Image.asset("assets/images/loading.gif",   width: MediaQuery.of(context).size.width,
+                                    height: ScreenUtil().setWidth(600),
+                                    fit: BoxFit.contain,),
+                                  errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                                    height: ScreenUtil().setWidth(600),
+                                    fit: BoxFit.contain,),
                                 ),
+                                // FadeInImage.assetNetwork(
+                                //   imageErrorBuilder: ((context,object,stackTrace){
+                                //     return Image.asset("assets/images/logo.png");
+                                //   }),
+                                //   placeholder: 'assets/images/loading.gif',
+                                //   image: productData.images![index]
+                                //       .toString()
+                                //       .trim()+"?tr=w-414,fo-auto",
+                                //   width: MediaQuery.of(context).size.width,
+                                //   height: ScreenUtil().setWidth(600),
+                                //   fit: BoxFit.contain,
+                                // ),
                                 resetDuration:
                                     const Duration(milliseconds: 100),
                                 maxScale: 2.5,

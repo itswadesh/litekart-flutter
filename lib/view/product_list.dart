@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anne/components/widgets/productListCard.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
@@ -372,6 +374,7 @@ class _ProductList extends State<ProductList> {
     var response;
     response = await productsRepository.fetchProductList(
         categoryName, searchText.text, brand, color, size, gender,priceRange,ageGroup,discount,page, parentBrand,brandId,urlLink,sort);
+   // log(response.toString());
     if (response.statusCode == 200) {
       try {
 

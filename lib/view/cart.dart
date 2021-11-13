@@ -2,6 +2,7 @@ import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/view_model/product_detail_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../components/widgets/buttonValue.dart';
@@ -991,18 +992,44 @@ class _CartCard extends State<CartCard> {
         child: Column(children:[ Row(
           children: <Widget>[
             new ClipRRect(
-                child: FadeInImage.assetNetwork(
-                  imageErrorBuilder: ((context,object,stackTrace){
-                    return Image.asset("assets/images/logo.png",fit: BoxFit.contain,
-                      width: ScreenUtil().setWidth(92),
-                      height: ScreenUtil().setWidth(102),);
-                  }),
-              placeholder: 'assets/images/loading.gif',
-              image: cartData.img!+"?tr=h-102,w-92,fo-auto",
+            child:  CachedNetworkImage(
               fit: BoxFit.contain,
               width: ScreenUtil().setWidth(92),
-              height: ScreenUtil().setWidth(102),
-            )),
+                        height: ScreenUtil().setWidth(102),
+                imageUrl: cartData.img!+"?tr=h-102,w-92,fo-auto",
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(92),
+                        height: ScreenUtil().setWidth(102),
+                        fit: BoxFit.contain,),
+
+                      image: imageProvider,
+                      fit: BoxFit.contain,
+
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Image.asset("assets/images/loading.gif",width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(102),
+                  fit: BoxFit.contain,),
+                errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(102),
+                  fit: BoxFit.contain,),
+              ),
+            //     child: FadeInImage.assetNetwork(
+            //       imageErrorBuilder: ((context,object,stackTrace){
+            //         return Image.asset("assets/images/logo.png",fit: BoxFit.contain,
+            //           width: ScreenUtil().setWidth(92),
+            //           height: ScreenUtil().setWidth(102),);
+            //       }),
+            //   placeholder: 'assets/images/loading.gif',
+            //   image: cartData.img!+"?tr=h-102,w-92,fo-auto",
+            //   fit: BoxFit.contain,
+            //   width: ScreenUtil().setWidth(92),
+            //   height: ScreenUtil().setWidth(102),
+            // )
+            ),
             SizedBox(width: ScreenUtil().setWidth(10),),
             Container(
               child: Expanded(

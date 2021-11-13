@@ -10,6 +10,7 @@ import 'package:anne/utility/theme.dart';
 
 import 'package:anne/view_model/banner_view_model.dart';
 import 'package:anne/view_model/brand_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -136,14 +137,30 @@ class _PickedBannersClass extends State<PickedBannersClass> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: FadeInImage.assetNetwork(
-                        imageErrorBuilder: ((context,object,stackTrace){
-                          return Image.asset("assets/images/logo.png");
-                        }),
-                        placeholder: 'assets/images/loading.gif',
-                        image: bannerResponse
-                            .groupByBanner![i].data![index].img!+"?tr=h-220,fo-auto",
+                      child:
+                      CachedNetworkImage(
+                        imageUrl: bannerResponse
+                                 .groupByBanner![i].data![index].img!+"?tr=h-220,fo-auto",
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",),
+                              image: imageProvider,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => Image.asset("assets/images/loading.gif",
+                        ),
+                        errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",),
                       ),
+                      // FadeInImage.assetNetwork(
+                      //   imageErrorBuilder: ((context,object,stackTrace){
+                      //     return Image.asset("assets/images/logo.png");
+                      //   }),
+                      //   placeholder: 'assets/images/loading.gif',
+                      //   image: bannerResponse
+                      //       .groupByBanner![i].data![index].img!+"?tr=h-220,fo-auto",
+                      // ),
                       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 0, 0, 0),
                     ),
                   ),

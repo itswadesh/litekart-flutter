@@ -22,6 +22,7 @@ class ProductListData {
   String? name;
   String? brand;
   List? images;
+  String? imgCdn;
   double? price;
   double? mrp;
   int? stock;
@@ -33,7 +34,7 @@ class ProductListData {
       this.price,
       this.images,
       this.stock,
-      this.brand});
+      this.brand,this.imgCdn});
 
   factory ProductListData.fromJson(Map<String, dynamic> json) =>
       ProductListData(
@@ -55,5 +56,8 @@ class ProductListData {
           mrp: json["_source"] != null
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
               : "" as double?,
-          stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0);
+          stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0,
+          imgCdn: json["_source"]["imgCdn"]
+      );
+
 }
