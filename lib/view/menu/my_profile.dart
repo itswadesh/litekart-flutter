@@ -42,7 +42,7 @@ class _MyProfileState extends State<MyProfile> {
           automaticallyImplyLeading: false,
           title: Consumer<ProfileModel>(
         builder: (BuildContext context, value, Widget? child) {return Text(
-            value.user!.firstName??"User Profile",
+            value.user?.firstName??"User Profile",
             style: TextStyle(
                 color: Color(0xff757575),
                 fontSize: ScreenUtil().setSp(

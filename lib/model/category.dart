@@ -35,10 +35,10 @@ class CategoryData {
       this.updatedAt});
 
   factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
-      name: json["name"],
-      img: json["imgCdn"],
+      name: json["name"]??"",
+      img: json["imgCdn"]??"",
       active: json["active"],
-      createdAt: json["createdAt"],
+      createdAt: json["createdAt"]??"",
       featured: json["featured"],
       level: json["level"],
       megaMenu: json["megaMenu"],

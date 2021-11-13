@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anne/response_handler/productListApiReponse.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
@@ -22,7 +24,7 @@ class ProductListCard extends StatefulWidget {
 
 class _ProductListCard extends State<ProductListCard> {
   late ProductListData item;
-
+  bool imageStatus = true;
   @override
   void initState() {
     item = ProductListData.fromJson(widget.item);
@@ -61,16 +63,22 @@ class _ProductListCard extends State<ProductListCard> {
                     height: ScreenUtil().setWidth(203),
                     width: ScreenUtil().setWidth(203),
                     color: Color(0xffffffff),
-                    child: FadeInImage.assetNetwork(
-                      imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
-                      }),
+                    child: imageStatus? FadeInImage.assetNetwork(
                       placeholder: 'assets/images/loading.gif',
                       image: item.images![0]+"?tr=w-203,fo-auto",
+                      imageErrorBuilder: ((context,object,stackTrace){
+                        log("here");
+                        imageStatus = false;
+                        return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
+                          width: ScreenUtil().setWidth(203),
+                          fit: BoxFit.contain,);
+                      }),
                       height: ScreenUtil().setWidth(203),
                       width: ScreenUtil().setWidth(203),
                       fit: BoxFit.contain,
-                    ),
+                    ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
+                      width: ScreenUtil().setWidth(203),
+                      fit: BoxFit.contain,),
                   ),
                   Align(
                       alignment: Alignment.bottomLeft,

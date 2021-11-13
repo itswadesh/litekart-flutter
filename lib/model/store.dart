@@ -9,10 +9,10 @@ class StoreData {
     this.id,this.currency,this.currencyCode,this.currencyDecimals,this.currencySymbol
   });
   factory StoreData.fromJson(Map<String, dynamic> json)=>StoreData(
-      id:json["id"],
+      id:json["id"]??"",
       //currency: json["currency"],
-      currencyCode: json["currencyCode"],
-      currencyDecimals: json["currencyDecimals"],
-      currencySymbol: json["currencySymbol"]
+      currencyCode: json["currencyCode"]??"",
+      currencyDecimals: json["currencyDecimals"]??0,
+      currencySymbol: json["currencySymbol"]??""
   );
 }

@@ -1624,7 +1624,7 @@ class _RatingClass extends State<RatingClass> {
                     Container(
                         padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
                         child: Text(
-                          result.data!["reviewSummary"]["avg"]??"0",
+                          result.data!["reviewSummary"]["avg"].toString()??"0",
                           style: TextStyle(
                               color: Color(0xff6d6d6d),
                               fontSize: ScreenUtil().setWidth(15)),

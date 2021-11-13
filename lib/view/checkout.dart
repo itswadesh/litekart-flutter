@@ -1751,25 +1751,25 @@ class _Checkout extends State<Checkout> {
                       return null;
                     },
                     controller: _pin,
-                    onChanged: (value) async {
-                      if (value.length == 6) {
-                        TzDialog _dialog = TzDialog(
-                            context, TzDialogType.progress);
-                        _dialog.show();
-                        final AddressRepository addressRepository =
-                        AddressRepository();
-                        var result =
-                        await addressRepository.fetchDataFromZip(value);
-                        if (result != null) {
-                          setState(() {
-                            _country.text = result["country"];
-                            _state.text = result["state"];
-                            _city.text = result["city"];
-                          });
-                        }
-                        _dialog.close();
-                      }
-                    },
+                    // onChanged: (value) async {
+                    //   if (value.length == 6) {
+                    //     TzDialog _dialog = TzDialog(
+                    //         context, TzDialogType.progress);
+                    //     _dialog.show();
+                    //     final AddressRepository addressRepository =
+                    //     AddressRepository();
+                    //     var result =
+                    //     await addressRepository.fetchDataFromZip(value);
+                    //     if (result != null) {
+                    //       setState(() {
+                    //         _country.text = result["country"];
+                    //         _state.text = result["state"];
+                    //         _city.text = result["city"];
+                    //       });
+                    //     }
+                    //     _dialog.close();
+                    //   }
+                    // },
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
                         filled: true,
@@ -1802,7 +1802,7 @@ class _Checkout extends State<Checkout> {
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _city,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -1835,7 +1835,7 @@ class _Checkout extends State<Checkout> {
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _state,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -1868,7 +1868,7 @@ class _Checkout extends State<Checkout> {
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _country,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -2770,12 +2770,14 @@ class _Checkout extends State<Checkout> {
            //  );
            // stripe.StripePlatform.instance.createToken(params);
             var result = await stripe.StripePlatform.instance.createPaymentMethod(params);
+            print(result.toString());
            log("here 3");
 
            var stripeData = await stripeRepository.stripe(
                 selectedAddressId, result.id);
+           log(stripeData.toString());
             if(stripeData["status"]=="completed") {
-              try {
+              //try {
                 var confirmResult = await stripe.StripePlatform.instance
                     .confirmPayment(
                     stripeData["value"]["clientSecret"], params);
@@ -2783,17 +2785,20 @@ class _Checkout extends State<Checkout> {
                 //     .handleCardAction(stripeData["value"]['clientSecret']);
                 log(confirmResult.toString());
                 _dialog.close();
-                handlePaymentSuccess("credit", confirmResult.id);
-              } catch (e){
-                _dialog.close();
-                handlePaymentFailure("Payment Authentication Failed !!");
-              }
+               // handlePaymentSuccess("credit", confirmResult.id);
+              // } catch (e){
+              //   log("heree"+e.toString());
+              //   _dialog.close();
+              //   handlePaymentFailure("Payment Authentication Failed !!");
+              // }
               }
             else if(stripeData["status"]=="error"){
+              log("ca be here"+stripeData["error"]);
               _dialog.close();
               handlePaymentFailure(stripeData["error"].toString());
             }
           } catch (e){
+            log("or here"+e.toString());
             _dialog.close();
             handlePaymentFailure(e.toString());
           }
@@ -2858,9 +2863,9 @@ class _Checkout extends State<Checkout> {
               collectDeviceData: true,
               cardEnabled: true,
             );
-            final result = await (BraintreeDropIn.start(request) as FutureOr<BraintreeDropInResult>);
+            final result = await BraintreeDropIn.start(request);
             log("here i come");
-           log(result.paymentMethodNonce.nonce);
+           log(result!.paymentMethodNonce.nonce);
               var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
               if(responseMakePayment["status"]=="completed"){
                 setState(() {

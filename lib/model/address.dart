@@ -31,18 +31,18 @@ class Address {
       this.updatedAt});
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-      id: json["id"],
-      email: json["email"],
-      phone: json["phone"],
-      address: json["address"],
-      city: json["city"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      state: json["state"],
-      town: json["town"],
-      zip: json["zip"],
-      country: json["country"],
+      id: json["id"]??"",
+      email: json["email"]??"",
+      phone: json["phone"]??"",
+      address: json["address"]??"",
+      city: json["city"]??"",
+      firstName: json["firstName"]??"",
+      lastName: json["lastName"]??"",
+      state: json["state"]??"",
+      town: json["town"]??"",
+      zip: json["zip"]??0,
+      country: json["country"]??"",
       active: json["active"],
-      createdAt: json["createdAt"],
-      updatedAt: json["updatedAt"]);
+      createdAt: json["createdAt"]??"",
+      updatedAt: json["updatedAt"]??"");
 }

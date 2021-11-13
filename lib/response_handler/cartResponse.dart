@@ -19,7 +19,7 @@ class CartResponse {
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
       items:
           List<CartData>.from(json["items"].map((x) => CartData.fromJson(x))),
-      qty: json["qty"],
+      qty: json["qty"]??0,
       discount: DiscountModel.fromJson(json["discount"]),
       shipping:  json["shipping"]["charge"].toString(),
       tax: json["tax"] ?? 0,

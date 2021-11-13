@@ -76,9 +76,9 @@ class ProductData {
       });
 
   factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
-      name: json["name"],
-      img: json["imgCdn"],
-      id: json["id"],
+      name: json["name"]??"",
+      img: json["imgCdn"]??"",
+      id: json["id"]??"",
       slug: json["slug"],
       position: int.parse(json["position"].toString()),
       metaDescription: json["metaDescription"],
@@ -88,7 +88,7 @@ class ProductData {
       // category: CategoryData.fromJson(json["category"]),
       time: json["time"] ?? "",
       images: List.from(json["images"].map((x) => x)),
-      title: json["title"],
+      title: json["title"]??"",
       hot: json["hot"],
       itemId: json["itemId"],
       keywords: json["keywords"],
@@ -98,12 +98,12 @@ class ProductData {
       recommend: json["recommend"],
       sale: json["sale"],
       sku: json["sku"].toString(),
-      stock: json["stock"],
+      stock: json["stock"]??0,
       trending: json["trending"],
       brand: json["brand"] != null
           ? BrandData.fromJson(json["brand"])
           : BrandData(),
-      description: json["description"],
+      description: json["description"]??"",
       barcode: json["barcode"].toString(),
       // sizeGroup: json["sizeGroup"] != null
       //     ? List<SizeGroup>.from(
@@ -219,8 +219,8 @@ class ProductDetailData {
   factory ProductDetailData.fromJson(Map<String, dynamic> json) =>
       ProductDetailData(
           name: json["name"] ?? "",
-          img: json["img"],
-          id: json["id"],
+          img: json["imgCdn"]??"",
+          id: json["id"]??"",
           slug: json["slug"],
           position: int.parse(json["position"].toString()),
           metaDescription: json["metaDescription"],
@@ -229,10 +229,10 @@ class ProductDetailData {
           type: json["type"].toString(),
           // category: CategoryData.fromJson(json["category"]),
           time: json["time"] ?? "",
-          images: json["images"].length != 0
-              ? List.from(json["images"].map((x) => x))
-              : ["https://next.tablez.com/icon.png"],
-          title: json["title"],
+          images: json["imagesCdn"].length != 0
+              ? List.from(json["imagesCdn"].map((x) => x))
+              : [],
+          title: json["title"]??"",
           hot: json["hot"],
           itemId: json["itemId"],
           keywords: json["keywords"],
@@ -247,7 +247,7 @@ class ProductDetailData {
           brand: json["brand"] != null
               ? BrandData.fromJson(json["brand"])
               : BrandData(),
-          description: json["description"],
+          description: json["description"]??"",
           barcode: json["barcode"].toString(),
           // sizeGroup: json["sizeGroup"] != null
           //     ? List<SizeGroup>.from(

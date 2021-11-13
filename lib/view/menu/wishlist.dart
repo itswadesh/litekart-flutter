@@ -133,7 +133,7 @@ class WishCard extends StatefulWidget {
 
 class _WishCard extends State<WishCard> {
   late WishlistData item;
-
+  bool imageStatus = true;
   @override
   void initState() {
     item = widget.item;
@@ -161,16 +161,23 @@ class _WishCard extends State<WishCard> {
               Stack(
                 children: [
                   Container(
-                    child: FadeInImage.assetNetwork(
+                    child: imageStatus? FadeInImage.assetNetwork(
                       imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
+                        setState(() {
+                          imageStatus = false;
+                        });
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
                       image: item.product!.img!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
-                    ),
+                    ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
+                      width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.contain,),
                   ),
                   Container(
                     padding: EdgeInsets.only(
@@ -237,6 +244,7 @@ class _WishCard extends State<WishCard> {
                       fontWeight: FontWeight.w600
                     ),
                     textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
                   )),
               // SizedBox(
               //   height: ScreenUtil().setWidth(9),

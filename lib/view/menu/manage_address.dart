@@ -361,25 +361,25 @@ class _ManageAddressState extends State<ManageAddress> {
                       return null;
                     },
                     controller: _pin,
-                    onChanged: (value) async {
-                      if (value.length == 6) {
-                        TzDialog _dialog =
-                            TzDialog(context, TzDialogType.progress);
-                        _dialog.show();
-                        final AddressRepository addressRepository =
-                            AddressRepository();
-                        var result =
-                            await addressRepository.fetchDataFromZip(value);
-                        if (result != null) {
-                          setState(() {
-                            _country.text = result["country"];
-                            _state.text = result["state"];
-                            _city.text = result["city"];
-                          });
-                        }
-                        _dialog.close();
-                      }
-                    },
+                    // onChanged: (value) async {
+                    //   if (value.length == 6) {
+                    //     TzDialog _dialog =
+                    //         TzDialog(context, TzDialogType.progress);
+                    //     _dialog.show();
+                    //     final AddressRepository addressRepository =
+                    //         AddressRepository();
+                    //     var result =
+                    //         await addressRepository.fetchDataFromZip(value);
+                    //     if (result != null) {
+                    //       setState(() {
+                    //         _country.text = result["country"];
+                    //         _state.text = result["state"];
+                    //         _city.text = result["city"];
+                    //       });
+                    //     }
+                    //     _dialog.close();
+                    //   }
+                    // },
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
                         filled: true,
@@ -412,7 +412,6 @@ class _ManageAddressState extends State<ManageAddress> {
                       }
                       return null;
                     },
-                    readOnly: true,
                     controller: _city,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -445,7 +444,7 @@ class _ManageAddressState extends State<ManageAddress> {
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _state,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -478,7 +477,7 @@ class _ManageAddressState extends State<ManageAddress> {
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _country,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -946,7 +945,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 _email.text =
                                     value.addressResponse!.data![index].email!;
                                 _town.text =
-                                    value.addressResponse!.data![index].town!;
+                                    value.addressResponse?.data![index].town??"";
                                 _city.text =
                                     value.addressResponse!.data![index].city!;
                                 _country.text =

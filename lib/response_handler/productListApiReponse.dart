@@ -45,9 +45,7 @@ class ProductListData {
                   : "")
               : "",
           images: json["_source"] != null
-              ? ((json["_source"]["imagesCdn"] != null &&
-                      json["_source"]["imagesCdn"] != [""] &&
-                      json["_source"]["imagesCdn"] != [])
+              ? ((json["_source"]["imagesCdn"] != null)
                   ? List.from(json["_source"]["imagesCdn"].map((x) => x))
                   : [])
               : [],

@@ -178,6 +178,7 @@ class _ProductList extends State<ProductList> {
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
               child: Container(
+                
                   color: Color(0xfff3f3f3),
                   child: Container(child: getProductList()))),
         ),
@@ -328,7 +329,7 @@ class _ProductList extends State<ProductList> {
     return Column(children: [
       Container(
         color: Color(0xfff3f3f3),
-        height: MediaQuery.of(context).size.height-ScreenUtil().setWidth(50),
+        height: MediaQuery.of(context).size.height-ScreenUtil().setWidth(140),
         //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: RefreshIndicator(
           onRefresh: () => Future.sync(
@@ -363,6 +364,7 @@ class _ProductList extends State<ProductList> {
           ),
         ),
       ),
+
     ]);
   }
 

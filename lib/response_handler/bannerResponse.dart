@@ -66,11 +66,11 @@ class BannerData {
       this.updatedAt});
 
   factory BannerData.fromJson(Map<String, dynamic> json) => BannerData(
-      id: json["id"],
-      link: json["link"],
-      heading: json["heading"],
+      id: json["id"]??"",
+      link: json["link"]??"",
+      heading: json["heading"]??"",
       type: json["type"],
-      img: json["imgCdn"],
+      img: json["imgCdn"]??"",
       active: json["active"],
       pageId: json['pageId'],
       groupId: json['groupId'],

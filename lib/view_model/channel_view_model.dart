@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../repository/channel_repository.dart';
 import '../../response_handler/channelResponse.dart';
 import '../../utility/query_mutation.dart';
@@ -10,7 +11,10 @@ class ChannelViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   ChannelRepository channelRepository = ChannelRepository();
   ChannelResponse? _channelResponse;
-
+  final PagingController _pagingController = PagingController(firstPageKey: 0);
+  PagingController get pagingController {
+    return _pagingController;
+  }
   ChannelResponse? get channelResponse {
     return _channelResponse;
   }
@@ -21,6 +25,7 @@ class ChannelViewModel with ChangeNotifier {
 
     if (status == "completed") {
         _channelResponse = ChannelResponse.fromJson(resultData["value"]);
+        _pagingController.appendLastPage(_channelResponse!.data!);
     }
     notifyListeners();
   }

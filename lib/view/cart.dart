@@ -992,6 +992,11 @@ class _CartCard extends State<CartCard> {
           children: <Widget>[
             new ClipRRect(
                 child: FadeInImage.assetNetwork(
+                  imageErrorBuilder: ((context,object,stackTrace){
+                    return Image.asset("assets/images/logo.png",fit: BoxFit.contain,
+                      width: ScreenUtil().setWidth(92),
+                      height: ScreenUtil().setWidth(102),);
+                  }),
               placeholder: 'assets/images/loading.gif',
               image: cartData.img!+"?tr=h-102,w-92,fo-auto",
               fit: BoxFit.contain,

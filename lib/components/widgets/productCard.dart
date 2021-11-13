@@ -25,7 +25,7 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCard extends State<ProductCard> {
   late ProductData  item;
-
+  bool imageStatus = true;
   @override
   void initState() {
     item = widget.item;
@@ -57,16 +57,22 @@ class _ProductCard extends State<ProductCard> {
               Stack(
                 children: [
                   Container(
-                    child: FadeInImage.assetNetwork(
+                    child: imageStatus? FadeInImage.assetNetwork(
                       imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
+
+                          imageStatus = false;
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
                       image: item.img!+"?tr=w-193,fo-auto",
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
-                    ),
+                    ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                      width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.contain,),
                   ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,

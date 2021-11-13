@@ -982,14 +982,17 @@ class ListOrderData extends StatelessWidget{
            new ClipRRect(
                child: (items[index].img!=null && items[index].img!="")?  FadeInImage.assetNetwork(
                  imageErrorBuilder: ((context,object,stackTrace){
-                   return Image.asset("assets/images/logo.png");
+
+                   return Image.asset("assets/images/logo.png", fit: BoxFit.contain,
+                     width: ScreenUtil().setWidth(92),
+                     height: ScreenUtil().setWidth(112),);
                  }),
                  placeholder: 'assets/images/loading.gif',
                  image: items[index].img!+"?tr=h-112,w-92,fo-auto",
-                 fit: BoxFit.cover,
+                 fit: BoxFit.contain,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),
-               ):Image.asset("assets/images/logo.png",fit: BoxFit.cover,
+               ):Image.asset("assets/images/logo.png",fit: BoxFit.contain,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),)),
            Padding(

@@ -30,16 +30,16 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
       id: json["id"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      email: json["email"],
-      phone: json["phone"],
-      gender: json["gender"],
+      firstName: json["firstName"]??"",
+      lastName: json["lastName"]??"",
+      email: json["email"]??"",
+      phone: json["phone"]??"",
+      gender: json["gender"]??"",
       role: json["role"],
       verified: json["verified"],
       active: json["active"],
       provider: json["provider"],
-      avatar: json["avatarCdn"],
+      avatar: json["avatarCdn"]??"",
       address: List<UserAddress>.from(
           json["address"].map((x) => UserAddress.fromJson(x))));
 
@@ -70,9 +70,9 @@ class UserAddress {
   UserAddress({this.address, this.city, this.state, this.town, this.zip});
 
   factory UserAddress.fromJson(Map<String, dynamic> json) => UserAddress(
-      address: json["address"],
-      city: json["city"],
-      state: json["state"],
-      town: json["town"],
-      zip: json["zip"]);
+      address: json["address"]??"",
+      city: json["city"]??"",
+      state: json["state"]??"",
+      town: json["town"]??"",
+      zip: json["zip"]??0);
 }
