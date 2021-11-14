@@ -44,40 +44,40 @@ class _ZoomImageState extends State<ZoomImage> {
                 //],)
                     : PinchZoom(
                     child:
-                    CachedNetworkImage(
-                      fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                      imageUrl: widget.imageLinks![index]+"?tr=w-414,fo-auto",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
-                              height: ScreenUtil().setWidth(600),
-                              fit: BoxFit.contain,),
-
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Image.asset("assets/images/loading.gif",   width: MediaQuery.of(context).size.width,
-                        height: ScreenUtil().setWidth(600),
-                        fit: BoxFit.contain,),
-                      errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
-                        height: ScreenUtil().setWidth(600),
-                        fit: BoxFit.contain,),
-                    ),
-                    // Image.network(
-                    //   widget.imageLinks![index],
-                    //   errorBuilder: ((context,object,stackTrace){
-                    //     return Image.asset("assets/images/logo.png");
-                    //   }),
-                    //   height: MediaQuery.of(context).size.height,
-                    //   width: MediaQuery.of(context).size.width,
+                    // CachedNetworkImage(
                     //   fit: BoxFit.contain,
+                    //     height: MediaQuery.of(context).size.height,
+                    //     width: MediaQuery.of(context).size.width,
+                    //   imageUrl: widget.imageLinks![index]+"?tr=w-414,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                    //           height: ScreenUtil().setWidth(600),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",   width: MediaQuery.of(context).size.width,
+                    //     height: ScreenUtil().setWidth(600),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                    //     height: ScreenUtil().setWidth(600),
+                    //     fit: BoxFit.contain,),
                     // ),
+                    Image.network(
+                      widget.imageLinks![index],
+                      errorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png");
+                      }),
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.contain,
+                    ),
                     resetDuration: const Duration(milliseconds: 100),
                     maxScale: 2.5);
               },

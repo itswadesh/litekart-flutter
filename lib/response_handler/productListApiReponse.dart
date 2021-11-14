@@ -45,11 +45,7 @@ class ProductListData {
                   ? json["_source"]["brand"]["name"]
                   : "")
               : "",
-          images: json["_source"] != null
-              ? ((json["_source"]["imagesCdn"] != null)
-                  ? List.from(json["_source"]["imagesCdn"].map((x) => x))
-                  : [])
-              : [],
+          images:  List.from(json["_source"]["imagesCdn"].map((x) => x)),
           price: json["_source"] != null
               ? double.parse(json["_source"]["price"].toString()) ?? 0.0
               : "" as double?,

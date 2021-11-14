@@ -102,35 +102,35 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                             width: ScreenUtil().setWidth(414),
                             height:  ScreenUtil().setWidth(4140/18),
                             child:
-                            CachedNetworkImage(
-                                width: ScreenUtil().setWidth(414),
-                                height:  ScreenUtil().setWidth(4140/18),
-                                fit: BoxFit.cover,
-                              imageUrl: value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
-                              imageBuilder: (context, imageProvider) => Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",    width: ScreenUtil().setWidth(414),
-                                      height:  ScreenUtil().setWidth(4140/18),
-                                      fit: BoxFit.cover,),
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              ),
-                              // placeholder: (context, url) => Image.asset("assets/images/loading.gif",    width: ScreenUtil().setWidth(414),
-                              //   height:  ScreenUtil().setWidth(4140/18),
-                              //   fit: BoxFit.cover,
-                              // ),
-                              errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",    width: ScreenUtil().setWidth(414),
-                                height:  ScreenUtil().setWidth(4140/18),
-                                fit: BoxFit.cover,),
-                            ),
-                            // Image.network(
-                            //   value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
-                            //   width: ScreenUtil().setWidth(414),
-                            //   height:  ScreenUtil().setWidth(4140/18),
-                            //   fit: BoxFit.cover,
+                            // CachedNetworkImage(
+                            //     width: ScreenUtil().setWidth(414),
+                            //     height:  ScreenUtil().setWidth(4140/18),
+                            //     fit: BoxFit.cover,
+                            //   imageUrl: value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
+                            //   imageBuilder: (context, imageProvider) => Container(
+                            //     decoration: BoxDecoration(
+                            //       image: DecorationImage(
+                            //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",    width: ScreenUtil().setWidth(414),
+                            //           height:  ScreenUtil().setWidth(4140/18),
+                            //           fit: BoxFit.cover,),
+                            //         image: imageProvider,
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   // placeholder: (context, url) => Image.asset("assets/images/loading.gif",    width: ScreenUtil().setWidth(414),
+                            //   //   height:  ScreenUtil().setWidth(4140/18),
+                            //   //   fit: BoxFit.cover,
+                            //   // ),
+                            //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",    width: ScreenUtil().setWidth(414),
+                            //     height:  ScreenUtil().setWidth(4140/18),
+                            //     fit: BoxFit.cover,),
                             // ),
+                            Image.network(
+                              value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
+                              width: ScreenUtil().setWidth(414),
+                              height:  ScreenUtil().setWidth(4140/18),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

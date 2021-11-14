@@ -127,6 +127,7 @@ class _ScheduleCard extends State<ScheduleCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
       decoration: BoxDecoration(
@@ -135,6 +136,7 @@ class _ScheduleCard extends State<ScheduleCard> {
       ),
       child: InkWell(
         onTap: () async {
+
          // locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product.id);
         },
         child: Container(
@@ -146,48 +148,44 @@ class _ScheduleCard extends State<ScheduleCard> {
               Stack(
                 children: [
                   Container(
-                    child:CachedNetworkImage(
-                      fit: BoxFit.contain,
-                      height: ScreenUtil().setWidth(213),
-                      width: ScreenUtil().setWidth(193),
-                      imageUrl: item?.img??""+"?tr=w-193,fo-auto",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
-                              width: ScreenUtil().setWidth(193),
-                              fit: BoxFit.contain,),
-
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Image.asset("assets/images/loading.gif",  height: ScreenUtil().setWidth(213),
-                        width: ScreenUtil().setWidth(193),
-                        fit: BoxFit.contain,),
-                      errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
-                        width: ScreenUtil().setWidth(193),
-                        fit: BoxFit.contain,),
-                    ),
-                    // child: imageStatus? FadeInImage.assetNetwork(
-                    //   imageErrorBuilder: ((context,object,stackTrace){
-                    //     setState(() {
-                    //       imageStatus = false;
-                    //     });
-                    //     return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
-                    //       width: ScreenUtil().setWidth(193),
-                    //       fit: BoxFit.contain,);
-                    //   }),
-                    //   placeholder: 'assets/images/loading.gif',
-                    //   image: item!.product!.imgCdn!+"?tr=w-193,fo-auto",
+                    // child:CachedNetworkImage(
+                    //   fit: BoxFit.contain,
                     //   height: ScreenUtil().setWidth(213),
                     //   width: ScreenUtil().setWidth(193),
-                    //   fit: BoxFit.contain,
-                    // ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
-                    //   width: ScreenUtil().setWidth(193),
-                    //   fit: BoxFit.contain,),
+                    //   imageUrl: item?.img??""+"?tr=w-193,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //           width: ScreenUtil().setWidth(193),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    // ),
+                    child:  FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
+                      }),
+                      placeholder: 'assets/images/loading.gif',
+                      image: item!.product!.imgCdn??""+"?tr=w-193,fo-auto",
+                      height: ScreenUtil().setWidth(213),
+                      width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.contain,
+                    )
                   ),
                   // Container(
                   //   padding: EdgeInsets.only(

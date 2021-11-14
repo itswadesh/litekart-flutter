@@ -55,44 +55,44 @@ class _ProductCard extends State<ProductCard> {
               Stack(
                 children: [
                   Container(
-                    child:
-                    CachedNetworkImage(
-                      fit: BoxFit.contain,
-                      height: ScreenUtil().setWidth(193),
-                      width: ScreenUtil().setWidth(193),
-                      imageUrl: item.img!+"?tr=w-193,fo-auto",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
-                            width: ScreenUtil().setWidth(193),
-                            fit: BoxFit.contain,),
-
-                            image: imageProvider,
-                              fit: BoxFit.contain,
-
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(193),
-                          width: ScreenUtil().setWidth(193),
-                          fit: BoxFit.contain,),
-                      errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
-                              width: ScreenUtil().setWidth(193),
-                              fit: BoxFit.contain,),
-                    ),
-                    // child:  FadeInImage.memoryNetwork(
-                    //   imageErrorBuilder: ((context,object,stackTrace){
-                    //     return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
-                    //       width: ScreenUtil().setWidth(193),
-                    //       fit: BoxFit.contain,);
-                    //   }),
-                    //   placeholder: kTransparentImage,
-                    //   image: item.img!+"?tr=w-193,fo-auto",
+                    // child:
+                    // CachedNetworkImage(
+                    //   fit: BoxFit.contain,
                     //   height: ScreenUtil().setWidth(193),
                     //   width: ScreenUtil().setWidth(193),
-                    //   fit: BoxFit.contain,
-                    // )
+                    //   imageUrl: item.img!+"?tr=w-193,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                    //         width: ScreenUtil().setWidth(193),
+                    //         fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //           fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(193),
+                    //       width: ScreenUtil().setWidth(193),
+                    //       fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                    //           width: ScreenUtil().setWidth(193),
+                    //           fit: BoxFit.contain,),
+                    // ),
+                    child:  FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
+                      }),
+                      placeholder: 'assets/images/loading.gif',
+                      image: item.img!+"?tr=w-193,fo-auto",
+                      height: ScreenUtil().setWidth(193),
+                      width: ScreenUtil().setWidth(193),
+                      fit: BoxFit.contain,
+                    )
                   ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,

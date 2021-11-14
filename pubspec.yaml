@@ -75,8 +75,8 @@ dependencies:
   image_picker: ^0.7.4
   flutter_html: ^2.1.2
   flutter_native_splash: any
-  flutter_braintree: ^2.0.0+1
-  flutter_stripe: ^2.0.0
+  flutter_braintree: ^2.0.0+10
+  flutter_stripe: ^2.0.2
   youtube_player_flutter: ^8.0.0
   flutter_login_facebook: ^1.1.0
   google_sign_in: ^5.2.0
@@ -84,9 +84,7 @@ dependencies:
   sign_in_with_apple: ^3.2.0
   collection: ^1.15.0-nullsafety.4
   cached_network_image: ^3.1.0+1
-
-
-
+  fijkplayer: ^0.10.0
 
 
 dev_dependencies:

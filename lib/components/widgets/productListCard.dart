@@ -66,47 +66,44 @@ class _ProductListCard extends State<ProductListCard> {
                     width: ScreenUtil().setWidth(203),
                     color: Color(0xffffffff),
                     child:
-                    CachedNetworkImage(
-                      fit: BoxFit.contain,
-                        height: ScreenUtil().setWidth(203),
-                        width: ScreenUtil().setWidth(203),
-                      imageUrl: item.imgCdn??""+"?tr=w-203,fo-auto",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
-                              width: ScreenUtil().setWidth(203),
-                              fit: BoxFit.contain,),
-
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(203),
-                        width: ScreenUtil().setWidth(203),
-                        fit: BoxFit.contain,),
-                      errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
-                        width: ScreenUtil().setWidth(203),
-                        fit: BoxFit.contain,),
-                    ),
-                    // imageStatus? FadeInImage.assetNetwork(
-                    //   placeholder: 'assets/images/loading.gif',
-                    //   image: item.images![0]+"?tr=w-203,fo-auto",
-                    //   imageErrorBuilder: ((context,object,stackTrace){
-                    //     log("here");
-                    //     imageStatus = false;
-                    //     return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
-                    //       width: ScreenUtil().setWidth(203),
-                    //       fit: BoxFit.contain,);
-                    //   }),
-                    //   height: ScreenUtil().setWidth(203),
-                    //   width: ScreenUtil().setWidth(203),
+                    // CachedNetworkImage(
                     //   fit: BoxFit.contain,
-                    // ):Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
-                    //   width: ScreenUtil().setWidth(203),
-                    //   fit: BoxFit.contain,),
+                    //     height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //   imageUrl: item.imgCdn??""+"?tr=w-203,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
+                    //           width: ScreenUtil().setWidth(203),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,),
+                    // ),
+                     FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/loading.gif',
+                      image: item.images![0]+"?tr=w-203,fo-auto",
+                      imageErrorBuilder: ((context,object,stackTrace){
+
+                        return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
+                          width: ScreenUtil().setWidth(203),
+                          fit: BoxFit.contain,);
+                      }),
+                      height: ScreenUtil().setWidth(203),
+                      width: ScreenUtil().setWidth(203),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   Align(
                       alignment: Alignment.bottomLeft,

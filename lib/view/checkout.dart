@@ -11,8 +11,9 @@ import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
-//import 'package:stripe_payment/stripe_payment.dart';
+// import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
+
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
@@ -126,6 +127,7 @@ class _Checkout extends State<Checkout> {
   ListItem? _selectedYear;
   final cardNumber = MaskedTextController(mask: '0000-0000-0000-0000');
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+ // var stripeInstance = stripe.StripePlatform.instance;
 
   @override
   void initState() {
@@ -134,6 +136,8 @@ class _Checkout extends State<Checkout> {
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
     _selectedYear = _dropdownYearItems![0].value;
     super.initState();
+     // stripeInstance.initialise(
+     //    publishableKey: settingData!.stripePublishableKey!);
     // StripePayment.setOptions(StripeOptions(
     //     publishableKey: settingData.stripePublishableKey,
     //     merchantId: "Test",
@@ -2731,17 +2735,34 @@ class _Checkout extends State<Checkout> {
           StripeRepository stripeRepository = StripeRepository();
           try {
             log("stripe"+settingData!.stripePublishableKey.toString());
-           await stripe.StripePlatform.instance.initialise(
-                publishableKey: settingData!.stripePublishableKey!);
-            // CreditCard creditCard = CreditCard(
-            //   number: cardNumber.text.replaceAll("-", ""),
-            //   name: cardHolder.text,
-            //   expMonth: _selectedMonth.value,
-            //   expYear: int.parse(_selectedYear.name),
-            //   cvc: cvv.text,
-            // );
-           log(cardNumber.text.replaceAll("-", ""));
-           log(_selectedMonth!.value.toString());
+             stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
+             await stripe.Stripe.instance.applySettings();
+            var stripeInstance = stripe.Stripe.instance;
+
+            // await stripeInstance.initialise(
+            //     publishableKey: settingData!.stripePublishableKey!);
+           //  CreditCard testCard = CreditCard(
+           //    number: cardNumber.text.replaceAll("-", ""),
+           //    name: cardHolder.text,
+           //    expMonth: _selectedMonth!.value,
+           //    expYear: int.parse(_selectedYear!.name),
+           //    cvc: cvv.text,
+           //  );
+
+           // StripePayment.setOptions(StripeOptions(
+           //      publishableKey: settingData!.stripePublishableKey!,
+           //     merchantId: "Test",
+           //     androidPayMode: 'test')
+           //      );
+//          }
+
+         // var result = await  StripePayment.createPaymentMethod(
+         //    PaymentMethodRequest(
+         //      card: testCard,
+         //    ),
+         //  );
+           // log(cardNumber.text.replaceAll("-", ""));
+           // log(_selectedMonth!.value.toString());
            stripe.CardDetails card = stripe.CardDetails(
                   number: cardNumber.text.replaceAll("-", ""),
                   expirationMonth: _selectedMonth!.value,
@@ -2756,41 +2777,65 @@ class _Checkout extends State<Checkout> {
             // _card.copyWith(expirationMonth: _selectedMonth.value);
             // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
             // _card.copyWith(cvc: cvv.text);
-            print(card.toString());
-           await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
-            log("here");
+           // print(card.toString());
+            await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+           //  log("here");
+            var json = {
+              "city":"city",
+              "country":"country",
+              "line1":"line1",
+              "line2":"line2",
+              "postalCode":"00000",
+              "state":"state"
+            };
             var params =  stripe.PaymentMethodParams.card(
               billingDetails: stripe.BillingDetails(
+                email: Provider
+                    .of<ProfileModel>(context, listen: false)
+                    .user!
+                    .email ??
+                    "email",
+                phone: "0000000000",
+                address: stripe.Address.fromJson(json),
                 name: cardHolder.text
               )
             );
-           log("here 1"+params.toString());
+          // log("here 1"+params.toString());
 
            //  final params = stripe.CreateTokenParams(
            //  );
            // stripe.StripePlatform.instance.createToken(params);
-            var result = await stripe.StripePlatform.instance.createPaymentMethod(params);
-            print(result.toString());
-           log("here 3");
+            var result = await stripe.Stripe.instance.createPaymentMethod(params);
+           //  print(result.id.toString());
+           // log("here 3");
 
            var stripeData = await stripeRepository.stripe(
                 selectedAddressId, result.id);
-           log(stripeData.toString());
+           print(stripeData.toString());
             if(stripeData["status"]=="completed") {
-              //try {
-                var confirmResult = await stripe.StripePlatform.instance
-                    .confirmPayment(
-                    stripeData["value"]["clientSecret"], params);
+              try {
+              // var confirmResult =  await StripePayment.confirmPaymentIntent(
+              //       PaymentIntent(
+              //         clientSecret: stripeData["value"]["clientSecret"],
+              //         paymentMethodId: result.id,
+              //       ));
+              //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
+              //       stripeData["value"]["clientSecret"], params);
                 // final confirmResult = await stripe.StripePlatform.instance
                 //     .handleCardAction(stripeData["value"]['clientSecret']);
-                log(confirmResult.toString());
-                _dialog.close();
+                // print(confirmResult.id);
+                await stripe.Stripe.instance.confirmPayment(
+                         stripeData["value"]["clientSecret"], params).then((value) {
+                  _dialog.close();
+                  handlePaymentSuccess("credit", value.id);
+                });
+               //  _dialog.close();
                // handlePaymentSuccess("credit", confirmResult.id);
-              // } catch (e){
-              //   log("heree"+e.toString());
-              //   _dialog.close();
-              //   handlePaymentFailure("Payment Authentication Failed !!");
-              // }
+              } catch (e){
+                print("heree"+e.toString());
+                _dialog.close();
+                handlePaymentFailure("Payment Authentication Failed !!");
+              }
               }
             else if(stripeData["status"]=="error"){
               log("ca be here"+stripeData["error"]);

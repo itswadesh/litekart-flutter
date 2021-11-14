@@ -78,6 +78,7 @@ class _TrendingClass extends State<TrendingClass> {
                   ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
+                cacheExtent: 100,
                   scrollDirection: Axis.horizontal,
                   itemCount: value.productTrendingResponse!.data!.length,
                   itemBuilder: (BuildContext context, index) {

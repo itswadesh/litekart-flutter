@@ -32,7 +32,7 @@ import '../../values/route_path.dart' as routes;
 import 'utility/shared_preferences.dart';
 import 'view_model/banner_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'view_model/manage_order_view_model.dart';
 import 'view_model/menu_view_model.dart';
 import 'view_model/store_view_model.dart';
@@ -62,6 +62,8 @@ void main() async {
 
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
+  stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
+  await stripe.Stripe.instance.applySettings();
 User? user;	
 if( token!=""){
    user = await ProfileModel().returnProfile();
