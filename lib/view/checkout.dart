@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/repository/stripe_repository.dart';
+import 'package:anne/utility/api_endpoint.dart';
 import 'package:anne/values/functions.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
@@ -50,7 +51,7 @@ import '../../components/widgets/buttonValue.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/manage_order_view_model.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'menu/manage_order.dart';
 
@@ -2733,120 +2734,141 @@ class _Checkout extends State<Checkout> {
       _dialog.show();
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
-          try {
+         // try {
             log("stripe"+settingData!.stripePublishableKey.toString());
              stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
              await stripe.Stripe.instance.applySettings();
-            var stripeInstance = stripe.Stripe.instance;
 
-            // await stripeInstance.initialise(
-            //     publishableKey: settingData!.stripePublishableKey!);
-           //  CreditCard testCard = CreditCard(
-           //    number: cardNumber.text.replaceAll("-", ""),
-           //    name: cardHolder.text,
-           //    expMonth: _selectedMonth!.value,
-           //    expYear: int.parse(_selectedYear!.name),
-           //    cvc: cvv.text,
-           //  );
-
-           // StripePayment.setOptions(StripeOptions(
-           //      publishableKey: settingData!.stripePublishableKey!,
-           //     merchantId: "Test",
-           //     androidPayMode: 'test')
-           //      );
-//          }
-
-         // var result = await  StripePayment.createPaymentMethod(
-         //    PaymentMethodRequest(
-         //      card: testCard,
-         //    ),
-         //  );
-           // log(cardNumber.text.replaceAll("-", ""));
-           // log(_selectedMonth!.value.toString());
-           stripe.CardDetails card = stripe.CardDetails(
-                  number: cardNumber.text.replaceAll("-", ""),
-                  expirationMonth: _selectedMonth!.value,
-                  expirationYear: int.parse(_selectedYear!.name),
-                  cvc: cvv.text
-              );
-            // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
-            //     expirationMonth: _selectedMonth.value,
-            //     expirationYear: int.parse(_selectedYear.name),
-            //     cvc: cvv.text
-            // );
-            // _card.copyWith(expirationMonth: _selectedMonth.value);
-            // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
-            // _card.copyWith(cvc: cvv.text);
-           // print(card.toString());
-            await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
-           //  log("here");
-            var json = {
-              "city":"city",
-              "country":"country",
-              "line1":"line1",
-              "line2":"line2",
-              "postalCode":"00000",
-              "state":"state"
-            };
-            var params =  stripe.PaymentMethodParams.card(
-              billingDetails: stripe.BillingDetails(
-                email: Provider
-                    .of<ProfileModel>(context, listen: false)
-                    .user!
-                    .email ??
-                    "email",
-                phone: "0000000000",
-                address: stripe.Address.fromJson(json),
-                name: cardHolder.text
-              )
-            );
-          // log("here 1"+params.toString());
-
-           //  final params = stripe.CreateTokenParams(
-           //  );
-           // stripe.StripePlatform.instance.createToken(params);
-            var result = await stripe.Stripe.instance.createPaymentMethod(params);
-           //  print(result.id.toString());
-           // log("here 3");
-
-           var stripeData = await stripeRepository.stripe(
-                selectedAddressId, result.id);
-           print(stripeData.toString());
-            if(stripeData["status"]=="completed") {
-              try {
-              // var confirmResult =  await StripePayment.confirmPaymentIntent(
-              //       PaymentIntent(
-              //         clientSecret: stripeData["value"]["clientSecret"],
-              //         paymentMethodId: result.id,
-              //       ));
-              //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
-              //       stripeData["value"]["clientSecret"], params);
-                // final confirmResult = await stripe.StripePlatform.instance
-                //     .handleCardAction(stripeData["value"]['clientSecret']);
-                // print(confirmResult.id);
-                await stripe.Stripe.instance.confirmPayment(
-                         stripeData["value"]["clientSecret"], params).then((value) {
-                  _dialog.close();
-                  handlePaymentSuccess("credit", value.id);
-                });
-               //  _dialog.close();
-               // handlePaymentSuccess("credit", confirmResult.id);
-              } catch (e){
-                print("heree"+e.toString());
-                _dialog.close();
-                handlePaymentFailure("Payment Authentication Failed !!");
-              }
-              }
-            else if(stripeData["status"]=="error"){
-              log("ca be here"+stripeData["error"]);
-              _dialog.close();
-              handlePaymentFailure(stripeData["error"].toString());
-            }
-          } catch (e){
-            log("or here"+e.toString());
-            _dialog.close();
-            handlePaymentFailure(e.toString());
-          }
+          await stripe.Stripe.instance.initPaymentSheet(
+              paymentSheetParameters: stripe.SetupPaymentSheetParameters(
+                applePay: false,
+                googlePay: false,
+                style: ThemeMode.light,
+                testEnv: true,
+                merchantDisplayName: 'Anne',
+                // customerId: _paymentSheetData!['customer'],
+                 paymentIntentClientSecret: settingData!.stripePublishableKey!,
+                // customerEphemeralKeySecret: _paymentSheetData!['ephemeralKey'],
+              ));
+          await stripe.Stripe.instance.presentPaymentSheet();
+          await stripe.Stripe.instance.confirmPaymentSheetPayment();
+//             var stripeInstance = stripe.Stripe.instance;
+//
+//             // await stripeInstance.initialise(
+//             //     publishableKey: settingData!.stripePublishableKey!);
+//            //  CreditCard testCard = CreditCard(
+//            //    number: cardNumber.text.replaceAll("-", ""),
+//            //    name: cardHolder.text,
+//            //    expMonth: _selectedMonth!.value,
+//            //    expYear: int.parse(_selectedYear!.name),
+//            //    cvc: cvv.text,
+//            //  );
+//
+//            // StripePayment.setOptions(StripeOptions(
+//            //      publishableKey: settingData!.stripePublishableKey!,
+//            //     merchantId: "Test",
+//            //     androidPayMode: 'test')
+//            //      );
+// //          }
+//
+//          // var result = await  StripePayment.createPaymentMethod(
+//          //    PaymentMethodRequest(
+//          //      card: testCard,
+//          //    ),
+//          //  );
+//            // log(cardNumber.text.replaceAll("-", ""));
+//            // log(_selectedMonth!.value.toString());
+//            stripe.CardDetails card = stripe.CardDetails(
+//                   number: cardNumber.text.replaceAll("-", ""),
+//                   expirationMonth: _selectedMonth!.value,
+//                   expirationYear: int.parse(_selectedYear!.name),
+//                   cvc: cvv.text
+//               );
+//             // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
+//             //     expirationMonth: _selectedMonth.value,
+//             //     expirationYear: int.parse(_selectedYear.name),
+//             //     cvc: cvv.text
+//             // );
+//             // _card.copyWith(expirationMonth: _selectedMonth.value);
+//             // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
+//             // _card.copyWith(cvc: cvv.text);
+//            // print(card.toString());
+//             await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+//            //  log("here");
+//             var json = {
+//               "city":"city",
+//               "country":"country",
+//               "line1":"line1",
+//               "line2":"line2",
+//               "postalCode":"00000",
+//               "state":"state"
+//             };
+//             var params =  stripe.PaymentMethodParams.card(
+//               billingDetails: stripe.BillingDetails(
+//                 email: Provider
+//                     .of<ProfileModel>(context, listen: false)
+//                     .user!
+//                     .email ??
+//                     "email",
+//                 phone: "0000000000",
+//                 address: stripe.Address.fromJson(json),
+//                 name: cardHolder.text
+//               )
+//             );
+//           // log("here 1"+params.toString());
+//
+//            //  final params = stripe.CreateTokenParams(
+//            //  );
+//            // stripe.StripePlatform.instance.createToken(params);
+//             var result = await stripe.Stripe.instance.createPaymentMethod(params);
+//            //  print(result.id.toString());
+//            // log("here 3");
+//
+//            var stripeData = await stripeRepository.stripe(
+//                 selectedAddressId, result.id);
+//            print(stripeData.toString());
+//             if(stripeData["status"]=="completed") {
+//               if(stripeData["value"]["paid"]){
+//                 _dialog.close();
+//                 handlePaymentSuccess("credit", stripeData["id"]);
+//               }
+//               else {
+//                 try {
+//                   // var confirmResult =  await StripePayment.confirmPaymentIntent(
+//                   //       PaymentIntent(
+//                   //         clientSecret: stripeData["value"]["clientSecret"],
+//                   //         paymentMethodId: result.id,
+//                   //       ));
+//                   //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
+//                   //       stripeData["value"]["clientSecret"], params);
+//                   // final confirmResult = await stripe.StripePlatform.instance
+//                   //     .handleCardAction(stripeData["value"]['clientSecret']);
+//                   // print(confirmResult.id);
+//                   await stripe.Stripe.instance.confirmPayment(
+//                       stripeData["value"]["clientSecret"], params).then((
+//                       value) {
+//                     _dialog.close();
+//                     handlePaymentSuccess("credit", value.id);
+//                   });
+//                   //  _dialog.close();
+//                   // handlePaymentSuccess("credit", confirmResult.id);
+//                 } catch (e) {
+//                   print("heree" + e.toString());
+//                   _dialog.close();
+//                   handlePaymentFailure("Payment Authentication Failed !!");
+//                 }
+//               }
+//               }
+//             else if(stripeData["status"]=="error"){
+//               log("ca be here"+stripeData["error"]);
+//               _dialog.close();
+//               handlePaymentFailure(stripeData["error"].toString());
+//             }
+//           } catch (e){
+//             log("or here"+e.toString());
+//             _dialog.close();
+//             handlePaymentFailure(e.toString());
+//           }
 
           // StripePayment.createPaymentMethod(
           //   PaymentMethodRequest(
@@ -3294,4 +3316,6 @@ class _Checkout extends State<Checkout> {
           );
         });
   }
+
+
 }

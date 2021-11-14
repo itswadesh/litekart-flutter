@@ -2419,6 +2419,7 @@ getOtp(phone: \$phone){
       stripe(address: \$address, paymentMethodId: \$paymentMethodId) {
         id
         clientSecret
+        paid
   }
     }
     """;
