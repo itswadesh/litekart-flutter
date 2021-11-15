@@ -83,7 +83,7 @@ class CheckOutData {
       price: double.parse(json["price"].toString()),
       pid: json["pid"],
       name: json["name"],
-      img: json["imgCdn"],
+      img: json["img"],
       slug: json["slug"],
       status: json["status"],
       brand: json["brandName"] ?? "");

@@ -309,7 +309,7 @@ class _StreamCard extends State<StreamCard> {
                           fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item?.img??""+"?tr=w-193,fo-auto",
+                      image: item!.img!,
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,

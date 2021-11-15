@@ -219,7 +219,7 @@ class ProductDetailData {
   factory ProductDetailData.fromJson(Map<String, dynamic> json) =>
       ProductDetailData(
           name: json["name"] ?? "",
-          img: json["imgCdn"]??"",
+          img: json["img"]??"",
           id: json["id"]??"",
           slug: json["slug"],
           position: int.parse(json["position"].toString()),
@@ -229,8 +229,8 @@ class ProductDetailData {
           type: json["type"].toString(),
           // category: CategoryData.fromJson(json["category"]),
           time: json["time"] ?? "",
-          images: json["imagesCdn"].length != 0
-              ? List.from(json["imagesCdn"].map((x) => x))
+          images: json["images"].length != 0
+              ? List.from(json["images"].map((x) => x))
               : [],
           title: json["title"]??"",
           hot: json["hot"],

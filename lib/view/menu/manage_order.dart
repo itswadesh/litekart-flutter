@@ -988,7 +988,7 @@ class ListOrderData extends StatelessWidget{
                      height: ScreenUtil().setWidth(112),);
                  }),
                  placeholder: 'assets/images/loading.gif',
-                 image: items[index].img!+"?tr=h-112,w-92,fo-auto",
+                 image: items[index].img!,
                  fit: BoxFit.contain,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),

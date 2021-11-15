@@ -2078,7 +2078,6 @@ class _Checkout extends State<Checkout> {
   }
 
   getPaymentOption() {
-
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(
@@ -2837,7 +2836,8 @@ class _Checkout extends State<Checkout> {
             // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
             // _card.copyWith(cvc: cvv.text);
            // print(card.toString());
-             await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+
+            await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
            // //  log("here");
            //  var json = {
            //    "city":"city",
@@ -2847,6 +2847,9 @@ class _Checkout extends State<Checkout> {
            //    "postalCode":"00000",
            //    "state":"state"
            //  };
+           //  var params1 = stripe.CreateTokenParams();
+           //  var tokenCard = await stripe.Stripe.instance.createToken(params1);
+           //  var params =  stripe.PaymentMethodParams.cardFromToken(token: tokenCard.id);
             var params =  stripe.PaymentMethodParams.card(
               // billingDetails: stripe.BillingDetails(
               //   email: Provider
@@ -2871,7 +2874,7 @@ class _Checkout extends State<Checkout> {
            //  final params = stripe.CreateTokenParams(
            //  );
            // stripe.StripePlatform.instance.createToken(params);
-            var result = await stripe.Stripe.instance.createPaymentMethod(params);
+           var result = await stripe.Stripe.instance.createPaymentMethod(params);
            //  print(result.id.toString());
            // log("here 3");
 

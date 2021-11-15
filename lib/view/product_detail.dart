@@ -293,7 +293,7 @@ class _ProductDetail extends State<ProductDetail>
                                   placeholder: 'assets/images/loading.gif',
                                   image: productData.images![index]
                                       .toString()
-                                      .trim()+"?tr=w-414,fo-auto",
+                                      .trim(),
                                   width: MediaQuery.of(context).size.width,
                                   height: ScreenUtil().setWidth(600),
                                   fit: BoxFit.contain,

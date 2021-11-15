@@ -126,7 +126,7 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                             //     fit: BoxFit.cover,),
                             // ),
                             Image.network(
-                              value.sliderResponse?.data![index].img.toString()??""+"?tr=w-414,fo-auto",
+                              value.sliderResponse!.data![index].img!.toString(),
                               width: ScreenUtil().setWidth(414),
                               height:  ScreenUtil().setWidth(4140/18),
                               fit: BoxFit.cover,

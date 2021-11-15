@@ -159,7 +159,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
                         }),
                         placeholder: 'assets/images/loading.gif',
                         image: bannerResponse
-                            .groupByBanner![i].data![index].img!+"?tr=h-220,fo-auto",
+                            .groupByBanner![i].data![index].img!,
                       ),
                       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), 0, 0, 0),
                     ),

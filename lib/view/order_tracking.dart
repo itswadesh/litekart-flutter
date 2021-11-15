@@ -289,7 +289,7 @@ class _OrderTracking extends State<OrderTracking> {
                         return Image.asset("assets/images/logo.png");
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: items.img!+"?tr=h-102,fo-auto",
+                      image: items.img!,
                       fit: BoxFit.contain,
                       width: ScreenUtil().setWidth(92),
                       height: ScreenUtil().setWidth(102),

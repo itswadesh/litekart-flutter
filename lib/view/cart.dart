@@ -1024,7 +1024,7 @@ class _CartCard extends State<CartCard> {
                       height: ScreenUtil().setWidth(102),);
                   }),
               placeholder: 'assets/images/loading.gif',
-              image: cartData.img!+"?tr=h-102,w-92,fo-auto",
+              image: cartData.img!,
               fit: BoxFit.contain,
               width: ScreenUtil().setWidth(92),
               height: ScreenUtil().setWidth(102),

@@ -325,7 +325,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                               left: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
                                               right: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: ((value.categoryResponse!.data![index].img!=null && value.categoryResponse!.data![index].img!="" )? NetworkImage(value.categoryResponse!.data![index].img!+"?tr=h-80,w-80,fo-auto"):AssetImage("assets/images/logo.png")) as ImageProvider<Object>)))),
+                                          image: new DecorationImage(fit: BoxFit.cover, image: ((value.categoryResponse!.data![index].img!=null && value.categoryResponse!.data![index].img!="" )? NetworkImage(value.categoryResponse!.data![index].img!):AssetImage("assets/images/logo.png")) as ImageProvider<Object>)))),
                               SizedBox(
                                 height: ScreenUtil().setWidth(5),
                               ),

@@ -195,7 +195,7 @@ class _WishCard extends State<WishCard> {
                           fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product!.img!+"?tr=w-193,fo-auto",
+                      image: item.product!.img!,
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,

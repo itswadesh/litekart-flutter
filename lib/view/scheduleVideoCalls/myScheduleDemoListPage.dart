@@ -181,7 +181,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                           fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item!.product!.imgCdn??""+"?tr=w-193,fo-auto",
+                      image: item!.product!.img!,
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,

@@ -101,7 +101,7 @@ class _BannersClass extends State<BannersClass> {
                             return Image.asset("assets/images/logo.png");
                           }),
                 placeholder: 'assets/images/loading.gif',
-                image: bannerResponse.groupByBanner![i].data![0].img!+"?tr=w-414,fo-auto"),
+                image: bannerResponse.groupByBanner![i].data![0].img!),
           )));
       children.add(
         SizedBox(

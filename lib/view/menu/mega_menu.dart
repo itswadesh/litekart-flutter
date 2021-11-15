@@ -163,7 +163,7 @@ class _MegaMenu extends State<MegaMenu> {
              Container(
                  width: ScreenUtil().setWidth(155),
                  child: Text(megamenu.name??"", style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(25),fontWeight:FontWeight.w600),maxLines: 3,overflow: TextOverflow.ellipsis,)),
-            megamenu.img!=null? Image.network(megamenu.img!+"?tr=h-120,w-120,fo-auto",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
+            megamenu.img!=null? Image.network(megamenu.img!,width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
             : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
             ],
           )),
