@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:anne/repository/brainTreeRepository.dart';
+import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/repository/stripe_repository.dart';
 import 'package:anne/utility/api_endpoint.dart';
@@ -129,15 +130,15 @@ class _Checkout extends State<Checkout> {
   final cardNumber = MaskedTextController(mask: '0000-0000-0000-0000');
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
  // var stripeInstance = stripe.StripePlatform.instance;
-
+  List methodList = [];
   @override
   void initState() {
     _dropdownMonthItems = buildDropDownMenuItems(_dropdownMonth);
     _selectedMonth = _dropdownMonthItems![0].value;
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
     _selectedYear = _dropdownYearItems![0].value;
+    getPaymentMethod();
     super.initState();
-
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -2078,70 +2079,72 @@ class _Checkout extends State<Checkout> {
   }
 
   getPaymentOption() {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(14),
-          ScreenUtil().setWidth(33),
-          ScreenUtil().setWidth(14),
-          ScreenUtil().setWidth(44)),
-      margin: EdgeInsets.fromLTRB(
-          0, ScreenUtil().setWidth(22), 0, ScreenUtil().setWidth(15)),
-      child: InkWell(
-        onTap: () {
-          Map<String, dynamic> data = {
-            "id": EVENT_PAYMENT_SELECTED_TYPE,
-            "paymentType": paymentMethod,
-            "event": "tap",
-          };
-          Tracking(event: EVENT_PAYMENT_SELECTED_TYPE, data: data);
-        },
-        child: Column(
-          children: [
-            // GestureDetector(
-            //   onTap: (){
-            //     setState(() {
-            //       paymentMethod = "credit";
-            //     });
-            //   },
-            //   child:
-            // creditCard(),
-            // ),
-            GestureDetector(
-                onTap: (){
-                  setState(() {
-                    paymentMethod = "credit";
-                  });
-                },
-                child:
-                creditCard()),
-            SizedBox(
-              height: ScreenUtil().setWidth(15),
-            ),
-      GestureDetector(
-        onTap: (){
-          setState(() {
-            paymentMethod = "paypal";
-          });
-        },
-        child:
-            paypalCard()),
-            SizedBox(
-              height: ScreenUtil().setWidth(15),
-            ),
-            // podCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
-            // upiCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
-            //netBankingCard()
-          ],
-        ),
-      ),
-    );
+    return  Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(14),
+                      ScreenUtil().setWidth(33),
+                      ScreenUtil().setWidth(14),
+                      ScreenUtil().setWidth(44)),
+                  margin: EdgeInsets.fromLTRB(
+                      0, ScreenUtil().setWidth(22), 0, ScreenUtil().setWidth(15)),
+                  child: InkWell(
+                    onTap: () {
+                      Map<String, dynamic> data = {
+                        "id": EVENT_PAYMENT_SELECTED_TYPE,
+                        "paymentType": paymentMethod,
+                        "event": "tap",
+                      };
+                      Tracking(event: EVENT_PAYMENT_SELECTED_TYPE, data: data);
+                    },
+                    child: Column(
+                      children: [
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     setState(() {
+                        //       paymentMethod = "credit";
+                        //     });
+                        //   },
+                        //   child:
+                        // creditCard(),
+                        // ),
+                        methodList.contains("Stripe")?   GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "credit";
+                              });
+                            },
+                            child:
+                            creditCard()):Container(),
+                        methodList.contains("Stripe")? SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ):Container(),
+                        methodList.contains("Paypal")?  GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "paypal";
+                              });
+                            },
+                            child:
+                            paypalCard()):Container(),
+                        methodList.contains("Paypal")? SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ):Container(),
+                        // podCard(),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(15),
+                        // ),
+                        // upiCard(),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(15),
+                        // ),
+                        //netBankingCard()
+                      ],
+                    ),
+                  ),
+                );
+
+
   }
 
   // creditCard() {
@@ -3381,5 +3384,19 @@ class _Checkout extends State<Checkout> {
             }),
           );
         });
+  }
+
+  void getPaymentMethod() async{
+    PaymentRepository paymentRepository = PaymentRepository();
+    var result = await paymentRepository.fetchPaymentMethods();
+    for(int i=0;i<result["value"]["data"].length;i++){
+      methodList.insert(i,result["value"]["data"][i]["name"]);
+    }
+    if(methodList.contains("Stripe")){
+      paymentMethod = "credit";
+    }
+    else{
+      paymentMethod = "paypal";
+    }
   }
 }
