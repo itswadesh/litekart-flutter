@@ -7,22 +7,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1919831472:android:a139f98790b27835335a75",
+        "mobilesdk_app_id": "1:1919831472:android:5fcd27905cca5e1b335a75",
         "android_client_info": {
           "package_name": "biz.anne.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1919831472-0frjs0ng01nnj49t4s61g8nqa95ccrii.apps.googleusercontent.com",
+          "client_id": "1919831472-174rn4qmmi7c1th85g29bo0pfs4u90kq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "biz.anne.app",
-            "certificate_hash": "98f7b5cad7248b13f40138a77f4692273141dedc"
+            "certificate_hash": "e39b14dddc7393973b3332c50c6a3bea13e78333"
           }
         },
         {
-          "client_id": "1919831472-mrml7ikn5mas3lopgqujng8r9ns5fci2.apps.googleusercontent.com",
+          "client_id": "1919831472-811uvlkus99v7id0la4boslt8e5q7nci.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "biz.anne.app",

@@ -63,6 +63,12 @@
 	<string>Can I use the camera please?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Can I use the mic please?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires access to the photo library.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow Anne To Access your location for better experience</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow Anne To Access your location for better experience</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
