@@ -2,6 +2,7 @@ import 'package:anne/model/product.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,12 +22,14 @@ class ProductCard extends StatefulWidget {
   }
 }
 
-class _ProductCard extends State<ProductCard> {
+class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
   late ProductData  item;
   bool imageStatus = true;
+  late AnimationController _controller ;
   @override
   void initState() {
     item = widget.item;
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 0));
     super.initState();
   }
 
@@ -81,6 +84,58 @@ class _ProductCard extends State<ProductCard> {
                     //           width: ScreenUtil().setWidth(193),
                     //           fit: BoxFit.contain,),
                     // ),
+                    // child:ExtendedImage.network(
+                    //   item.img!+"?tr=w-193,fo-auto",
+                    //   height: ScreenUtil().setWidth(193),
+                    //   width: ScreenUtil().setWidth(193),
+                    //   fit: BoxFit.contain,
+                    //   // cache: false,
+                    //   // enableMemoryCache: false,
+                    //   // clearMemoryCacheIfFailed: true,
+                    //   // clearMemoryCacheWhenDispose: true,
+                    //    cache: true,
+                    //   loadStateChanged: (ExtendedImageState state) {
+                    //     switch (state.extendedImageLoadState) {
+                    //       case LoadState.loading:
+                    //         _controller.reset();
+                    //         return Image.asset(
+                    //           "assets/images/loading.gif",
+                    //           fit: BoxFit.contain,
+                    //         );
+                    //         break;
+                    //
+                    //     ///if you don't want override completed widget
+                    //     ///please return null or state.completedWidget
+                    //     //return null;
+                    //     //return state.completedWidget;
+                    //       case LoadState.completed:
+                    //         _controller.forward();
+                    //         return FadeTransition(
+                    //           opacity: _controller,
+                    //           child: ExtendedRawImage(
+                    //             image: state.extendedImageInfo?.image,
+                    //             height: ScreenUtil().setWidth(193),
+                    //             width: ScreenUtil().setWidth(193),
+                    //           ),
+                    //         );
+                    //         break;
+                    //       case LoadState.failed:
+                    //         _controller.reset();
+                    //         return GestureDetector(
+                    //           child:
+                    //               Image.asset(
+                    //                 "assets/images/logo.png",
+                    //                 fit: BoxFit.contain,
+                    //               ),
+                    //           onTap: () {
+                    //             state.reLoadImage();
+                    //           },
+                    //         );
+                    //         break;
+                    //     }
+                    //   },
+                    //   //cancelToken: cancellationToken,
+                    // )
                     child:  FadeInImage.assetNetwork(
                       imageErrorBuilder: ((context,object,stackTrace){
                         return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
@@ -88,7 +143,7 @@ class _ProductCard extends State<ProductCard> {
                           fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.img!+"?tr=w-193,fo-auto",
+                      image: item.img!,
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,

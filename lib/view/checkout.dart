@@ -137,13 +137,7 @@ class _Checkout extends State<Checkout> {
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
     _selectedYear = _dropdownYearItems![0].value;
     super.initState();
-     // stripeInstance.initialise(
-     //    publishableKey: settingData!.stripePublishableKey!);
-    // StripePayment.setOptions(StripeOptions(
-    //     publishableKey: settingData.stripePublishableKey,
-    //     merchantId: "Test",
-    //     androidPayMode: "test"
-    //     ));
+
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -2084,6 +2078,7 @@ class _Checkout extends State<Checkout> {
   }
 
   getPaymentOption() {
+
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(

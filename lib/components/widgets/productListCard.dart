@@ -7,6 +7,7 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
+import 'package:extended_image/extended_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,8 +93,8 @@ class _ProductListCard extends State<ProductListCard> {
                     //     fit: BoxFit.contain,),
                     // ),
                      FadeInImage.assetNetwork(
-                      placeholder: item.imgCdn+"?tr=w-3,fo-auto",
-                      image: item.imgCdn+"?tr=w-203,fo-auto",
+                      placeholder: "assets/images/loading.gif",
+                      image: item.imgCdn,
                       imageErrorBuilder: ((context,object,stackTrace){
 
                         return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
@@ -104,6 +105,18 @@ class _ProductListCard extends State<ProductListCard> {
                       width: ScreenUtil().setWidth(203),
                       fit: BoxFit.contain,
                     ),
+                    // ExtendedImage.network(
+                    //   item.imgCdn,
+                    //     height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,
+                    //  cache: true,
+                    //  // enableMemoryCache: false,
+                    //  // clearMemoryCacheIfFailed: true,
+                    //  // clearMemoryCacheWhenDispose: true,
+                    //  // cache: true,
+                    //   //cancelToken: cancellationToken,
+                    // )
                   ),
                   Align(
                       alignment: Alignment.bottomLeft,

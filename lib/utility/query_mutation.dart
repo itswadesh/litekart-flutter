@@ -476,6 +476,44 @@ class QueryMutation {
 }""";
   }
 
+  paymentMethods(){
+    return """query paymentMethods(
+  \$page: Int
+  \$search: String
+  \$limit: Int
+  \$sort: String
+  \$store: ID
+  \$active: Boolean
+) {
+  paymentMethods(
+    page: \$page
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    active: \$active
+    store: \$store
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      name
+      img
+      imgCdn
+      value
+      color
+      key
+      text
+      instructions
+      position
+      active
+    }
+  }
+}
+""";
+  }
+
 
   login() {
     return """

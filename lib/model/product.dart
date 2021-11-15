@@ -77,7 +77,7 @@ class ProductData {
 
   factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
       name: json["name"]??"",
-      img: json["imgCdn"]??"",
+      img: json["img"]??"",
       id: json["id"]??"",
       slug: json["slug"],
       position: int.parse(json["position"].toString()),
