@@ -15,7 +15,7 @@ import 'package:anne/view/liveStreamPages/joinLiveStreamPage.dart';
 import 'package:anne/view/scheduleVideoCalls/live_video_call_setup.dart';
 import 'package:anne/view_model/channel_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

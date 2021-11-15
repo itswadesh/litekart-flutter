@@ -2104,15 +2104,23 @@ class _Checkout extends State<Checkout> {
         },
         child: Column(
           children: [
+            // GestureDetector(
+            //   onTap: (){
+            //     setState(() {
+            //       paymentMethod = "credit";
+            //     });
+            //   },
+            //   child:
+            // creditCard(),
+            // ),
             GestureDetector(
-              onTap: (){
-                setState(() {
-                  paymentMethod = "credit";
-                });
-              },
-              child:
-            creditCard(),
-            ),
+                onTap: (){
+                  setState(() {
+                    paymentMethod = "credit";
+                  });
+                },
+                child:
+                creditCard()),
             SizedBox(
               height: ScreenUtil().setWidth(15),
             ),
@@ -2142,317 +2150,371 @@ class _Checkout extends State<Checkout> {
     );
   }
 
+  // creditCard() {
+  //   return Container(
+  //       padding: EdgeInsets.fromLTRB(
+  //           ScreenUtil().setWidth(25),
+  //           ScreenUtil().setWidth(30),
+  //           ScreenUtil().setWidth(25),
+  //           ScreenUtil().setWidth(22)),
+  //       decoration: BoxDecoration(
+  //           border: Border.all(
+  //               color: paymentMethod == "credit"
+  //                   ? AppColors.primaryElement
+  //                   : Color(0xff707070),
+  //               width: ScreenUtil().setWidth(0.9)),
+  //           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+  //       child: Column(
+  //         children: [
+  //           Row(
+  //             children: [
+  //               InkWell(
+  //                   onTap: () {
+  //                     setState(() {
+  //                       paymentMethod = "credit";
+  //                     });
+  //                   },
+  //                   child: paymentMethod == "credit"
+  //                       ? Icon(
+  //                     Icons.adjust_sharp,
+  //                     color: AppColors.primaryElement,
+  //                   )
+  //                       : Icon(
+  //                     Icons.panorama_fish_eye,
+  //                     color: Color(0xff707070),
+  //                   )),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(19),
+  //               ),
+  //               Column(children: [
+  //                 Text(
+  //                   "Credit/Debit card",
+  //                   style: TextStyle(
+  //                       color: Color(0xff6d6d6d),
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                 ),
+  //                 // Text(
+  //                 //   "(no cost EMI available)",
+  //                 //   style: TextStyle(
+  //                 //       color: Color(0xff6d6d6d),
+  //                 //       fontSize: ScreenUtil().setSp(10)),
+  //                 // )
+  //               ]),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(69),
+  //               ),
+  //               Container(
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset(
+  //                           "assets/images/masterCard.png",
+  //                         )),
+  //                     SizedBox(
+  //                       width: ScreenUtil().setWidth(3),
+  //                     ),
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset("assets/images/rupayCard.png")),
+  //                     SizedBox(
+  //                       width: ScreenUtil().setWidth(3),
+  //                     ),
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset(
+  //                           "assets/images/visaCard.png",
+  //                         )),
+  //                     // SizedBox(
+  //                     //   width: ScreenUtil().setWidth(3),
+  //                     // ),
+  //                     // Container(
+  //                     //     height: ScreenUtil().setWidth(18),
+  //                     //     width: ScreenUtil().setWidth(32),
+  //                     //     decoration: BoxDecoration(
+  //                     //         border: Border.all(color: Color(0xff707070))),
+  //                     //     child: Image.asset(
+  //                     //       "assets/images/americanCard.png",
+  //                     //     )),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(23),
+  //           ),
+  //           Container(
+  //             width: double.infinity,
+  //             child: Text(
+  //               "Card Number",
+  //               style: TextStyle(
+  //                   color: AppColors.primaryElement,
+  //                   fontSize: ScreenUtil().setWidth(14)),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(11),
+  //           ),
+  //           Container(
+  //             height: ScreenUtil().setWidth(50),
+  //
+  //             child: TextField(
+  //               controller: cardNumber,
+  //               style: TextStyle(
+  //                   color: Color(0xff525252),
+  //                   fontSize: ScreenUtil().setSp(14)),
+  //               decoration: InputDecoration(
+  //                   contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                   fillColor: Colors.white,
+  //                   filled: true,
+  //                   enabledBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   focusedBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   hintText: "xxxx - xxxx - xxxx - xxxx",
+  //                   hintStyle: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14))),
+  //               keyboardType: TextInputType.number,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 18,
+  //           ),
+  //           Container(
+  //             width: double.infinity,
+  //             child: Text(
+  //               "Card Holder Name",
+  //               style: TextStyle(
+  //                   color: AppColors.primaryElement,
+  //                   fontSize: ScreenUtil().setWidth(14)),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(11),
+  //           ),
+  //           Container(
+  //
+  //             height: ScreenUtil().setWidth(50),
+  //             child: TextField(
+  //               controller: cardHolder,
+  //               style: TextStyle(
+  //                   color: Color(0xff525252),
+  //                   fontSize: ScreenUtil().setSp(14)),
+  //               decoration: InputDecoration(
+  //                   contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                   fillColor: Colors.white,
+  //                   filled: true,
+  //                   enabledBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   focusedBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   hintText: "John",
+  //                   hintStyle: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14))),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 18,
+  //           ),
+  //           Row(
+  //             children: [
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Expire Month",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(25),
+  //               ),
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Expire Year",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(24),
+  //               ),
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Security Code",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(
+  //             height: 11,
+  //           ),
+  //           Row(
+  //             children: [
+  //               Container(
+  //                   decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       border: Border.all(color: Color(0xff707070)),
+  //                       borderRadius:
+  //                       BorderRadius.circular(ScreenUtil().setWidth(4))),
+  //                   padding: EdgeInsets.only(left: 5),
+  //                   height: ScreenUtil().setWidth(40),
+  //                   width: ScreenUtil().setWidth(95),
+  //                   child: DropdownButtonHideUnderline(
+  //                       child: DropdownButton<ListItem>(
+  //                           value: _selectedMonth,
+  //                           items: _dropdownMonthItems,
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               _selectedMonth = value;
+  //                             });
+  //                           }))),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(25),
+  //               ),
+  //               Container(
+  //                   decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       border: Border.all(color: Color(0xff707070)),
+  //                       borderRadius:
+  //                       BorderRadius.circular(ScreenUtil().setWidth(4))),
+  //                   padding: EdgeInsets.only(left: 5),
+  //                   height: ScreenUtil().setWidth(40),
+  //                   width: ScreenUtil().setWidth(95),
+  //                   child: DropdownButtonHideUnderline(
+  //                       child: DropdownButton<ListItem>(
+  //                           value: _selectedYear,
+  //                           items: _dropdownYearItems,
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               _selectedYear = value;
+  //                             });
+  //                           }))),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(24),
+  //               ),
+  //               Container(
+  //
+  //                 height: ScreenUtil().setWidth(40),
+  //                 width: ScreenUtil().setWidth(95),
+  //
+  //                 color: Colors.white,
+  //                 child: TextField(
+  //                   controller: cvv,
+  //                   style: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   decoration: InputDecoration(
+  //                     contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                       fillColor: Colors.white,
+  //                       filled: true,
+  //                       enabledBorder: OutlineInputBorder(
+  //                         borderSide:
+  //                         BorderSide(color: Color(0xff707070), width: 1.0),
+  //                       ),
+  //                       focusedBorder: OutlineInputBorder(
+  //                         borderSide:
+  //                         BorderSide(color: Color(0xff707070), width: 1.0),
+  //                       ),
+  //                       hintText: "xxx",
+  //                       hintStyle: TextStyle(
+  //                           color: Color(0xff525252),
+  //                           fontSize: ScreenUtil().setSp(14))),
+  //                   keyboardType: TextInputType.number,
+  //                 ),
+  //               ),
+  //
+  //             ],
+  //           ),
+  //         ],
+  //       ));
+  // }
+
   creditCard() {
     return Container(
-        padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(25),
-            ScreenUtil().setWidth(30),
-            ScreenUtil().setWidth(25),
-            ScreenUtil().setWidth(22)),
-        decoration: BoxDecoration(
-            border: Border.all(
-                color: paymentMethod == "credit"
-                    ? AppColors.primaryElement
-                    : Color(0xff707070),
-                width: ScreenUtil().setWidth(0.9)),
-            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      setState(() {
-                        paymentMethod = "credit";
-                      });
-                    },
-                    child: paymentMethod == "credit"
-                        ? Icon(
-                      Icons.adjust_sharp,
-                      color: AppColors.primaryElement,
-                    )
-                        : Icon(
-                      Icons.panorama_fish_eye,
-                      color: Color(0xff707070),
-                    )),
-                SizedBox(
-                  width: ScreenUtil().setWidth(19),
-                ),
-                Column(children: [
-                  Text(
-                    "Credit/Debit card",
-                    style: TextStyle(
-                        color: Color(0xff6d6d6d),
-                        fontSize: ScreenUtil().setSp(14)),
-                  ),
-                  // Text(
-                  //   "(no cost EMI available)",
-                  //   style: TextStyle(
-                  //       color: Color(0xff6d6d6d),
-                  //       fontSize: ScreenUtil().setSp(10)),
-                  // )
-                ]),
-                SizedBox(
-                  width: ScreenUtil().setWidth(69),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset(
-                            "assets/images/masterCard.png",
-                          )),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(3),
-                      ),
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset("assets/images/rupayCard.png")),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(3),
-                      ),
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset(
-                            "assets/images/visaCard.png",
-                          )),
-                      // SizedBox(
-                      //   width: ScreenUtil().setWidth(3),
-                      // ),
-                      // Container(
-                      //     height: ScreenUtil().setWidth(18),
-                      //     width: ScreenUtil().setWidth(32),
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(color: Color(0xff707070))),
-                      //     child: Image.asset(
-                      //       "assets/images/americanCard.png",
-                      //     )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(23),
-            ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                "Card Number",
-                style: TextStyle(
-                    color: AppColors.primaryElement,
-                    fontSize: ScreenUtil().setWidth(14)),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(11),
-            ),
-            Container(
-              height: ScreenUtil().setWidth(50),
-              
-              child: TextField(
-                controller: cardNumber,
-                style: TextStyle(
-                    color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(14)),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    hintText: "xxxx - xxxx - xxxx - xxxx",
-                    hintStyle: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14))),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                "Card Holder Name",
-                style: TextStyle(
-                    color: AppColors.primaryElement,
-                    fontSize: ScreenUtil().setWidth(14)),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(11),
-            ),
-            Container(
-            
-              height: ScreenUtil().setWidth(50),
-              child: TextField(
-                controller: cardHolder,
-                style: TextStyle(
-                    color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(14)),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    hintText: "John",
-                    hintStyle: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14))),
-              ),
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            Row(
-              children: [
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Expire Month",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(25),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Expire Year",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Security Code",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 11,
-            ),
-            Row(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Color(0xff707070)),
-                        borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(4))),
-                    padding: EdgeInsets.only(left: 5),
-                    height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(95),
-                    child: DropdownButtonHideUnderline(
-                        child: DropdownButton<ListItem>(
-                            value: _selectedMonth,
-                            items: _dropdownMonthItems,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedMonth = value;
-                              });
-                            }))),
-                SizedBox(
-                  width: ScreenUtil().setWidth(25),
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Color(0xff707070)),
-                        borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(4))),
-                    padding: EdgeInsets.only(left: 5),
-                    height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(95),
-                    child: DropdownButtonHideUnderline(
-                        child: DropdownButton<ListItem>(
-                            value: _selectedYear,
-                            items: _dropdownYearItems,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedYear = value;
-                              });
-                            }))),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: paymentMethod == "credit"
+                  ? AppColors.primaryElement
+                  : Color(0xff707070),
+              width: ScreenUtil().setWidth(0.9)),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+      child: Row(
+        children: [
+          InkWell(
+              onTap: () {
+                setState(() {
+                  paymentMethod = "credit";
+                });
+              },
+              child: paymentMethod == "credit"
+                  ? Icon(
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
+                  : Icon(
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
+          SizedBox(
+            width: ScreenUtil().setWidth(19),
+          ),
+          Text(
+            "Stripe",
+            style: TextStyle(
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+          ),
 
-                  height: ScreenUtil().setWidth(40),
-                  width: ScreenUtil().setWidth(95),
-
-                  color: Colors.white,
-                  child: TextField(
-                    controller: cvv,
-                    style: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14)),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                        fillColor: Colors.white,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Color(0xff707070), width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Color(0xff707070), width: 1.0),
-                        ),
-                        hintText: "xxx",
-                        hintStyle: TextStyle(
-                            color: Color(0xff525252),
-                            fontSize: ScreenUtil().setSp(14))),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-
-              ],
-            ),
-          ],
-        ));
+          // Container(
+          //   child: Row(
+          //     children: [
+          //       Container(
+          //           height: ScreenUtil().setWidth(18),
+          //           width: ScreenUtil().setWidth(32),
+          //           child: Image.asset(
+          //             "assets/images/paypal.png",
+          //           )),
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
+
 
   paypalCard() {
     return Container(
@@ -2734,141 +2796,147 @@ class _Checkout extends State<Checkout> {
       _dialog.show();
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
-         // try {
+          try {
             log("stripe"+settingData!.stripePublishableKey.toString());
              stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
              await stripe.Stripe.instance.applySettings();
 
-          await stripe.Stripe.instance.initPaymentSheet(
-              paymentSheetParameters: stripe.SetupPaymentSheetParameters(
-                applePay: false,
-                googlePay: false,
-                style: ThemeMode.light,
-                testEnv: true,
-                merchantDisplayName: 'Anne',
-                // customerId: _paymentSheetData!['customer'],
-                 paymentIntentClientSecret: settingData!.stripePublishableKey!,
-                // customerEphemeralKeySecret: _paymentSheetData!['ephemeralKey'],
-              ));
-          await stripe.Stripe.instance.presentPaymentSheet();
-          await stripe.Stripe.instance.confirmPaymentSheetPayment();
-//             var stripeInstance = stripe.Stripe.instance;
-//
-//             // await stripeInstance.initialise(
-//             //     publishableKey: settingData!.stripePublishableKey!);
-//            //  CreditCard testCard = CreditCard(
-//            //    number: cardNumber.text.replaceAll("-", ""),
-//            //    name: cardHolder.text,
-//            //    expMonth: _selectedMonth!.value,
-//            //    expYear: int.parse(_selectedYear!.name),
-//            //    cvc: cvv.text,
-//            //  );
-//
-//            // StripePayment.setOptions(StripeOptions(
-//            //      publishableKey: settingData!.stripePublishableKey!,
-//            //     merchantId: "Test",
-//            //     androidPayMode: 'test')
-//            //      );
-// //          }
-//
-//          // var result = await  StripePayment.createPaymentMethod(
-//          //    PaymentMethodRequest(
-//          //      card: testCard,
-//          //    ),
-//          //  );
-//            // log(cardNumber.text.replaceAll("-", ""));
-//            // log(_selectedMonth!.value.toString());
-//            stripe.CardDetails card = stripe.CardDetails(
-//                   number: cardNumber.text.replaceAll("-", ""),
-//                   expirationMonth: _selectedMonth!.value,
-//                   expirationYear: int.parse(_selectedYear!.name),
-//                   cvc: cvv.text
-//               );
-//             // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
-//             //     expirationMonth: _selectedMonth.value,
-//             //     expirationYear: int.parse(_selectedYear.name),
-//             //     cvc: cvv.text
-//             // );
-//             // _card.copyWith(expirationMonth: _selectedMonth.value);
-//             // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
-//             // _card.copyWith(cvc: cvv.text);
-//            // print(card.toString());
-//             await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
-//            //  log("here");
-//             var json = {
-//               "city":"city",
-//               "country":"country",
-//               "line1":"line1",
-//               "line2":"line2",
-//               "postalCode":"00000",
-//               "state":"state"
-//             };
-//             var params =  stripe.PaymentMethodParams.card(
-//               billingDetails: stripe.BillingDetails(
-//                 email: Provider
-//                     .of<ProfileModel>(context, listen: false)
-//                     .user!
-//                     .email ??
-//                     "email",
-//                 phone: "0000000000",
-//                 address: stripe.Address.fromJson(json),
-//                 name: cardHolder.text
-//               )
-//             );
-//           // log("here 1"+params.toString());
-//
-//            //  final params = stripe.CreateTokenParams(
-//            //  );
-//            // stripe.StripePlatform.instance.createToken(params);
-//             var result = await stripe.Stripe.instance.createPaymentMethod(params);
-//            //  print(result.id.toString());
-//            // log("here 3");
-//
-//            var stripeData = await stripeRepository.stripe(
-//                 selectedAddressId, result.id);
-//            print(stripeData.toString());
-//             if(stripeData["status"]=="completed") {
-//               if(stripeData["value"]["paid"]){
-//                 _dialog.close();
-//                 handlePaymentSuccess("credit", stripeData["id"]);
-//               }
-//               else {
-//                 try {
-//                   // var confirmResult =  await StripePayment.confirmPaymentIntent(
-//                   //       PaymentIntent(
-//                   //         clientSecret: stripeData["value"]["clientSecret"],
-//                   //         paymentMethodId: result.id,
-//                   //       ));
-//                   //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
-//                   //       stripeData["value"]["clientSecret"], params);
-//                   // final confirmResult = await stripe.StripePlatform.instance
-//                   //     .handleCardAction(stripeData["value"]['clientSecret']);
-//                   // print(confirmResult.id);
-//                   await stripe.Stripe.instance.confirmPayment(
-//                       stripeData["value"]["clientSecret"], params).then((
-//                       value) {
-//                     _dialog.close();
-//                     handlePaymentSuccess("credit", value.id);
-//                   });
-//                   //  _dialog.close();
-//                   // handlePaymentSuccess("credit", confirmResult.id);
-//                 } catch (e) {
-//                   print("heree" + e.toString());
-//                   _dialog.close();
-//                   handlePaymentFailure("Payment Authentication Failed !!");
-//                 }
-//               }
-//               }
-//             else if(stripeData["status"]=="error"){
-//               log("ca be here"+stripeData["error"]);
-//               _dialog.close();
-//               handlePaymentFailure(stripeData["error"].toString());
-//             }
-//           } catch (e){
-//             log("or here"+e.toString());
-//             _dialog.close();
-//             handlePaymentFailure(e.toString());
-//           }
+            var stripeInstance = stripe.Stripe.instance;
+
+            // await stripeInstance.initialise(
+            //     publishableKey: settingData!.stripePublishableKey!);
+           //  CreditCard testCard = CreditCard(
+           //    number: cardNumber.text.replaceAll("-", ""),
+           //    name: cardHolder.text,
+           //    expMonth: _selectedMonth!.value,
+           //    expYear: int.parse(_selectedYear!.name),
+           //    cvc: cvv.text,
+           //  );
+
+           // StripePayment.setOptions(StripeOptions(
+           //      publishableKey: settingData!.stripePublishableKey!,
+           //     merchantId: "Test",
+           //     androidPayMode: 'test')
+           //      );
+//          }
+
+         // var result = await  StripePayment.createPaymentMethod(
+         //    PaymentMethodRequest(
+         //      card: testCard,
+         //    ),
+         //  );
+           // log(cardNumber.text.replaceAll("-", ""));
+           // log(_selectedMonth!.value.toString());
+           stripe.CardDetails card = stripe.CardDetails(
+                  number: "4000002760003184",
+                  expirationMonth: 1,
+                  expirationYear: 35,
+                  cvc: "234"
+              );
+            // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
+            //     expirationMonth: _selectedMonth.value,
+            //     expirationYear: int.parse(_selectedYear.name),
+            //     cvc: cvv.text
+            // );
+            // _card.copyWith(expirationMonth: _selectedMonth.value);
+            // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
+            // _card.copyWith(cvc: cvv.text);
+           // print(card.toString());
+             await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+           // //  log("here");
+           //  var json = {
+           //    "city":"city",
+           //    "country":"country",
+           //    "line1":"line1",
+           //    "line2":"line2",
+           //    "postalCode":"00000",
+           //    "state":"state"
+           //  };
+            var params =  stripe.PaymentMethodParams.card(
+              // billingDetails: stripe.BillingDetails(
+              //   email: Provider
+              //       .of<ProfileModel>(context, listen: false)
+              //       .user!
+              //       .email ??
+              //       "email",
+              //   phone: "0000000000",
+              //   address: stripe.Address.fromJson(json),
+              //   name: cardHolder.text
+              // )
+            );
+         //    var value1;
+         //     var params = stripe.CreateTokenParams();
+         // stripe.Stripe.instance.createToken(params).then((value) {
+         //  value1 =  stripe.PaymentMethodParams.cardFromToken(token: value.id);
+         // });
+
+            //var params =
+          // log("here 1"+params.toString());
+
+           //  final params = stripe.CreateTokenParams(
+           //  );
+           // stripe.StripePlatform.instance.createToken(params);
+            var result = await stripe.Stripe.instance.createPaymentMethod(params);
+           //  print(result.id.toString());
+           // log("here 3");
+
+           var stripeData = await stripeRepository.stripe(
+                selectedAddressId, result.id);
+           print(stripeData.toString());
+             if(stripeData["status"]=="completed") {
+            //   if(stripeData["value"]["paid"]){
+            //     _dialog.close();
+            //     handlePaymentSuccess("credit", stripeData["id"]);
+            //   }
+            //   else {
+                try {
+                  // var confirmResult =  await StripePayment.confirmPaymentIntent(
+                  //       PaymentIntent(
+                  //         clientSecret: stripeData["value"]["clientSecret"],
+                  //         paymentMethodId: result.id,
+                  //       ));
+                  //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
+                  //       stripeData["value"]["clientSecret"], params);
+                  // final confirmResult = await stripe.StripePlatform.instance
+                  //     .handleCardAction(stripeData["value"]['clientSecret']);
+                  // print(confirmResult.id);
+                  // await stripe.Stripe.instance.confirmPayment(
+                  //     stripeData["value"]["clientSecret"], params)
+
+                  await stripe.Stripe.instance.initPaymentSheet(
+                      paymentSheetParameters: stripe.SetupPaymentSheetParameters(
+                        applePay: false,
+                        googlePay: false,
+                        style: ThemeMode.light,
+                        testEnv: true,
+                        merchantDisplayName: 'Anne',
+                        // customerId: _paymentSheetData!['customer'],
+                        paymentIntentClientSecret: stripeData["value"]["clientSecret"],
+                        // customerEphemeralKeySecret: _paymentSheetData!['ephemeralKey'],
+                      ));
+                  await stripe.Stripe.instance.presentPaymentSheet();
+                 // await stripe.Stripe.instance.confirmPaymentSheetPayment();
+                    _dialog.close();
+                    handlePaymentSuccess("credit",stripeData["value"]["referenceId"]);
+                  //  _dialog.close();
+                  // handlePaymentSuccess("credit", confirmResult.id);
+                } catch (e) {
+                  print("heree" + e.toString());
+                  _dialog.close();
+                  handlePaymentFailure("Payment Authentication Failed !!");
+                }
+              //}
+              }
+            else if(stripeData["status"]=="error"){
+              log("ca be here"+stripeData["error"]);
+              _dialog.close();
+              handlePaymentFailure(stripeData["error"].toString());
+            }
+          } catch (e){
+            log("or here"+e.toString());
+            _dialog.close();
+            handlePaymentFailure(e.toString());
+          }
 
           // StripePayment.createPaymentMethod(
           //   PaymentMethodRequest(

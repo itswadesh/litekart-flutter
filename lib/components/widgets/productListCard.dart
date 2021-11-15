@@ -7,7 +7,7 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class _ProductListCard extends State<ProductListCard> {
   @override
   void initState() {
     item = ProductListData.fromJson(widget.item);
-    log(item.imgCdn.toString());
+    log("product list "+item.imgCdn.toString());
     super.initState();
   }
 
@@ -92,8 +92,8 @@ class _ProductListCard extends State<ProductListCard> {
                     //     fit: BoxFit.contain,),
                     // ),
                      FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/loading.gif',
-                      image: item.images![0]+"?tr=w-203,fo-auto",
+                      placeholder: item.imgCdn+"?tr=w-3,fo-auto",
+                      image: item.imgCdn+"?tr=w-203,fo-auto",
                       imageErrorBuilder: ((context,object,stackTrace){
 
                         return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),

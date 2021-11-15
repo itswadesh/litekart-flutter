@@ -14,15 +14,15 @@ class ProductListApiResponse {
           // facets: json["facets"],
           data: json["data"] != null
               ? List.from(json["data"].map((x) => ProductListData.fromJson(x)))
-              : [ProductListData()]);
+              : [ProductListData(images: [], imgCdn: "")]);
 }
 
 class ProductListData {
   String? id;
   String? name;
   String? brand;
-  List? images;
-  String? imgCdn;
+  List<String> images;
+  String imgCdn;
   double? price;
   double? mrp;
   int? stock;
@@ -32,9 +32,9 @@ class ProductListData {
       this.name,
       this.mrp,
       this.price,
-      this.images,
+     required this.images,
       this.stock,
-      this.brand,this.imgCdn});
+      this.brand,required this.imgCdn});
 
   factory ProductListData.fromJson(Map<String, dynamic> json) =>
       ProductListData(
@@ -53,7 +53,7 @@ class ProductListData {
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
               : "" as double?,
           stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0,
-          imgCdn: json["_source"]["imgCdn"]
+          imgCdn: json["_source"]["imgCdn"]??null
       );
 
 }

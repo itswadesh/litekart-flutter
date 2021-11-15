@@ -10,7 +10,7 @@ import 'package:anne/utility/theme.dart';
 
 import 'package:anne/view_model/banner_view_model.dart';
 import 'package:anne/view_model/brand_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

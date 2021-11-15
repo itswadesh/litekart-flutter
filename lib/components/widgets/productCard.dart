@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import '../../main.dart';
 import '../../values/route_path.dart' as routes;
-import 'package:cached_network_image/cached_network_image.dart';
+
 
 
 class ProductCard extends StatefulWidget {

@@ -13,7 +13,7 @@ import 'package:anne/utility/graphQl.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/schedule_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

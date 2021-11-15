@@ -2,7 +2,7 @@ import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:anne/view_model/product_detail_view_model.dart';
 import 'package:anne/view_model/wishlist_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../components/widgets/buttonValue.dart';

@@ -147,7 +147,8 @@ class QueryMutation {
   \$search: String
   \$sort: String
   \$user:ID
-  \$q: String
+  \$q: String,
+  \$upcoming: bool
 ) {
   channels(
     page: \$page
@@ -157,6 +158,7 @@ class QueryMutation {
     sort: \$sort
     user: \$user
     q: \$q
+    upcoming: \$upcoming
   ) {
     count
     page
@@ -1061,7 +1063,7 @@ getOtp(phone: \$phone){
       tax
       vendor {
         id
-        store
+       
         firstName
         lastName
         phone
@@ -2420,6 +2422,7 @@ getOtp(phone: \$phone){
         id
         clientSecret
         paid
+        referenceId
   }
     }
     """;

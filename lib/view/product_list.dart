@@ -349,7 +349,7 @@ class _ProductList extends State<ProductList> {
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate(
                 itemBuilder: (context, dynamic item, index) =>
-                    ProductListCard(item ?? ProductListData()),
+                    ProductListCard(item ?? ProductListData(images: [],imgCdn: "")),
                 // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                 //   error: _pagingController.error,
                 //   onTryAgain: () => _pagingController.refresh(),

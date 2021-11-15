@@ -6,7 +6,7 @@ import 'package:anne/utility/query_mutation.dart';
 import 'package:anne/values/event_constant.dart';
 import 'package:anne/view_model/banner_view_model.dart';
 import 'package:anne/view_model/brand_view_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
