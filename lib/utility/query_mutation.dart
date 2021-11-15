@@ -2453,6 +2453,43 @@ getOtp(phone: \$phone){
 
   // Stripe
 
+  stripeMobile(){
+    return """mutation stripeMobile(\$address: ID, \$slot: ID) {
+  stripeMobile(address: \$address, slot: \$slot) {
+    id
+    paymentOrderId
+    paymentMode
+    paymentGateway
+    referenceId
+    txMsg
+    txTime
+    invoiceId
+    receipt
+    paid
+    amountPaid
+    amountDue
+    amountRefunded
+    currency
+    captured
+    status
+    orderId
+    notes
+    refundStatus
+    description
+    email
+    contact
+    fee
+    tax
+    errorCode
+    errorDescription
+    token
+    clientSecret
+    approvalUrl
+  }
+}""";
+  }
+
+
   stripe(){
     return """
     mutation stripe(\$address: ID, \$paymentMethodId: String!) {

@@ -1313,14 +1313,13 @@ class ApiProvider {
   //
 
 
-  stripe(addressId,paymentMethodId) async{
+  stripeMobile(addressId) async{
     Map resultData ;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult resultStripe = await _client.mutate(
-      MutationOptions(document: gql(addMutation.stripe()), variables: {
-        'address': addressId,
-        'paymentMethodId':paymentMethodId
+      MutationOptions(document: gql(addMutation.stripeMobile()), variables: {
+        'address': addressId
       }),
     );
    
@@ -1340,12 +1339,47 @@ class ApiProvider {
       else {
         resultData = {
           "status": "completed",
-          "value": resultStripe.data!["stripe"]
+          "value": resultStripe.data!["stripeMobile"]
         };
       }
     }
     return resultData;
   }
+
+// paymentMethod
+
+  paymentMethods() async{
+    Map responseData;
+
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+          MutationOptions(document: gql(addMutation.paymentMethods()), variables: {
+            "store":store!.id
+          }));
+      log(resultData.toString());
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data == null ||
+            resultData.data!["paymentMethods"] == null) {
+          responseData = {"status": "empty"};
+        } else {
+
+          responseData = {
+            "status": "completed",
+            "value": resultData.data!["paymentMethods"]
+          };
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+
+    }
+    return responseData;
+  }
+
 
   // Paypal Api
 

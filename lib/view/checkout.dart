@@ -2795,7 +2795,7 @@ class _Checkout extends State<Checkout> {
              stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
              await stripe.Stripe.instance.applySettings();
 
-            var stripeInstance = stripe.Stripe.instance;
+          //  var stripeInstance = stripe.Stripe.instance;
 
             // await stripeInstance.initialise(
             //     publishableKey: settingData!.stripePublishableKey!);
@@ -2821,12 +2821,12 @@ class _Checkout extends State<Checkout> {
          //  );
            // log(cardNumber.text.replaceAll("-", ""));
            // log(_selectedMonth!.value.toString());
-           stripe.CardDetails card = stripe.CardDetails(
-                  number: "4000002760003184",
-                  expirationMonth: 1,
-                  expirationYear: 35,
-                  cvc: "234"
-              );
+           // stripe.CardDetails card = stripe.CardDetails(
+           //        number: "4000002760003184",
+           //        expirationMonth: 1,
+           //        expirationYear: 35,
+           //        cvc: "234"
+           //    );
             // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
             //     expirationMonth: _selectedMonth.value,
             //     expirationYear: int.parse(_selectedYear.name),
@@ -2837,7 +2837,7 @@ class _Checkout extends State<Checkout> {
             // _card.copyWith(cvc: cvv.text);
            // print(card.toString());
 
-            await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+         //   await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
            // //  log("here");
            //  var json = {
            //    "city":"city",
@@ -2850,18 +2850,18 @@ class _Checkout extends State<Checkout> {
            //  var params1 = stripe.CreateTokenParams();
            //  var tokenCard = await stripe.Stripe.instance.createToken(params1);
            //  var params =  stripe.PaymentMethodParams.cardFromToken(token: tokenCard.id);
-            var params =  stripe.PaymentMethodParams.card(
-              // billingDetails: stripe.BillingDetails(
-              //   email: Provider
-              //       .of<ProfileModel>(context, listen: false)
-              //       .user!
-              //       .email ??
-              //       "email",
-              //   phone: "0000000000",
-              //   address: stripe.Address.fromJson(json),
-              //   name: cardHolder.text
-              // )
-            );
+           //  var params =  stripe.PaymentMethodParams.card(
+           //    // billingDetails: stripe.BillingDetails(
+           //    //   email: Provider
+           //    //       .of<ProfileModel>(context, listen: false)
+           //    //       .user!
+           //    //       .email ??
+           //    //       "email",
+           //    //   phone: "0000000000",
+           //    //   address: stripe.Address.fromJson(json),
+           //    //   name: cardHolder.text
+           //    // )
+           //  );
          //    var value1;
          //     var params = stripe.CreateTokenParams();
          // stripe.Stripe.instance.createToken(params).then((value) {
@@ -2874,12 +2874,12 @@ class _Checkout extends State<Checkout> {
            //  final params = stripe.CreateTokenParams(
            //  );
            // stripe.StripePlatform.instance.createToken(params);
-           var result = await stripe.Stripe.instance.createPaymentMethod(params);
+           // var result = await stripe.Stripe.instance.createPaymentMethod(params);
            //  print(result.id.toString());
            // log("here 3");
 
            var stripeData = await stripeRepository.stripe(
-                selectedAddressId, result.id);
+                selectedAddressId);
            print(stripeData.toString());
              if(stripeData["status"]=="completed") {
             //   if(stripeData["value"]["paid"]){
@@ -3382,6 +3382,4 @@ class _Checkout extends State<Checkout> {
           );
         });
   }
-
-
 }
