@@ -148,7 +148,7 @@ class QueryMutation {
   \$sort: String
   \$user:ID
   \$q: String,
-  \$upcoming: bool
+  \$upcoming: Boolean
 ) {
   channels(
     page: \$page
