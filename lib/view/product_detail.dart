@@ -1099,8 +1099,10 @@ class _ProductDetail extends State<ProductDetail>
                                   _dialog.close();
                                   setState(() {});
                                 } else {
-                                  locator<NavigationService>()
-                                      .pushNamed(routes.LoginRoute);
+                                  if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+                                  else{
+                                    locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
+                                  }
                                 }
                               },
                               child: Container(

@@ -216,7 +216,10 @@ class _Cart extends State<Cart> {
                               if (user.user != null) {
                                 _navigationService!.pushNamed(routes.CheckOut);
                               } else {
-                                _navigationService!.pushNamed(routes.LoginRoute);
+                                if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+                                else{
+                                  locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
+                                }
                               }
                             },
                             child: Text(
@@ -1265,18 +1268,29 @@ class _CartCard extends State<CartCard> {
 
               InkWell(
                   onTap: () async {
-                    final NavigationService _navigationService = locator<NavigationService>();
-                    TzDialog _dialog =
-                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
-                    _dialog.show();
-                    await Provider.of<WishlistViewModel>(context, listen: false)
-                        .toggleItem(cartData.pid);
-                    Provider.of<CartViewModel>(context,
-                        listen: false)
-                        .cartAddItem(cartData.pid, cartData.pid,
-                        -cartData.qty!, false);
-                   _dialog.close();
-
+    if (Provider.of<ProfileModel>(context,
+    listen: false)
+        .user !=
+    null) {
+      final NavigationService _navigationService = locator<NavigationService>();
+      TzDialog _dialog =
+      TzDialog(_navigationService.navigationKey.currentContext,
+          TzDialogType.progress);
+      _dialog.show();
+      await Provider.of<WishlistViewModel>(context, listen: false)
+          .toggleItem(cartData.pid);
+      Provider.of<CartViewModel>(context,
+          listen: false)
+          .cartAddItem(cartData.pid, cartData.pid,
+          -cartData.qty!, false);
+      _dialog.close();
+    }
+    else {
+      if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+      else{
+        locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
+      }
+    }
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(215),

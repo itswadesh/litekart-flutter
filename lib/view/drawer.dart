@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import '../main.dart';
 import '../values/route_path.dart' as routes;
 
 class HomeDrawer extends StatefulWidget {
@@ -97,6 +98,15 @@ class _HomeDrawer extends State<HomeDrawer> {
                 locator<NavigationService>().pushNamed(
                     routes.MyProfile);
               }
+              else {
+                if (settingData!.otpLogin!) {
+                  locator<NavigationService>().pushNamed(routes.LoginRoute);
+                }
+                else {
+                  locator<NavigationService>().pushNamed(
+                      routes.EmailLoginRoute);
+                }
+              }
             },
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,12 +163,15 @@ class _HomeDrawer extends State<HomeDrawer> {
                         routePath!);
                   }
                   else{
-                    locator<NavigationService>().pushNamed(
-                        routes.LoginRoute);
-                  }
+
+                if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+                else{
+                locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
                 }
-               // locator<NavigationService>().pushNamed(routes.HomeRoute);
-              }));
+                }
+                  }
+                // locator<NavigationService>().pushNamed(routes.HomeRoute);
+      }));
     });
   }
 }
