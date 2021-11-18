@@ -6,28 +6,28 @@ import '../../utility/query_mutation.dart';
 
 class OrderViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  var pendingStatus = "loading";
-  var trackingStatus = "loading";
-  var deliveredStatus = "loading";
-  var trackOrderStatus = "loading";
-  OrderTrackResponse _orderTrackResponse;
+  String? pendingStatus = "loading";
+  String? trackingStatus = "loading";
+  String? deliveredStatus = "loading";
+  String? trackOrderStatus = "loading";
+  OrderTrackResponse? _orderTrackResponse;
   OrderRepository orderRepository = OrderRepository();
-  OrderResponse _pendingOrderResponse;
-  OrderResponse _trackingOrderResponse;
-  OrderResponse _deliveredOrderResponse;
-  OrderResponse get pendingOrderResponse {
+  OrderResponse? _pendingOrderResponse;
+  OrderResponse? _trackingOrderResponse;
+  OrderResponse? _deliveredOrderResponse;
+  OrderResponse? get pendingOrderResponse {
     return _pendingOrderResponse;
   }
 
-  OrderResponse get trackingOrderResponse {
+  OrderResponse? get trackingOrderResponse {
     return _trackingOrderResponse;
   }
 
-  OrderResponse get deliveredOrderResponse {
+  OrderResponse? get deliveredOrderResponse {
     return _deliveredOrderResponse;
   }
 
-  OrderTrackResponse get orderTrackResponse{
+  OrderTrackResponse? get orderTrackResponse{
     return _orderTrackResponse;
   }
 

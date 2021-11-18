@@ -1,10 +1,10 @@
 class SettingData {
-  bool liveCommerce;
-  String id;
-  bool otpLogin;
-  String stripePublishableKey;
-  String brainTreePublicKey;
-  String googleClientId;
+  bool? liveCommerce;
+  String? id;
+  bool? otpLogin;
+  String? stripePublishableKey;
+  String? brainTreePublicKey;
+  String? googleClientId;
   SettingData({
     this.id,
     this.liveCommerce,

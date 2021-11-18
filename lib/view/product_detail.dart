@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:anne/components/base/tz_dialog.dart';
@@ -49,18 +50,18 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetail extends State<ProductDetail>
     with TickerProviderStateMixin {
-  AnimationController _ColorAnimationController;
-  AnimationController _TextAnimationController;
-  Animation _colorTween, _iconColorTween;
-  Animation<Offset> _transTween;
+  late AnimationController _ColorAnimationController;
+  late AnimationController _TextAnimationController;
+  late Animation _colorTween, _iconColorTween;
+  Animation<Offset>? _transTween;
   QueryMutation addMutation = QueryMutation();
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
   var indexImage = 0;
   var icon;
   var _numPages = 0;
   var _currentPage = 0;
-  String productId;
-  PageController pageController;
+  String? productId;
+  PageController? pageController;
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
@@ -90,7 +91,7 @@ class _ProductDetail extends State<ProductDetail>
     super.initState();
   }
 
-  bool _scrollListener() {
+   _scrollListener() {
     if (scrollController.position.axis == Axis.vertical) {
       _ColorAnimationController.animateTo(
           scrollController.position.pixels / 350);
@@ -126,13 +127,13 @@ class _ProductDetail extends State<ProductDetail>
     var _linkMessage;
     var dynamicUrl;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://anne.com/',
-      link: Uri.parse('https://www.anne.com/$id'),
+      uriPrefix: 'https://anne.biz/',
+      link: Uri.parse('https://www.anne.biz/$id'),
       androidParameters: AndroidParameters(
         packageName: 'com.anne.ind',
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(bundleId: 'com.anne.ind'),
+      iosParameters: IosParameters(bundleId: 'biz.anne.app'),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),
@@ -163,7 +164,7 @@ class _ProductDetail extends State<ProductDetail>
         child: Container(
             height: MediaQuery.of(context).size.height,
             child: Consumer<ProductDetailViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               if (value.status == "loading") {
                 Provider.of<ProductDetailViewModel>(context, listen: false)
                     .changeButtonStatus("ADD TO BAG");
@@ -178,7 +179,7 @@ class _ProductDetail extends State<ProductDetail>
               if (value.status == "error") {
                 return errorMessage();
               }
-              if (value.productDetailResponse.stock <= 0) {
+              if (value.productDetailResponse!.stock! <= 0) {
                 Provider.of<ProductDetailViewModel>(context, listen: false)
                     .changeButtonStatus("Not Available");
               }
@@ -186,13 +187,13 @@ class _ProductDetail extends State<ProductDetail>
                 for (int i = 0;
                     i <
                         Provider.of<CartViewModel>(context)
-                            .cartResponse
-                            .items
+                            .cartResponse!
+                            .items!
                             .length;
                     i++) {
                   if (Provider.of<CartViewModel>(context)
-                          .cartResponse
-                          .items[i]
+                          .cartResponse!
+                          .items![i]
                           .pid ==
                       productId) {
                     Provider.of<ProductDetailViewModel>(context, listen: false)
@@ -200,14 +201,14 @@ class _ProductDetail extends State<ProductDetail>
                   }
                 }
               }
-              _numPages = value.productDetailResponse.images.length;
-              return getProductDetails(value.productDetailResponse);
+              _numPages = value.productDetailResponse!.images!.length;
+              return getProductDetails(value.productDetailResponse!);
             }))));
   }
 
   Widget getProductDetails(ProductDetailData productData) {
     icon = Icons.favorite_border;
-    var count = productData.images.length;
+    var count = productData.images!.length;
 
     return
         // NotificationListener<ScrollNotification>(
@@ -237,9 +238,9 @@ class _ProductDetail extends State<ProductDetail>
 
                           });
                         },
-                        itemCount: productData.images.length,
+                        itemCount: productData.images!.length,
                         itemBuilder: (_, int index) {
-                          log(productData.images[index]);
+                          log(productData.images![index]);
                           return InkWell(
                               onTap: () {
                                 locator<NavigationService>()
@@ -248,23 +249,51 @@ class _ProductDetail extends State<ProductDetail>
                                   "index": index
                                 });
                               },
-                              child: productData.images[index].contains("https://www.youtube.com/")?
+                              child: productData.images![index].contains("https://www.youtube.com/")?
                                   Column(children: [
                                     SizedBox(height: ScreenUtil().setWidth(175),),
-                                    YoutubeVideoPlayClass(productData.images[index]),
+                                    YoutubeVideoPlayClass(productData.images![index]),
 
 
                                   ],)
 
                                   :PinchZoom(
-                                child: FadeInImage.assetNetwork(
+                                child:
+                                // CachedNetworkImage(
+                                //   fit: BoxFit.contain,
+                                //     width: MediaQuery.of(context).size.width,
+                                //     height: ScreenUtil().setWidth(600),
+                                //   imageUrl: productData.images![index]
+                                //           .toString()
+                                //           .trim()+"?tr=w-414,fo-auto",
+                                //   imageBuilder: (context, imageProvider) => Container(
+                                //     decoration: BoxDecoration(
+                                //       image: DecorationImage(
+                                //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                                //           height: ScreenUtil().setWidth(600),
+                                //           fit: BoxFit.contain,),
+                                //
+                                //         image: imageProvider,
+                                //         fit: BoxFit.contain,
+                                //
+                                //       ),
+                                //     ),
+                                //   ),
+                                //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",   width: MediaQuery.of(context).size.width,
+                                //     height: ScreenUtil().setWidth(600),
+                                //     fit: BoxFit.contain,),
+                                //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",   width: MediaQuery.of(context).size.width,
+                                //     height: ScreenUtil().setWidth(600),
+                                //     fit: BoxFit.contain,),
+                                // ),
+                                FadeInImage.assetNetwork(
                                   imageErrorBuilder: ((context,object,stackTrace){
                                     return Image.asset("assets/images/logo.png");
                                   }),
                                   placeholder: 'assets/images/loading.gif',
-                                  image: productData.images[index]
+                                  image: productData.images![index]
                                       .toString()
-                                      .trim()+"?tr=w-414,fo-auto",
+                                      .trim(),
                                   width: MediaQuery.of(context).size.width,
                                   height: ScreenUtil().setWidth(600),
                                   fit: BoxFit.contain,
@@ -319,7 +348,7 @@ class _ProductDetail extends State<ProductDetail>
                               Text(
                                 productData.brand == null
                                     ? ""
-                                    : (productData.brand.name ?? ""),
+                                    : (productData.brand!.name ?? ""),
                                 style: TextStyle(
                                     color: AppColors.primaryElement,
                                     fontSize: ScreenUtil().setSp(
@@ -360,16 +389,16 @@ class _ProductDetail extends State<ProductDetail>
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${store.currencySymbol} " + productData.price.toString() + " ",
+                                  "${store!.currencySymbol} " + productData.price.toString() + " ",
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(
                                         18,
                                       ),
                                       fontWeight: FontWeight.w500),
                                 ),
-                                productData.price < productData.mrp
+                                productData.price! < productData.mrp!
                                     ? Text(
-                                        " ${store.currencySymbol} " + productData.mrp.toString(),
+                                        " ${store!.currencySymbol} " + productData.mrp.toString(),
                                         style: TextStyle(
                                             color: Color(0xffb0b0b0),
                                             decoration:
@@ -379,9 +408,9 @@ class _ProductDetail extends State<ProductDetail>
                                             )),
                                       )
                                     : Container(),
-                                productData.price < productData.mrp
+                                productData.price! < productData.mrp!
                                     ? Flexible(child: Text(
-                                  " (${(100 - ((productData.price / productData.mrp) * 100)).toInt()} % off)",
+                                  " (${(100 - ((productData.price! / productData.mrp!) * 100)).toInt()} % off)",
                                   style: TextStyle(
                                     color: AppColors.primaryElement2,
                                     fontSize: ScreenUtil().setSp(
@@ -408,7 +437,7 @@ class _ProductDetail extends State<ProductDetail>
                                         15,
                                       )),
                                   children: [
-                                    productData.stock > 0
+                                    productData.stock! > 0
                                         ? TextSpan(
                                             text:
                                                 "${productData.stock} in Stock",
@@ -478,31 +507,31 @@ class _ProductDetail extends State<ProductDetail>
                               document: gql(addMutation.productGroup()),
                               variables: {"id": productId}),
                           builder: (QueryResult result,
-                              {VoidCallback refetch, FetchMore fetchMore}) {
+                              {VoidCallback? refetch, FetchMore? fetchMore}) {
                             if (result.hasException) {
 
                               return Container();
                             } else if (result.isLoading) {
                               return Container();
-                            } else if (result.data["product_group"] == null) {
+                            } else if (result.data!["product_group"] == null) {
                               return Container();
                             } else {
                               var productGroup = ProductGroup.fromJson(
-                                  result.data["product_group"]);
+                                  result.data!["product_group"]);
 
                               return Column(
                                 children: [
-                                  productGroup.colorGroup.length > 0
+                                  productGroup.colorGroup!.length > 0
                                       ? Container(
                                     color: Color(0xfff3f3f3),
                                     height: ScreenUtil().setWidth(25),
                                   ):Container(),
-                                  productGroup.colorGroup.length > 0
+                                  productGroup.colorGroup!.length > 0
                                       ? SizedBox(
                                           height: ScreenUtil().setWidth(15),
                                         )
                                       : Container(),
-                                  productGroup.colorGroup.length > 0
+                                  productGroup.colorGroup!.length > 0
                                       ? Container(
                                           padding: EdgeInsets.only(
                                               left: ScreenUtil().setWidth(20),
@@ -515,7 +544,7 @@ class _ProductDetail extends State<ProductDetail>
                                                   fontSize: ScreenUtil()
                                                       .setWidth(18))))
                                       : Container(),
-                                  productGroup.colorGroup.length > 0
+                                  productGroup.colorGroup!.length > 0
                                       ? Container(
                                           height: ScreenUtil().setWidth(50),
                                           width: double.infinity,
@@ -526,7 +555,7 @@ class _ProductDetail extends State<ProductDetail>
                                               0),
                                           child: ListView.builder(
                                               itemCount: productGroup
-                                                  .colorGroup.length,
+                                                  .colorGroup!.length,
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
                                               itemBuilder:
@@ -534,18 +563,18 @@ class _ProductDetail extends State<ProductDetail>
                                                 return InkWell(
                                                     onTap: () async {
                                                       if (productGroup
-                                                              .colorGroup[index]
-                                                              .color
+                                                              .colorGroup![index]
+                                                              .color!
                                                               .name !=
                                                           productData
-                                                              .color.name) {
+                                                              .color!.name) {
                                                         await locator<
                                                                 NavigationService>()
                                                             .pushReplacementNamed(
                                                                 routes
                                                                     .ProductDetailRoute,
                                                                 args: productGroup
-                                                                    .colorGroup[
+                                                                    .colorGroup![
                                                                         index]
                                                                     .id);
                                                       }
@@ -562,29 +591,29 @@ class _ProductDetail extends State<ProductDetail>
                                                             new BoxDecoration(
                                                           color: Color(
                                                               productGroup
-                                                                  .colorGroup[
+                                                                  .colorGroup![
                                                                       index]
-                                                                  .color
-                                                                  .colorCode),
+                                                                  .color!
+                                                                  .colorCode!),
                                                           border: Border.all(
                                                               color: productGroup
-                                                                          .colorGroup[
+                                                                          .colorGroup![
                                                                               index]
-                                                                          .color
+                                                                          .color!
                                                                           .name ==
                                                                       productData
-                                                                          .color
+                                                                          .color!
                                                                           .name
                                                                   ? AppColors
                                                                       .primaryElement
                                                                   : Colors.grey,
                                                               width: productGroup
-                                                                          .colorGroup[
+                                                                          .colorGroup![
                                                                               index]
-                                                                          .color
+                                                                          .color!
                                                                           .name ==
                                                                       productData
-                                                                          .color
+                                                                          .color!
                                                                           .name
                                                                   ? ScreenUtil()
                                                                       .setWidth(
@@ -597,12 +626,12 @@ class _ProductDetail extends State<ProductDetail>
                                                         )));
                                               }))
                                       : SizedBox.shrink(),
-                                  productGroup.sizeGroup.length > 0
+                                  productGroup.sizeGroup!.length > 0
                                       ? SizedBox(
                                           height: ScreenUtil().setWidth(15),
                                         )
                                       : SizedBox.shrink(),
-                                  productGroup.sizeGroup.length > 0
+                                  productGroup.sizeGroup!.length > 0
                                       ? Container(
                                           padding: EdgeInsets.only(
                                               left: ScreenUtil().setWidth(20),
@@ -615,7 +644,7 @@ class _ProductDetail extends State<ProductDetail>
                                                   fontSize: ScreenUtil()
                                                       .setWidth(18))))
                                       : Container(),
-                                  productGroup.sizeGroup.length > 0
+                                  productGroup.sizeGroup!.length > 0
                                       ? Container(
                                           height: ScreenUtil().setWidth(50),
                                           width: double.infinity,
@@ -626,7 +655,7 @@ class _ProductDetail extends State<ProductDetail>
                                               0),
                                           child: ListView.builder(
                                               itemCount:
-                                                  productGroup.sizeGroup.length,
+                                                  productGroup.sizeGroup!.length,
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
                                               itemBuilder:
@@ -634,18 +663,18 @@ class _ProductDetail extends State<ProductDetail>
                                                 return InkWell(
                                                     onTap: () async {
                                                       if (productGroup
-                                                              .sizeGroup[index]
-                                                              .size
+                                                              .sizeGroup![index]
+                                                              .size!
                                                               .name !=
                                                           productData
-                                                              .size.name) {
+                                                              .size!.name) {
                                                         await locator<
                                                                 NavigationService>()
                                                             .pushReplacementNamed(
                                                                 routes
                                                                     .ProductDetailRoute,
                                                                 args: productGroup
-                                                                    .sizeGroup[
+                                                                    .sizeGroup![
                                                                         index]
                                                                     .id);
                                                       }
@@ -662,23 +691,23 @@ class _ProductDetail extends State<ProductDetail>
                                                           new BoxDecoration(
                                                         border: Border.all(
                                                             color: productGroup
-                                                                        .sizeGroup[
+                                                                        .sizeGroup![
                                                                             index]
-                                                                        .size
+                                                                        .size!
                                                                         .name ==
                                                                     productData
-                                                                        .size
+                                                                        .size!
                                                                         .name
                                                                 ? AppColors
                                                                     .primaryElement
                                                                 : Colors.grey,
                                                             width: productGroup
-                                                                        .sizeGroup[
+                                                                        .sizeGroup![
                                                                             index]
-                                                                        .size
+                                                                        .size!
                                                                         .name ==
                                                                     productData
-                                                                        .size
+                                                                        .size!
                                                                         .name
                                                                 ? ScreenUtil()
                                                                     .setWidth(2)
@@ -690,9 +719,9 @@ class _ProductDetail extends State<ProductDetail>
                                                       child: Center(
                                                         child: Text(
                                                           productGroup
-                                                              .sizeGroup[index]
-                                                              .size
-                                                              .name,
+                                                              .sizeGroup![index]
+                                                              .size!
+                                                              .name!,
                                                           style: TextStyle(
                                                               color: Color(
                                                                   0xff707070),
@@ -705,7 +734,7 @@ class _ProductDetail extends State<ProductDetail>
                                                     ));
                                               }))
                                       : SizedBox.shrink(),
-                                  productGroup.sizeGroup.length > 0 ||  productGroup.colorGroup.length > 0
+                                  productGroup.sizeGroup!.length > 0 ||  productGroup.colorGroup!.length > 0
                                       ?   SizedBox(
                                     height: ScreenUtil().setWidth(15),
                                   ):SizedBox.shrink(),
@@ -822,17 +851,17 @@ class _ProductDetail extends State<ProductDetail>
                             : Container(),
 
                         productData.keyFeature != null &&
-                                productData.keyFeature.length > 0
+                                productData.keyFeature!.length > 0
                             ? Container(
                                 width: double.infinity,
                                 child: Column(
                                     children: getKeyFeatureChildren(
-                                        productData.keyFeature)),
+                                        productData.keyFeature!)),
                               )
                             : Container(),
                         SizedBox(
                           height: productData.keyFeature != null ||
-                                  productData.keyFeature.length != 0
+                                  productData.keyFeature!.length != 0
                               ? ScreenUtil().setWidth(20)
                               : 0,
                         ),
@@ -857,17 +886,17 @@ class _ProductDetail extends State<ProductDetail>
                                   : 0,
                         ),
                         productData.specifications != null ||
-                                productData.specifications.length != 0
+                                productData.specifications!.length != 0
                             ? Container(
                                 width: double.infinity,
                                 child: Column(
                                     children: getSpecificationChildren(
-                                        productData.specifications)),
+                                        productData.specifications!)),
                               )
                             : Container(),
                         SizedBox(
                           height: productData.specifications != null ||
-                                  productData.specifications.length != 0
+                                  productData.specifications!.length != 0
                               ? ScreenUtil().setWidth(20)
                               : 0,
                         ),
@@ -1029,7 +1058,7 @@ class _ProductDetail extends State<ProductDetail>
                     ),
                   ))),
       Consumer<ProductDetailViewModel>(
-          builder: (BuildContext context, value, Widget child) {
+          builder: (BuildContext context, value, Widget? child) {
         return value.buttonStatus == "Not Available"
             ? SizedBox.shrink()
             : Align(
@@ -1070,8 +1099,10 @@ class _ProductDetail extends State<ProductDetail>
                                   _dialog.close();
                                   setState(() {});
                                 } else {
-                                  locator<NavigationService>()
-                                      .pushNamed(routes.LoginRoute);
+                                  if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+                                  else{
+                                    locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
+                                  }
                                 }
                               },
                               child: Container(
@@ -1134,7 +1165,7 @@ class _ProductDetail extends State<ProductDetail>
                                             productData.id, 1, false);
                                     _dialog.close();
                                   } else {
-                                    _navigationService
+                                    _navigationService!
                                         .pushNamed(routes.CartRoute);
                                   }
                                 }
@@ -1219,7 +1250,7 @@ class _ProductDetail extends State<ProductDetail>
                             Container(
                                 width: ScreenUtil().setWidth(150),
                                 child: Text(
-                                  specifications[i].name,
+                                  specifications[i].name!,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(color: Color(0xff000000)),
                                 ))
@@ -1228,7 +1259,7 @@ class _ProductDetail extends State<ProductDetail>
                     Container(
                       width: ScreenUtil().setWidth(200),
                       child: Text(
-                        specifications[i].value,
+                        specifications[i].value!,
                         textAlign: TextAlign.left,
                         style: TextStyle(color: Color(0xffa4a4a4)),
                       ),
@@ -1433,10 +1464,10 @@ class YoutubeVideoPlayClass extends StatefulWidget{
 
 class _YoutubeVideoPlayClass extends State<YoutubeVideoPlayClass>{
 
-   YoutubePlayerController _controller;
-   String  _id;
-   TextEditingController _seekToController;
-   PlayerState _playerState;
+   late YoutubePlayerController _controller;
+   String?  _id;
+   late TextEditingController _seekToController;
+   PlayerState? _playerState;
    bool _isPlayerReady = false;
   var link;
   @override
@@ -1444,7 +1475,7 @@ class _YoutubeVideoPlayClass extends State<YoutubeVideoPlayClass>{
     link = widget.link;
    _id = YoutubePlayer.convertUrlToId(widget.link);
     _controller = YoutubePlayerController(
-      initialVideoId: _id,
+      initialVideoId: _id!,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -1528,7 +1559,7 @@ class _RatingClass extends State<RatingClass> {
               "pid": widget.id,
             }),
         builder: (QueryResult result,
-            {VoidCallback refetch, FetchMore fetchMore}) {
+            {VoidCallback? refetch, FetchMore? fetchMore}) {
           if (result.hasException) {
 
             return Container();
@@ -1571,7 +1602,7 @@ class _RatingClass extends State<RatingClass> {
               ],
             ));
           }
-          if (result.data["reviewSummary"] == null) {
+          if (result.data!["reviewSummary"] == null) {
             return Container(
 
                 height: ScreenUtil().setWidth(27),
@@ -1624,7 +1655,7 @@ class _RatingClass extends State<RatingClass> {
                     Container(
                         padding: EdgeInsets.only(top: ScreenUtil().setWidth(3)),
                         child: Text(
-                          result.data["reviewSummary"]["avg"]??"0",
+                          result.data!["reviewSummary"]["avg"].toString()??"0",
                           style: TextStyle(
                               color: Color(0xff6d6d6d),
                               fontSize: ScreenUtil().setWidth(15)),
@@ -1660,7 +1691,7 @@ class CheckWishListClass extends StatefulWidget {
 class _CheckWishListClass extends State<CheckWishListClass> {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  bool status;
+  bool? status;
 
   @override
   Widget build(BuildContext context) {
@@ -1676,7 +1707,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                   "variant": widget.variantID
                 }),
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
 
                 return Container();
@@ -1686,7 +1717,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                     color: Color(0xffd3d3d3), size: 20);
               }
               if (result.isConcrete) {
-                status = result.data["checkWishlist"];
+                status = result.data!["checkWishlist"];
                 return Center(
                   // margin: EdgeInsets.only(left: ScreenUtil().setWidth(0.4)),
                   child: InkWell(
@@ -1709,7 +1740,7 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                                 listen: false)
                             .toggleItem(widget.productID);
                         setState(() {
-                          status = !status;
+                          status = !status!;
                         });
                       } else {
                         locator<NavigationService>()

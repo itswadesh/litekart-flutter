@@ -1,7 +1,7 @@
 import '../../model/product.dart';
 
 class ProductResponse {
-  List<ProductData> data;
+  List<ProductData>? data;
 
   ProductResponse({this.data});
 

@@ -5,23 +5,23 @@ import '../../enum/tz_dialog_type.dart';
 import '../../values/colors.dart';
 
 class TzDialog extends ChangeNotifier {
-  BuildContext context;
+  BuildContext? context;
   TzDialogType type;
-  String _message;
-  bool notificationHandleStatus;
+  String? _message;
+  bool notificationHandleStatus = false;
 
   TzDialog(this.context, this.type, [this._message = 'Please wait..']);
 
-  String get message => _message;
+  String? get message => _message;
 
-  set message(String value) {
+  set message(String? value) {
     this._message = value;
     notifyListeners();
   }
 
   show() async {
     await showDialog(
-      context: context,
+      context: context!,
       barrierDismissible: false,
       builder: (context) {
         switch (type) {
@@ -54,7 +54,7 @@ class TzDialog extends ChangeNotifier {
               Padding(
                 padding: EdgeInsets.all(15.0),
                 child: new Text(
-                  message,
+                  message!,
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class TzDialog extends ChangeNotifier {
       );
     } else {
       return CupertinoAlertDialog(
-        title: Text(message),
+        title: Text(message!),
         content: CupertinoActivityIndicator(
           animating: true,
           radius: 20,
@@ -97,7 +97,7 @@ class TzDialog extends ChangeNotifier {
                   padding: EdgeInsets.all(10.0),
                   child: Center(
                     child: Text(
-                      message,
+                      message!,
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500,
@@ -133,7 +133,7 @@ class TzDialog extends ChangeNotifier {
       child: Platform.isIOS
           ? new CupertinoAlertDialog(
               title: Text("You have a new Notification from $message"),
-              content: Text(message),
+              content: Text(message!),
               actions: <Widget>[
                 TextButton(
                   child: Text('View'),
@@ -156,7 +156,7 @@ class TzDialog extends ChangeNotifier {
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               title: Text("You have a new Notification from $message",
                   style: TextStyle(fontWeight: FontWeight.w500)),
-              content: Text(message),
+              content: Text(message!),
               actions: <Widget>[
                 TextButton(
                   child: Text('View'),
@@ -179,6 +179,6 @@ class TzDialog extends ChangeNotifier {
   }
 
   void close() {
-    Navigator.pop(context);
+    Navigator.pop(context!);
   }
 }

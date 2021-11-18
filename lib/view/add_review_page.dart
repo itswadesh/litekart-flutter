@@ -21,7 +21,7 @@ class AddReviewPage extends StatefulWidget {
 }
 
 class _AddReviewPage extends State<AddReviewPage> {
-  int rating;
+  int? rating;
   TextEditingController _description = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _AddReviewPage extends State<AddReviewPage> {
           ],
         ),
         body:  Consumer<RatingViewModel>(
-            builder: (BuildContext context, value, Widget child) {
+            builder: (BuildContext context, value, Widget? child) {
           return SingleChildScrollView(
             child: Column(
               children: [

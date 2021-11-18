@@ -1,18 +1,18 @@
 import 'package:anne/utility/api_endpoint.dart';
 
 class User {
-  String id;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
-  String gender;
-  String role;
-  bool verified;
-  bool active;
-  String provider;
-  String avatar;
-  List<UserAddress> address;
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? gender;
+  String? role;
+  bool? verified;
+  bool? active;
+  String? provider;
+  String? avatar;
+  List<UserAddress>? address;
 
   User(
       {this.active,
@@ -30,16 +30,16 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
       id: json["id"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      email: json["email"],
-      phone: json["phone"],
-      gender: json["gender"],
+      firstName: json["firstName"]??"",
+      lastName: json["lastName"]??"",
+      email: json["email"]??"",
+      phone: json["phone"]??"",
+      gender: json["gender"]??"",
       role: json["role"],
       verified: json["verified"],
       active: json["active"],
       provider: json["provider"],
-      avatar: json["avatarCdn"],
+      avatar: json["avatarCdn"]??"",
       address: List<UserAddress>.from(
           json["address"].map((x) => UserAddress.fromJson(x))));
 
@@ -60,19 +60,19 @@ class User {
 }
 
 class UserAddress {
-  String address;
-  String town;
-  String city;
+  String? address;
+  String? town;
+  String? city;
 
-  String state;
-  int zip;
+  String? state;
+  int? zip;
 
   UserAddress({this.address, this.city, this.state, this.town, this.zip});
 
   factory UserAddress.fromJson(Map<String, dynamic> json) => UserAddress(
-      address: json["address"],
-      city: json["city"],
-      state: json["state"],
-      town: json["town"],
-      zip: json["zip"]);
+      address: json["address"]??"",
+      city: json["city"]??"",
+      state: json["state"]??"",
+      town: json["town"]??"",
+      zip: json["zip"]??0);
 }

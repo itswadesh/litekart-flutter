@@ -1,8 +1,8 @@
 class BrandResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<BrandData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<BrandData>? data;
 
   BrandResponse({this.count, this.page, this.data, this.pageSize});
 
@@ -16,25 +16,25 @@ class BrandResponse {
 }
 
 class BrandData {
-  String id;
-  String brandId;
-  String slug;
-  String img;
-  int position;
-  String name;
-  String meta;
-  String metaTitle;
-  String metaDescription;
-  String metaKeywords;
-  bool featured;
-  bool active;
-  String createdAt;
-  String updatedAt;
-  String facebookUrl;
-  String instaUrl;
-  String twitterUrl;
-  String linkedinUrl;
-  String youtubeUrl;
+  String? id;
+  String? brandId;
+  String? slug;
+  String? img;
+  int? position;
+  String? name;
+  String? meta;
+  String? metaTitle;
+  String? metaDescription;
+  String? metaKeywords;
+  bool? featured;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
+  String? facebookUrl;
+  String? instaUrl;
+  String? twitterUrl;
+  String? linkedinUrl;
+  String? youtubeUrl;
 
   BrandData(
       {this.id,
@@ -77,6 +77,5 @@ class BrandData {
           youtubeUrl: json["youtubeUrl"] ?? null,
           active: json["active"] ?? null,
           createdAt: json["createdAt"] ?? null,
-          updatedAt: json["updatedAt"]) ??
-      null;
+          updatedAt: json["updatedAt"]);
 }

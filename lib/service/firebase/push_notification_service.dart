@@ -26,8 +26,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class PushNotificationService {
   //
-  String platform;
-  String deviceId;
+  String? platform;
+  String? deviceId;
 
   PushNotificationService() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -72,7 +72,7 @@ class PushNotificationService {
     platform = device['platform'];
     deviceId = device['id'];
 
-    String fcmToken;
+    String? fcmToken;
     try {
       fcmToken = await _fcm.getToken();
       bool tokenPresent = await (ApiProvider().myToken(0, "", 0, ""));
@@ -118,7 +118,7 @@ Future<void> serialiseAndNavigate(RemoteMessage message) async {
 
   if (target != null && type != null) {
     try {
-      Map<String, dynamic> _args;
+      Map<String, dynamic>? _args;
 
       if (args is String) {
         _args = jsonDecode(args);

@@ -4,26 +4,26 @@ import '../../response_handler/productResponse.dart';
 import '../../utility/query_mutation.dart';
 
 class ProductViewModel with ChangeNotifier {
-  var trendingStatus = "loading";
-  var youMayLikeStatus = "loading";
-  var suggestedStatus = "loading";
+  String? trendingStatus = "loading";
+  String? youMayLikeStatus = "loading";
+  String? suggestedStatus = "loading";
   QueryMutation addMutation = QueryMutation();
-  ProductResponse _productTrendingResponse;
+  ProductResponse? _productTrendingResponse;
   ProductsRepository productsRepository = ProductsRepository();
 
-  ProductResponse get productTrendingResponse {
+  ProductResponse? get productTrendingResponse {
     return _productTrendingResponse;
   }
 
-  ProductResponse _productYouMayLikeResponse;
+  ProductResponse? _productYouMayLikeResponse;
 
-  ProductResponse get productYouMayLikeResponse {
+  ProductResponse? get productYouMayLikeResponse {
     return _productYouMayLikeResponse;
   }
 
-  ProductResponse _productSuggestedResponse;
+  ProductResponse? _productSuggestedResponse;
 
-  ProductResponse get productSuggestedResponse {
+  ProductResponse? get productSuggestedResponse {
     return _productSuggestedResponse;
   }
 

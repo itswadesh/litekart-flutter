@@ -1,18 +1,18 @@
 class Address {
-  String id;
-  String email;
-  String firstName;
-  String lastName;
-  String address;
-  String town;
-  String city;
-  String country;
-  String state;
-  int zip;
-  String phone;
-  bool active;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? address;
+  String? town;
+  String? city;
+  String? country;
+  String? state;
+  int? zip;
+  String? phone;
+  bool? active;
+  String? createdAt;
+  String? updatedAt;
 
   Address(
       {this.id,
@@ -31,18 +31,18 @@ class Address {
       this.updatedAt});
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-      id: json["id"],
-      email: json["email"],
-      phone: json["phone"],
-      address: json["address"],
-      city: json["city"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      state: json["state"],
-      town: json["town"],
-      zip: json["zip"],
-      country: json["country"],
+      id: json["id"]??"",
+      email: json["email"]??"",
+      phone: json["phone"]??"",
+      address: json["address"]??"",
+      city: json["city"]??"",
+      firstName: json["firstName"]??"",
+      lastName: json["lastName"]??"",
+      state: json["state"]??"",
+      town: json["town"]??"",
+      zip: json["zip"]??0,
+      country: json["country"]??"",
       active: json["active"],
-      createdAt: json["createdAt"],
-      updatedAt: json["updatedAt"]);
+      createdAt: json["createdAt"]??"",
+      updatedAt: json["updatedAt"]??"");
 }

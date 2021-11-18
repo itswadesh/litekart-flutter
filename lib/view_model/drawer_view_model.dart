@@ -8,36 +8,36 @@ import '../../utility/locator.dart';
 
 class DrawerViewModel extends ChangeNotifier {
   final BuildContext context;
-  final NavigationService _navigationService = locator<NavigationService>();
-  List<DrawerItem> _drawers;
+  final NavigationService? _navigationService = locator<NavigationService>();
+  List<DrawerItem>? _drawers;
 
   DrawerViewModel(this.context) {
     setDrawer();
   }
 
-  List<DrawerItem> get drawers => _drawers;
+  List<DrawerItem>? get drawers => _drawers;
 
   void setDrawer() {
     _drawers = [
       DrawerItem(DrawerItemSource.my_profile, FontAwesomeIcons.userCircle, () {
-        _navigationService.pushNamed(routes.MyProfile);
+        _navigationService!.pushNamed(routes.MyProfile);
       }),
       DrawerItem(
           DrawerItemSource.shop_by_category, FontAwesomeIcons.shoppingCart,
               () {
-            _navigationService.pushNamed(routes.MegaMenuRoute);
+            _navigationService!.pushNamed(routes.MegaMenuRoute);
           }),
       DrawerItem(DrawerItemSource.manage_order, FontAwesomeIcons.shoppingBag,
               () {
-            _navigationService.pushNamed(routes.ManageOrder);
+            _navigationService!.pushNamed(routes.ManageOrder);
           }),
       DrawerItem(
           DrawerItemSource.manage_address, FontAwesomeIcons.mapMarkerAlt,
               () {
-            _navigationService.pushNamed(routes.ManageAddress);
+            _navigationService!.pushNamed(routes.ManageAddress);
           }),
       DrawerItem(DrawerItemSource.wishlist, FontAwesomeIcons.heart, () {
-        _navigationService.pushNamed(routes.Wishlist);
+        _navigationService!.pushNamed(routes.Wishlist);
       }),
     ];
     notifyListeners();

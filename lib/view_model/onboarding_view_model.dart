@@ -6,12 +6,12 @@ import '../../values/route_path.dart' as routes;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
 
   Future<void> getStarted() async {
     bool result = await _initChat();
     if (result) {
-      _navigationService.pushNamedAndRemoveUntil(routes.LoginRoute);
+      _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);
     }
   }
 
@@ -23,7 +23,7 @@ class OnboardingViewModel extends ChangeNotifier {
   Future<bool> forceSkip() async {
     bool result = await _initChat();
     if (result) {
-      _navigationService.pushNamedAndRemoveUntil(routes.LoginRoute);
+      _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);
     }
     return result;
   }

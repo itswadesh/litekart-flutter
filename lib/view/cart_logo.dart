@@ -19,13 +19,13 @@ class CartLogo extends StatefulWidget {
 }
 
 class _CartLogo extends State<CartLogo> {
-  final NavigationService _navigationService = locator<NavigationService>();
+  final NavigationService? _navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(child: Consumer<CartViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
         Provider.of<CartViewModel>(context, listen: false).fetchCartData();
         return
@@ -42,7 +42,7 @@ class _CartLogo extends State<CartLogo> {
       }
       return InkWell(
         onTap: () {
-          _navigationService.pushNamed(routes.CartRoute);
+          _navigationService!.pushNamed(routes.CartRoute);
         },
         child:
         //Padding(
@@ -56,7 +56,7 @@ class _CartLogo extends State<CartLogo> {
                   size: double.parse(widget.size.toString())-0.5,
                   color: Color(0xff616161),
                 ),
-                value.cartCount > 0
+                value.cartCount! > 0
                     ? Positioned(
                       left: 12, top: 0,
                       child: Container(

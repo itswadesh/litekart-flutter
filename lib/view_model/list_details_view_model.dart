@@ -5,10 +5,10 @@ import '../../utility/query_mutation.dart';
 
 class ListDealsViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  var status = "loading";
-  ListDealsResponse _listDealsResponse;
+  String? status = "loading";
+  ListDealsResponse? _listDealsResponse;
 
-  ListDealsResponse get listDealsResponse {
+  ListDealsResponse? get listDealsResponse {
     return _listDealsResponse;
   }
 

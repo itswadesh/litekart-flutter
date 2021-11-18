@@ -1,12 +1,12 @@
 import 'address.dart';
 
 class Vendor {
-  String id;
-  String firstName;
-  String lastName;
-  int phone;
-  String email;
-  List<Address> address;
+  String? id;
+  String? firstName;
+  String? lastName;
+  int? phone;
+  String? email;
+  List<Address>? address;
 
   Vendor(
       {this.id,

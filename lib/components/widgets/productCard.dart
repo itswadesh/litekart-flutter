@@ -1,18 +1,17 @@
-import 'dart:math';
-
 import 'package:anne/model/product.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
-import 'package:anne/view/product_detail.dart';
-import 'package:anne/view_model/cart_view_model.dart';
-import 'package:anne/view_model/store_view_model.dart';
-import 'package:anne/view_model/wishlist_view_model.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 import '../../main.dart';
 import '../../values/route_path.dart' as routes;
+
+
 
 class ProductCard extends StatefulWidget {
   final item;
@@ -23,12 +22,14 @@ class ProductCard extends StatefulWidget {
   }
 }
 
-class _ProductCard extends State<ProductCard> {
-  ProductData  item;
-
+class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
+  late ProductData  item;
+  bool imageStatus = true;
+  late AnimationController _controller ;
   @override
   void initState() {
     item = widget.item;
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 0));
     super.initState();
   }
 
@@ -57,16 +58,96 @@ class _ProductCard extends State<ProductCard> {
               Stack(
                 children: [
                   Container(
-                    child: FadeInImage.assetNetwork(
+                    // child:
+                    // CachedNetworkImage(
+                    //   fit: BoxFit.contain,
+                    //   height: ScreenUtil().setWidth(193),
+                    //   width: ScreenUtil().setWidth(193),
+                    //   imageUrl: item.img!+"?tr=w-193,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                    //         width: ScreenUtil().setWidth(193),
+                    //         fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //           fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(193),
+                    //       width: ScreenUtil().setWidth(193),
+                    //       fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                    //           width: ScreenUtil().setWidth(193),
+                    //           fit: BoxFit.contain,),
+                    // ),
+                    // child:ExtendedImage.network(
+                    //   item.img!+"?tr=w-193,fo-auto",
+                    //   height: ScreenUtil().setWidth(193),
+                    //   width: ScreenUtil().setWidth(193),
+                    //   fit: BoxFit.contain,
+                    //   // cache: false,
+                    //   // enableMemoryCache: false,
+                    //   // clearMemoryCacheIfFailed: true,
+                    //   // clearMemoryCacheWhenDispose: true,
+                    //    cache: true,
+                    //   loadStateChanged: (ExtendedImageState state) {
+                    //     switch (state.extendedImageLoadState) {
+                    //       case LoadState.loading:
+                    //         _controller.reset();
+                    //         return Image.asset(
+                    //           "assets/images/loading.gif",
+                    //           fit: BoxFit.contain,
+                    //         );
+                    //         break;
+                    //
+                    //     ///if you don't want override completed widget
+                    //     ///please return null or state.completedWidget
+                    //     //return null;
+                    //     //return state.completedWidget;
+                    //       case LoadState.completed:
+                    //         _controller.forward();
+                    //         return FadeTransition(
+                    //           opacity: _controller,
+                    //           child: ExtendedRawImage(
+                    //             image: state.extendedImageInfo?.image,
+                    //             height: ScreenUtil().setWidth(193),
+                    //             width: ScreenUtil().setWidth(193),
+                    //           ),
+                    //         );
+                    //         break;
+                    //       case LoadState.failed:
+                    //         _controller.reset();
+                    //         return GestureDetector(
+                    //           child:
+                    //               Image.asset(
+                    //                 "assets/images/logo.png",
+                    //                 fit: BoxFit.contain,
+                    //               ),
+                    //           onTap: () {
+                    //             state.reLoadImage();
+                    //           },
+                    //         );
+                    //         break;
+                    //     }
+                    //   },
+                    //   //cancelToken: cancellationToken,
+                    // )
+                    child:  FadeInImage.assetNetwork(
                       imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(193),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
                       }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.img+"?tr=w-193,fo-auto",
+                      image: item.img!,
                       height: ScreenUtil().setWidth(193),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
-                    ),
+                    )
                   ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
@@ -127,7 +208,7 @@ class _ProductCard extends State<ProductCard> {
                       child: Text(
                         item.brand == null
                             ? ""
-                            : (item.brand.name ?? ""),
+                            : (item.brand!.name ?? ""),
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(
                             12,
@@ -143,7 +224,7 @@ class _ProductCard extends State<ProductCard> {
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
                           ScreenUtil().setWidth(20), 0),
-                      child: Text(item.name,
+                      child: Text(item.name!,
                           style: TextStyle(
                               color: Color(0xff5f5f5f),
                               fontSize: ScreenUtil().setSp(
@@ -161,7 +242,7 @@ class _ProductCard extends State<ProductCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
-                        "${store.currencySymbol} " + item.price.toString() + " ",
+                        "${store!.currencySymbol} " + item.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -169,9 +250,9 @@ class _ProductCard extends State<ProductCard> {
                             fontWeight: FontWeight.w600,
                             color: Color(0xff4a4a4a)),
                       ),
-                      item.price < item.mrp
+                      item.price! < item.mrp!
                           ? Text(
-                        " ${store.currencySymbol} " + item.mrp.toString(),
+                        " ${store!.currencySymbol} " + item.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
@@ -180,9 +261,9 @@ class _ProductCard extends State<ProductCard> {
                             color: Color(0xff4a4a4a)),
                       )
                           : Container(),
-                      item.price < item.mrp
+                      item.price! < item.mrp!
                           ? Flexible(child: Text(
-                        " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
+                        " (${(100 - ((item.price! / item.mrp!) * 100)).toInt()} % off)",
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
@@ -220,4 +301,5 @@ class _ProductCard extends State<ProductCard> {
       ),
     );
   }
+
 }

@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:anne/values/route_path.dart' as routes;
 
+import '../main.dart';
+
 class Menu extends StatefulWidget{
   final model;
   Menu(this.model);
@@ -22,7 +24,7 @@ class Menu extends StatefulWidget{
 
 class _MenuState extends State<Menu>{
 
-  MenuViewModel model;
+  late MenuViewModel model;
   @override
   void initState() {
     model = widget.model;
@@ -57,7 +59,10 @@ class _MenuState extends State<Menu>{
                  model.currentIndex,
                  onTap: (int index) {
                   if(value.user==null && (index==3 || index==2 || index==4)){
-                    locator<NavigationService>().pushNamed(routes.LoginRoute);
+    if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}
+    else{
+      locator<NavigationService>().pushNamed(routes.EmailLoginRoute);
+    }
                   }
                   else {
                     setState(() {

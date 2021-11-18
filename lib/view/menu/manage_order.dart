@@ -119,7 +119,7 @@ class _OrderClass extends State<OrderClass> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Consumer<OrderViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.deliveredStatus == "loading") {
             Provider.of<OrderViewModel>(context, listen: false)
                 .fetchDeliveredOrder();
@@ -793,22 +793,22 @@ class _OrderClass extends State<OrderClass> {
 // }
 
 class ListOrderData extends StatelessWidget{
-  final OrderResponse orderResponse;
+  final OrderResponse? orderResponse;
  // final status;
   ListOrderData(this.orderResponse);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return getProductList(orderResponse);
+    return getProductList(orderResponse!);
   }
 
   Widget getProductList(OrderResponse orderResponse) {
     return Container(
 
         child: ListView.builder(
-        itemCount: orderResponse.data.length,
+        itemCount: orderResponse.data!.length,
         itemBuilder: (BuildContext context, index) {
-          return getProductCard(orderResponse.data[index],context);
+          return getProductCard(orderResponse.data![index],context);
         }));
   }
 
@@ -836,14 +836,14 @@ class ListOrderData extends StatelessWidget{
                      ListTile(
                        contentPadding: EdgeInsets.only(left: 0),
                        title:   Text(
-                                   orderData.items[0].status,
+                                   orderData.items![0].status!,
                                    style: TextStyle(
                                      color: AppColors.primaryElement,
                                    ),
                                    textAlign: TextAlign.start,
                                  ),
                        subtitle: Text(
-                                 "on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt) * 1000))}",
+                                 "on ${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderData.createdAt!) * 1000))}",
                                  style: TextStyle(
                                      color: Color(0xff9b9b9b),
                                  fontSize: ScreenUtil().setSp(14)
@@ -876,7 +876,7 @@ class ListOrderData extends StatelessWidget{
                   //   SizedBox(
                   //     height: ScreenUtil().setWidth(16),
                   //   ),
-                    getOrderItems(orderData.items,orderData.address),
+                    getOrderItems(orderData.items!,orderData.address),
 
                     SizedBox(
                       height: ScreenUtil().setWidth(26),
@@ -885,7 +885,7 @@ class ListOrderData extends StatelessWidget{
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          "Items : ${orderData.items.length}",
+                          "Items : ${orderData.items!.length}",
                           style: TextStyle(
                               color: Color(0xff9b9b9b),
                               fontSize: ScreenUtil().setSp(
@@ -893,7 +893,7 @@ class ListOrderData extends StatelessWidget{
                               )),
                         ),
                         Text(
-                          "Total Amount : ${store.currencySymbol} ${orderData.amount.total}",
+                          "Total Amount : ${store!.currencySymbol} ${orderData.amount!.total}",
                           style: TextStyle(
                               color: Color(0xff9b9b9b),
                               fontSize: ScreenUtil().setSp(
@@ -951,7 +951,7 @@ class ListOrderData extends StatelessWidget{
     );
   }
 
-  getOrderItems(List<OrderItems> items, OrderAddress address) {
+  getOrderItems(List<OrderItems> items, OrderAddress? address) {
     return ListView.builder(
         itemCount: items.length,
         physics: NeverScrollableScrollPhysics(),
@@ -981,12 +981,18 @@ class ListOrderData extends StatelessWidget{
          children: <Widget>[
            new ClipRRect(
                child: (items[index].img!=null && items[index].img!="")?  FadeInImage.assetNetwork(
+                 imageErrorBuilder: ((context,object,stackTrace){
+
+                   return Image.asset("assets/images/logo.png", fit: BoxFit.contain,
+                     width: ScreenUtil().setWidth(92),
+                     height: ScreenUtil().setWidth(112),);
+                 }),
                  placeholder: 'assets/images/loading.gif',
-                 image: items[index].img+"?tr=h-112,w-92,fo-auto",
-                 fit: BoxFit.cover,
+                 image: items[index].img!,
+                 fit: BoxFit.contain,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),
-               ):Image.asset("assets/images/logo.png",fit: BoxFit.cover,
+               ):Image.asset("assets/images/logo.png",fit: BoxFit.contain,
                  width: ScreenUtil().setWidth(92),
                  height: ScreenUtil().setWidth(112),)),
            Padding(
@@ -1020,7 +1026,7 @@ class ListOrderData extends StatelessWidget{
                        Container(
                          width: ScreenUtil().setWidth(230),
                          child: Text(
-                           items[index].name,
+                           items[index].name!,
                            style: TextStyle(
                              fontWeight: FontWeight.w500,
                              color: Color(0xff616161),

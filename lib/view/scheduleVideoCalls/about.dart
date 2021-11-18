@@ -11,7 +11,7 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   PackageInfo _packageInfo = PackageInfo(
     version: 'Unknown',
-    buildNumber: 'Unknown',
+    buildNumber: 'Unknown', packageName: '', appName: '',
   );
 
   @override

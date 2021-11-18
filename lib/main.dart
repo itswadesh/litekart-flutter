@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:anne/model/setting.dart';
 import 'package:anne/view_model/channel_view_model.dart';
+import 'package:anne/view_model/schedule_view_model.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,16 +32,16 @@ import '../../values/route_path.dart' as routes;
 import 'utility/shared_preferences.dart';
 import 'view_model/banner_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'view_model/manage_order_view_model.dart';
 import 'view_model/menu_view_model.dart';
 import 'view_model/store_view_model.dart';
 
-StoreData store;
-SettingData settingData;
+StoreData? store;
+SettingData? settingData;
 class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..maxConnectionsPerHost = 5
       ..badCertificateCallback =
@@ -61,8 +62,10 @@ void main() async {
 
   store =  await StoreViewModel().fetchStore();
   settingData  = await SettingViewModel().fetchSettingData();
-User user;	
-if(token!=null && token!=""){
+  stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
+  await stripe.Stripe.instance.applySettings();
+User? user;	
+if( token!=""){
    user = await ProfileModel().returnProfile();
 	}
 
@@ -78,7 +81,7 @@ if(token!=null && token!=""){
 
 class Main extends StatefulWidget {
   final bool showOnboarding;
-  final User user;
+  final User? user;
 
   Main(this.showOnboarding, [this.user]);
 
@@ -89,10 +92,10 @@ class Main extends StatefulWidget {
 }
 
 class _MyApp extends State<Main> {
-  String _initialRoute;
+  String? _initialRoute;
   bool fcmUpdate = false;
-  Timer timer, fcmTimer;
-  PushNotificationService pushNotificationService =
+  Timer? timer, fcmTimer;
+  PushNotificationService? pushNotificationService =
       locator<PushNotificationService>();
 
   @override
@@ -107,7 +110,7 @@ class _MyApp extends State<Main> {
           _initialRoute = routes.EmailLoginRoute;
         }
         else {
-          if (settingData.otpLogin) {
+          if (settingData!.otpLogin!) {
             _initialRoute = routes.LoginRoute;
           }
           else {
@@ -117,7 +120,7 @@ class _MyApp extends State<Main> {
       }
     }
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       updateFcmToken();
     });
   }
@@ -125,7 +128,7 @@ class _MyApp extends State<Main> {
   Future<void> updateFcmToken() async {
     if (!fcmUpdate) {
       // fcmTimer = Timer.periodic(Duration(hours: 1), (Timer t) async {
-      await pushNotificationService.initialise();
+      await pushNotificationService!.initialise();
       if (mounted) {
         // if (fcmUpdate) {
         //   fcmTimer.cancel();
@@ -166,6 +169,7 @@ class _MyApp extends State<Main> {
           ChangeNotifierProvider.value(value: SettingViewModel()),
           ChangeNotifierProvider.value(value: ChannelViewModel()),
           ChangeNotifierProvider.value(value: StoreViewModel()),
+          ChangeNotifierProvider.value(value: ScheduleViewModel()),
         ],
         child: MaterialApp(
           initialRoute: _initialRoute,

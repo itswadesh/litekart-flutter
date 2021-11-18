@@ -1,8 +1,8 @@
 class ProductListApiResponse {
-  int count;
-  int took;
-  int page;
-  List<ProductListData> data;
+  int? count;
+  int? took;
+  int? page;
+  List<ProductListData>? data;
 
   ProductListApiResponse({this.data, this.page, this.count, this.took});
 
@@ -14,26 +14,27 @@ class ProductListApiResponse {
           // facets: json["facets"],
           data: json["data"] != null
               ? List.from(json["data"].map((x) => ProductListData.fromJson(x)))
-              : [ProductListData()]);
+              : [ProductListData(images: [], imgCdn: "")]);
 }
 
 class ProductListData {
-  String id;
-  String name;
-  String brand;
-  List images;
-  double price;
-  double mrp;
-  int stock;
+  String? id;
+  String? name;
+  String? brand;
+  List<String> images;
+  String imgCdn;
+  double? price;
+  double? mrp;
+  int? stock;
 
   ProductListData(
       {this.id,
       this.name,
       this.mrp,
       this.price,
-      this.images,
+     required this.images,
       this.stock,
-      this.brand});
+      this.brand,required this.imgCdn});
 
   factory ProductListData.fromJson(Map<String, dynamic> json) =>
       ProductListData(
@@ -44,18 +45,15 @@ class ProductListData {
                   ? json["_source"]["brand"]["name"]
                   : "")
               : "",
-          images: json["_source"] != null
-              ? ((json["_source"]["imagesCdn"] != null &&
-                      json["_source"]["imagesCdn"] != [""] &&
-                      json["_source"]["imagesCdn"] != [])
-                  ? List.from(json["_source"]["imagesCdn"].map((x) => x))
-                  : [])
-              : [],
+          images:  List.from(json["_source"]["imagesCdn"].map((x) => x)),
           price: json["_source"] != null
               ? double.parse(json["_source"]["price"].toString()) ?? 0.0
-              : "",
+              : "" as double?,
           mrp: json["_source"] != null
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
-              : "",
-          stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0);
+              : "" as double?,
+          stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0,
+          imgCdn: json["_source"]["imgCdn"]??null
+      );
+
 }

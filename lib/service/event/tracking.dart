@@ -4,10 +4,10 @@ import 'firebase_event.dart';
 
 class Tracking {
   String event;
-  Map<String, dynamic> data;
-  User user;
+  Map<String, dynamic>? data;
+  User? user;
 
-  Tracking({@required this.event, this.data, this.user}) {
+  Tracking({required this.event, this.data, this.user}) {
     try {
       (FirebaseEvent()).sendAnalyticsEvent(
           name: event.trim().toLowerCase().replaceAll(' ', '_'),

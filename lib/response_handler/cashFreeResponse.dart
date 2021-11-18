@@ -1,18 +1,18 @@
 class CashFreeResponse {
-  String appId;
-  String orderId;
-  String orderAmount;
-  String orderCurrency;
-  String orderNote;
-  String customerName;
-  String customerEmail;
-  String customerPhone;
-  String returnUrl;
-  String notifyUrl;
-  String signature;
-  String stage;
-  String url;
-  String token;
+  String? appId;
+  String? orderId;
+  String? orderAmount;
+  String? orderCurrency;
+  String? orderNote;
+  String? customerName;
+  String? customerEmail;
+  String? customerPhone;
+  String? returnUrl;
+  String? notifyUrl;
+  String? signature;
+  String? stage;
+  String? url;
+  String? token;
   CashFreeResponse(
       {this.url,
       this.appId,

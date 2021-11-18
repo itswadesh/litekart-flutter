@@ -7,6 +7,7 @@ import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/store_view_model.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -79,7 +80,7 @@ class _WishlistState extends State<Wishlist> {
 
   getWishList() {
     return Consumer<WishlistViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           log("hiii there");
       if (value.status == "loading") {
           Provider.of<WishlistViewModel>(context, listen: false).fetchData();
@@ -94,7 +95,7 @@ class _WishlistState extends State<Wishlist> {
         Container(
           padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
             child:  Consumer<WishlistViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               return PagedGridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio:
@@ -102,7 +103,7 @@ class _WishlistState extends State<Wishlist> {
                     crossAxisCount: 2),
                 pagingController: value.pagingController,
                 builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) => WishCard(item),
+                    itemBuilder: (context, dynamic item, index) => WishCard(item),
                     // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                     //   error: _pagingController.error,
                     //   onTryAgain: () => _pagingController.refresh(),
@@ -132,8 +133,8 @@ class WishCard extends StatefulWidget {
 }
 
 class _WishCard extends State<WishCard> {
-  WishlistData item;
-
+  late WishlistData item;
+  bool imageStatus = true;
   @override
   void initState() {
     item = widget.item;
@@ -150,7 +151,7 @@ class _WishCard extends State<WishCard> {
       ),
       child: InkWell(
         onTap: () async {
-          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product.id);
+          locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product!.id);
         },
         child: Container(
           width: ScreenUtil().setWidth(183),
@@ -161,9 +162,40 @@ class _WishCard extends State<WishCard> {
               Stack(
                 children: [
                   Container(
-                    child: FadeInImage.assetNetwork(
+                    // child:  CachedNetworkImage(
+                    //   fit: BoxFit.contain,
+                    //     height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //   imageUrl: item.product!.img!+"?tr=w-193,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //           width: ScreenUtil().setWidth(193),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    // ),
+                 child:  FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
+                      }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product.img+"?tr=w-193,fo-auto",
+                      image: item.product!.img!,
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
@@ -184,7 +216,7 @@ class _WishCard extends State<WishCard> {
                             _dialog.show();
                             await Provider.of<WishlistViewModel>(context,
                                     listen: false)
-                                .toggleItem(item.product.id);
+                                .toggleItem(item.product!.id);
                             _dialog.close();
                           },
                           child: Container(
@@ -225,7 +257,7 @@ class _WishCard extends State<WishCard> {
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
-                    item.product.brand,
+                    item.product!.brand!,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(
                         14,
@@ -234,6 +266,7 @@ class _WishCard extends State<WishCard> {
                       fontWeight: FontWeight.w600
                     ),
                     textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
                   )),
               // SizedBox(
               //   height: ScreenUtil().setWidth(9),
@@ -260,7 +293,7 @@ class _WishCard extends State<WishCard> {
                 children: [
                   SizedBox(width: ScreenUtil().setWidth(10),),
                   Text(
-                    "${store.currencySymbol} " + item.product.price.toString() + " ",
+                    "${store!.currencySymbol} " + item.product!.price.toString() + " ",
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -268,9 +301,9 @@ class _WishCard extends State<WishCard> {
                         fontWeight: FontWeight.w600,
                         color: Color(0xff4a4a4a)),
                   ),
-                  item.product.price < item.product.mrp
+                  item.product!.price! < item.product!.mrp!
                       ? Text(
-                          " ${store.currencySymbol} " + item.product.mrp.toString(),
+                          " ${store!.currencySymbol} " + item.product!.mrp.toString(),
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               fontSize: ScreenUtil().setSp(
@@ -279,9 +312,9 @@ class _WishCard extends State<WishCard> {
                               color: Color(0xff4a4a4a)),
                         )
                       : Container(),
-                  item.product.price < item.product.mrp
+                  item.product!.price! < item.product!.mrp!
                       ? Flexible(child: Text(
-                          " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
+                          " (${(100 - ((item.product!.price! / item.product!.mrp!) * 100)).toInt()} % off)",
                           style: TextStyle(
                               color: AppColors.primaryElement2,
                               fontSize: ScreenUtil().setSp(
@@ -301,9 +334,9 @@ class _WishCard extends State<WishCard> {
                     TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
                     _dialog.show();
                     await Provider.of<CartViewModel>(context, listen: false)
-                        .cartAddItem(item.product.id, item.product.id, 1, false);
+                        .cartAddItem(item.product!.id, item.product!.id, 1, false);
                     await Provider.of<WishlistViewModel>(context, listen: false)
-                        .toggleItem(item.product.id);
+                        .toggleItem(item.product!.id);
 
                     _dialog.close();
 

@@ -1,17 +1,21 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 //import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:anne/repository/brainTreeRepository.dart';
+import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/repository/stripe_repository.dart';
+import 'package:anne/utility/api_endpoint.dart';
 import 'package:anne/values/functions.dart';
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
-//import 'package:stripe_payment/stripe_payment.dart';
+// import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
+
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../repository/address_repository.dart';
@@ -48,7 +52,7 @@ import '../../components/widgets/buttonValue.dart';
 import '../../view_model/auth_view_model.dart';
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/manage_order_view_model.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'menu/manage_order.dart';
 
@@ -76,7 +80,7 @@ class _Checkout extends State<Checkout> {
   var primaryAddressBox = -1;
   var buttonStatusAddress = true;
   var buttonStatusOrder = true;
-  String addressId = "new";
+  String? addressId = "new";
   TextEditingController cvv = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _address = TextEditingController();
@@ -105,8 +109,8 @@ class _Checkout extends State<Checkout> {
     ListItem(12, "12"),
   ];
 
-  List<DropdownMenuItem<ListItem>> _dropdownMonthItems;
-  ListItem _selectedMonth;
+  List<DropdownMenuItem<ListItem>>? _dropdownMonthItems;
+  ListItem? _selectedMonth;
 
   List<ListItem> _dropdownYear = [
     ListItem(1, "21"),
@@ -121,28 +125,25 @@ class _Checkout extends State<Checkout> {
     ListItem(10, "30"),
   ];
 
-  List<DropdownMenuItem<ListItem>> _dropdownYearItems;
-  ListItem _selectedYear;
+  List<DropdownMenuItem<ListItem>>? _dropdownYearItems;
+  ListItem? _selectedYear;
   final cardNumber = MaskedTextController(mask: '0000-0000-0000-0000');
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-
+ // var stripeInstance = stripe.StripePlatform.instance;
+  List methodList = [];
   @override
   void initState() {
     _dropdownMonthItems = buildDropDownMenuItems(_dropdownMonth);
-    _selectedMonth = _dropdownMonthItems[0].value;
+    _selectedMonth = _dropdownMonthItems![0].value;
     _dropdownYearItems = buildDropDownMenuItems(_dropdownYear);
-    _selectedYear = _dropdownYearItems[0].value;
+    _selectedYear = _dropdownYearItems![0].value;
+    getPaymentMethod();
     super.initState();
-    // StripePayment.setOptions(StripeOptions(
-    //     publishableKey: settingData.stripePublishableKey,
-    //     merchantId: "Test",
-    //     androidPayMode: "test"
-    //     ));
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
     List<DropdownMenuItem<ListItem>> items = [];
-    for (ListItem listItem in listItems) {
+    for (ListItem listItem in listItems as Iterable<ListItem>) {
       items.add(
         DropdownMenuItem(
           child: Text(
@@ -202,7 +203,7 @@ class _Checkout extends State<Checkout> {
 
   getBillCard() {
     return Consumer<CartViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           return Material(
               color: Color(0xfff3f3f3),
               // borderRadius: BorderRadius.circular(2),
@@ -314,7 +315,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + value.cartResponse
+                            Text("${store!.currencySymbol} " + value.cartResponse!
                                 .subtotal.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
@@ -335,7 +336,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text(value.cartResponse.qty.toString(),
+                            Text(value.cartResponse!.qty.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
                                     fontSize: ScreenUtil().setSp(
@@ -346,7 +347,7 @@ class _Checkout extends State<Checkout> {
                         SizedBox(
                           height: ScreenUtil().setWidth(16),
                         ),
-                        value.cartResponse.discount.amount > 0
+                        value.cartResponse!.discount!.amount! > 0
                             ? Column(
                           children: [
                             Row(
@@ -360,8 +361,8 @@ class _Checkout extends State<Checkout> {
                                           16,
                                         ))),
                                 Text(
-                                    "${store.currencySymbol} " +
-                                        value.cartResponse.discount.amount
+                                    "${store!.currencySymbol} " +
+                                        value.cartResponse!.discount!.amount
                                             .toString(),
                                     style: TextStyle(
                                         color: Color(0xff616161),
@@ -385,7 +386,7 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + value.cartResponse
+                            Text("${store!.currencySymbol} " + value.cartResponse!
                                 .shipping.toString(),
                                 style: TextStyle(
                                     color: Color(0xff616161),
@@ -394,7 +395,7 @@ class _Checkout extends State<Checkout> {
                                     )))
                           ],
                         ),
-                        value.promocodeStatus
+                        value.promocodeStatus!
                             ? SizedBox(
                           height: ScreenUtil().setWidth(16),
                         ) : Container(),
@@ -427,7 +428,7 @@ class _Checkout extends State<Checkout> {
                         //         ],
                         //       )
                         //     : SizedBox.shrink(),
-                        value.promocodeStatus
+                        value.promocodeStatus!
                             ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -438,11 +439,11 @@ class _Checkout extends State<Checkout> {
                                       16,
                                     ))),
                             Text(
-                                value.promocodeStatus
+                                value.promocodeStatus!
                                     ? "Applied"
                                     : "Not Applied",
                                 style: TextStyle(
-                                    color: value.promocodeStatus
+                                    color: value.promocodeStatus!
                                         ? AppColors.primaryElement2
                                         : Colors.red,
                                     fontSize: ScreenUtil().setSp(
@@ -482,8 +483,8 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store.currencySymbol} " + (value
-                                .cartResponse.total).toString(),
+                            Text("${store!.currencySymbol} " + (value
+                                .cartResponse!.total).toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff000000),
@@ -506,7 +507,7 @@ class _Checkout extends State<Checkout> {
 
   getDeliveryCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           return Container(
             // padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -530,7 +531,7 @@ class _Checkout extends State<Checkout> {
                                 : Colors.grey),
                       ),
                       onPressed: () async {
-                        paymentHandle(value.selectedAddress.id);
+                        paymentHandle(value.selectedAddress!.id);
                       },
                       child: Text(
                         'Place Order',
@@ -566,8 +567,8 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "${value.selectedAddress.firstName + " " +
-                      value.selectedAddress.lastName ?? "User"}",
+                  "${value.selectedAddress!.firstName! + " " +
+                      value.selectedAddress!.lastName! ?? "User"}",
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -581,7 +582,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "Address : " + value.selectedAddress.address.toString(),
+                  "Address : " + value.selectedAddress!.address.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -596,7 +597,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  "Pin : " + value.selectedAddress.zip.toString(),
+                  "Pin : " + value.selectedAddress!.zip.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -610,7 +611,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  value.selectedAddress.phone.toString(),
+                  value.selectedAddress!.phone.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -624,7 +625,7 @@ class _Checkout extends State<Checkout> {
               Container(
                 width: double.infinity,
                 child: Text(
-                  value.selectedAddress.email.toString(),
+                  value.selectedAddress!.email.toString(),
                   style: TextStyle(
                       color: Color(0xff5f5f5f),
                       fontSize: ScreenUtil().setSp(
@@ -639,7 +640,7 @@ class _Checkout extends State<Checkout> {
 
   getDeliveryOptionCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.status == "loading") {
             Provider.of<AddressViewModel>(context, listen: false)
                 .fetchAddressData();
@@ -680,13 +681,13 @@ class _Checkout extends State<Checkout> {
 
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: value.addressResponse.data.length,
+                itemCount: value.addressResponse!.data!.length,
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
                     onTap: () async {
                       await Provider.of<AddressViewModel>(
                           context, listen: false)
-                          .selectAddress(value.addressResponse.data[index]);
+                          .selectAddress(value.addressResponse!.data![index]);
                     },
                     child: Material(
                         color: Color(0xfffffff),
@@ -723,9 +724,9 @@ class _Checkout extends State<Checkout> {
                                         //   },
                                         //   child:
                                         (value.selectedAddress != null &&
-                                            (value.selectedAddress.id ==
-                                                value.addressResponse
-                                                    .data[index].id))
+                                            (value.selectedAddress!.id ==
+                                                value.addressResponse!
+                                                    .data![index].id))
                                             ? Icon(
                                           Icons.check_circle,
                                           color: AppColors.primaryElement,
@@ -743,10 +744,10 @@ class _Checkout extends State<Checkout> {
                                         Container(
                                           width: ScreenUtil().setWidth(245),
                                           child: Text(
-                                            "${(value.addressResponse
-                                                .data[index].firstName + " " +
-                                                value.addressResponse
-                                                    .data[index].lastName) ??
+                                            "${(value.addressResponse!
+                                                .data![index].firstName! + " " +
+                                                value.addressResponse!
+                                                    .data![index].lastName!) ??
                                                 "User"}",
                                             style: TextStyle(
                                                 color: Color(0xff525252),
@@ -767,7 +768,7 @@ class _Checkout extends State<Checkout> {
                                       width: double.infinity,
                                       child: Text(
                                         "Address : " +
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .address
                                                 .toString(),
                                         style: TextStyle(
@@ -787,7 +788,7 @@ class _Checkout extends State<Checkout> {
                                       width: double.infinity,
                                       child: Text(
                                         "Pin : " +
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .zip.toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -805,7 +806,7 @@ class _Checkout extends State<Checkout> {
                                           left: ScreenUtil().setWidth(26)),
                                       width: double.infinity,
                                       child: Text(
-                                        value.addressResponse.data[index].phone
+                                        value.addressResponse!.data![index].phone
                                             .toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -823,7 +824,7 @@ class _Checkout extends State<Checkout> {
                                           left: ScreenUtil().setWidth(26)),
                                       width: double.infinity,
                                       child: Text(
-                                        value.addressResponse.data[index].email
+                                        value.addressResponse!.data![index].email
                                             .toString(),
                                         style: TextStyle(
                                             color: Color(0xff5f5f5f),
@@ -883,38 +884,38 @@ class _Checkout extends State<Checkout> {
                                   InkWell(
                                       onTap: () async {
                                         addressId =
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .id;
                                         _phone.text =
-                                            value.addressResponse.data[index]
-                                                .phone;
+                                            value.addressResponse!.data![index]
+                                                .phone!;
                                         _address.text =
-                                            value.addressResponse.data[index]
-                                                .address;
+                                            value.addressResponse!.data![index]
+                                                .address!;
                                         _pin.text = value
-                                            .addressResponse.data[index].zip
+                                            .addressResponse!.data![index].zip
                                             .toString();
                                         _email.text =
-                                            value.addressResponse.data[index]
-                                                .email;
+                                            value.addressResponse!.data![index]
+                                                .email!;
                                         _town.text =
-                                            value.addressResponse.data[index]
-                                                .town;
+                                            value.addressResponse!.data![index]
+                                                .town!;
                                         _city.text =
-                                            value.addressResponse.data[index]
-                                                .city;
+                                            value.addressResponse!.data![index]
+                                                .city!;
                                         _country.text =
-                                            value.addressResponse.data[index]
-                                                .country;
+                                            value.addressResponse!.data![index]
+                                                .country!;
                                         _state.text =
-                                            value.addressResponse.data[index]
-                                                .state;
+                                            value.addressResponse!.data![index]
+                                                .state!;
                                         _firstName.text = value
-                                            .addressResponse.data[index]
-                                            .firstName;
+                                            .addressResponse!.data![index]
+                                            .firstName!;
                                         _lastName.text = value
-                                            .addressResponse.data[index]
-                                            .lastName;
+                                            .addressResponse!.data![index]
+                                            .lastName!;
                                         setState(() {
                                           newAddress = !newAddress;
                                         });
@@ -941,7 +942,7 @@ class _Checkout extends State<Checkout> {
                                             context,
                                             listen: false)
                                             .deleteAddress(
-                                            value.addressResponse.data[index]
+                                            value.addressResponse!.data![index]
                                                 .id);
                                       },
                                       child: Container(
@@ -1286,7 +1287,7 @@ class _Checkout extends State<Checkout> {
                         ),
                       ),
                       Consumer<CartViewModel>(
-                          builder: (BuildContext context, value, Widget child) {
+                          builder: (BuildContext context, value, Widget? child) {
                             return Container(
                                 color: Color(0xffffffff),
                                 child:
@@ -1308,9 +1309,9 @@ class _Checkout extends State<Checkout> {
                                           mainAxisAlignment: MainAxisAlignment
                                               .spaceBetween,
                                           children: [
-                                            Text(value.promocodeStatus
+                                            Text(value.promocodeStatus!
                                                 ? "Applied Promocode (" +
-                                                value.promocode + ")"
+                                                value.promocode! + ")"
                                                 : "Apply Promocode"),
                                             Icon(FontAwesomeIcons.angleRight,
                                               color: Color(0xffd0d0d0),
@@ -1362,14 +1363,14 @@ class _Checkout extends State<Checkout> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<CartViewModel>(builder:
-                      (BuildContext context, value, Widget child) {
+                      (BuildContext context, value, Widget? child) {
                     if (value.cartResponse == null ||
-                        value.cartResponse.items.length == 0) {
+                        value.cartResponse!.items!.length == 0) {
                       return Container();
                     }
                     return Text(
-                        "TOTAL : ${store.currencySymbol} " +
-                            (value.cartResponse.total).toString()
+                        "TOTAL : ${store!.currencySymbol} " +
+                            (value.cartResponse!.total).toString()
                         //"$total"
                         ,
                         style: TextStyle(
@@ -1457,14 +1458,14 @@ class _Checkout extends State<Checkout> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<CartViewModel>(builder:
-                      (BuildContext context, value, Widget child) {
+                      (BuildContext context, value, Widget? child) {
                     if (value.cartResponse == null ||
-                        value.cartResponse.items.length == 0) {
+                        value.cartResponse!.items!.length == 0) {
                       return Container();
                     }
                     return Text(
-                        "TOTAL : ${store.currencySymbol} " +
-                            (value.cartResponse.total).toString()
+                        "TOTAL : ${store!.currencySymbol} " +
+                            (value.cartResponse!.total).toString()
                         //"$total"
                         ,
                         style: TextStyle(
@@ -1475,7 +1476,7 @@ class _Checkout extends State<Checkout> {
                   }),
                   Container(
                     child: Consumer<AddressViewModel>(
-    builder: (BuildContext context, value, Widget child) {
+    builder: (BuildContext context, value, Widget? child) {
     return  Container(
                             width: ScreenUtil().setWidth(150),
                             height: ScreenUtil().setHeight(42),
@@ -1492,7 +1493,7 @@ class _Checkout extends State<Checkout> {
                                         : Colors.grey),
                               ),
                               onPressed: () async {
-                                paymentHandle(value.selectedAddress.id);
+                                paymentHandle(value.selectedAddress!.id);
                               },
                               child: Text(
                                 "PLACE ORDER",
@@ -1536,24 +1537,24 @@ class _Checkout extends State<Checkout> {
               setState(() {
                 _phone.text = Provider
                     .of<ProfileModel>(context, listen: false)
-                    .user
+                    .user!
                     .phone ??
                     "";
                 _firstName.text =
                     Provider
                         .of<ProfileModel>(context, listen: false)
-                        .user
+                        .user!
                         .firstName ??
                         "";
                 _lastName.text =
                     Provider
                         .of<ProfileModel>(context, listen: false)
-                        .user
+                        .user!
                         .lastName ??
                         "";
                 _email.text = Provider
                     .of<ProfileModel>(context, listen: false)
-                    .user
+                    .user!
                     .email ??
                     "";
                 newAddress = !newAddress;
@@ -1601,7 +1602,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'First Name is Required';
                       }
                       return null;
@@ -1633,7 +1634,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Last Name is Required';
                       }
                       return null;
@@ -1665,7 +1666,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Email is Required';
                       }
                       return null;
@@ -1697,7 +1698,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty || value == "") {
+                      if (value!.isEmpty || value == "") {
                         return 'Phone number is Required';
                       }
                       return null;
@@ -1744,31 +1745,31 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty && value.length != 6) {
+                      if (value!.isEmpty && value.length != 6) {
                         return 'A 6 digit Pin is Required';
                       }
                       return null;
                     },
                     controller: _pin,
-                    onChanged: (value) async {
-                      if (value.length == 6) {
-                        TzDialog _dialog = TzDialog(
-                            context, TzDialogType.progress);
-                        _dialog.show();
-                        final AddressRepository addressRepository =
-                        AddressRepository();
-                        var result =
-                        await addressRepository.fetchDataFromZip(value);
-                        if (result != null) {
-                          setState(() {
-                            _country.text = result["country"];
-                            _state.text = result["state"];
-                            _city.text = result["city"];
-                          });
-                        }
-                        _dialog.close();
-                      }
-                    },
+                    // onChanged: (value) async {
+                    //   if (value.length == 6) {
+                    //     TzDialog _dialog = TzDialog(
+                    //         context, TzDialogType.progress);
+                    //     _dialog.show();
+                    //     final AddressRepository addressRepository =
+                    //     AddressRepository();
+                    //     var result =
+                    //     await addressRepository.fetchDataFromZip(value);
+                    //     if (result != null) {
+                    //       setState(() {
+                    //         _country.text = result["country"];
+                    //         _state.text = result["state"];
+                    //         _city.text = result["city"];
+                    //       });
+                    //     }
+                    //     _dialog.close();
+                    //   }
+                    // },
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
                         filled: true,
@@ -1796,12 +1797,12 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'City Name is Required';
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _city,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -1829,12 +1830,12 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'State Name is Required';
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _state,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -1862,12 +1863,12 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Country Name is Required';
                       }
                       return null;
                     },
-                    readOnly: true,
+
                     controller: _country,
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
@@ -1895,7 +1896,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Address is Required';
                       }
                       return null;
@@ -1927,7 +1928,7 @@ class _Checkout extends State<Checkout> {
               Container(
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Town Name is Required';
                       }
                       return null;
@@ -2008,10 +2009,10 @@ class _Checkout extends State<Checkout> {
                   ),
                   onPressed: () async {
                     if (buttonStatusAddress) {
-                      if (!_formKey.currentState.validate()) {
+                      if (!_formKey.currentState!.validate()) {
                         return;
                       }
-                      _formKey.currentState.save();
+                      _formKey.currentState!.save();
                       primaryAddressBox = -1;
                       setState(() {
                         primaryAddressBox = -1;
@@ -2078,375 +2079,439 @@ class _Checkout extends State<Checkout> {
   }
 
   getPaymentOption() {
+    return  Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(14),
+                      ScreenUtil().setWidth(33),
+                      ScreenUtil().setWidth(14),
+                      ScreenUtil().setWidth(44)),
+                  margin: EdgeInsets.fromLTRB(
+                      0, ScreenUtil().setWidth(22), 0, ScreenUtil().setWidth(15)),
+                  child: InkWell(
+                    onTap: () {
+                      Map<String, dynamic> data = {
+                        "id": EVENT_PAYMENT_SELECTED_TYPE,
+                        "paymentType": paymentMethod,
+                        "event": "tap",
+                      };
+                      Tracking(event: EVENT_PAYMENT_SELECTED_TYPE, data: data);
+                    },
+                    child: Column(
+                      children: [
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     setState(() {
+                        //       paymentMethod = "credit";
+                        //     });
+                        //   },
+                        //   child:
+                        // creditCard(),
+                        // ),
+                        methodList.contains("Stripe")?   GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "credit";
+                              });
+                            },
+                            child:
+                            creditCard()):Container(),
+                        methodList.contains("Stripe")? SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ):Container(),
+                        methodList.contains("Paypal")?  GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "paypal";
+                              });
+                            },
+                            child:
+                            paypalCard()):Container(),
+                        methodList.contains("Paypal")? SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ):Container(),
+                        // podCard(),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(15),
+                        // ),
+                        // upiCard(),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(15),
+                        // ),
+                        //netBankingCard()
+                      ],
+                    ),
+                  ),
+                );
+
+
+  }
+
+  // creditCard() {
+  //   return Container(
+  //       padding: EdgeInsets.fromLTRB(
+  //           ScreenUtil().setWidth(25),
+  //           ScreenUtil().setWidth(30),
+  //           ScreenUtil().setWidth(25),
+  //           ScreenUtil().setWidth(22)),
+  //       decoration: BoxDecoration(
+  //           border: Border.all(
+  //               color: paymentMethod == "credit"
+  //                   ? AppColors.primaryElement
+  //                   : Color(0xff707070),
+  //               width: ScreenUtil().setWidth(0.9)),
+  //           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+  //       child: Column(
+  //         children: [
+  //           Row(
+  //             children: [
+  //               InkWell(
+  //                   onTap: () {
+  //                     setState(() {
+  //                       paymentMethod = "credit";
+  //                     });
+  //                   },
+  //                   child: paymentMethod == "credit"
+  //                       ? Icon(
+  //                     Icons.adjust_sharp,
+  //                     color: AppColors.primaryElement,
+  //                   )
+  //                       : Icon(
+  //                     Icons.panorama_fish_eye,
+  //                     color: Color(0xff707070),
+  //                   )),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(19),
+  //               ),
+  //               Column(children: [
+  //                 Text(
+  //                   "Credit/Debit card",
+  //                   style: TextStyle(
+  //                       color: Color(0xff6d6d6d),
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                 ),
+  //                 // Text(
+  //                 //   "(no cost EMI available)",
+  //                 //   style: TextStyle(
+  //                 //       color: Color(0xff6d6d6d),
+  //                 //       fontSize: ScreenUtil().setSp(10)),
+  //                 // )
+  //               ]),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(69),
+  //               ),
+  //               Container(
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset(
+  //                           "assets/images/masterCard.png",
+  //                         )),
+  //                     SizedBox(
+  //                       width: ScreenUtil().setWidth(3),
+  //                     ),
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset("assets/images/rupayCard.png")),
+  //                     SizedBox(
+  //                       width: ScreenUtil().setWidth(3),
+  //                     ),
+  //                     Container(
+  //                         height: ScreenUtil().setWidth(18),
+  //                         width: ScreenUtil().setWidth(32),
+  //                         decoration: BoxDecoration(
+  //                             border: Border.all(color: Color(0xff707070))),
+  //                         child: Image.asset(
+  //                           "assets/images/visaCard.png",
+  //                         )),
+  //                     // SizedBox(
+  //                     //   width: ScreenUtil().setWidth(3),
+  //                     // ),
+  //                     // Container(
+  //                     //     height: ScreenUtil().setWidth(18),
+  //                     //     width: ScreenUtil().setWidth(32),
+  //                     //     decoration: BoxDecoration(
+  //                     //         border: Border.all(color: Color(0xff707070))),
+  //                     //     child: Image.asset(
+  //                     //       "assets/images/americanCard.png",
+  //                     //     )),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(23),
+  //           ),
+  //           Container(
+  //             width: double.infinity,
+  //             child: Text(
+  //               "Card Number",
+  //               style: TextStyle(
+  //                   color: AppColors.primaryElement,
+  //                   fontSize: ScreenUtil().setWidth(14)),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(11),
+  //           ),
+  //           Container(
+  //             height: ScreenUtil().setWidth(50),
+  //
+  //             child: TextField(
+  //               controller: cardNumber,
+  //               style: TextStyle(
+  //                   color: Color(0xff525252),
+  //                   fontSize: ScreenUtil().setSp(14)),
+  //               decoration: InputDecoration(
+  //                   contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                   fillColor: Colors.white,
+  //                   filled: true,
+  //                   enabledBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   focusedBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   hintText: "xxxx - xxxx - xxxx - xxxx",
+  //                   hintStyle: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14))),
+  //               keyboardType: TextInputType.number,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 18,
+  //           ),
+  //           Container(
+  //             width: double.infinity,
+  //             child: Text(
+  //               "Card Holder Name",
+  //               style: TextStyle(
+  //                   color: AppColors.primaryElement,
+  //                   fontSize: ScreenUtil().setWidth(14)),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: ScreenUtil().setWidth(11),
+  //           ),
+  //           Container(
+  //
+  //             height: ScreenUtil().setWidth(50),
+  //             child: TextField(
+  //               controller: cardHolder,
+  //               style: TextStyle(
+  //                   color: Color(0xff525252),
+  //                   fontSize: ScreenUtil().setSp(14)),
+  //               decoration: InputDecoration(
+  //                   contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                   fillColor: Colors.white,
+  //                   filled: true,
+  //                   enabledBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   focusedBorder: OutlineInputBorder(
+  //                     borderSide:
+  //                     BorderSide(color: Color(0xff707070), width: 1.0),
+  //                   ),
+  //                   hintText: "John",
+  //                   hintStyle: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14))),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 18,
+  //           ),
+  //           Row(
+  //             children: [
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Expire Month",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(25),
+  //               ),
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Expire Year",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(24),
+  //               ),
+  //               Container(
+  //                 width: ScreenUtil().setWidth(95),
+  //                 child: Text(
+  //                   "Security Code",
+  //                   style: TextStyle(
+  //                       color: AppColors.primaryElement,
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   textAlign: TextAlign.left,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           SizedBox(
+  //             height: 11,
+  //           ),
+  //           Row(
+  //             children: [
+  //               Container(
+  //                   decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       border: Border.all(color: Color(0xff707070)),
+  //                       borderRadius:
+  //                       BorderRadius.circular(ScreenUtil().setWidth(4))),
+  //                   padding: EdgeInsets.only(left: 5),
+  //                   height: ScreenUtil().setWidth(40),
+  //                   width: ScreenUtil().setWidth(95),
+  //                   child: DropdownButtonHideUnderline(
+  //                       child: DropdownButton<ListItem>(
+  //                           value: _selectedMonth,
+  //                           items: _dropdownMonthItems,
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               _selectedMonth = value;
+  //                             });
+  //                           }))),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(25),
+  //               ),
+  //               Container(
+  //                   decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       border: Border.all(color: Color(0xff707070)),
+  //                       borderRadius:
+  //                       BorderRadius.circular(ScreenUtil().setWidth(4))),
+  //                   padding: EdgeInsets.only(left: 5),
+  //                   height: ScreenUtil().setWidth(40),
+  //                   width: ScreenUtil().setWidth(95),
+  //                   child: DropdownButtonHideUnderline(
+  //                       child: DropdownButton<ListItem>(
+  //                           value: _selectedYear,
+  //                           items: _dropdownYearItems,
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               _selectedYear = value;
+  //                             });
+  //                           }))),
+  //               SizedBox(
+  //                 width: ScreenUtil().setWidth(24),
+  //               ),
+  //               Container(
+  //
+  //                 height: ScreenUtil().setWidth(40),
+  //                 width: ScreenUtil().setWidth(95),
+  //
+  //                 color: Colors.white,
+  //                 child: TextField(
+  //                   controller: cvv,
+  //                   style: TextStyle(
+  //                       color: Color(0xff525252),
+  //                       fontSize: ScreenUtil().setSp(14)),
+  //                   decoration: InputDecoration(
+  //                     contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+  //                       fillColor: Colors.white,
+  //                       filled: true,
+  //                       enabledBorder: OutlineInputBorder(
+  //                         borderSide:
+  //                         BorderSide(color: Color(0xff707070), width: 1.0),
+  //                       ),
+  //                       focusedBorder: OutlineInputBorder(
+  //                         borderSide:
+  //                         BorderSide(color: Color(0xff707070), width: 1.0),
+  //                       ),
+  //                       hintText: "xxx",
+  //                       hintStyle: TextStyle(
+  //                           color: Color(0xff525252),
+  //                           fontSize: ScreenUtil().setSp(14))),
+  //                   keyboardType: TextInputType.number,
+  //                 ),
+  //               ),
+  //
+  //             ],
+  //           ),
+  //         ],
+  //       ));
+  // }
+
+  creditCard() {
     return Container(
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(14),
-          ScreenUtil().setWidth(33),
-          ScreenUtil().setWidth(14),
-          ScreenUtil().setWidth(44)),
-      margin: EdgeInsets.fromLTRB(
-          0, ScreenUtil().setWidth(22), 0, ScreenUtil().setWidth(15)),
-      child: InkWell(
-        onTap: () {
-          Map<String, dynamic> data = {
-            "id": EVENT_PAYMENT_SELECTED_TYPE,
-            "paymentType": paymentMethod,
-            "event": "tap",
-          };
-          Tracking(event: EVENT_PAYMENT_SELECTED_TYPE, data: data);
-        },
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: (){
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: paymentMethod == "credit"
+                  ? AppColors.primaryElement
+                  : Color(0xff707070),
+              width: ScreenUtil().setWidth(0.9)),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+      child: Row(
+        children: [
+          InkWell(
+              onTap: () {
                 setState(() {
                   paymentMethod = "credit";
                 });
               },
-              child:
-            creditCard(),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(15),
-            ),
-      GestureDetector(
-        onTap: (){
-          setState(() {
-            paymentMethod = "paypal";
-          });
-        },
-        child:
-            paypalCard()),
-            SizedBox(
-              height: ScreenUtil().setWidth(15),
-            ),
-            // podCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
-            // upiCard(),
-            // SizedBox(
-            //   height: ScreenUtil().setWidth(15),
-            // ),
-            //netBankingCard()
-          ],
-        ),
+              child: paymentMethod == "credit"
+                  ? Icon(
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
+                  : Icon(
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
+          SizedBox(
+            width: ScreenUtil().setWidth(19),
+          ),
+          Text(
+            "Stripe",
+            style: TextStyle(
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+          ),
+
+          // Container(
+          //   child: Row(
+          //     children: [
+          //       Container(
+          //           height: ScreenUtil().setWidth(18),
+          //           width: ScreenUtil().setWidth(32),
+          //           child: Image.asset(
+          //             "assets/images/paypal.png",
+          //           )),
+          //     ],
+          //   ),
+          // ),
+        ],
       ),
     );
   }
 
-  creditCard() {
-    return Container(
-        padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(25),
-            ScreenUtil().setWidth(30),
-            ScreenUtil().setWidth(25),
-            ScreenUtil().setWidth(22)),
-        decoration: BoxDecoration(
-            border: Border.all(
-                color: paymentMethod == "credit"
-                    ? AppColors.primaryElement
-                    : Color(0xff707070),
-                width: ScreenUtil().setWidth(0.9)),
-            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      setState(() {
-                        paymentMethod = "credit";
-                      });
-                    },
-                    child: paymentMethod == "credit"
-                        ? Icon(
-                      Icons.adjust_sharp,
-                      color: AppColors.primaryElement,
-                    )
-                        : Icon(
-                      Icons.panorama_fish_eye,
-                      color: Color(0xff707070),
-                    )),
-                SizedBox(
-                  width: ScreenUtil().setWidth(19),
-                ),
-                Column(children: [
-                  Text(
-                    "Credit/Debit card",
-                    style: TextStyle(
-                        color: Color(0xff6d6d6d),
-                        fontSize: ScreenUtil().setSp(14)),
-                  ),
-                  // Text(
-                  //   "(no cost EMI available)",
-                  //   style: TextStyle(
-                  //       color: Color(0xff6d6d6d),
-                  //       fontSize: ScreenUtil().setSp(10)),
-                  // )
-                ]),
-                SizedBox(
-                  width: ScreenUtil().setWidth(69),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset(
-                            "assets/images/masterCard.png",
-                          )),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(3),
-                      ),
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset("assets/images/rupayCard.png")),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(3),
-                      ),
-                      Container(
-                          height: ScreenUtil().setWidth(18),
-                          width: ScreenUtil().setWidth(32),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xff707070))),
-                          child: Image.asset(
-                            "assets/images/visaCard.png",
-                          )),
-                      // SizedBox(
-                      //   width: ScreenUtil().setWidth(3),
-                      // ),
-                      // Container(
-                      //     height: ScreenUtil().setWidth(18),
-                      //     width: ScreenUtil().setWidth(32),
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(color: Color(0xff707070))),
-                      //     child: Image.asset(
-                      //       "assets/images/americanCard.png",
-                      //     )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(23),
-            ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                "Card Number",
-                style: TextStyle(
-                    color: AppColors.primaryElement,
-                    fontSize: ScreenUtil().setWidth(14)),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(11),
-            ),
-            Container(
-              height: ScreenUtil().setWidth(50),
-              
-              child: TextField(
-                controller: cardNumber,
-                style: TextStyle(
-                    color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(14)),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    hintText: "xxxx - xxxx - xxxx - xxxx",
-                    hintStyle: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14))),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            Container(
-              width: double.infinity,
-              child: Text(
-                "Card Holder Name",
-                style: TextStyle(
-                    color: AppColors.primaryElement,
-                    fontSize: ScreenUtil().setWidth(14)),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(11),
-            ),
-            Container(
-            
-              height: ScreenUtil().setWidth(50),
-              child: TextField(
-                controller: cardHolder,
-                style: TextStyle(
-                    color: Color(0xff525252),
-                    fontSize: ScreenUtil().setSp(14)),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xff707070), width: 1.0),
-                    ),
-                    hintText: "John",
-                    hintStyle: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14))),
-              ),
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            Row(
-              children: [
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Expire Month",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(25),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Expire Year",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(95),
-                  child: Text(
-                    "Security Code",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setSp(14)),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 11,
-            ),
-            Row(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Color(0xff707070)),
-                        borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(4))),
-                    padding: EdgeInsets.only(left: 5),
-                    height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(95),
-                    child: DropdownButtonHideUnderline(
-                        child: DropdownButton<ListItem>(
-                            value: _selectedMonth,
-                            items: _dropdownMonthItems,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedMonth = value;
-                              });
-                            }))),
-                SizedBox(
-                  width: ScreenUtil().setWidth(25),
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Color(0xff707070)),
-                        borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(4))),
-                    padding: EdgeInsets.only(left: 5),
-                    height: ScreenUtil().setWidth(40),
-                    width: ScreenUtil().setWidth(95),
-                    child: DropdownButtonHideUnderline(
-                        child: DropdownButton<ListItem>(
-                            value: _selectedYear,
-                            items: _dropdownYearItems,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedYear = value;
-                              });
-                            }))),
-                SizedBox(
-                  width: ScreenUtil().setWidth(24),
-                ),
-                Container(
-
-                  height: ScreenUtil().setWidth(40),
-                  width: ScreenUtil().setWidth(95),
-
-                  color: Colors.white,
-                  child: TextField(
-                    controller: cvv,
-                    style: TextStyle(
-                        color: Color(0xff525252),
-                        fontSize: ScreenUtil().setSp(14)),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                        fillColor: Colors.white,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Color(0xff707070), width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Color(0xff707070), width: 1.0),
-                        ),
-                        hintText: "xxx",
-                        hintStyle: TextStyle(
-                            color: Color(0xff525252),
-                            fontSize: ScreenUtil().setSp(14))),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-
-              ],
-            ),
-          ],
-        ));
-  }
 
   paypalCard() {
     return Container(
@@ -2718,7 +2783,7 @@ class _Checkout extends State<Checkout> {
   }
 
   void paymentHandle(selectedAddressId) async {
-    double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
+    double? amount = Provider.of<CartViewModel>(context,listen: false).cartResponse!.total;
     if (buttonStatusOrder) {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
@@ -2729,24 +2794,42 @@ class _Checkout extends State<Checkout> {
       if (paymentMethod == "credit") {
           StripeRepository stripeRepository = StripeRepository();
           try {
-            log("stripe"+settingData.stripePublishableKey.toString());
-           await stripe.StripePlatform.instance.initialise(
-                publishableKey: settingData.stripePublishableKey);
-            // CreditCard creditCard = CreditCard(
-            //   number: cardNumber.text.replaceAll("-", ""),
-            //   name: cardHolder.text,
-            //   expMonth: _selectedMonth.value,
-            //   expYear: int.parse(_selectedYear.name),
-            //   cvc: cvv.text,
-            // );
-           log(cardNumber.text.replaceAll("-", ""));
-           log(_selectedMonth.value.toString());
-           stripe.CardDetails card = stripe.CardDetails(
-                  number: cardNumber.text.replaceAll("-", ""),
-                  expirationMonth: _selectedMonth.value,
-                  expirationYear: int.parse(_selectedYear.name),
-                  cvc: cvv.text
-              );
+            log("stripe"+settingData!.stripePublishableKey.toString());
+             stripe.Stripe.publishableKey = settingData!.stripePublishableKey!;
+             await stripe.Stripe.instance.applySettings();
+
+          //  var stripeInstance = stripe.Stripe.instance;
+
+            // await stripeInstance.initialise(
+            //     publishableKey: settingData!.stripePublishableKey!);
+           //  CreditCard testCard = CreditCard(
+           //    number: cardNumber.text.replaceAll("-", ""),
+           //    name: cardHolder.text,
+           //    expMonth: _selectedMonth!.value,
+           //    expYear: int.parse(_selectedYear!.name),
+           //    cvc: cvv.text,
+           //  );
+
+           // StripePayment.setOptions(StripeOptions(
+           //      publishableKey: settingData!.stripePublishableKey!,
+           //     merchantId: "Test",
+           //     androidPayMode: 'test')
+           //      );
+//          }
+
+         // var result = await  StripePayment.createPaymentMethod(
+         //    PaymentMethodRequest(
+         //      card: testCard,
+         //    ),
+         //  );
+           // log(cardNumber.text.replaceAll("-", ""));
+           // log(_selectedMonth!.value.toString());
+           // stripe.CardDetails card = stripe.CardDetails(
+           //        number: "4000002760003184",
+           //        expirationMonth: 1,
+           //        expirationYear: 35,
+           //        cvc: "234"
+           //    );
             // _card.copyWith(number: cardNumber.text.replaceAll("-", ""),
             //     expirationMonth: _selectedMonth.value,
             //     expirationYear: int.parse(_selectedYear.name),
@@ -2755,44 +2838,103 @@ class _Checkout extends State<Checkout> {
             // _card.copyWith(expirationMonth: _selectedMonth.value);
             // _card.copyWith(expirationYear: int.parse(_selectedYear.name));
             // _card.copyWith(cvc: cvv.text);
-            print(card.toString());
-           await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
-            log("here");
-            var params =  stripe.PaymentMethodParams.card(
-              billingDetails: stripe.BillingDetails(
-                name: cardHolder.text
-              )
-            );
-           log("here 1"+params.toString());
+           // print(card.toString());
+
+         //   await stripe.Stripe.instance.dangerouslyUpdateCardDetails(card);
+           // //  log("here");
+           //  var json = {
+           //    "city":"city",
+           //    "country":"country",
+           //    "line1":"line1",
+           //    "line2":"line2",
+           //    "postalCode":"00000",
+           //    "state":"state"
+           //  };
+           //  var params1 = stripe.CreateTokenParams();
+           //  var tokenCard = await stripe.Stripe.instance.createToken(params1);
+           //  var params =  stripe.PaymentMethodParams.cardFromToken(token: tokenCard.id);
+           //  var params =  stripe.PaymentMethodParams.card(
+           //    // billingDetails: stripe.BillingDetails(
+           //    //   email: Provider
+           //    //       .of<ProfileModel>(context, listen: false)
+           //    //       .user!
+           //    //       .email ??
+           //    //       "email",
+           //    //   phone: "0000000000",
+           //    //   address: stripe.Address.fromJson(json),
+           //    //   name: cardHolder.text
+           //    // )
+           //  );
+         //    var value1;
+         //     var params = stripe.CreateTokenParams();
+         // stripe.Stripe.instance.createToken(params).then((value) {
+         //  value1 =  stripe.PaymentMethodParams.cardFromToken(token: value.id);
+         // });
+
+            //var params =
+          // log("here 1"+params.toString());
 
            //  final params = stripe.CreateTokenParams(
            //  );
            // stripe.StripePlatform.instance.createToken(params);
-            var result = await stripe.StripePlatform.instance.createPaymentMethod(params);
-           log("here 3");
+           // var result = await stripe.Stripe.instance.createPaymentMethod(params);
+           //  print(result.id.toString());
+           // log("here 3");
 
            var stripeData = await stripeRepository.stripe(
-                selectedAddressId, result.id);
-            if(stripeData["status"]=="completed") {
-              try {
-                var confirmResult = await stripe.StripePlatform.instance
-                    .confirmPayment(
-                    stripeData["value"]["clientSecret"], params);
-                // final confirmResult = await stripe.StripePlatform.instance
-                //     .handleCardAction(stripeData["value"]['clientSecret']);
-                log(confirmResult.toString());
-                _dialog.close();
-                handlePaymentSuccess("credit", confirmResult.id);
-              } catch (e){
-                _dialog.close();
-                handlePaymentFailure("Payment Authentication Failed !!");
-              }
+                selectedAddressId);
+           print(stripeData.toString());
+             if(stripeData["status"]=="completed") {
+            //   if(stripeData["value"]["paid"]){
+            //     _dialog.close();
+            //     handlePaymentSuccess("credit", stripeData["id"]);
+            //   }
+            //   else {
+                try {
+                  // var confirmResult =  await StripePayment.confirmPaymentIntent(
+                  //       PaymentIntent(
+                  //         clientSecret: stripeData["value"]["clientSecret"],
+                  //         paymentMethodId: result.id,
+                  //       ));
+                  //   stripe.PaymentIntent? confirmResult = await stripe.Stripe.instance.confirmPayment(
+                  //       stripeData["value"]["clientSecret"], params);
+                  // final confirmResult = await stripe.StripePlatform.instance
+                  //     .handleCardAction(stripeData["value"]['clientSecret']);
+                  // print(confirmResult.id);
+                  // await stripe.Stripe.instance.confirmPayment(
+                  //     stripeData["value"]["clientSecret"], params)
+
+                  await stripe.Stripe.instance.initPaymentSheet(
+                      paymentSheetParameters: stripe.SetupPaymentSheetParameters(
+                        applePay: false,
+                        googlePay: false,
+                        style: ThemeMode.light,
+                        testEnv: true,
+                        merchantDisplayName: 'Anne',
+                        // customerId: _paymentSheetData!['customer'],
+                        paymentIntentClientSecret: stripeData["value"]["clientSecret"],
+                        // customerEphemeralKeySecret: _paymentSheetData!['ephemeralKey'],
+                      ));
+                  await stripe.Stripe.instance.presentPaymentSheet();
+                 // await stripe.Stripe.instance.confirmPaymentSheetPayment();
+                    _dialog.close();
+                    handlePaymentSuccess("credit",stripeData["value"]["referenceId"]);
+                  //  _dialog.close();
+                  // handlePaymentSuccess("credit", confirmResult.id);
+                } catch (e) {
+                  print("heree" + e.toString());
+                  _dialog.close();
+                  handlePaymentFailure("Payment Authentication Failed !!");
+                }
+              //}
               }
             else if(stripeData["status"]=="error"){
+              log("ca be here"+stripeData["error"]);
               _dialog.close();
               handlePaymentFailure(stripeData["error"].toString());
             }
           } catch (e){
+            log("or here"+e.toString());
             _dialog.close();
             handlePaymentFailure(e.toString());
           }
@@ -2832,7 +2974,7 @@ class _Checkout extends State<Checkout> {
 
       else if(paymentMethod=="paypal"){
         BrainTreeRepository brainTreeRepository = BrainTreeRepository();
-        double amount = Provider.of<CartViewModel>(context,listen: false).cartResponse.total;
+        double? amount = Provider.of<CartViewModel>(context,listen: false).cartResponse!.total;
         
         var responseTokenData = await brainTreeRepository.brainTreeToken(selectedAddressId);
         if(responseTokenData["status"]=="completed") {
@@ -2859,7 +3001,7 @@ class _Checkout extends State<Checkout> {
             );
             final result = await BraintreeDropIn.start(request);
             log("here i come");
-           log(result.paymentMethodNonce.nonce);
+           log(result!.paymentMethodNonce.nonce);
               var responseMakePayment = await brainTreeRepository.brainTreeMakePayment(result.paymentMethodNonce.nonce, responseTokenData["value"]["token"]);
               if(responseMakePayment["status"]=="completed"){
                 setState(() {
@@ -2966,7 +3108,7 @@ class _Checkout extends State<Checkout> {
         .changeStatus("loading");
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
-    var result;
+    late var result;
     if(paymentMode=="credit") {
       result = await checkoutRepository.paySuccessPageHit("",orderId);
     }
@@ -3075,7 +3217,7 @@ class _Checkout extends State<Checkout> {
               ],
             ),
             content: Consumer<CartViewModel>(
-                builder: (BuildContext context, value, Widget child) {
+                builder: (BuildContext context, value, Widget? child) {
               if (value.statusPromo == "loading") {
                 Provider.of<CartViewModel>(context, listen: false)
                     .listCoupons();
@@ -3115,7 +3257,7 @@ class _Checkout extends State<Checkout> {
                     Container(
                       height: ScreenUtil().setWidth(250),
                       child: ListView.builder(
-                          itemCount: value.couponResponse.data.length,
+                          itemCount: value.couponResponse!.data!.length,
                           itemBuilder: (BuildContext build, index) {
                             return Container(
                               child: Column(
@@ -3128,13 +3270,13 @@ class _Checkout extends State<Checkout> {
                                                   context,
                                                   listen: false)
                                               .selectPromoCode(value
-                                                  .couponResponse
-                                                  .data[index]
+                                                  .couponResponse!
+                                                  .data![index]
                                                   .code);
                                         },
-                                        child: ((value.promocode ==
-                                                value.couponResponse.data[index]
-                                                    .code))
+                                        child: value.promocode ==
+                                                value.couponResponse!.data![index]
+                                                    .code
                                             ? Icon(
                                                 Icons.check_box,
                                                 color: AppColors.primaryElement,
@@ -3160,8 +3302,8 @@ class _Checkout extends State<Checkout> {
                                             width: ScreenUtil().setWidth(96),
                                             child: Center(
                                                 child: Text(
-                                              value.couponResponse.data[index]
-                                                  .code,
+                                              value.couponResponse!.data![index]
+                                                  .code!,
                                               style: TextStyle(
                                                   color: AppColors.primaryElement,
                                                   fontSize: ScreenUtil().setSp(
@@ -3179,7 +3321,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "Saves upto ${store.currencySymbol} ${value.couponResponse.data[index].maxAmount}",
+                                      "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),
@@ -3193,7 +3335,7 @@ class _Checkout extends State<Checkout> {
                                         left: ScreenUtil().setWidth(35)),
                                     width: double.infinity,
                                     child: Text(
-                                      "${value.couponResponse.data[index].text}",
+                                      "${value.couponResponse!.data![index].text}",
                                       style: TextStyle(
                                           color: Color(0xff3a3a3a),
                                           fontSize: ScreenUtil().setSp(14)),
@@ -3242,5 +3384,19 @@ class _Checkout extends State<Checkout> {
             }),
           );
         });
+  }
+
+  void getPaymentMethod() async{
+    PaymentRepository paymentRepository = PaymentRepository();
+    var result = await paymentRepository.fetchPaymentMethods();
+    for(int i=0;i<result["value"]["data"].length;i++){
+      methodList.insert(i,result["value"]["data"][i]["name"]);
+    }
+    if(methodList.contains("Stripe")){
+      paymentMethod = "credit";
+    }
+    else{
+      paymentMethod = "paypal";
+    }
   }
 }

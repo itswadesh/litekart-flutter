@@ -7,15 +7,15 @@ import '../../response_handler/wishlistResponse.dart';
 import '../../utility/query_mutation.dart';
 
 class WishlistViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
-  WishlistResponse _wishlistResponse;
+  WishlistResponse? _wishlistResponse;
   WishListRepository wishListRepository = WishListRepository();
   final PagingController _pagingController = PagingController(firstPageKey: 0);
   PagingController get pagingController {
     return _pagingController;
   }
-  WishlistResponse get wishlistResponse {
+  WishlistResponse? get wishlistResponse {
     return _wishlistResponse;
   }
 
@@ -24,7 +24,7 @@ class WishlistViewModel with ChangeNotifier {
     status = resultData["status"];
     if (status == "completed") {
       _wishlistResponse = WishlistResponse.fromJson(resultData["value"]);
-      _pagingController.appendLastPage(_wishlistResponse.data);
+      _pagingController.appendLastPage(_wishlistResponse!.data!);
     }
 
     notifyListeners();

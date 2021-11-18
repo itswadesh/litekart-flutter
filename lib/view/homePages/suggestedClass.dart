@@ -33,7 +33,7 @@ class _SuggestedClass extends State<SuggestedClass> {
 
   Widget getProductList() {
     return Consumer<ProductViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.suggestedStatus == "loading") {
             Provider.of<ProductViewModel>(context, listen: false)
                 .fetchSuggestedData();
@@ -81,12 +81,12 @@ class _SuggestedClass extends State<SuggestedClass> {
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: value.productSuggestedResponse.data.length,
+                  itemCount: value.productSuggestedResponse!.data!.length,
                   itemBuilder: (BuildContext context, index) {
                     return Column(
                       children: [
                         ProductCard(
-                            value.productSuggestedResponse.data[index])
+                            value.productSuggestedResponse!.data![index])
                       ],
                     );
                   }),

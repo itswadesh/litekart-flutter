@@ -6,19 +6,19 @@ import '../../utility/query_mutation.dart';
 
 class CartViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
-  var status = "loading";
-  var statusPromo = "loading";
-  int cartCount = 0;
-  CartResponse _cartResponse;
-  CouponResponse _couponResponse;
-  bool promocodeStatus = false;
-  String promocode = "";
+  String? status = "loading";
+  String? statusPromo = "loading";
+  int? cartCount = 0;
+  CartResponse? _cartResponse;
+  CouponResponse? _couponResponse;
+  bool? promocodeStatus = false;
+  String? promocode = "";
   CartRepository cartRepository = CartRepository();
-  CartResponse get cartResponse {
+  CartResponse? get cartResponse {
     return _cartResponse;
   }
 
-  CouponResponse get couponResponse {
+  CouponResponse? get couponResponse {
     return _couponResponse;
   }
 
@@ -27,9 +27,9 @@ class CartViewModel with ChangeNotifier {
     status = resultData["status"];
     if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
-      cartCount = _cartResponse.qty;
-      if (_cartResponse.discount != null) {
-        promocode = _cartResponse.discount.code ?? "";
+      cartCount = _cartResponse!.qty;
+      if (_cartResponse!.discount != null) {
+        promocode = _cartResponse!.discount!.code ?? "";
         if (promocode != "") {
           promocodeStatus = true;
         }
@@ -47,9 +47,9 @@ class CartViewModel with ChangeNotifier {
     }
     if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
-      cartCount = _cartResponse.qty;
-      if (_cartResponse.discount != null) {
-        promocode = _cartResponse.discount.code ?? "";
+      cartCount = _cartResponse!.qty;
+      if (_cartResponse!.discount != null) {
+        promocode = _cartResponse!.discount!.code ?? "";
         if (promocode != "") {
           promocodeStatus = true;
         }

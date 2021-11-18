@@ -15,7 +15,7 @@ import 'package:flutter/widgets.dart';
 
 class LiveVideoCallSetUp {
 
-  Future<void> startRTC(BuildContext context,String cid,String joinStatus, ScheduleData scheduleData) async {
+  Future<void> startRTC(BuildContext context,String? cid,String joinStatus, ScheduleData? scheduleData) async {
     log("here in startRTC");
     final permissions = [Permission.camera, Permission.microphone];
     if (Platform.isAndroid) {
@@ -40,7 +40,7 @@ class LiveVideoCallSetUp {
       }
 
       if (showRationale.isNotEmpty) {
-        ConfirmAction action = await showDialog<ConfirmAction>(
+        ConfirmAction? action = await showDialog<ConfirmAction>(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(

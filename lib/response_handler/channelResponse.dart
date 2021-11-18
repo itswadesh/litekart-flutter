@@ -1,9 +1,9 @@
 
 class ChannelResponse {
- int count;
- int page;
- int pageSize;
- List<ChannelData> data ;
+ int? count;
+ int? page;
+ int? pageSize;
+ List<ChannelData>? data ;
 
  ChannelResponse({
    this.count,this.page,this.pageSize,this.data
@@ -19,24 +19,24 @@ class ChannelResponse {
 }
 
 class ChannelData {
-  String id;
-  int scheduleDateTime;
-  String title;
-  String img;
-  String requestId;
-  String cid;
-  String ctime;
-  String pushUrl;
-  String httpPullUrl;
-  String hlsPullUrl;
-  String rtmpPullUrl;
-  String name;
-  String code;
-  String msg;
-  ChannelProduct product;
-  List<ChannelProduct> products;
-  ChannelUser user;
-  List<ChannelUser> users;
+  String? id;
+  int? scheduleDateTime;
+  String? title;
+  String? img;
+  String? requestId;
+  String? cid;
+  String? ctime;
+  String? pushUrl;
+  String? httpPullUrl;
+  String? hlsPullUrl;
+  String? rtmpPullUrl;
+  String? name;
+  String? code;
+  String? msg;
+  ChannelProduct? product;
+  List<ChannelProduct>? products;
+  ChannelUser? user;
+  List<ChannelUser>? users;
 
   ChannelData({
     this.img,this.id,
@@ -74,12 +74,12 @@ class ChannelData {
 
 
 class ChannelProduct {
-  String id;
-  String name;
-  String img;
-  String slug;
-  double price;
-  double mrp;
+  String? id;
+  String? name;
+  String? img;
+  String? slug;
+  double? price;
+  double? mrp;
 
   ChannelProduct({
     this.name,this.id,this.img,this.slug,this.mrp,this.price
@@ -97,11 +97,11 @@ class ChannelProduct {
 }
 
 class ChannelUser {
-  String id;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
 
   ChannelUser({
    this.id,this.phone,this.email,this.firstName,this.lastName

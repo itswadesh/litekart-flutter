@@ -6,16 +6,16 @@ import '../../model/user.dart';
 import '../../utility/platform_version.dart';
 
 class FirebaseEvent {
-  String appVersion;
+  String? appVersion;
 
   FirebaseEvent() {
     getPackage();
   }
 
   Future<void> sendAnalyticsEvent(
-      {@required String name,
-      @required Map<String, dynamic> data,
-      @required User user}) async {
+      {required String name,
+      required Map<String, dynamic>? data,
+      required User? user}) async {
     FirebaseAnalytics analytics = FirebaseAnalytics();
     await (PlatformVersion()).getPlatformVersion();
     Map<String, dynamic> _data = {

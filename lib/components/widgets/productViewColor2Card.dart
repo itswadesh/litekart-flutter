@@ -44,7 +44,7 @@ class ProductViewColor2Card extends StatelessWidget {
                       ScreenUtil().setWidth(18)),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
-                    image: productData.img,
+                    image: productData.img!,
                     height: ScreenUtil().setWidth(132),
                   ),
                 ),
@@ -75,7 +75,7 @@ class ProductViewColor2Card extends StatelessWidget {
                           child: Text(
                             productData.brand == null
                                 ? ""
-                                : (productData.brand.name ?? ""),
+                                : (productData.brand!.name ?? ""),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 13,
@@ -91,7 +91,7 @@ class ProductViewColor2Card extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(7),
                               0, ScreenUtil().setWidth(7), 0),
-                          child: Text(productData.name,
+                          child: Text(productData.name!,
                               style: TextStyle(
                                   color: Color(0xff4A4A4A),
                                   fontSize: ScreenUtil().setSp(
@@ -125,7 +125,7 @@ class ProductViewColor2Card extends StatelessWidget {
                                         color: AppColors.primaryElement2,
                                       ),
                                     ),
-                                    productData.price < productData.mrp
+                                    productData.price! < productData.mrp!
                                         ? Text(
                                             " ₹ " + productData.mrp.toString(),
                                             style: TextStyle(
@@ -138,7 +138,7 @@ class ProductViewColor2Card extends StatelessWidget {
                                           )
                                         : Container(),
                                   ]),
-                              productData.price < productData.mrp
+                              productData.price! < productData.mrp!
                                   ? Container(
                                       height: ScreenUtil().setWidth(15),
                                       width: ScreenUtil().setWidth(36),
@@ -149,7 +149,7 @@ class ProductViewColor2Card extends StatelessWidget {
                                       ),
                                       child: Center(
                                           child: Text(
-                                        " ${(100 - (productData.price / productData.mrp) * 100).toInt()}% off ",
+                                        " ${(100 - (productData.price! / productData.mrp!) * 100).toInt()}% off ",
                                         style: TextStyle(
                                             color: Color(0xffffffff),
                                             fontSize: ScreenUtil().setSp(

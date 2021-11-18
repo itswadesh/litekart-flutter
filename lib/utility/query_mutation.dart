@@ -2,6 +2,69 @@ class QueryMutation {
 
   // Live Commerce
 
+  deleteScheduleDemo(){
+    return """mutation deleteScheduleDemo(\$id: ID!) {
+  deleteScheduleDemo(id: \$id)
+}""";
+  }
+
+  saveScheduleDemo(){
+    return """mutation saveScheduleDemo(
+  \$id: String!
+  \$product: ID
+  \$products: [ID]
+  \$scheduleDateTime: String
+  \$title: String
+  \$img: String
+) {
+  saveScheduleDemo(
+    id: \$id
+    product: \$product
+    products: \$products
+    scheduleDateTime: \$scheduleDateTime
+    img: \$img
+    title: \$title
+  ) {
+    id
+    scheduleDateTime
+    title
+    img
+    imgCdn
+    product {
+      id
+      name
+      img
+      imgCdn
+      slug
+      price
+      mrp
+    }
+    products {
+      id
+      name
+      img
+      slug
+      price
+      mrp
+    }
+    user {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+    users {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}""";
+  }
+
   myScheduleDemos(){
     return """query myScheduleDemos(
   \$page: Int
@@ -84,7 +147,8 @@ class QueryMutation {
   \$search: String
   \$sort: String
   \$user:ID
-  \$q: String
+  \$q: String,
+  \$upcoming: Boolean
 ) {
   channels(
     page: \$page
@@ -94,6 +158,7 @@ class QueryMutation {
     sort: \$sort
     user: \$user
     q: \$q
+    upcoming: \$upcoming
   ) {
     count
     page
@@ -411,6 +476,44 @@ class QueryMutation {
 }""";
   }
 
+  paymentMethods(){
+    return """query paymentMethods(
+  \$page: Int
+  \$search: String
+  \$limit: Int
+  \$sort: String
+  \$store: ID
+  \$active: Boolean
+) {
+  paymentMethods(
+    page: \$page
+    search: \$search
+    limit: \$limit
+    sort: \$sort
+    active: \$active
+    store: \$store
+  ) {
+    count
+    page
+    pageSize
+    data {
+      id
+      name
+      img
+      imgCdn
+      value
+      color
+      key
+      text
+      instructions
+      position
+      active
+    }
+  }
+}
+""";
+  }
+
 
   login() {
     return """
@@ -461,6 +564,27 @@ class QueryMutation {
     verified
     active
     avatar
+    provider
+    createdAt
+    updatedAt
+  }
+}""";
+  }
+
+  signInWithApple(){
+    return """mutation signInWithApple(\$code: String!) {
+  signInWithApple(code: \$code) {
+    id
+    email
+    firstName
+    lastName
+    city
+    phone
+    avatar
+    avatarCdn
+    role
+    verified
+    active
     provider
     createdAt
     updatedAt
@@ -977,7 +1101,7 @@ getOtp(phone: \$phone){
       tax
       vendor {
         id
-        store
+       
         firstName
         lastName
         phone
@@ -2329,12 +2453,51 @@ getOtp(phone: \$phone){
 
   // Stripe
 
+  stripeMobile(){
+    return """mutation stripeMobile(\$address: ID, \$slot: ID) {
+  stripeMobile(address: \$address, slot: \$slot) {
+    id
+    paymentOrderId
+    paymentMode
+    paymentGateway
+    referenceId
+    txMsg
+    txTime
+    invoiceId
+    receipt
+    paid
+    amountPaid
+    amountDue
+    amountRefunded
+    currency
+    captured
+    status
+    orderId
+    notes
+    refundStatus
+    description
+    email
+    contact
+    fee
+    tax
+    errorCode
+    errorDescription
+    token
+    clientSecret
+    approvalUrl
+  }
+}""";
+  }
+
+
   stripe(){
     return """
     mutation stripe(\$address: ID, \$paymentMethodId: String!) {
       stripe(address: \$address, paymentMethodId: \$paymentMethodId) {
         id
         clientSecret
+        paid
+        referenceId
   }
     }
     """;

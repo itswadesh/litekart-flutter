@@ -8,10 +8,10 @@ import '../../utility/query_mutation.dart';
 class MegaMenuViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   int selectedTopIndex = 0;
-  String status = "loading";
-  TopMegaMenuResponse _topMegaMenuResponse;
+  String? status = "loading";
+  TopMegaMenuResponse? _topMegaMenuResponse;
   final MegaMenuRepository megaMenuRepository = MegaMenuRepository();
-  TopMegaMenuResponse get topMegaMenuResponse {
+  TopMegaMenuResponse? get topMegaMenuResponse {
     return _topMegaMenuResponse;
   }
 

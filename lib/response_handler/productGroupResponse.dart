@@ -1,8 +1,8 @@
 import '../../model/product.dart';
 
 class ProductGroup {
-  List<SizeGroup> sizeGroup;
-  List<ColorGroup> colorGroup;
+  List<SizeGroup>? sizeGroup;
+  List<ColorGroup>? colorGroup;
 
   ProductGroup({this.colorGroup, this.sizeGroup});
 

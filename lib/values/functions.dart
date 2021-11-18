@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-double getAspectRatio(BuildContext context, {double matchValue}) {
+double getAspectRatio(BuildContext context, {double? matchValue}) {
   if (matchValue != null) {
     return MediaQuery.of(context).size.width /
         (MediaQuery.of(context).size.height -
@@ -22,10 +22,10 @@ void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
 Widget getVideoAction(
-    {@required String title,
-    @required IconData icon,
-    @required bool isShare,
-    Color color}) {
+    {required String title,
+    required IconData icon,
+    required bool isShare,
+    Color? color}) {
   return Container(
     margin: EdgeInsets.only(top: 15.0),
     width: 60,
@@ -48,11 +48,11 @@ Widget getVideoAction(
 String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
 Color hexToColor(String code) {
-  if (code != null) {
+  //if (code != null) {
     return Color(int.parse(code.replaceAll('#', '0xFF')));
-  } else {
-    return null;
-  }
+  // } else {
+  //   return null;
+  // }
 }
 
 String getStartEndTime(String start, String end) {

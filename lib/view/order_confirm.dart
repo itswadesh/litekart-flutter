@@ -16,7 +16,7 @@ import '../../values/route_path.dart' as routes;
 import '../main.dart';
 
 class OrderConfirm extends StatefulWidget {
-  final CheckOutResponse details;
+  final CheckOutResponse? details;
 
   OrderConfirm(this.details);
 
@@ -30,7 +30,7 @@ class OrderConfirm extends StatefulWidget {
 class _OrderConfirm extends State<OrderConfirm> {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
-  CheckOutResponse checkOutData = CheckOutResponse();
+  CheckOutResponse? checkOutData = CheckOutResponse();
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Map<String, dynamic> data = {
                     "id": EVENT_ORDER_PLACEMENT_SUCCESS,
                     "paymentType": " seleted payment type",
-                    "cartValue": checkOutData.amount,
+                    "cartValue": checkOutData!.amount,
                     "paymentData": {},
                     "event": "payment-success"
                   };
@@ -209,7 +209,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                             )),
                         children: [
                           TextSpan(
-                              text: "#${checkOutData.orderNo}",
+                              text: "#${checkOutData!.orderNo}",
                               style: TextStyle(
                                   color: Colors.blue,
                                   fontSize: ScreenUtil().setSp(
@@ -224,7 +224,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                       width: double.maxFinite,
                       child: Text(
-                        "Your order was placed on ${DateFormat('dd-MM-yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(checkOutData.createdAt) * 1000))}. A Confirmation e-mail will be sent to the email Address(es) that you specified in the order details.",
+                        "Your order was placed on ${DateFormat('dd-MM-yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(checkOutData!.createdAt!) * 1000))}. A Confirmation e-mail will be sent to the email Address(es) that you specified in the order details.",
                         style: TextStyle(
                             color: Color(0xff8b8b8b),
                             fontSize: ScreenUtil().setSp(
@@ -311,7 +311,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   SizedBox(
                     height: ScreenUtil().setWidth(20),
                   ),
-                  getDetails(checkOutData.items),
+                  getDetails(checkOutData!.items!),
                   // SizedBox(
                   //   height: ScreenUtil().setWidth(35),
                   // ),
@@ -372,7 +372,7 @@ class _OrderConfirm extends State<OrderConfirm> {
 
   getPaymentInfoCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       return GestureDetector(
         onTap: () {},
         child: Material(
@@ -448,7 +448,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "${value.selectedAddress.firstName + " " + value.selectedAddress.lastName ?? "User"}",
+                      "${value.selectedAddress!.firstName! + " " + value.selectedAddress!.lastName! ?? "User"}",
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -462,7 +462,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "Address : " + value.selectedAddress.address.toString(),
+                      "Address : " + value.selectedAddress!.address.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -477,7 +477,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "Pin : " + value.selectedAddress.zip.toString(),
+                      "Pin : " + value.selectedAddress!.zip.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -491,7 +491,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      value.selectedAddress.phone.toString(),
+                      value.selectedAddress!.phone.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -505,7 +505,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      value.selectedAddress.email.toString(),
+                      value.selectedAddress!.email.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -522,7 +522,7 @@ class _OrderConfirm extends State<OrderConfirm> {
 
   getDeliveryCard() {
     return Consumer<AddressViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       return GestureDetector(
         onTap: () {},
         child: Material(
@@ -573,7 +573,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "${value.selectedAddress.firstName + " " + value.selectedAddress.lastName ?? "User"}",
+                      "${value.selectedAddress!.firstName! + " " + value.selectedAddress!.lastName! ?? "User"}",
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -587,7 +587,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "Address : " + value.selectedAddress.address.toString(),
+                      "Address : " + value.selectedAddress!.address.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -602,7 +602,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      "Pin : " + value.selectedAddress.zip.toString(),
+                      "Pin : " + value.selectedAddress!.zip.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -616,7 +616,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      value.selectedAddress.phone.toString(),
+                      value.selectedAddress!.phone.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -630,7 +630,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      value.selectedAddress.email.toString(),
+                      value.selectedAddress!.email.toString(),
                       style: TextStyle(
                           color: Color(0xff5f5f5f),
                           fontSize: ScreenUtil().setSp(
@@ -658,7 +658,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   new ClipRRect(
                       child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
-                    image: detail[index].img+"?tr=h-102,w-92,fo-auto",
+                    image: detail[index].img!,
                     fit: BoxFit.contain,
                     width: ScreenUtil().setWidth(92),
                     height: ScreenUtil().setWidth(102),
@@ -695,7 +695,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                detail[index].brand,
+                                detail[index].brand!,
                                 style: TextStyle(
                                   color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setWidth(13),
@@ -717,7 +717,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 )),
                               ),
                               Text(
-                                "${store.currencySymbol} ${detail[index].price}",
+                                "${store!.currencySymbol} ${detail[index].price}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.primaryElement2,

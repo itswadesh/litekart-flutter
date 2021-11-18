@@ -27,7 +27,7 @@ class _ListDealsClass extends State<ListDealsClass> {
 
   Widget getDealsList() {
     return Consumer<ListDealsViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.status == "loading") {
             Provider.of<ListDealsViewModel>(context, listen: false)
                 .fetchDealsData();
@@ -81,8 +81,8 @@ class _ListDealsClass extends State<ListDealsClass> {
                   Container(
                     child: CountdownTimer(
                       endTime:
-                      int.parse(value.listDealsResponse.data[0].endTimeISO),
-                      widgetBuilder: (_, CurrentRemainingTime time) {
+                      int.parse(value.listDealsResponse!.data![0].endTimeISO!),
+                      widgetBuilder: (_, CurrentRemainingTime? time) {
                         if (time == null) {
                           return Text('Ended');
                         }
@@ -104,7 +104,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.hours != null ? time.hours : 0) ~/ 10}",
+                                          "${(time.hours != null ? time.hours : 0)! ~/ 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -119,7 +119,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.hours != null ? time.hours : 0) % 10}",
+                                          "${(time.hours != null ? time.hours : 0)! % 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -144,7 +144,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.min != null ? time.min : 0) ~/ 10}",
+                                          "${(time.min != null ? time.min : 0)! ~/ 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -159,7 +159,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.min != null ? time.min : 0) % 10}",
+                                          "${(time.min != null ? time.min : 0)! % 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -184,7 +184,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.sec != null ? time.sec : 0) ~/ 10}",
+                                          "${(time.sec != null ? time.sec : 0)! ~/ 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -199,7 +199,7 @@ class _ListDealsClass extends State<ListDealsClass> {
                                   // padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                                   child: Center(
                                       child: Text(
-                                          "${(time.sec != null ? time.sec : 0) % 10}",
+                                          "${(time.sec != null ? time.sec : 0)! % 10}",
                                           style: TextStyle(color: Colors.black38))),
                                   decoration: new BoxDecoration(
                                     color: Colors.white,
@@ -220,10 +220,10 @@ class _ListDealsClass extends State<ListDealsClass> {
                     height: ScreenUtil().setWidth(254),
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: value.listDealsResponse.data[0].products.length,
+                        itemCount: value.listDealsResponse!.data![0].products!.length,
                         itemBuilder: (BuildContext context, index) {
                           return ProductViewColorCard(
-                              value.listDealsResponse.data[0].products[index]);
+                              value.listDealsResponse!.data![0].products![index]);
                         }),
                   ),
                   SizedBox(

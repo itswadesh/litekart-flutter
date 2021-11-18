@@ -1,20 +1,20 @@
 class CategoryData {
-  String id;
-  String name;
-  String img;
-  String namePath;
-  String slug;
-  int level;
-  String metaTitle;
-  String metaDescription;
-  String metaKeywords;
-  int position;
-  bool megaMenu;
-  bool active;
-  bool featured;
-  bool shopbycategory;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? name;
+  String? img;
+  String? namePath;
+  String? slug;
+  int? level;
+  String? metaTitle;
+  String? metaDescription;
+  String? metaKeywords;
+  int? position;
+  bool? megaMenu;
+  bool? active;
+  bool? featured;
+  bool? shopbycategory;
+  String? createdAt;
+  String? updatedAt;
 
   CategoryData(
       {this.id,
@@ -35,10 +35,10 @@ class CategoryData {
       this.updatedAt});
 
   factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
-      name: json["name"],
-      img: json["imgCdn"],
+      name: json["name"]??"",
+      img: json["img"]??"",
       active: json["active"],
-      createdAt: json["createdAt"],
+      createdAt: json["createdAt"]??"",
       featured: json["featured"],
       level: json["level"],
       megaMenu: json["megaMenu"],

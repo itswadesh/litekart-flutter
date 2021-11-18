@@ -1,11 +1,11 @@
 class CartResponse {
-  int qty;
-  double subtotal;
-  DiscountModel discount;
-  String shipping;
-  double total;
-  int tax;
-  List<CartData> items;
+  int? qty;
+  double? subtotal;
+  DiscountModel? discount;
+  String? shipping;
+  double? total;
+  int? tax;
+  List<CartData>? items;
 
   CartResponse(
       {this.items,
@@ -19,7 +19,7 @@ class CartResponse {
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
       items:
           List<CartData>.from(json["items"].map((x) => CartData.fromJson(x))),
-      qty: json["qty"],
+      qty: json["qty"]??0,
       discount: DiscountModel.fromJson(json["discount"]),
       shipping:  json["shipping"]["charge"].toString(),
       tax: json["tax"] ?? 0,
@@ -28,15 +28,15 @@ class CartResponse {
 }
 
 class CartData {
-  String pid;
-  String slug;
-  String name;
-  double price;
-  String img;
-  String tracking;
-  String options;
-  int qty;
-  String brand;
+  String? pid;
+  String? slug;
+  String? name;
+  double? price;
+  String? img;
+  String? tracking;
+  String? options;
+  int? qty;
+  String? brand;
 
   CartData(
       {this.name,
@@ -51,7 +51,7 @@ class CartData {
 
   factory CartData.fromJson(Map<String, dynamic> json) => CartData(
       name: json["name"],
-      img: json["imgCdn"],
+      img: json["img"],
       pid: json["pid"],
       slug: json["slug"],
       options: json["options"],
@@ -62,10 +62,10 @@ class CartData {
 }
 
 class DiscountModel {
-  String code;
-  int value;
-  String text;
-  double amount;
+  String? code;
+  int? value;
+  String? text;
+  double? amount;
 
   DiscountModel({this.value, this.text, this.code, this.amount});
 
@@ -77,7 +77,7 @@ class DiscountModel {
 }
 
 class ShippingModel {
-  double charge;
+  double? charge;
 
   ShippingModel({this.charge});
 
@@ -86,9 +86,9 @@ class ShippingModel {
 }
 
 class TaxModel {
-  double cgst;
-  double sgst;
-  double igst;
+  double? cgst;
+  double? sgst;
+  double? igst;
 
   TaxModel({this.cgst, this.igst, this.sgst});
 

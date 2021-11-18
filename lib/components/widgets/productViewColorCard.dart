@@ -35,7 +35,7 @@ class ProductViewColorCard extends StatelessWidget {
                       ScreenUtil().setWidth(14)),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
-                    image: productData.img,
+                    image: productData.img!,
                     height: ScreenUtil().setWidth(131),
                   ),
                 ),
@@ -57,7 +57,7 @@ class ProductViewColorCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(7),
                               0, ScreenUtil().setWidth(7), 0),
-                          child: Text(productData.name,
+                          child: Text(productData.name!,
                               style: TextStyle(
                                   color: Color(0xff4A4A4A),
                                   fontSize: ScreenUtil().setSp(
@@ -74,7 +74,7 @@ class ProductViewColorCard extends StatelessWidget {
                           child: Text(
                             productData.brand == null
                                 ? ""
-                                : (productData.brand.name ?? ""),
+                                : (productData.brand!.name ?? ""),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 13,

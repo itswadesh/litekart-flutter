@@ -33,12 +33,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPage extends State<SearchPage> {
   TextEditingController searchText = TextEditingController();
 
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
   bool showSuggestion = false;
   @override
   void initState() {
     _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_focusNode);
     });
     super.initState();
@@ -148,10 +148,10 @@ class _SearchPage extends State<SearchPage> {
   fetchAutoComplete() async {
     var response;
     Dio dio = Dio();
-    response = await dio.get((ApiEndpoint()).searchHint, queryParameters: {
+    response = await dio.get((ApiEndpoint()).searchHint!, queryParameters: {
       // "category": categoryName.toString(),
       "q": searchText.text,
-      "store": store.id
+      "store": store!.id
     });
 
     if (response.statusCode == 200) {
@@ -242,7 +242,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
 
   Widget getCategoriesList() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, value, Widget child) {
+      builder: (BuildContext context, value, Widget? child) {
         if (value.status == "loading") {
           Provider.of<CategoryViewModel>(context, listen: false)
               .fetchCategoryData();
@@ -282,17 +282,17 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
             padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10), 0),
             child: ListView.builder(
-                itemCount: value.categoryResponse.data.length,
+                itemCount: value.categoryResponse!.data!.length,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext build, index) {
-                  return (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? Container(
+                  return (value.categoryResponse!.data![index].img!=null && value.categoryResponse!.data![index].img!="" )? Container(
                     width: ScreenUtil().setWidth(100),
                       child: InkWell(
                           onTap: () {
                             locator<NavigationService>().pushNamed(routes.ProductList,args: {
                               "searchKey":"",
-                              "category":value.categoryResponse.data[index].slug,
+                              "category":value.categoryResponse!.data![index].slug,
                               "brandName":"",
                               "parentBrand":"",
                               "brand":"",
@@ -325,7 +325,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                               left: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2)),
                                               right: BorderSide(color: Color(0xfff3f3f3), width: ScreenUtil().setWidth(2))),
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(fit: BoxFit.cover, image: (value.categoryResponse.data[index].img!=null && value.categoryResponse.data[index].img!="" )? NetworkImage(value.categoryResponse.data[index].img+"?tr=h-80,w-80,fo-auto"):AssetImage("assets/images/logo.png"))))),
+                                          image: new DecorationImage(fit: BoxFit.cover, image: ((value.categoryResponse!.data![index].img!=null && value.categoryResponse!.data![index].img!="" )? NetworkImage(value.categoryResponse!.data![index].img!):AssetImage("assets/images/logo.png")) as ImageProvider<Object>)))),
                               SizedBox(
                                 height: ScreenUtil().setWidth(5),
                               ),
@@ -333,7 +333,7 @@ class _SearchCategoriesClass extends State<SearchCategoriesClass> {
                                 width: ScreenUtil().setWidth(100),
                                 child:
                               Text(
-                                value.categoryResponse.data[index].name,
+                                value.categoryResponse!.data![index].name!,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: ScreenUtil().setSp(
@@ -381,7 +381,7 @@ class _TopPickClass extends State<TopPickClass> {
 
   Widget getProductList() {
     return Consumer<ProductViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.trendingStatus == "loading") {
         Provider.of<ProductViewModel>(context, listen: false).fetchHotData();
         return Container();
@@ -422,11 +422,11 @@ class _TopPickClass extends State<TopPickClass> {
           height: ScreenUtil().setWidth(303),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: value.productTrendingResponse.data.length,
+              itemCount: value.productTrendingResponse!.data!.length,
               itemBuilder: (BuildContext context, index) {
                 return Column(children: [
                   ProductCard(
-                      value.productTrendingResponse.data[index])
+                      value.productTrendingResponse!.data![index])
                 ]);
               }),
         )

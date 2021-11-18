@@ -29,7 +29,7 @@ class _BrandClass extends State<BrandClass> {
 
   Widget getBrandsList() {
     return Consumer<BrandViewModel>(
-      builder: (BuildContext context, value, Widget child) {
+      builder: (BuildContext context, value, Widget? child) {
         if (value.status == "loading") {
           Provider.of<BrandViewModel>(context, listen: false).fetchBrandData();
           return Container();
@@ -84,10 +84,10 @@ class _BrandClass extends State<BrandClass> {
                 child: ListView.builder(
 
                     scrollDirection: Axis.horizontal,
-                    itemCount: value.brandResponse.data.length,
+                    itemCount: value.brandResponse!.data!.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext build, index) {
-                      BrandData data = value.brandResponse.data[index];
+                      BrandData data = value.brandResponse!.data![index];
                       return Container(
                         color: Color(0xffffffff),
                         //  color: Colors.white,
@@ -107,9 +107,9 @@ class _BrandClass extends State<BrandClass> {
                               image: new DecorationImage(
                                 fit: BoxFit.contain,
                                 image: data.img != null
-                                    ? NetworkImage(data.img)
+                                    ? NetworkImage(data.img!)
                                     : NetworkImage(
-                                    'https://next.anne.com/icon.png'),
+                                    'https://anne.biz/icon.png'),
                               ),
                             ),
                           ),

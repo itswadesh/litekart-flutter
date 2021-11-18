@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/components/widgets/cartEmptyMessage.dart';
 import 'package:anne/components/widgets/errorMessage.dart';
@@ -11,6 +13,7 @@ import 'package:anne/utility/graphQl.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
 import 'package:anne/view_model/schedule_view_model.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +62,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
   }
   getScheduleList() {
     return Consumer<ScheduleViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
 
           if (value.status == "loading") {
             Provider.of<ScheduleViewModel>(context, listen: false).fetchMyScheduleDemo();
@@ -74,7 +77,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
             Container(
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
                 child:  Consumer<ScheduleViewModel>(
-                    builder: (BuildContext context, value, Widget child) {
+                    builder: (BuildContext context, value, Widget? child) {
                       return PagedGridView(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio:
@@ -82,7 +85,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
                             crossAxisCount: 2),
                         pagingController: value.pagingController,
                         builderDelegate: PagedChildBuilderDelegate(
-                            itemBuilder: (context, item, index) => ScheduleCard(item),
+                            itemBuilder: (context, dynamic item, index) => ScheduleCard(item),
                             // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                             //   error: _pagingController.error,
                             //   onTryAgain: () => _pagingController.refresh(),
@@ -114,8 +117,8 @@ class ScheduleCard extends StatefulWidget {
 }
 
 class _ScheduleCard extends State<ScheduleCard> {
-  ScheduleData item;
-
+  ScheduleData? item;
+  bool imageStatus = true;
   @override
   void initState() {
     item = widget.item;
@@ -124,6 +127,7 @@ class _ScheduleCard extends State<ScheduleCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
       decoration: BoxDecoration(
@@ -132,6 +136,7 @@ class _ScheduleCard extends State<ScheduleCard> {
       ),
       child: InkWell(
         onTap: () async {
+
          // locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: item.product.id);
         },
         child: Container(
@@ -143,61 +148,93 @@ class _ScheduleCard extends State<ScheduleCard> {
               Stack(
                 children: [
                   Container(
-                    child: FadeInImage.assetNetwork(
+                    // child:CachedNetworkImage(
+                    //   fit: BoxFit.contain,
+                    //   height: ScreenUtil().setWidth(213),
+                    //   width: ScreenUtil().setWidth(193),
+                    //   imageUrl: item?.img??""+"?tr=w-193,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //           width: ScreenUtil().setWidth(193),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",  height: ScreenUtil().setWidth(213),
+                    //     width: ScreenUtil().setWidth(193),
+                    //     fit: BoxFit.contain,),
+                    // ),
+                    child:  FadeInImage.assetNetwork(
+                      imageErrorBuilder: ((context,object,stackTrace){
+
+                        return Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(213),
+                          width: ScreenUtil().setWidth(193),
+                          fit: BoxFit.contain,);
+                      }),
                       placeholder: 'assets/images/loading.gif',
-                      image: item.product.imgCdn+"?tr=w-193,fo-auto",
+                      image: item!.product!.img!,
                       height: ScreenUtil().setWidth(213),
                       width: ScreenUtil().setWidth(193),
                       fit: BoxFit.contain,
-                    ),
+                    )
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        right: ScreenUtil().setWidth(10),
-                        top: ScreenUtil().setWidth(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                            onTap: () async {
-                              final NavigationService _navigationService = locator<NavigationService>();
-                              TzDialog _dialog =
-                              TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
-                              _dialog.show();
-
-                              _dialog.close();
-                            },
-                            child: Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    0, 0, ScreenUtil().setWidth(0), 0),
-                                width: ScreenUtil().radius(30),
-                                height: ScreenUtil().radius(30),
-                                decoration: new BoxDecoration(
-                                  color: Color(0xffd3d3d3),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      top: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      left: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4)),
-                                      right: BorderSide(
-                                          color: Color(0xfff3f3f3),
-                                          width: ScreenUtil().setWidth(0.4))),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Color(0xff454545),
-                                  size: ScreenUtil().setWidth(18),
-                                ))),
-
-                      ],
-                    ),
-                  )
+                  // Container(
+                  //   padding: EdgeInsets.only(
+                  //       right: ScreenUtil().setWidth(10),
+                  //       top: ScreenUtil().setWidth(10)),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       InkWell(
+                  //           onTap: () async {
+                  //             final NavigationService _navigationService = locator<NavigationService>();
+                  //             TzDialog _dialog =
+                  //             TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                  //             _dialog.show();
+                  //             await Provider.of<ScheduleViewModel>(context,
+                  //                 listen: false).cancelScheduleCall(item!.id);
+                  //             _dialog.close();
+                  //           },
+                  //           child: Container(
+                  //               margin: EdgeInsets.fromLTRB(
+                  //                   0, 0, ScreenUtil().setWidth(0), 0),
+                  //               width: ScreenUtil().radius(30),
+                  //               height: ScreenUtil().radius(30),
+                  //               decoration: new BoxDecoration(
+                  //                 color: Color(0xffd3d3d3),
+                  //                 border: Border(
+                  //                     bottom: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     top: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     left: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4)),
+                  //                     right: BorderSide(
+                  //                         color: Color(0xfff3f3f3),
+                  //                         width: ScreenUtil().setWidth(0.4))),
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child: Icon(
+                  //                 Icons.close,
+                  //                 color: Color(0xff454545),
+                  //                 size: ScreenUtil().setWidth(18),
+                  //               ))),
+                  //
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
               Container(
@@ -205,7 +242,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
-                    item.product.name,
+                    item!.product!.name!,
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -214,6 +251,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                         fontWeight: FontWeight.w600
                     ),
                     textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
                   )),
               // SizedBox(
               //   height: ScreenUtil().setWidth(9),
@@ -240,7 +278,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(10),),
                       Text(
-                        "${store.currencySymbol} " + item.product.price.toString() + " ",
+                        "${store!.currencySymbol} " + item!.product!.price.toString() + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -248,9 +286,9 @@ class _ScheduleCard extends State<ScheduleCard> {
                             fontWeight: FontWeight.w600,
                             color: Color(0xff4a4a4a)),
                       ),
-                      item.product.price < item.product.mrp
+                      item!.product!.price! < item!.product!.mrp!
                           ? Text(
-                        " ${store.currencySymbol} " + item.product.mrp.toString(),
+                        " ${store!.currencySymbol} " + item!.product!.mrp.toString(),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
@@ -259,9 +297,9 @@ class _ScheduleCard extends State<ScheduleCard> {
                             color: Color(0xff4a4a4a)),
                       )
                           : Container(),
-                      item.product.price < item.product.mrp
+                      item!.product!.price! < item!.product!.mrp!
                           ? Flexible(child: Text(
-                        " (${(100 - ((item.product.price / item.product.mrp) * 100)).toInt()} % off)",
+                        " (${(100 - ((item!.product!.price! / item!.product!.mrp!) * 100)).toInt()} % off)",
                         style: TextStyle(
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
@@ -276,7 +314,7 @@ class _ScheduleCard extends State<ScheduleCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
-                    await LiveVideoCallSetUp().startRTC(context, item.id, 'join',item);
+                    await LiveVideoCallSetUp().startRTC(context, item!.id, 'join',item);
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(183),

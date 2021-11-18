@@ -21,16 +21,16 @@ class ProductViewCard extends StatefulWidget {
 }
 
 class _ProductViewCardState extends State<ProductViewCard> {
-  List<String> images;
-  ProductListData productData;
+  late List<String> images;
+  ProductListData? productData;
 
   @override
   void initState() {
     productData = ProductListData.fromJson(widget.productData);
     if (productData != null &&
-        productData.images != null &&
-        productData.images is List) {
-      images = List.from(productData.images?.map((x) => x));
+        productData!.images != null &&
+        productData!.images is List) {
+      images = List.from(productData!.images!.map((x) => x));
     }
 
     super.initState();
@@ -43,7 +43,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
       child: InkWell(
         onTap: () async {
           await locator<NavigationService>()
-              .pushNamed(routes.ProductDetailRoute, args: productData.id);
+              .pushNamed(routes.ProductDetailRoute, args: productData!.id);
         },
         child: Card(
           child: Container(
@@ -82,7 +82,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                             shape: BoxShape.circle,
                           ),
                           child: CheckWishListClass(
-                              productData.id, productData.id))
+                              productData!.id, productData!.id))
                     ],
                   ),
                 ),
@@ -105,7 +105,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
                         ScreenUtil().setWidth(20), 0),
                     child: Text(
-                      productData.brand,
+                      productData!.brand!,
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           9,
@@ -121,7 +121,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
                         ScreenUtil().setWidth(20), 0),
-                    child: Text(productData.name,
+                    child: Text(productData!.name!,
                         style: TextStyle(
                             color: Color(0xff5f5f5f),
                             fontSize: ScreenUtil().setSp(
@@ -137,7 +137,7 @@ class _ProductViewCardState extends State<ProductViewCard> {
                   children: [
                     SizedBox(width: ScreenUtil().setWidth(20),),
                     Text(
-                      "₹ " + productData.price.toString() + " ",
+                      "₹ " + productData!.price.toString() + " ",
                       style: TextStyle(
                           fontSize: ScreenUtil().setSp(
                             14,
@@ -145,9 +145,9 @@ class _ProductViewCardState extends State<ProductViewCard> {
                           fontWeight: FontWeight.w600,
                           color: Color(0xff4a4a4a)),
                     ),
-                    productData.price < productData.mrp
+                    productData!.price! < productData!.mrp!
                         ? Text(
-                            " ₹ " + productData.mrp.toString(),
+                            " ₹ " + productData!.mrp.toString(),
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: ScreenUtil().setSp(
@@ -156,9 +156,9 @@ class _ProductViewCardState extends State<ProductViewCard> {
                                 color: Color(0xff4a4a4a)),
                           )
                         : Container(),
-                    productData.price < productData.mrp
+                    productData!.price! < productData!.mrp!
                         ? Text(
-                            " (${(100 - ((productData.price / productData.mrp) * 100)).toInt()} % off)",
+                            " (${(100 - ((productData!.price! / productData!.mrp!) * 100)).toInt()} % off)",
                             style: TextStyle(
                                 color: AppColors.primaryElement2,
                                 fontSize: ScreenUtil().setSp(

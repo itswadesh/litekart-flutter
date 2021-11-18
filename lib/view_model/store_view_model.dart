@@ -7,11 +7,11 @@ import '../../utility/query_mutation.dart';
 import '../main.dart';
 
 class StoreViewModel with ChangeNotifier {
-  var status = "loading";
+  String? status = "loading";
   QueryMutation addMutation = QueryMutation();
   StoreRepository storeRepository = StoreRepository();
-  StoreData _storeResponse;
-  StoreData get storeResponse {
+  StoreData? _storeResponse;
+  StoreData? get storeResponse {
     return _storeResponse;
   }
 

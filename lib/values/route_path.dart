@@ -27,3 +27,4 @@ const String AddReviewRoute = "AddReviewRoute";
 const String ZoomImageRoute = "ZoomImageRoute";
 const String LiveCommerce = "LiveCommerce";
 const String LiveStreamPlayer = "LiveStreamPlayer";
+const String ScheduleDemoList = "ScheduleDemoList";

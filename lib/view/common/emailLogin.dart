@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -30,12 +31,12 @@ class _EmailLoginState extends State<EmailLogin> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     _focusNode = FocusNode();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_focusNode);
     });
     super.initState();
@@ -254,10 +255,10 @@ class _EmailLoginState extends State<EmailLogin> {
               ),
               InkWell(
                 onTap: () async {
-                  _focusNode.unfocus();
+                  _focusNode!.unfocus();
                       await model.login(_emailController.text,_passwordController.text);
                   if (model.loginStatus) {
-                    token = tempToken;
+                    token = tempToken!;
                     await Provider.of<ProfileModel>(context, listen: false)
                         .getProfile();
                     await Provider.of<CartViewModel>(context, listen: false)
@@ -348,7 +349,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         onTap: () async{
                         await googleModel.handleGoogleLogin();
                         if (googleModel.googleStatus) {
-                          token = tempToken;
+                          token = tempToken!;
                           await Provider.of<ProfileModel>(context, listen: false)
                               .getProfile();
                           await Provider.of<CartViewModel>(context, listen: false)
@@ -364,12 +365,12 @@ class _EmailLoginState extends State<EmailLogin> {
                         },
                         child: Image.asset("assets/images/google.png",height:35,width:35),
                       )),
-                      Consumer<AppleLoginViewModel>(
+                   Visibility(visible: Platform.isIOS ,child: Consumer<AppleLoginViewModel>(
                           builder: (context, appleModel, child) =>   InkWell(
                             onTap: () async{
                               await appleModel.handleAppleLogin();
                               if (appleModel.appleStatus) {
-                                token = tempToken;
+                                token = tempToken!;
                                 await Provider.of<ProfileModel>(context, listen: false)
                                     .getProfile();
                                 await Provider.of<CartViewModel>(context, listen: false)
@@ -384,14 +385,14 @@ class _EmailLoginState extends State<EmailLogin> {
                               }
                             },
                             child: Image.asset("assets/images/apple.png",height:32,width:32),
-                          )),
+                          ))),
                       Consumer<FacebookLoginViewModel>(
                         builder: (context, facebookModel, child) =>   InkWell(
 
                         onTap: () async{
                          await facebookModel.handleFacebookLogin();
                          if (facebookModel.fbStatus) {
-                           token = tempToken;
+                           token = tempToken!;
                            await Provider.of<ProfileModel>(context, listen: false)
                                .getProfile();
                            await Provider.of<CartViewModel>(context, listen: false)

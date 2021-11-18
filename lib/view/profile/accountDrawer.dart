@@ -87,21 +87,21 @@ class _AccountDrawer extends State<AccountDrawer> {
                       fit: BoxFit.fill,
                       image:
                           //profileData['avatar'] != null?NetworkImage(baseUrl+profileData['avatar']) :
-                          user.user.avatar != null
-                              ? NetworkImage(user.user.avatar)
-                              : AssetImage("assets/images/user.png")))),
+                          (user.user!.avatar != null
+                              ? NetworkImage(user.user!.avatar!)
+                              : AssetImage("assets/images/user.png")) as ImageProvider<Object>))),
           SizedBox(
             height: 15,
           ),
           Text(
-            "Hello ${user.user.firstName ?? "User1"}",
+            "Hello ${user.user!.firstName ?? "User1"}",
             style: TextStyle(color: Color(0xffee7625), fontSize: 25),
           ),
           SizedBox(
             height: 15,
           ),
           Text(
-            "${user.user.email ?? "email@anne.com"}",
+            "${user.user!.email ?? "support@anne.biz"}",
             style: TextStyle(color: Colors.grey, fontSize: 17),
           ),
         ]),
@@ -110,7 +110,7 @@ class _AccountDrawer extends State<AccountDrawer> {
   }
 
   Widget _createDrawerItem(
-      {IconData icon, String text, GestureTapCallback onTap}) {
+      {IconData? icon, required String text, GestureTapCallback? onTap}) {
     return Container(
         padding: EdgeInsets.only(left: 10),
         child: ListTile(

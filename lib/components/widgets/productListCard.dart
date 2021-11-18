@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anne/response_handler/productListApiReponse.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
@@ -5,6 +7,8 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
+import 'package:extended_image/extended_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +25,12 @@ class ProductListCard extends StatefulWidget {
 }
 
 class _ProductListCard extends State<ProductListCard> {
-  ProductListData item;
-
+  late ProductListData item;
+  bool imageStatus = true;
   @override
   void initState() {
     item = ProductListData.fromJson(widget.item);
+    log("product list "+item.imgCdn.toString());
     super.initState();
   }
 
@@ -61,16 +66,57 @@ class _ProductListCard extends State<ProductListCard> {
                     height: ScreenUtil().setWidth(203),
                     width: ScreenUtil().setWidth(203),
                     color: Color(0xffffffff),
-                    child: FadeInImage.assetNetwork(
+                    child:
+                    // CachedNetworkImage(
+                    //   fit: BoxFit.contain,
+                    //     height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //   imageUrl: item.imgCdn??""+"?tr=w-203,fo-auto",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         onError: (object,stackTrace)=>Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
+                    //           width: ScreenUtil().setWidth(203),
+                    //           fit: BoxFit.contain,),
+                    //
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Image.asset("assets/images/loading.gif",height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,),
+                    //   errorWidget: (context, url, error) =>  Image.asset("assets/images/logo.png",height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,),
+                    // ),
+                     FadeInImage.assetNetwork(
+                      placeholder: "assets/images/loading.gif",
+                      image: item.imgCdn,
                       imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
+
+                        return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
+                          width: ScreenUtil().setWidth(203),
+                          fit: BoxFit.contain,);
                       }),
-                      placeholder: 'assets/images/loading.gif',
-                      image: item.images[0]+"?tr=w-203,fo-auto",
                       height: ScreenUtil().setWidth(203),
                       width: ScreenUtil().setWidth(203),
                       fit: BoxFit.contain,
                     ),
+                    // ExtendedImage.network(
+                    //   item.imgCdn,
+                    //     height: ScreenUtil().setWidth(203),
+                    //     width: ScreenUtil().setWidth(203),
+                    //     fit: BoxFit.contain,
+                    //  cache: true,
+                    //  // enableMemoryCache: false,
+                    //  // clearMemoryCacheIfFailed: true,
+                    //  // clearMemoryCacheWhenDispose: true,
+                    //  // cache: true,
+                    //   //cancelToken: cancellationToken,
+                    // )
                   ),
                   Align(
                       alignment: Alignment.bottomLeft,
@@ -167,7 +213,7 @@ class _ProductListCard extends State<ProductListCard> {
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15),
                             0, ScreenUtil().setWidth(15), 0),
-                        child: Text(item.name,
+                        child: Text(item.name!,
                             style: TextStyle(
                                 color: Color(0xff7f7f7f),
                                 fontSize: ScreenUtil().setSp(
@@ -185,7 +231,7 @@ class _ProductListCard extends State<ProductListCard> {
                           width: ScreenUtil().setWidth(15),
                         ),
                         Text(
-                          "${store.currencySymbol} " + item.price.toString() + " ",
+                          "${store!.currencySymbol} " + item.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -193,9 +239,9 @@ class _ProductListCard extends State<ProductListCard> {
                               fontWeight: FontWeight.w600,
                               color: Color(0xff4a4a4a)),
                         ),
-                        item.price < item.mrp
+                        item.price! < item.mrp!
                             ? Text(
-                                " ${store.currencySymbol} " + item.mrp.toString(),
+                                " ${store!.currencySymbol} " + item.mrp.toString(),
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(
@@ -204,9 +250,9 @@ class _ProductListCard extends State<ProductListCard> {
                                     color: Color(0xff4a4a4a)),
                               )
                             : Container(),
-                        item.price < item.mrp
+                        item.price! < item.mrp!
                             ? Text(
-                                " (${(100 - ((item.price / item.mrp) * 100)).toInt()} % off)",
+                                " (${(100 - ((item.price! / item.mrp!) * 100)).toInt()} % off)",
                                 style: TextStyle(
                                     color: AppColors.primaryElement2,
                                     fontSize: ScreenUtil().setSp(

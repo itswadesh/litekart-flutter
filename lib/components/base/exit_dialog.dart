@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../values/colors.dart';
 
-Future<bool> showExitDialog(BuildContext context, String message) {
+ showExitDialog(BuildContext context, String message) {
   return showDialog(
       context: context,
       barrierDismissible: false,

@@ -1,9 +1,9 @@
 
 class ScheduleListResponse {
-  int count;
-  int page;
-  int pageSize;
-  List<ScheduleData> data;
+  int? count;
+  int? page;
+  int? pageSize;
+  List<ScheduleData>? data;
 
   ScheduleListResponse({
     this.data,this.pageSize,this.page,this.count
@@ -20,18 +20,18 @@ class ScheduleListResponse {
 }
 
 class ScheduleData {
-  String id;
-  String scheduleDateTime;
-  String title;
-  String img;
-  String imgCdn;
-  ScheduleDataProduct product;
-  List<ScheduleDataProduct> products;
-  ScheduleDataUser user;
-  List<ScheduleDataUser> users;
+  String? id;
+  int? scheduleDateTime;
+  String? title;
+  String? img;
+  String? imgCdn;
+  ScheduleDataProduct? product;
+ // List<ScheduleDataProduct>? products;
+  ScheduleDataUser? user;
+ // List<ScheduleDataUser>? users;
 
   ScheduleData({
-    this.id,this.title,this.user,this.product,this.img,this.users,this.products,this.scheduleDateTime,this.imgCdn
+    this.id,this.title,this.user,this.product,this.img,this.scheduleDateTime,this.imgCdn
 });
 
   factory ScheduleData.fromJson(Map<String, dynamic> json)=>
@@ -41,21 +41,21 @@ class ScheduleData {
         title: json["title"],
         img: json["img"],
         imgCdn: json["imgCdn"],
-        products: List<ScheduleDataProduct>.from(json["products"].map((x)=>ScheduleDataProduct.fromJson(x))),
+      //  products: List<ScheduleDataProduct>.from(json["products"].map((x)=>ScheduleDataProduct.fromJson(x))),
         product: ScheduleDataProduct.fromJson(json["product"]),
-        users: List<ScheduleDataUser>.from(json["users"].map((x)=>ScheduleDataUser.fromJson(x))),
+       // users: List<ScheduleDataUser>.from(json["users"].map((x)=>ScheduleDataUser.fromJson(x))),
         user: ScheduleDataUser.fromJson(json["user"])
       );
 }
 
 class ScheduleDataProduct {
-  String id;
-  String name;
-  String img;
-  String imgCdn;
-  String slug;
-  double price;
-  double mrp;
+  String? id;
+  String? name;
+  String? img;
+  String? imgCdn;
+  String? slug;
+  double? price;
+  double? mrp;
 
   ScheduleDataProduct({
     this.id,this.imgCdn,this.img,this.name,this.slug,this.price,this.mrp
@@ -74,11 +74,11 @@ class ScheduleDataProduct {
 }
 
 class ScheduleDataUser {
-  String id;
-  String firstName;
-  String lastName;
-  String email;
-  String phone;
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
 
   ScheduleDataUser({
     this.id, this.firstName,this.phone,this.lastName,this.email

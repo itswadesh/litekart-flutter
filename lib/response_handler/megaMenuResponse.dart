@@ -1,5 +1,5 @@
 class TopMegaMenuResponse {
-  List<MegaMenuResponse> megamenu;
+  List<MegaMenuResponse>? megamenu;
 
   TopMegaMenuResponse({this.megamenu});
 
@@ -13,12 +13,12 @@ class TopMegaMenuResponse {
 }
 
 class MegaMenuResponse {
-  String id;
-  String name;
-  String slug;
-  String img;
-  bool featured;
-  List<MegaMenuChildren1> children;
+  String? id;
+  String? name;
+  String? slug;
+  String? img;
+  bool? featured;
+  List<MegaMenuChildren1>? children;
 
   MegaMenuResponse(
       {this.id, this.img, this.slug, this.name, this.children, this.featured});
@@ -27,7 +27,7 @@ class MegaMenuResponse {
       MegaMenuResponse(
         id: json["id"],
         name: json["name"],
-        img: json["imgCdn"],
+        img: json["img"]??null,
         slug: json["slug"],
         featured: json["featured"],
         children: json["children"].length != 0
@@ -38,11 +38,11 @@ class MegaMenuResponse {
 }
 
 class MegaMenuChildren1 {
-  String name;
-  String slug;
-  String img;
-  bool featured;
-  List<MegaMenuChildren2> children;
+  String? name;
+  String? slug;
+  String? img;
+  bool? featured;
+  List<MegaMenuChildren2>? children;
 
   MegaMenuChildren1(
       {this.img, this.slug, this.name, this.children, this.featured});
@@ -60,10 +60,10 @@ class MegaMenuChildren1 {
 }
 
 class MegaMenuChildren2 {
-  String name;
-  String slug;
-  String img;
-  bool featured;
+  String? name;
+  String? slug;
+  String? img;
+  bool? featured;
   MegaMenuChildren2({this.img, this.slug, this.name, this.featured});
 
   factory MegaMenuChildren2.fromJson(Map<String, dynamic> json) =>

@@ -77,7 +77,7 @@ class _MegaMenu extends State<MegaMenu> {
 
   getMegaMenu() {
     return Consumer<MegaMenuViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
         Provider.of<MegaMenuViewModel>(context, listen: false).fetchMegaMenu();
         return Container(
@@ -100,7 +100,7 @@ class _MegaMenu extends State<MegaMenu> {
           child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: value.topMegaMenuResponse.megamenu.length,
+              itemCount: value.topMegaMenuResponse!.megamenu!.length,
               itemBuilder: (buildContext, index) {
                 return GestureDetector(
                     onTap: () {
@@ -108,7 +108,7 @@ class _MegaMenu extends State<MegaMenu> {
                           .selectTopIndex(index);
                     },
                     child: topMenuCard(
-                        value.topMegaMenuResponse.megamenu[index],
+                        value.topMegaMenuResponse!.megamenu![index],
                         index == value.selectedTopIndex));
               }),
         );
@@ -163,11 +163,15 @@ class _MegaMenu extends State<MegaMenu> {
              Container(
                  width: ScreenUtil().setWidth(155),
                  child: Text(megamenu.name??"", style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(25),fontWeight:FontWeight.w600),maxLines: 3,overflow: TextOverflow.ellipsis,)),
-            megamenu.img!=null? Image.network(megamenu.img+"?tr=h-120,w-120,fo-auto",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120),)
+            megamenu.img!=null? FadeInImage.assetNetwork(image:megamenu.img!, imageErrorBuilder: ((context,object,stackTrace){
+              return Image.asset("assets/images/logo.png",fit: BoxFit.contain,
+                width: ScreenUtil().setWidth(120),
+                height: ScreenUtil().setWidth(120),);
+            }),width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120), placeholder: 'assets/images/loading.gif',)
             : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
             ],
           )),
-            children: getMenuCard(megamenu.children),
+            children: getMenuCard(megamenu.children!),
           )),
 
     );
@@ -194,7 +198,7 @@ class _MegaMenu extends State<MegaMenu> {
     return childrenList;
   }
 
-  getExpansionTileChild(List<MegaMenuChildren2> children) {
+  getExpansionTileChild(List<MegaMenuChildren2>? children) {
     List<Widget> list = [];
     if(children==null){
       return [Container()];

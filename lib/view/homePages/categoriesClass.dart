@@ -61,7 +61,7 @@ class _CategoriesClass extends State<CategoriesClass> {
 
   Widget getCategoriesList() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, value, Widget child) {
+      builder: (BuildContext context, value, Widget? child) {
         if (value.status == "loading") {
           Provider.of<CategoryViewModel>(context, listen: false)
               .fetchCategoryData();
@@ -83,7 +83,7 @@ class _CategoriesClass extends State<CategoriesClass> {
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 2.6),
                     crossAxisCount: 2),
-                itemCount: value.categoryResponse.data.length,
+                itemCount: value.categoryResponse!.data!.length,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext build, index) {
@@ -95,8 +95,8 @@ class _CategoriesClass extends State<CategoriesClass> {
                               Map<String, dynamic> data = {
                                 "id": EVENT_HOME_CATEGORIES,
                                 "title":
-                                value.categoryResponse.data[index].name,
-                                "url": value.categoryResponse.data[index].slug,
+                                value.categoryResponse!.data![index].name,
+                                "url": value.categoryResponse!.data![index].slug,
                                 "event": "tap"
                               };
                               Tracking(
@@ -105,7 +105,7 @@ class _CategoriesClass extends State<CategoriesClass> {
                                   .pushNamed(routes.ProductList, args: {
                                 "searchKey": "",
                                 "category":
-                                value.categoryResponse.data[index].slug,
+                                value.categoryResponse!.data![index].slug,
                                 "brandName": "",
                                 "parentBrand": ""
                               });
@@ -135,12 +135,12 @@ class _CategoriesClass extends State<CategoriesClass> {
                                                 left: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1)),
                                                 right: BorderSide(color: Color(0xff32AFC8), width: ScreenUtil().setWidth(1))),
                                             shape: BoxShape.circle,
-                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse.data[index].img ?? 'https://next.anne.com/icon.png'))))),
+                                            image: new DecorationImage(fit: BoxFit.cover, image: new NetworkImage(value.categoryResponse!.data![index].img ?? 'https://anne.biz/icon.png'))))),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Text(
-                                  value.categoryResponse.data[index].name,
+                                  value.categoryResponse!.data![index].name!,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center,

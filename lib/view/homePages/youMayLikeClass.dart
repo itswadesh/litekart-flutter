@@ -34,7 +34,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
 
   Widget getProductList() {
     return Consumer<ProductViewModel>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           if (value.youMayLikeStatus == "loading") {
             Provider.of<ProductViewModel>(context, listen: false)
                 .fetchYouMayLikeData();
@@ -86,21 +86,21 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: value.productYouMayLikeResponse.data.length,
+                  itemCount: value.productYouMayLikeResponse!.data!.length,
                   itemBuilder: (BuildContext context, index) {
                     return InkWell(
                       onTap: () {
                         Map<String, dynamic> data = {
                           "id": EVENT_YOU_MAY_LIKE,
                           "itemId":
-                          value.productYouMayLikeResponse.data[index].barcode,
+                          value.productYouMayLikeResponse!.data![index].barcode,
                           "event": "tap"
                         };
                         Tracking(event: EVENT_YOU_MAY_LIKE, data: data);
                       },
                       child: Column(children: [
                         ProductCard(
-                            value.productYouMayLikeResponse.data[index])
+                            value.productYouMayLikeResponse!.data![index])
                       ]),
                     );
                   }),
