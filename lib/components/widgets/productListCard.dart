@@ -118,20 +118,20 @@ class _ProductListCard extends State<ProductListCard> {
                     //   //cancelToken: cancellationToken,
                     // )
                   ),
-                  Align(
-                      alignment: Alignment.bottomLeft,
-                      child:
-                 Container(
-                     margin: EdgeInsets.only(bottom: 2),
-                     child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: ScreenUtil().setWidth(5),
-                      ),
-                      RatingClass(item.id),
-                    ],
-                  ))),
+              //    Align(
+               //       alignment: Alignment.bottomLeft,
+               //       child:
+               //  Container(
+               //      margin: EdgeInsets.only(bottom: 2),
+               //      child: Row(
+               //     mainAxisAlignment: MainAxisAlignment.start,
+               //     children: [
+               //       SizedBox(
+               //         width: ScreenUtil().setWidth(5),
+               //       ),
+               //       RatingClass(item.id),
+               //     ],
+               //   ))),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
                   //   children: [
