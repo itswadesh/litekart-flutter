@@ -92,7 +92,7 @@ class ApiProvider {
 
         responseData = {"status": "error"};
       } else {
-        if (resultData.data!["myScheduleDemos"] == null) {
+        if (resultData.data!["myScheduleDemos"] == null || resultData.data!["myScheduleDemos"]["data"].length==0) {
           responseData = {"status": "empty"};
         } else {
 
@@ -138,7 +138,7 @@ class ApiProvider {
         
         responseData = {"status": "error"};
       } else {
-        if (resultData.data!["channels"] == null) {
+        if (resultData.data!["channels"] == null || resultData.data!["channels"]["data"].length==0) {
           responseData = {"status": "empty"};
         } else {
 
