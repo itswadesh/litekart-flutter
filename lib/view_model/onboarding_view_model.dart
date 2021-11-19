@@ -4,7 +4,7 @@ import '../../service/navigation/navigation_service.dart';
 import '../../values/constant.dart';
 import '../../values/route_path.dart' as routes;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../main.dart';
 class OnboardingViewModel extends ChangeNotifier {
   final NavigationService? _navigationService = locator<NavigationService>();
 
@@ -23,7 +23,10 @@ class OnboardingViewModel extends ChangeNotifier {
   Future<bool> forceSkip() async {
     bool result = await _initChat();
     if (result) {
-      _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);
+       if (settingData!.otpLogin!) { _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);}
+                                  else{
+                                    _navigationService!.pushNamedAndRemoveUntil(routes.EmailLoginRoute);
+                                  }
     }
     return result;
   }
