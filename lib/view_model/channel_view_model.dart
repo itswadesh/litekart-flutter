@@ -29,4 +29,11 @@ class ChannelViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  refresh(){
+    _pagingController.refresh();
+    status = "loading";
+    notifyListeners();
+  }
+
 }

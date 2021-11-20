@@ -207,7 +207,15 @@ class _LiveCommercePage extends State<LiveCommercePage>{
                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
                 child:  Consumer<ChannelViewModel>(
                     builder: (BuildContext context, value, Widget? child) {
-                      return PagedGridView(
+                      return RefreshIndicator(
+                          onRefresh: () => Future.sync(
+                            () {
+                              value.refresh();
+                          // page = 0;
+                          // _pagingController.refresh();
+                        },
+                      ),
+                      child: PagedGridView(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio:
                             ScreenUtil().setWidth(183) / ScreenUtil().setWidth(290),
@@ -228,7 +236,7 @@ class _LiveCommercePage extends State<LiveCommercePage>{
                             noItemsFoundIndicatorBuilder: (_) =>
                                 cartEmptyMessage("search", "No Live Stream Found")),
                         // noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
-                      );
+                      ));
                     }));
         });
   }
