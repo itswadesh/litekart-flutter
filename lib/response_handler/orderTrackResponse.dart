@@ -82,7 +82,7 @@ factory OrderTrackResponse.fromJson(Map<String,dynamic> json)=>OrderTrackRespons
   courierName: json["courierName"],
   createdAt: json["createdAt"],
   days: json["days"],
-  img: json["img"],
+  img: json["imgCdn"],
   invoiceId: json["invoiceId"],
   invoiceLink: json["invoiceLink"],
   itemOrderNo: json["itemOrderNo"],

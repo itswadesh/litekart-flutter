@@ -27,7 +27,7 @@ class MegaMenuResponse {
       MegaMenuResponse(
         id: json["id"],
         name: json["name"],
-        img: json["img"]??null,
+        img: json["imgCdn"]??null,
         slug: json["slug"],
         featured: json["featured"],
         children: json["children"].length != 0
@@ -50,7 +50,7 @@ class MegaMenuChildren1 {
   factory MegaMenuChildren1.fromJson(Map<String, dynamic> json) =>
       MegaMenuChildren1(
         name: json["name"],
-        img: json["img"],
+        img: json["imgCdn"],
         featured: json["featured"],
         children: json["children"].length != 0
             ? List<MegaMenuChildren2>.from(
@@ -69,7 +69,7 @@ class MegaMenuChildren2 {
   factory MegaMenuChildren2.fromJson(Map<String, dynamic> json) =>
       MegaMenuChildren2(
         name: json["name"],
-        img: json["img"],
+        img: json["imgCdn"],
         featured: json["featured"],
         slug: json["slug"]
       );

@@ -127,6 +127,11 @@ class _BannersSliderClass extends State<BannersSliderClass> {
                             // ),
                             Image.network(
                               value.sliderResponse!.data![index].img!.toString(),
+                              errorBuilder: (context,object,stackTrace){
+                                return Image.asset("assets/images/logo.png", width: ScreenUtil().setWidth(414),
+                                  height:  ScreenUtil().setWidth(4140/18),
+                                  fit: BoxFit.cover,);
+                              },
                               width: ScreenUtil().setWidth(414),
                               height:  ScreenUtil().setWidth(4140/18),
                               fit: BoxFit.cover,

@@ -51,7 +51,7 @@ class ChannelData {
 
   factory ChannelData.fromJson(Map<String, dynamic> json)=>
       ChannelData(
-        img: json["img"],
+        img: json["imgCdn"],
         id: json["id"],
         scheduleDateTime: json["scheduleDateTime"],
         title: json["title"],
@@ -89,7 +89,7 @@ class ChannelProduct {
       ChannelProduct(
         id: json["id"],
         name: json["name"],
-        img: json["img"],
+        img: json["imgCdn"],
         slug: json["slug"],
         price: double.parse(json["price"].toString()),
         mrp: double.parse(json["mrp"].toString())

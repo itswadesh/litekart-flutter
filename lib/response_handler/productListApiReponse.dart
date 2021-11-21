@@ -45,15 +45,16 @@ class ProductListData {
                   ? json["_source"]["brand"]["name"]
                   : "")
               : "",
-          images:  List.from(json["_source"]["imagesCdn"].map((x) => x)),
+          images: json["_source"] != null ? (json["_source"]["imagesCdn"] != null && json["_source"]["imagesCdn"].length!=0
+              ? List.from(json["_source"]["imagesCdn"].map((x) => x)):[]):[],
           price: json["_source"] != null
               ? double.parse(json["_source"]["price"].toString()) ?? 0.0
-              : "" as double?,
+              : 0.0,
           mrp: json["_source"] != null
               ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
-              : "" as double?,
+              : 0.0,
           stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0,
-          imgCdn: json["_source"]["img"]??null
+          imgCdn: json["_source"]["imgCdn"]??""
       );
 
 }

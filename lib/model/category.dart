@@ -36,7 +36,7 @@ class CategoryData {
 
   factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
       name: json["name"]??"",
-      img: json["img"]??"",
+      img: json["imgCdn"]??"",
       active: json["active"],
       createdAt: json["createdAt"]??"",
       featured: json["featured"],

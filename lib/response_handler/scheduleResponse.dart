@@ -39,7 +39,7 @@ class ScheduleData {
         id: json["id"],
         scheduleDateTime: json["scheduleDateTime"],
         title: json["title"],
-        img: json["img"],
+        img: json["imgCdn"],
         imgCdn: json["imgCdn"],
       //  products: List<ScheduleDataProduct>.from(json["products"].map((x)=>ScheduleDataProduct.fromJson(x))),
         product: ScheduleDataProduct.fromJson(json["product"]),
@@ -65,7 +65,7 @@ class ScheduleDataProduct {
      ScheduleDataProduct(
        imgCdn: json["imgCdn"],
        id: json["id"],
-       img: json["img"],
+       img: json["imgCdn"],
        name: json["name"],
        slug: json["slug"],
        price: double.parse(json["price"].toString()),

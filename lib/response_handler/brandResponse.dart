@@ -69,7 +69,7 @@ class BrandData {
           featured: json["featured"] ?? null,
           slug: json["slug"] ?? null,
           position: json["position"] ?? null,
-          img: json["img"] ?? null,
+          img: json["imgCdn"] ?? null,
           facebookUrl: json["facebookUrl"] ?? null,
           instaUrl: json["instaUrl"] ?? null,
           twitterUrl: json["twitterUrl"] ?? null,

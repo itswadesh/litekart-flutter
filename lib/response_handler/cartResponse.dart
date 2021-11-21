@@ -51,7 +51,7 @@ class CartData {
 
   factory CartData.fromJson(Map<String, dynamic> json) => CartData(
       name: json["name"],
-      img: json["img"],
+      img: json["imgCdn"],
       pid: json["pid"],
       slug: json["slug"],
       options: json["options"],

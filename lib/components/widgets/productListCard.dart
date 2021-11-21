@@ -25,12 +25,12 @@ class ProductListCard extends StatefulWidget {
 }
 
 class _ProductListCard extends State<ProductListCard> {
-  late ProductListData item;
-  bool imageStatus = true;
+   ProductListData? item;
+ // bool imageStatus = true;
   @override
   void initState() {
     item = ProductListData.fromJson(widget.item);
-    log("product list "+item.imgCdn.toString());
+   // log("product list "+item.imgCdn.toString());
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _ProductListCard extends State<ProductListCard> {
       child: InkWell(
         onTap: () async {
           locator<NavigationService>()
-              .pushNamed(routes.ProductDetailRoute, args: item.id);
+              .pushNamed(routes.ProductDetailRoute, args: item!.id);
           // Navigator.of(context).push(
           //     MaterialPageRoute(builder: (context) => ProductDetail(item.id)));
         },
@@ -94,7 +94,7 @@ class _ProductListCard extends State<ProductListCard> {
                     // ),
                      FadeInImage.assetNetwork(
                       placeholder: "assets/images/loading.gif",
-                      image: item.imgCdn,
+                      image: item!.imgCdn??"",
                       imageErrorBuilder: ((context,object,stackTrace){
 
                         return Image.asset("assets/images/logo.png", height: ScreenUtil().setWidth(203),
@@ -194,7 +194,7 @@ class _ProductListCard extends State<ProductListCard> {
                       //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //     children: [
                             Text(
-                              item.brand == null ? "" : (item.brand ?? ""),
+                              item!.brand == null ? "" : (item!.brand ?? ""),
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(
                                   16,
@@ -213,7 +213,7 @@ class _ProductListCard extends State<ProductListCard> {
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15),
                             0, ScreenUtil().setWidth(15), 0),
-                        child: Text(item.name!,
+                        child: Text(item!.name!,
                             style: TextStyle(
                                 color: Color(0xff7f7f7f),
                                 fontSize: ScreenUtil().setSp(
@@ -231,7 +231,7 @@ class _ProductListCard extends State<ProductListCard> {
                           width: ScreenUtil().setWidth(15),
                         ),
                         Text(
-                          "${store!.currencySymbol} " + item.price.toString() + " ",
+                          "${store!.currencySymbol} " + item!.price.toString() + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -239,9 +239,9 @@ class _ProductListCard extends State<ProductListCard> {
                               fontWeight: FontWeight.w600,
                               color: Color(0xff4a4a4a)),
                         ),
-                        item.price! < item.mrp!
+                        item!.price! < item!.mrp!
                             ? Text(
-                                " ${store!.currencySymbol} " + item.mrp.toString(),
+                                " ${store!.currencySymbol} " + item!.mrp.toString(),
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(
@@ -250,9 +250,9 @@ class _ProductListCard extends State<ProductListCard> {
                                     color: Color(0xff4a4a4a)),
                               )
                             : Container(),
-                        item.price! < item.mrp!
+                        item!.price! < item!.mrp!
                             ? Text(
-                                " (${(100 - ((item.price! / item.mrp!) * 100)).toInt()} % off)",
+                                " (${(100 - ((item!.price! / item!.mrp!) * 100)).toInt()} % off)",
                                 style: TextStyle(
                                     color: AppColors.primaryElement2,
                                     fontSize: ScreenUtil().setSp(

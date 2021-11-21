@@ -347,9 +347,9 @@ class _ProductList extends State<ProductList> {
                     ScreenUtil().setWidth(183) / ScreenUtil().setWidth(255),
                 crossAxisCount: 2),
             pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, dynamic item, index) =>
-                    ProductListCard(item ?? ProductListData(images: [],imgCdn: "")),
+            builderDelegate:  PagedChildBuilderDelegate(
+                itemBuilder: (context, item, index) =>
+                    ProductListCard(item??ProductListData(images: [], imgCdn: "")),
                 // firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
                 //   error: _pagingController.error,
                 //   onTryAgain: () => _pagingController.refresh(),
@@ -374,20 +374,19 @@ class _ProductList extends State<ProductList> {
     var response;
     response = await productsRepository.fetchProductList(
         categoryName, searchText.text, brand, color, size, gender,priceRange,ageGroup,discount,page, parentBrand,brandId,urlLink,sort);
-   // log(response.toString());
+    log(response.toString());
     if (response.statusCode == 200) {
       try {
+          count = response.data["count"] ?? 0;
+          facet = response.data["facets"];
 
-        count = response.data["count"]??0;
-        facet = response.data["facets"];
-
-        final isLastPage = response.data["data"].length < 40;
-        if (isLastPage) {
-          _pagingController.appendLastPage(response.data["data"]);
-        } else {
-          final nextPageKey = pageKey + response.data["data"].length;
-          _pagingController.appendPage(response.data["data"], nextPageKey);
-        }
+          final isLastPage = response.data["data"].length < 40;
+          if (isLastPage) {
+            _pagingController.appendLastPage(response.data["data"]);
+          } else {
+            final nextPageKey = pageKey + response.data["data"].length;
+            _pagingController.appendPage(response.data["data"], nextPageKey);
+          }
       } catch (error) {
 
         _pagingController.error = error;

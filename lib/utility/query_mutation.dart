@@ -183,6 +183,7 @@ class QueryMutation {
         id
         name
         img
+        imgCdn
         slug
         price
         mrp
@@ -191,6 +192,7 @@ class QueryMutation {
         id
         name
         img
+        imgCdn
         slug
         price
         mrp
@@ -840,6 +842,7 @@ getOtp(phone: \$phone){
   mrp
   stock
   img
+  imgCdn
   images
   time
   active
@@ -1347,6 +1350,7 @@ getOtp(phone: \$phone){
       name
       slug
       img
+      imgCdn
       qty
       price
       vendor {
@@ -2059,6 +2063,7 @@ getOtp(phone: \$phone){
       name
       slug
       img
+      imgCdn
       position
       meta
       metaTitle
@@ -2092,6 +2097,7 @@ getOtp(phone: \$phone){
       name
       slug
       img
+      imgCdn
       position
       meta
       metaTitle
@@ -2142,6 +2148,7 @@ getOtp(phone: \$phone){
       name
       slug
       img
+      imgCdn
       position
       meta
       metaTitle
@@ -2702,51 +2709,61 @@ getOtp(phone: \$phone){
     name
     slug
     img
+    imgCdn
     featured
     children {
       name
       slug
       img
+      imgCdn
       featured
       children {
         name
         slug
         img
+        imgCdn
         featured
         children {
           name
           slug
           img
+          imgCdn
           featured
           children {
             name
             slug
             img
+            imgCdn
             featured
             children {
               name
               slug
               img
+              imgCdn
               featured
               children {
                 name
                 slug
                 img
+                imgCdn
                 featured
                 children {
                   name
                   slug
                   img
+                  imgCdn
                   featured
                   children {
                     name
                     slug
                     img
+                    imgCdn
                     featured
                     children {
                       name
                       slug
                       img
+                      imgCdn
                       featured
                       __typename
                     }
