@@ -585,10 +585,10 @@ class _ProductDetail extends State<ProductDetail>
                                                                 .radius(15)),
                                                         padding:EdgeInsets.only(
                                                             right: ScreenUtil()
-                                                                .setWidth(5),left:ScreenUtil()
-                                                            .setWidth(5)),
+                                                                .setWidth(8),left:ScreenUtil()
+                                                            .setWidth(8)),
                                                         height: ScreenUtil()
-                                                            .radius(45),
+                                                            .radius(40),
                                                         child: Center(
                                                           child: Text(
                                                             productGroup
@@ -638,7 +638,7 @@ class _ProductDetail extends State<ProductDetail>
                                                                   : ScreenUtil()
                                                                       .setWidth(
                                                                           1)),
-                                                                borderRadius: BorderRadius.circular(8)
+                                                                borderRadius: BorderRadius.circular(12)
                                                           // shape:
                                                           //     BoxShape.circle,
                                                         )));
@@ -703,10 +703,10 @@ class _ProductDetail extends State<ProductDetail>
                                                               .radius(15)),
                                                       padding:EdgeInsets.only(
                                                           right: ScreenUtil()
-                                                              .setWidth(5),left:ScreenUtil()
-                                                          .setWidth(5)),
+                                                              .setWidth(8),left:ScreenUtil()
+                                                          .setWidth(8)),
                                                       height: ScreenUtil()
-                                                          .radius(45),
+                                                          .radius(40),
                                                       decoration:
                                                           new BoxDecoration(
                                                         border: Border.all(
@@ -734,7 +734,7 @@ class _ProductDetail extends State<ProductDetail>
                                                                 : ScreenUtil()
                                                                     .setWidth(
                                                                         1)),
-                                                        borderRadius: BorderRadius.circular(8)
+                                                        borderRadius: BorderRadius.circular(12)
                                                         // shape: BoxShape.circle,
                                                       ),
                                                       child: Center(

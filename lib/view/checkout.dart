@@ -2496,13 +2496,15 @@ class _Checkout extends State<Checkout> {
             style: TextStyle(
                 color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
           ),
-
+          SizedBox(
+            width: ScreenUtil().setWidth(214),
+          ),
           Container(
             child: Row(
               children: [
                 Container(
-                    height: ScreenUtil().setWidth(18),
-                    width: ScreenUtil().setWidth(32),
+                    height: ScreenUtil().setWidth(22),
+                    width: ScreenUtil().setWidth(40),
                     child: Image.network(
                       stripeImage,
                     )),
@@ -2557,8 +2559,8 @@ class _Checkout extends State<Checkout> {
             child: Row(
               children: [
                 Container(
-                    height: ScreenUtil().setWidth(18),
-                    width: ScreenUtil().setWidth(32),
+                    height: ScreenUtil().setWidth(22),
+                    width: ScreenUtil().setWidth(40),
                     child: Image.network(
                       paypalImage,
                     )),
