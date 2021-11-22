@@ -8,7 +8,7 @@ class CartViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   String? status = "loading";
   String? statusPromo = "loading";
-  int? cartCount = 0;
+  int? _cartCount = 0;
   CartResponse? _cartResponse;
   CouponResponse? _couponResponse;
   bool? promocodeStatus = false;
@@ -16,6 +16,10 @@ class CartViewModel with ChangeNotifier {
   CartRepository cartRepository = CartRepository();
   CartResponse? get cartResponse {
     return _cartResponse;
+  }
+
+  int? get cartCount {
+    return _cartCount;
   }
 
   CouponResponse? get couponResponse {
@@ -27,7 +31,7 @@ class CartViewModel with ChangeNotifier {
     status = resultData["status"];
     if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
-      cartCount = _cartResponse!.qty;
+      _cartCount = _cartResponse!.qty;
       if (_cartResponse!.discount != null) {
         promocode = _cartResponse!.discount!.code ?? "";
         if (promocode != "") {
@@ -43,11 +47,11 @@ class CartViewModel with ChangeNotifier {
     status = resultData["status"];
     if (status == "empty") {
       _cartResponse = null;
-      cartCount = 0;
+      _cartCount = 0;
     }
     if (status == "completed") {
       _cartResponse = CartResponse.fromJson(resultData["value"]);
-      cartCount = _cartResponse!.qty;
+      _cartCount = _cartResponse!.qty;
       if (_cartResponse!.discount != null) {
         promocode = _cartResponse!.discount!.code ?? "";
         if (promocode != "") {
@@ -77,7 +81,7 @@ class CartViewModel with ChangeNotifier {
     promocodeStatus = false;
     promocode = "";
     status = statusData;
-    cartCount = 0;
+    _cartCount = 0;
     notifyListeners();
   }
 

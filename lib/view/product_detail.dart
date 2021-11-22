@@ -583,10 +583,27 @@ class _ProductDetail extends State<ProductDetail>
                                                         margin: EdgeInsets.only(
                                                             right: ScreenUtil()
                                                                 .radius(15)),
-                                                        width: ScreenUtil()
-                                                            .radius(45),
+                                                        padding:EdgeInsets.only(
+                                                            right: ScreenUtil()
+                                                                .setWidth(5),left:ScreenUtil()
+                                                            .setWidth(5)),
                                                         height: ScreenUtil()
                                                             .radius(45),
+                                                        child: Center(
+                                                          child: Text(
+                                                            productGroup
+                                                                .colorGroup![index]
+                                                                .color!
+                                                                .name!,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff707070),
+                                                                fontSize:
+                                                                ScreenUtil()
+                                                                    .setSp(
+                                                                    15)),
+                                                          ),
+                                                        ),
                                                         decoration:
                                                             new BoxDecoration(
                                                           color: Color(
@@ -621,8 +638,9 @@ class _ProductDetail extends State<ProductDetail>
                                                                   : ScreenUtil()
                                                                       .setWidth(
                                                                           1)),
-                                                          shape:
-                                                              BoxShape.circle,
+                                                                borderRadius: BorderRadius.circular(8)
+                                                          // shape:
+                                                          //     BoxShape.circle,
                                                         )));
                                               }))
                                       : SizedBox.shrink(),
@@ -683,8 +701,10 @@ class _ProductDetail extends State<ProductDetail>
                                                       margin: EdgeInsets.only(
                                                           right: ScreenUtil()
                                                               .radius(15)),
-                                                      width: ScreenUtil()
-                                                          .radius(45),
+                                                      padding:EdgeInsets.only(
+                                                          right: ScreenUtil()
+                                                              .setWidth(5),left:ScreenUtil()
+                                                          .setWidth(5)),
                                                       height: ScreenUtil()
                                                           .radius(45),
                                                       decoration:
@@ -714,7 +734,8 @@ class _ProductDetail extends State<ProductDetail>
                                                                 : ScreenUtil()
                                                                     .setWidth(
                                                                         1)),
-                                                        shape: BoxShape.circle,
+                                                        borderRadius: BorderRadius.circular(8)
+                                                        // shape: BoxShape.circle,
                                                       ),
                                                       child: Center(
                                                         child: Text(

@@ -1176,7 +1176,8 @@ class ApiProvider {
       "sort": sort,
       "page": page,
       "parentBrands": parentBrand + pb,
-      "store": store!.id
+      "store": store!.id,
+      "limit":20
       // "brand": bi
     });
     log(response.realUri.toString());

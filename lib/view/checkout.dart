@@ -131,6 +131,8 @@ class _Checkout extends State<Checkout> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
  // var stripeInstance = stripe.StripePlatform.instance;
   List methodList = [];
+  String stripeImage = "";
+  String paypalImage = "";
   @override
   void initState() {
     _dropdownMonthItems = buildDropDownMenuItems(_dropdownMonth);
@@ -2495,18 +2497,18 @@ class _Checkout extends State<Checkout> {
                 color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
           ),
 
-          // Container(
-          //   child: Row(
-          //     children: [
-          //       Container(
-          //           height: ScreenUtil().setWidth(18),
-          //           width: ScreenUtil().setWidth(32),
-          //           child: Image.asset(
-          //             "assets/images/paypal.png",
-          //           )),
-          //     ],
-          //   ),
-          // ),
+          Container(
+            child: Row(
+              children: [
+                Container(
+                    height: ScreenUtil().setWidth(18),
+                    width: ScreenUtil().setWidth(32),
+                    child: Image.network(
+                      stripeImage,
+                    )),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -2557,8 +2559,8 @@ class _Checkout extends State<Checkout> {
                 Container(
                     height: ScreenUtil().setWidth(18),
                     width: ScreenUtil().setWidth(32),
-                    child: Image.asset(
-                      "assets/images/paypal.png",
+                    child: Image.network(
+                      paypalImage,
                     )),
               ],
             ),
@@ -3391,6 +3393,12 @@ class _Checkout extends State<Checkout> {
     var result = await paymentRepository.fetchPaymentMethods();
     for(int i=0;i<result["value"]["data"].length;i++){
       methodList.insert(i,result["value"]["data"][i]["name"]);
+      if(result["value"]["data"][i]["name"]=="Stripe"){
+        stripeImage = result["value"]["data"][i]["imgCdn"];
+      }
+      if(result["value"]["data"][i]["name"]=="Paypal"){
+        paypalImage = result["value"]["data"][i]["imgCdn"];
+      }
     }
     if(methodList.contains("Stripe")){
       paymentMethod = "credit";

@@ -11,7 +11,10 @@ class OnboardingViewModel extends ChangeNotifier {
   Future<void> getStarted() async {
     bool result = await _initChat();
     if (result) {
-      _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);
+      if (settingData!.otpLogin!) { _navigationService!.pushNamedAndRemoveUntil(routes.LoginRoute);}
+      else{
+        _navigationService!.pushNamedAndRemoveUntil(routes.EmailLoginRoute);
+      }
     }
   }
 
