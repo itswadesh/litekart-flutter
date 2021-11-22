@@ -9,4 +9,6 @@
  -keep class com.google.firebase.** { *; }
  -keep class **.zego.**{*;}
  -dontwarn io.flutter.embedding.**
+ -keep class com.netease.lava.** {*;}
+ -keep class com.netease.yunxin.** {*;}
  -ignorewarnings
