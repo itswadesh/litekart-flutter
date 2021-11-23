@@ -380,7 +380,7 @@ class _ProductList extends State<ProductList> {
           count = response.data["count"] ?? 0;
           facet = response.data["facets"];
 
-          final isLastPage = response.data["data"].length > 0;
+          final isLastPage = response.data["data"].length < 40;
           if (isLastPage) {
             _pagingController.appendLastPage(response.data["data"]);
           } else {
