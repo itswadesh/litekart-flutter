@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:anne/utility/api_endpoint.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/graphQl.dart';
 import '../../utility/locator.dart';
@@ -241,9 +243,10 @@ class _EmailLoginState extends State<EmailLogin> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: (){
-                        locator<NavigationService>()
-                            .pushReplacementNamed(routes.RegisterRoute);
+                      onTap: () async{
+                        if (!await launch(apiEndpoint.url!+"/account/forgot-password")) throw 'Could not launch Forgot Password URL';
+                        // locator<NavigationService>()
+                        //     .pushReplacementNamed(routes.RegisterRoute);
                       },
                       child: Text("Forgot Password",style: TextStyle(color: Colors.blue),),
                     )
