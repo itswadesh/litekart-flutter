@@ -1,5 +1,10 @@
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
+import 'package:anne/view_model/address_view_model.dart';
+import 'package:anne/view_model/cart_view_model.dart';
+import 'package:anne/view_model/manage_order_view_model.dart';
+import 'package:anne/view_model/schedule_view_model.dart';
+import 'package:anne/view_model/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -115,6 +120,11 @@ class _MyProfileState extends State<MyProfile> {
                                 InkWell(
                                   onTap: () async {
                                    await value.removeProfile();
+                                   Provider.of<AddressViewModel>(context,listen: false).changeStatus("loading");
+                                   Provider.of<WishlistViewModel>(context,listen: false).changeStatus("loading");
+                                   Provider.of<OrderViewModel>(context,listen: false).refreshOrderPage();
+                                   Provider.of<ScheduleViewModel>(context,listen: false).changeStatus("loading");
+                                   Provider.of<CartViewModel>(context,listen: false).changeStatus("loading");
                                    locator<NavigationService>().pushNamedAndRemoveUntil(routes.HomeRoute);
                                   },
                                   child: Container(

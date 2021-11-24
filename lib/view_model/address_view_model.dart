@@ -50,6 +50,7 @@ class AddressViewModel with ChangeNotifier {
   }
 
   changeStatus(statusData) {
+    _selectedAddress = null;
     status = statusData;
     notifyListeners();
   }
