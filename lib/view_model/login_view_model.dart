@@ -170,7 +170,7 @@ class RegisterViewModel extends ChangeNotifier{
         await addCookieToSF(token);
         _dialog.close();
       } else {
-        errorMessage = result.exception!.graphqlErrors.toString();
+        errorMessage = result.exception!.graphqlErrors[0].message.toString();
         _dialog.close();
       }
     // } catch (e) {
