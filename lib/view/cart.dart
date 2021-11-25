@@ -1101,7 +1101,7 @@ class _CartCard extends State<CartCard> {
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(16)),
                           ),
-                          SizedBox(width: 3,),
+                          SizedBox(width: 5,),
                           cartData.qty != 0
                               ? new InkWell(
                                   onTap: () async {
@@ -1152,15 +1152,17 @@ class _CartCard extends State<CartCard> {
                                               color: Color(0xff707070),
                                               width:
                                                   ScreenUtil().setWidth(0.5))),
-                                      shape: BoxShape.circle,
+                                      borderRadius: BorderRadius.circular(5)
+                                      //  shape: BoxShape.circle,
                                     ),
-                                    child: Center(
-                                        child: Text(
-                                      "-",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(15))
-                                            ,textAlign: TextAlign.center
-                                    )),
+                                    child:Icon(Icons.remove,size: 13,),
+                                    // child: Center(
+                                    //     child: Text(
+                                    //   "-",
+                                    //   style: TextStyle(
+                                    //       fontSize: ScreenUtil().setSp(15))
+                                    //         ,textAlign: TextAlign.center
+                                    // )),
                                   )
                           )
                               : new Container(),
@@ -1198,8 +1200,8 @@ class _CartCard extends State<CartCard> {
                                 //     0,
                                 //     ScreenUtil().setWidth(6),
                                 //     0),
-                                width: ScreenUtil().radius(24),
-                                height: ScreenUtil().radius(24),
+                                width: ScreenUtil().setWidth(24),
+                                height: ScreenUtil().setWidth(24),
                                // padding: EdgeInsets.only(bottom: 3),
                                 decoration: new BoxDecoration(
                                   color: Color(0xffefefef),
@@ -1216,13 +1218,15 @@ class _CartCard extends State<CartCard> {
                                       right: BorderSide(
                                           color: Color(0xff707070),
                                           width: ScreenUtil().setWidth(0.5))),
-                                  shape: BoxShape.circle,
+                                    borderRadius: BorderRadius.circular(5)
+                                 // shape: BoxShape.circle,
                                 ),
-                                child: Center(
-                                  child: Text("+",
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(15)),textAlign: TextAlign.center,),
-                                ),
+                                //child: Center(
+                                  child: Icon(Icons.add,size: 14,)
+                                  // Text("+",
+                                  //     style: TextStyle(
+                                  //         fontSize: ScreenUtil().setSp(15)),textAlign: TextAlign.center,),
+                               // ),
                               )
     )
                         ]),

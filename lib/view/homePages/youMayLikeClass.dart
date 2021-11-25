@@ -83,7 +83,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
             Container(
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(0), 0, ScreenUtil().setWidth(0), 0),
-              height: ScreenUtil().setWidth(303),
+              height: ScreenUtil().setWidth(289),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: value.productYouMayLikeResponse!.data!.length,

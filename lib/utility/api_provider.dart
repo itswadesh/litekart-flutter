@@ -292,6 +292,7 @@ class ApiProvider {
   // Address Apis
 
   fetchAddressData() async {
+
     Map responseData;
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client1 = graphQLConfiguration.clientToQuery();

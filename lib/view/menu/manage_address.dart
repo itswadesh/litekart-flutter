@@ -161,7 +161,7 @@ class _ManageAddressState extends State<ManageAddress> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Add New Address",
+                              "Save Address",
                               style: TextStyle(
                                   fontSize: ScreenUtil().setSp(
                                     17,
@@ -677,7 +677,7 @@ class _ManageAddressState extends State<ManageAddress> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Add New Address",
+                            "Save Address",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.primaryElement,

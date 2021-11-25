@@ -78,7 +78,7 @@ class _SuggestedClass extends State<SuggestedClass> {
             Container(
               padding: EdgeInsets.fromLTRB(
                   0, 0, 0, 0),
-              height: ScreenUtil().setWidth(303),
+              height: ScreenUtil().setWidth(289),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: value.productSuggestedResponse!.data!.length,

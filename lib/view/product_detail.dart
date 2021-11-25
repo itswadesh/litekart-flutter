@@ -599,7 +599,11 @@ class _ProductDetail extends State<ProductDetail>
                                                                 .name!,
                                                             style: TextStyle(
                                                                 color: Color(
-                                                                    0xff707070),
+                                                                    productGroup
+                                                                        .colorGroup![
+                                                                    index]
+                                                                        .color!
+                                                                        .colorCode!),
                                                                 fontSize:
                                                                 ScreenUtil()
                                                                     .setSp(
@@ -608,12 +612,12 @@ class _ProductDetail extends State<ProductDetail>
                                                         ),
                                                         decoration:
                                                             new BoxDecoration(
-                                                          color: Color(
-                                                              productGroup
-                                                                  .colorGroup![
-                                                                      index]
-                                                                  .color!
-                                                                  .colorCode!),
+                                                          // color: Color(
+                                                          //     productGroup
+                                                          //         .colorGroup![
+                                                          //             index]
+                                                          //         .color!
+                                                          //         .colorCode!),
                                                           border: Border.all(
                                                               color: productGroup
                                                                           .colorGroup![

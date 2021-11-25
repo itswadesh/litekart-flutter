@@ -30,32 +30,33 @@ class MegaMenuResponse {
         img: json["imgCdn"]??null,
         slug: json["slug"],
         featured: json["featured"],
-        children: json["children"].length != 0
+        children: json["children"]!=null && json["children"].length != 0
             ? List<MegaMenuChildren1>.from(
                 json["children"].map((x) => MegaMenuChildren1.fromJson(x)))
-            : [MegaMenuChildren1()],
+            : [MegaMenuChildren1(img: "",slug: "",name: "",children: [],featured: true)],
       );
 }
 
 class MegaMenuChildren1 {
-  String? name;
-  String? slug;
-  String? img;
-  bool? featured;
-  List<MegaMenuChildren2>? children;
+  String name;
+  String slug;
+  String img;
+  bool featured;
+  List<MegaMenuChildren2> children;
 
   MegaMenuChildren1(
-      {this.img, this.slug, this.name, this.children, this.featured});
+      {required this.img,required this.slug,required this.name,required this.children,required this.featured});
 
   factory MegaMenuChildren1.fromJson(Map<String, dynamic> json) =>
       MegaMenuChildren1(
-        name: json["name"],
-        img: json["imgCdn"],
+        name: json["name"]??"",
+        img: json["imgCdn"]??"",
+        slug: json["slug"]??"",
         featured: json["featured"],
-        children: json["children"].length != 0
+        children: json["children"]!=null && json["children"].length != 0
             ? List<MegaMenuChildren2>.from(
                 json["children"].map((x) => MegaMenuChildren2.fromJson(x)))
-            : [MegaMenuChildren2()],
+            : [],
       );
 }
 

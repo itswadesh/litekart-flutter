@@ -95,10 +95,10 @@ class _MyProfileState extends State<MyProfile> {
                                    // Transform.translate(offset: Offset(0,ScreenUtil().setWidth(18)),
                                       //child:
                                      Column(children:[
-                                       SizedBox(height: ScreenUtil().setWidth(60),),
+                                       SizedBox(height: ScreenUtil().setWidth(70),),
                                        Container(
                                         width: ScreenUtil().setWidth(250),
-                                        child: Text(value.user!.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(18),fontWeight: FontWeight.w600),)
+                                        child: Text(value.user!.firstName??"User",style: TextStyle(fontSize: ScreenUtil().setWidth(20),fontWeight: FontWeight.w600),)
                           ),
                                      ]
                               )
