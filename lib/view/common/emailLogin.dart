@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'login.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import '../../main.dart';
 
 class EmailLogin extends StatefulWidget {
   @override
@@ -244,7 +245,7 @@ class _EmailLoginState extends State<EmailLogin> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if (!await launch(apiEndpoint.url!+"/account/forgot-password")) throw 'Could not launch Forgot Password URL';
+                        if (!await launch(store!.domain!+"/account/forgot-password")) throw 'Could not launch Forgot Password URL';
                         // locator<NavigationService>()
                         //     .pushReplacementNamed(routes.RegisterRoute);
                       },

@@ -320,21 +320,37 @@ class _RegisterState extends State<Register> {
               ),
               InkWell(
                 onTap: () async {
-                  _focusNode!.unfocus();
-                  await model.register(_emailController.text,_passwordController.text,_cPasswordController.text,_firstNameController.text,_lastNameController.text);
-                  if (model.registerStatus) {
-                    token = tempToken!;
-                    await Provider.of<ProfileModel>(context, listen: false)
-                        .getProfile();
-                    await Provider.of<CartViewModel>(context, listen: false)
-                        .changeStatus("loading");
-                    locator<NavigationService>()
-                        .pushNamedAndRemoveUntil(routes.HomeRoute);
-                  } else {
+                  if(_emailController.text==null || _emailController.text==""){
                     final snackBar = SnackBar(
-                      content: Text(model.errorMessage),
+                      content: Text("Please Add Email Address"),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  else if(_passwordController.text==null || _passwordController.text=="" || _cPasswordController.text==null || _cPasswordController.text=="" || _cPasswordController.text!=_passwordController.text){
+                    final snackBar = SnackBar(
+                      content: Text("Please Add Matching Password and Confirm Password"),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  else {
+                    _focusNode!.unfocus();
+                    await model.register(_emailController.text,
+                        _passwordController.text, _cPasswordController.text,
+                        _firstNameController.text??"", _lastNameController.text??"");
+                    if (model.registerStatus) {
+                      token = tempToken!;
+                      await Provider.of<ProfileModel>(context, listen: false)
+                          .getProfile();
+                      await Provider.of<CartViewModel>(context, listen: false)
+                          .changeStatus("loading");
+                      locator<NavigationService>()
+                          .pushNamedAndRemoveUntil(routes.HomeRoute);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: Text(model.errorMessage),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   }
                 },
                 child: Container(
