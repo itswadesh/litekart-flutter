@@ -510,7 +510,7 @@ class ApiProvider {
               'store': store!.id
             }),
       );
-      log(resultLink.toString());
+      print(resultLink.toString());
       if (!resultLink.hasException && resultLink.data!=null && resultLink.data!['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
