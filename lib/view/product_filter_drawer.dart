@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../service/event/tracking.dart';
-import '../../values/event_constant.dart';
 
-typedef FilterValue = Function(List, List, List, List, List, List, List);
+
+typedef FilterValue = Function(List, List, List, List, String, String, String);
 
 class ProductFilterDrawer extends StatefulWidget {
   final facet;
@@ -41,9 +42,9 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
   List color = [];
   List size = [];
   List gender = [];
-  List priceRange = [];
-  List ageGroup = [];
-  List discount = [];
+  String priceRange = "";
+  String ageGroup = "";
+  String discount = "";
   var current = "Brand";
 
   @override
@@ -68,17 +69,17 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         height: ScreenUtil().setWidth(420),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-          topRight: Radius.circular(ScreenUtil().setWidth(25)),
-        )),
+              topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+              topRight: Radius.circular(ScreenUtil().setWidth(25)),
+            )),
         child: Column(
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-                topRight: Radius.circular(ScreenUtil().setWidth(25)),
-              )),
+                    topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+                    topRight: Radius.circular(ScreenUtil().setWidth(25)),
+                  )),
               child: _createHeader(),
             ),
             Row(
@@ -127,21 +128,15 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                         color: Color(0xffffffff),
                         child: Center(
                             child: Text(
-                          "CLOSE",
-                          style: TextStyle(
-                              color: Color(0xff616161),
-                              fontSize: ScreenUtil().setSp(16)),
-                        ))),
+                              "CLOSE",
+                              style: TextStyle(
+                                  color: Color(0xff616161),
+                                  fontSize: ScreenUtil().setSp(16)),
+                            ))),
                   ),
                   InkWell(
                     onTap: () {
-                      Map<String, dynamic> data = {
-                        "id": EVENT_PRODUCT_LIST_FILTERS,
-                        "filters": widget.callback(brand, color, size, gender,
-                            priceRange, ageGroup, discount),
-                        "event": "selected-filters"
-                      };
-                      Tracking(event: EVENT_PRODUCT_LIST_FILTERS, data: data);
+
                       widget.callback(brand, color, size, gender, priceRange,
                           ageGroup, discount);
                       Navigator.of(context).pop();
@@ -167,9 +162,9 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(ScreenUtil().setWidth(25)),
-          topRight: Radius.circular(ScreenUtil().setWidth(25)),
-        )),
+              topLeft: Radius.circular(ScreenUtil().setWidth(25)),
+              topRight: Radius.circular(ScreenUtil().setWidth(25)),
+            )),
         height: ScreenUtil().setWidth(56),
         child: Center(
           child: Container(
@@ -189,9 +184,9 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                       color = [];
                       size = [];
                       gender = [];
-                      priceRange = [];
-                      ageGroup = [];
-                      discount = [];
+                      priceRange = "";
+                      ageGroup = "";
+                      discount = "";
                       widget.callback(brand, color, size, gender, priceRange,
                           ageGroup, discount);
                       Navigator.of(context).pop();
@@ -217,49 +212,44 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["brands"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
-              widget.facet["all_aggs"]["brands"]["all"]["buckets"][index];
+          widget.facet["all_aggs"]["brands"]["all"]["buckets"][index];
 
-          return Container(
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
               child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.brand,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (brand.contains(item["key"])) {
-                setState(() {
-                  brand.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  brand.add(item["key"]);
-                });
-              }
-            },
-            trailing: brand.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: brand.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+                onTap: () {
+
+                  if (brand.contains(item["key"])) {
+                    setState(() {
+                      brand.remove(item["key"]);
+                    });
+                  } else {
+                    setState(() {
+                      brand.add(item["key"]);
+                    });
+                  }
+                },
+                trailing: brand.contains(item["key"])
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: brand.contains(item["key"])
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -272,49 +262,44 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["colors"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
-              widget.facet["all_aggs"]["colors"]["all"]["buckets"][index];
+          widget.facet["all_aggs"]["colors"]["all"]["buckets"][index];
 
-          return Container(
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
-          child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.color,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (color.contains(item["key"])) {
-                setState(() {
-                  color.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  color.add(item["key"]);
-                });
-              }
-            },
-            trailing: color.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: color.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              child: ListTile(
+                onTap: () {
+
+                  if (color.contains(item["key"])) {
+                    setState(() {
+                      color.remove(item["key"]);
+                    });
+                  } else {
+                    setState(() {
+                      color.add(item["key"]);
+                    });
+                  }
+                },
+                trailing: color.contains(item["key"])
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: color.contains(item["key"])
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -327,48 +312,43 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["sizes"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["sizes"]["all"]["buckets"][index];
-
-          return Container(
+          log(item.toString());
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
-          child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.size,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (size.contains(item["key"])) {
-                setState(() {
-                  size.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  size.add(item["key"]);
-                });
-              }
-            },
-            trailing: size.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: size.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              child: ListTile(
+                onTap: () {
+
+                  if (size.contains(item["key"])) {
+                    setState(() {
+                      size.remove(item["key"]);
+                    });
+                  } else {
+                    setState(() {
+                      size.add(item["key"]);
+                    });
+                  }
+                },
+                trailing: size.contains(item["key"])
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: size.contains(item["key"])
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -401,7 +381,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         child:  brandFetch(),
       );
     }
-   else if (current == "Color") {
+    else if (current == "Color") {
       return Container(
         height: ScreenUtil().setWidth(412),
         child: colorFetch(),
@@ -450,53 +430,48 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return ListView.builder(
-      padding: EdgeInsets.only(top: 0, bottom: 0),
+        padding: EdgeInsets.only(top: 0, bottom: 0),
         itemCount: widget.facet["all_aggs"]["genders"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item =
-              widget.facet["all_aggs"]["genders"]["all"]["buckets"][index];
-
-          return Container(
+          widget.facet["all_aggs"]["genders"]["all"]["buckets"][index];
+          log(item.toString());
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
-          child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.gender,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (gender.contains(item["key"])) {
-                setState(() {
-                  gender.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  gender.add(item["key"]);
-                });
-              }
-            },
-            trailing: gender.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: gender.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              child: ListTile(
+                onTap: () {
+
+                  if (gender.contains(item["key"])) {
+                    setState(() {
+                      gender.remove(item["key"]);
+                    });
+                  } else {
+                    setState(() {
+                      gender.add(item["key"]);
+                    });
+                  }
+                },
+                trailing: gender.contains(item["key"])
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: gender.contains(item["key"])
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -509,48 +484,41 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemCount: widget.facet["all_aggs"]["price"]["all"]["buckets"].length,
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["price"]["all"]["buckets"][index];
-
-          return Container(
+          log(item.toString());
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
-          child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.priceRange,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (priceRange.contains(item["key"])) {
-                setState(() {
-                  priceRange.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  priceRange.add(item["key"]);
-                });
-              }
-            },
-            trailing: priceRange.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: priceRange.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              child: ListTile(
+                onTap: () {
+
+                  if (priceRange == item["from"].toString()+","+item["to"].toString()) {
+
+                  } else {
+                    setState(() {
+                      priceRange = item["from"].toString()+","+item["to"].toString();
+                    });
+                  }
+                },
+                trailing: priceRange==item["from"].toString()+","+item["to"].toString()
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: priceRange==item["value"]
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -564,47 +532,42 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["age"]["all"]["buckets"][index];
 
-          return Container(
+          return item['doc_count']>0? Container(
               height: ScreenUtil().setWidth(50),
-          child: ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.ageGroup,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (ageGroup.contains(item["key"])) {
-                setState(() {
-                  ageGroup.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  ageGroup.add(item["key"]);
-                });
-              }
-            },
-            trailing: ageGroup.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: ageGroup.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              child: ListTile(
+                onTap: () {
+
+                  if (ageGroup==item["key"]) {
+                    // setState(() {
+                    //   ageGroup.remove(item["key"]);
+                    // });
+                  } else {
+                    setState(() {
+                      ageGroup=item["from"].toString()+","+item["to"].toString();
+                    });
+                  }
+                },
+                trailing: ageGroup==item["from"].toString()+","+item["to"].toString()
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: ageGroup==item["from"].toString()+","+item["to"].toString()
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          ));
+              )):Container();
         });
   }
 
@@ -614,53 +577,48 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
     //TextEditingController _brand = TextEditingController();
     return Container(
         height: ScreenUtil().setWidth(50),
-    child: ListView.builder(
-        padding: EdgeInsets.only(top: 0, bottom: 0),
-        itemCount:
+        child: ListView.builder(
+            padding: EdgeInsets.only(top: 0, bottom: 0),
+            itemCount:
             widget.facet["all_aggs"]["discount"]["all"]["buckets"].length,
-        itemBuilder: (BuildContext context, index) {
-          var item =
+            itemBuilder: (BuildContext context, index) {
+              var item =
               widget.facet["all_aggs"]["discount"]["all"]["buckets"][index];
 
-          return ListTile(
-            onTap: () {
-              Map<String, dynamic> data = {
-                "id": "EVENT_PRODUCT_LIST_SORTED_BY",
-                "sortedBy": widget.discount,
-                "event": "sorted-by"
-              };
-              Tracking(event: EVENT_PRODUCT_LIST_SORTED_BY, data: data);
-              if (discount.contains(item["key"])) {
-                setState(() {
-                  discount.remove(item["key"]);
-                });
-              } else {
-                setState(() {
-                  discount.add(item["key"]);
-                });
-              }
-            },
-            trailing: discount.contains(item["key"])
-                ? Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.primaryElement,
-                  )
-                : Icon(
-                    Icons.radio_button_unchecked,
-                    color: Color(0xff4a4a4a),
-                  ),
-            title: discount.contains(item["key"])
-                ? Text(
-                    "${item['key']}",
-                    style: TextStyle(
-                        color: AppColors.primaryElement,
-                        fontSize: ScreenUtil().setWidth(14)),
-                  )
-                : Text("${item['key']}",
+              return item['doc_count']>0? ListTile(
+                onTap: () {
+
+                  if (discount==item["from"].toString()+","+item["to"].toString()) {
+                    // setState(() {
+                    //   discount.remove(item["key"]);
+                    // });
+                  } else {
+                    setState(() {
+                      discount = item["from"].toString()+","+item["to"].toString();
+                    });
+                  }
+                },
+                trailing: discount==item["from"].toString()+","+item["to"].toString()
+                    ? Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.primaryElement,
+                )
+                    : Icon(
+                  Icons.radio_button_unchecked,
+                  color: Color(0xff4a4a4a),
+                ),
+                title: discount==item["key"]
+                    ? Text(
+                  "${item['key']}",
+                  style: TextStyle(
+                      color: AppColors.primaryElement,
+                      fontSize: ScreenUtil().setWidth(14)),
+                )
+                    : Text("${item['key']}",
                     style: TextStyle(
                         color: Color(0xff4a4a4a),
                         fontSize: ScreenUtil().setWidth(14))),
-          );
-        }));
+              ):Container();
+            }));
   }
 }

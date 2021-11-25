@@ -53,9 +53,9 @@ class _ProductList extends State<ProductList> {
   List colorArr = [];
   List sizeArr = [];
   List genderArr = [];
-  List priceRangeArr = [];
-  List ageGroupArr = [];
-  List discountArr = [];
+  // List priceRangeArr = [];
+  // List ageGroupArr = [];
+  // List discountArr = [];
   String? urlLink = "";
   String? brandId = "";
   String? brand = "";
@@ -68,7 +68,7 @@ class _ProductList extends State<ProductList> {
   var discount = "";
   int page = 0;
   var count = 0;
-  String? sort = "-createdAt";
+  String? sort = "";
   var facet;
   TextEditingController searchText = TextEditingController();
 
@@ -278,7 +278,7 @@ class _ProductList extends State<ProductList> {
                                     )
                                 ),
                                 child: ProductFilterDrawer(
-                                    facet, brandArr, colorArr, sizeArr,genderArr,priceRangeArr,ageGroupArr,discountArr,
+                                    facet, brandArr, colorArr, sizeArr,genderArr,priceRange,ageGroup,discount,
                                         (bn, cl, sz,gd,pr,ag,dc) {
                                       brand = "";
                                       color = "";
@@ -299,23 +299,23 @@ class _ProductList extends State<ProductList> {
                                       gd.forEach((element) {
                                         gender = gender + element + ",";
                                       });
-                                      pr.forEach((element) {
-                                        priceRange = priceRange + element + ",";
-                                      });
-                                      ag.forEach((element) {
-                                        ageGroup = ageGroup + element + ",";
-                                      });
-                                      dc.forEach((element) {
-                                        discount = discount + element + ",";
-                                      });
+                                      // pr.forEach((element) {
+                                      //   priceRange = priceRange + element + ",";
+                                      // });
+                                      // ag.forEach((element) {
+                                      //   ageGroup = ageGroup + element + ",";
+                                      // });
+                                      // dc.forEach((element) {
+                                      //   discount = discount + element + ",";
+                                      // });
 
                                       brandArr = bn;
                                       colorArr = cl;
                                       sizeArr = sz;
                                       genderArr = gd;
-                                      priceRangeArr = pr;
-                                      ageGroupArr = ag;
-                                      discountArr = dc;
+                                      priceRange = pr;
+                                      ageGroup = ag;
+                                      discount = dc;
                                       page = 0;
 
                                       _pagingController.refresh();
