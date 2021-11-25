@@ -272,7 +272,7 @@ class _StreamCard extends State<StreamCard> {
       ),
       child: InkWell(
         onTap: () async {
-          locator<NavigationService>().pushNamed(routes.LiveStreamPlayer,args: item);
+        //  locator<NavigationService>().pushNamed(routes.LiveStreamPlayer,args: item);
 
         },
         child: Container(
@@ -454,13 +454,18 @@ class _StreamCard extends State<StreamCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
-                    locator<NavigationService>().pushNamed(routes.LiveStreamPlayer,args: item);
-                  },
+                    if(item!.isLive!) {
+                      locator<NavigationService>().pushNamed(
+                          routes.LiveStreamPlayer, args: item);
+                    }
+                    },
                   child: Container(
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(35),
                     child: Center(
-                      child: Text("JOIN STREAM",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),),
+                      child: item!.isLive!? Text("JOIN STREAM",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),):
+                      Text(DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).toString(),textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,style: TextStyle(color: AppColors.primaryElement)),
                     ),
                   ))
             ],

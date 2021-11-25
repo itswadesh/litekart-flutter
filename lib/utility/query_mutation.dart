@@ -178,6 +178,7 @@ class QueryMutation {
       rtmpPullUrl
       name
       code
+      isLive
       msg
       product {
         id

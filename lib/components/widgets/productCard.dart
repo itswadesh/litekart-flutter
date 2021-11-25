@@ -38,7 +38,7 @@ class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(ScreenUtil().setWidth(5)),
+      margin: EdgeInsets.only(left:ScreenUtil().setWidth(5)),
       decoration: BoxDecoration(
           // borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
           border: Border.all(color: Color(0xffd1d1d1),width: 0.3),

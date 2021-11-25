@@ -77,7 +77,7 @@ class _SuggestedClass extends State<SuggestedClass> {
             ),
             Container(
               padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
+                  0, 0, 0, 0),
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,

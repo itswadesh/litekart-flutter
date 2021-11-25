@@ -184,7 +184,7 @@ class _MegaMenu extends State<MegaMenu> {
       {
         childrenList.add(  Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child:  ExpansionTile(
+            child:  children[index].children!.length>0? ExpansionTile(
               title: Text(
                 children[index].name??"",
                 style: TextStyle(
@@ -192,7 +192,28 @@ class _MegaMenu extends State<MegaMenu> {
                     fontSize: ScreenUtil().setSp(20),
                     fontFamily: "Inter"),
               ),
-              children:  getExpansionTileChild(children[index].children))));
+              children:  getExpansionTileChild(children[index].children)):Container(
+              // decoration: BoxDecoration(
+              //     border: Border(
+              //         top: BorderSide(
+              //             color: Color(0xffd0d0d0),
+              //             width: ScreenUtil().setWidth(0.5))
+              //     )),
+              child: ListTile(
+                  onTap: () {
+                    locator<NavigationService>().pushNamed(routes.ProductList, args: {
+                      "searchKey": "",
+                      "category": children[index].slug,
+                      "brandName": "",
+                      "parentBrand": ""
+                    });
+                  },
+                  title: Text(children[index].name??"",
+                      style: TextStyle(
+                          color: Color(0xff6d6d6d),
+                          fontSize: ScreenUtil().setSp(20),
+                          fontFamily: "Inter"))),
+            )));
       }
 
     return childrenList;

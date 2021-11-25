@@ -75,7 +75,7 @@ class _TrendingClass extends State<TrendingClass> {
             ),
             Container(
               padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(7), 0, ScreenUtil().setWidth(7), 0),
+                  ScreenUtil().setWidth(0), 0, ScreenUtil().setWidth(0), 0),
               height: ScreenUtil().setWidth(303),
               child: ListView.builder(
                 cacheExtent: 100,

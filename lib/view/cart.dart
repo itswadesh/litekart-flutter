@@ -1131,8 +1131,8 @@ class _CartCard extends State<CartCard> {
                                     //     0,
                                     //     ScreenUtil().setWidth(6),
                                     //     0),
-                                    width: ScreenUtil().radius(22),
-                                    height: ScreenUtil().radius(22),
+                                    width: ScreenUtil().radius(24),
+                                    height: ScreenUtil().radius(24),
                                     decoration: new BoxDecoration(
                                       color: Color(0xffefefef),
                                       border: Border(
@@ -1198,8 +1198,8 @@ class _CartCard extends State<CartCard> {
                                 //     0,
                                 //     ScreenUtil().setWidth(6),
                                 //     0),
-                                width: ScreenUtil().radius(22),
-                                height: ScreenUtil().radius(22),
+                                width: ScreenUtil().radius(24),
+                                height: ScreenUtil().radius(24),
                                // padding: EdgeInsets.only(bottom: 3),
                                 decoration: new BoxDecoration(
                                   color: Color(0xffefefef),

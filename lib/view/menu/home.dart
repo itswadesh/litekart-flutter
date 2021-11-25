@@ -119,7 +119,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     return value.status=="empty"||value.status=="error"?SizedBox(height: ScreenUtil().setWidth(150)): SizedBox(height: ScreenUtil().setWidth(215));}),
                          //  SearchCategoriesClass(),
                          BannersSliderClass(),
-                         ListDealsClass(),
+                        // ListDealsClass(),
                          YouMayLikeClass(),
                          BannersClass(),
                          PickedBannersClass(),

@@ -33,6 +33,7 @@ class ChannelData {
   String? name;
   String? code;
   String? msg;
+  bool? isLive;
   ChannelProduct? product;
   List<ChannelProduct>? products;
   ChannelUser? user;
@@ -46,7 +47,7 @@ class ChannelData {
     this.cid,this.code,this.ctime,this.hlsPullUrl,this.httpPullUrl,this.msg,
     this.products,
     this.pushUrl,this.requestId,this.rtmpPullUrl,
-    this.users
+    this.users,this.isLive
 });
 
   factory ChannelData.fromJson(Map<String, dynamic> json)=>
@@ -64,6 +65,7 @@ class ChannelData {
         rtmpPullUrl: json["rtmpPullUrl"],
         name: json["name"],
         msg: json["msg"],
+        isLive: json["isLive"],
         product: json["product"]!=null? ChannelProduct.fromJson(json["product"]):ChannelProduct(),
         products: (json["products"]!=null && json["products"].length!=0)? List<ChannelProduct>.from(json["products"].map((x)=>ChannelProduct.fromJson(x))):[ChannelProduct()],
         user: json["user"]!=null? ChannelUser.fromJson(json["user"]):ChannelUser(),

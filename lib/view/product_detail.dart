@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:anne/utility/api_endpoint.dart';
 import 'package:flutter/widgets.dart';
+import 'package:share/share.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/enum/tz_dialog_type.dart';
@@ -311,12 +313,12 @@ class _ProductDetail extends State<ProductDetail>
                         },
                         controller: pageController,
                       )),
-                     Align(
-                       alignment: Alignment.bottomRight,
-                       child: Container(
-                         margin: EdgeInsets.only(right: ScreenUtil().setWidth(8),bottom: ScreenUtil().setWidth(8)),
-                         child: RatingClass(productData.id),
-                       ))
+                     // Align(
+                     //   alignment: Alignment.bottomRight,
+                     //   child: Container(
+                     //     margin: EdgeInsets.only(right: ScreenUtil().setWidth(8),bottom: ScreenUtil().setWidth(8)),
+                     //     child: RatingClass(productData.id),
+                     //   ))
                      ])),
                   // SizedBox(
                   //   height: ScreenUtil().setWidth(27),
@@ -1007,6 +1009,65 @@ class _ProductDetail extends State<ProductDetail>
                                 };
                                 Tracking(
                                     event:
+                                    EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                    data: data);
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, ScreenUtil().setWidth(8), 0),
+                                  width: ScreenUtil().radius(45),
+                                  height: ScreenUtil().radius(45),
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xffffffff),
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Color(0xffffffff),
+
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        top: BorderSide(
+                                            color: Color(0xffffffff),
+
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        left: BorderSide(
+                                            color: Color(0xffffffff),
+
+                                            width: ScreenUtil().setWidth(0.4)),
+                                        right: BorderSide(
+                                            color: Color(0xffffffff),
+
+                                            width: ScreenUtil().setWidth(0.4))),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: InkWell(
+                                      onTap: () async{
+                                        TzDialog _dialog =
+                                        TzDialog(context, TzDialogType.progress);
+                                        _dialog.show();
+                                        var dynamicLink = await _createDynamicLink(true, productData.id);
+                                        _dialog.close();
+                                        // final RenderObject? box = context.findRenderObject();
+                                        await Share.share(
+                                            "Hi, Check out this awesome product  : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                                           );
+                                      },
+                                      child: Icon(
+                                        Icons.share,
+                                        size: 25,
+                                        color: Color(0xff616161),
+                                      ))),
+                            ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(15),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Map<String, dynamic> data = {
+                                  "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                  "itemId": productId,
+                                  "event": "tap"
+                                };
+                                Tracking(
+                                    event:
                                         EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
                                     data: data);
                               },
@@ -1036,8 +1097,22 @@ class _ProductDetail extends State<ProductDetail>
                                             width: ScreenUtil().setWidth(0.4))),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: CheckWishListClass(
-                                      productData.id, productData.id)),
+                                  child: InkWell(
+                                      onTap: () {
+                                        if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                                        {
+                                          locator<NavigationService>().pushNamed(routes.LoginRoute);
+                                        }
+                                        else {
+                                          locator<NavigationService>().pushNamed(
+                                              routes.Wishlist);
+                                        }
+                                      },
+                                      child: Icon(
+                                        Icons.favorite_border_outlined,
+                                        size: 25,
+                                        color: Color(0xff616161),
+                                      ))),
                             ),
                             SizedBox(
                               width: ScreenUtil().setWidth(15),
