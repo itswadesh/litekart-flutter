@@ -400,7 +400,11 @@ class _StreamCard extends State<StreamCard> {
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(20), 0),
                   child: Text(
-                    DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).toString(),
+                    DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).year.toString()+"-"+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).month.toString()+"-"+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).day.toString()+"  "+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).hour.toString()+":"+
+    (DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute<10? DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()+"0":DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()),
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(
                           14,
@@ -463,9 +467,13 @@ class _StreamCard extends State<StreamCard> {
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(35),
                     child: Center(
-                      child: item!.isLive!? Text("JOIN STREAM",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),):
-                      Text(DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).toString(),textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,style: TextStyle(color: AppColors.primaryElement)),
+                      child: item!.isLive!? Text("JOIN STREAM",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),overflow: TextOverflow.ellipsis):
+                      Text(DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).year.toString()+"-"+
+                          DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).month.toString()+"-"+
+                          DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).day.toString()+"  "+
+                          DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).hour.toString()+":"+
+                          (DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute<10? DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()+"0":DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()),
+                        overflow: TextOverflow.ellipsis,style: TextStyle(color: AppColors.primaryElement,)),
                     ),
                   ))
             ],

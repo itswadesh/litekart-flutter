@@ -1,3 +1,5 @@
+import '../main.dart';
+
 class CartResponse {
   int? qty;
   double? subtotal;
@@ -21,10 +23,10 @@ class CartResponse {
           List<CartData>.from(json["items"].map((x) => CartData.fromJson(x))),
       qty: json["qty"]??0,
       discount: DiscountModel.fromJson(json["discount"]),
-      shipping:  json["shipping"]["charge"].toString(),
+      shipping: (double.parse(json["shipping"]["charge"].toString()).toStringAsFixed(store!.currencyDecimals!)) ,
       tax: json["tax"] ?? 0,
-      total: double.parse(json["total"].toString()),
-      subtotal: double.parse(json["subtotal"].toString()));
+      total: double.parse(double.parse(json["total"].toString()).toStringAsFixed(store!.currencyDecimals!)),
+      subtotal: double.parse(double.parse(json["subtotal"].toString()).toStringAsFixed(store!.currencyDecimals!)));
 }
 
 class CartData {
@@ -56,7 +58,7 @@ class CartData {
       slug: json["slug"],
       options: json["options"],
       tracking: json["tracking"],
-      price: double.parse(json["price"].toString()),
+      price: double.parse(double.parse(json["price"].toString()).toStringAsFixed(store!.currencyDecimals!)),
       qty: json["qty"],
       brand: json["brand"] != null ? json["brand"]["name"] : " ");
 }
@@ -73,7 +75,7 @@ class DiscountModel {
       code: json["code"],
       value: json["value"],
       text: json["text"],
-      amount: double.parse(json["amount"].toString()));
+      amount: double.parse(double.parse(json["amount"].toString()).toStringAsFixed(store!.currencyDecimals!)));
 }
 
 class ShippingModel {
@@ -93,7 +95,7 @@ class TaxModel {
   TaxModel({this.cgst, this.igst, this.sgst});
 
   factory TaxModel.fromJson(Map<String, dynamic> json) => TaxModel(
-      cgst: double.parse(json["cgst"].toString()),
-      sgst: double.parse(json["sgst"].toString()),
-      igst: double.parse(json["igst"].toString()));
+      cgst: double.parse(double.parse(json["cgst"].toString()).toStringAsFixed(store!.currencyDecimals!)),
+      sgst: double.parse(double.parse(json["sgst"].toString()).toStringAsFixed(store!.currencyDecimals!)),
+      igst: double.parse(double.parse(json["igst"].toString()).toStringAsFixed(store!.currencyDecimals!)));
 }

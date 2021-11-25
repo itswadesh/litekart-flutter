@@ -1,3 +1,5 @@
+import '../main.dart';
+
 class ProductListApiResponse {
   int? count;
   int? took;
@@ -48,10 +50,10 @@ class ProductListData {
           images: json["_source"] != null ? (json["_source"]["imagesCdn"] != null && json["_source"]["imagesCdn"].length!=0
               ? List.from(json["_source"]["imagesCdn"].map((x) => x)):[]):[],
           price: json["_source"] != null
-              ? double.parse(json["_source"]["price"].toString()) ?? 0.0
+              ? double.parse(double.parse(json["_source"]["price"].toString()).toStringAsFixed(store!.currencyDecimals!)) ?? 0.0
               : 0.0,
           mrp: json["_source"] != null
-              ? double.parse(json["_source"]["mrp"].toString()) ?? 0.0
+              ? double.parse(double.parse(json["_source"]["mrp"].toString()).toStringAsFixed(store!.currencyDecimals!)) ?? 0.0
               : 0.0,
           stock: json["_source"] != null ?( json["_source"]["stock"] ?? 0) : 0,
           imgCdn: json["_source"]["imgCdn"]??""

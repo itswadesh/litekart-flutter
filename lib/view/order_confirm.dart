@@ -717,7 +717,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 )),
                               ),
                               Text(
-                                "${store!.currencySymbol} ${detail[index].price}",
+                                "${store!.currencySymbol} ${detail[index].price!.toStringAsFixed(store!.currencyDecimals!)}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.primaryElement2,

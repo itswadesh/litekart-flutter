@@ -1,3 +1,5 @@
+import 'package:anne/main.dart';
+
 import '../../response_handler/brandResponse.dart';
 
 class ProductData {
@@ -92,9 +94,9 @@ class ProductData {
       hot: json["hot"],
       itemId: json["itemId"],
       keywords: json["keywords"],
-      mrp: double.parse(json["mrp"].toString()),
+      mrp: double.parse(double.parse(json["mrp"].toString()).toStringAsFixed(store!.currencyDecimals!)),
       popularity: int.parse(json["popularity"].toString()),
-      price: double.parse(json["price"].toString()),
+      price: double.parse(double.parse(json["price"].toString()).toStringAsFixed(store!.currencyDecimals!)),
       recommend: json["recommend"],
       sale: json["sale"],
       sku: json["sku"].toString(),
@@ -236,9 +238,9 @@ class ProductDetailData {
           hot: json["hot"],
           itemId: json["itemId"],
           keywords: json["keywords"],
-          mrp: double.parse(json["mrp"].toString()),
+          mrp: double.parse(double.parse(json["mrp"].toString()).toStringAsFixed(store!.currencyDecimals!)),
           popularity: int.parse(json["popularity"].toString()),
-          price: double.parse(json["price"].toString()),
+          price: double.parse(double.parse(json["price"].toString()).toStringAsFixed(store!.currencyDecimals!)),
           recommend: json["recommend"],
           sale: json["sale"],
           sku: json["sku"].toString(),

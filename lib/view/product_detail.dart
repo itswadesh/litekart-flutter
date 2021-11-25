@@ -391,7 +391,7 @@ class _ProductDetail extends State<ProductDetail>
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${store!.currencySymbol} " + productData.price.toString() + " ",
+                                  "${store!.currencySymbol} " + productData.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
                                   style: TextStyle(
                                       fontSize: ScreenUtil().setSp(
                                         18,
@@ -400,7 +400,7 @@ class _ProductDetail extends State<ProductDetail>
                                 ),
                                 productData.price! < productData.mrp!
                                     ? Text(
-                                        " ${store!.currencySymbol} " + productData.mrp.toString(),
+                                        " ${store!.currencySymbol} " + productData.mrp!.toStringAsFixed(store!.currencyDecimals!),
                                         style: TextStyle(
                                             color: Color(0xffb0b0b0),
                                             decoration:
@@ -1051,7 +1051,7 @@ class _ProductDetail extends State<ProductDetail>
                                         _dialog.close();
                                         // final RenderObject? box = context.findRenderObject();
                                         await Share.share(
-                                            "Hi, Check out this awesome product  : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                                            "Hi, Check out this awesome product  : $dynamicLink \n\n Weblink : ${store!.domain}/${productData.slug}?id=$productId",
                                            );
                                       },
                                       child: Icon(

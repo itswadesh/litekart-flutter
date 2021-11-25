@@ -231,7 +231,7 @@ class _ProductListCard extends State<ProductListCard> {
                           width: ScreenUtil().setWidth(15),
                         ),
                         Text(
-                          "${store!.currencySymbol} " + item!.price.toString() + " ",
+                          "${store!.currencySymbol} " + item!.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(
                                 14,
@@ -241,7 +241,7 @@ class _ProductListCard extends State<ProductListCard> {
                         ),
                         item!.price! < item!.mrp!
                             ? Text(
-                                " ${store!.currencySymbol} " + item!.mrp.toString(),
+                                " ${store!.currencySymbol} " + item!.mrp!.toStringAsFixed(store!.currencyDecimals!),
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: ScreenUtil().setSp(

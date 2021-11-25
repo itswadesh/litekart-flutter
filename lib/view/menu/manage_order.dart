@@ -893,7 +893,7 @@ class ListOrderData extends StatelessWidget{
                               )),
                         ),
                         Text(
-                          "Total Amount : ${store!.currencySymbol} ${orderData.amount!.total}",
+                          "Total Amount : ${store!.currencySymbol} ${orderData.amount!.total!.toStringAsFixed(store!.currencyDecimals!)}",
                           style: TextStyle(
                               color: Color(0xff9b9b9b),
                               fontSize: ScreenUtil().setSp(

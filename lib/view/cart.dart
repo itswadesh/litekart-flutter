@@ -188,7 +188,7 @@ class _Cart extends State<Cart> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Total : ${store!.currencySymbol} ${value.cartResponse!.total}",
+                  Text("Total : ${store!.currencySymbol} ${value.cartResponse!.total!.toStringAsFixed(store!.currencyDecimals!)}",
                       style: TextStyle(
                           color: Color(0xff383838),
                           fontSize: ScreenUtil().setSp(
@@ -380,7 +380,7 @@ class _Cart extends State<Cart> {
                                                 left: ScreenUtil().setWidth(35)),
                                             width: double.infinity,
                                             child: Text(
-                                              "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
+                                              "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount!.toStringAsFixed(store!.currencyDecimals!)}",
                                               style: TextStyle(
                                                   color: Color(0xff3a3a3a),
                                                   fontSize: ScreenUtil().setSp(14)),
@@ -557,7 +557,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store!.currencySymbol} " + value.cartResponse!.subtotal.toString(),
+                          Text("${store!.currencySymbol} " + value.cartResponse!.subtotal!.toStringAsFixed(store!.currencyDecimals!),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -600,8 +600,8 @@ class _CartBillCard extends State<CartBillCard> {
                                         ))),
                                 Text(
                                     "${store!.currencySymbol} " +
-                                        value.cartResponse!.discount!.amount
-                                            .toString(),
+                                        value.cartResponse!.discount!.amount!
+                                            .toStringAsFixed(store!.currencyDecimals!),
                                     style: TextStyle(
                                         color: Color(0xff616161),
                                         fontSize: ScreenUtil().setSp(
@@ -625,7 +625,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store!.currencySymbol} " + value.cartResponse!.shipping.toString(),
+                          Text("${store!.currencySymbol} " + double.parse(value.cartResponse!.shipping!).toStringAsFixed(store!.currencyDecimals!),
                               style: TextStyle(
                                   color: Color(0xff616161),
                                   fontSize: ScreenUtil().setSp(
@@ -717,7 +717,7 @@ class _CartBillCard extends State<CartBillCard> {
                                   fontSize: ScreenUtil().setSp(
                                     16,
                                   ))),
-                          Text("${store!.currencySymbol} " + (value.cartResponse!.total).toString(),
+                          Text("${store!.currencySymbol} " + (value.cartResponse!.total!).toStringAsFixed(store!.currencyDecimals!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xff000000),
@@ -869,7 +869,7 @@ class _CartBillCard extends State<CartBillCard> {
                                             left: ScreenUtil().setWidth(35)),
                                         width: double.infinity,
                                         child: Text(
-                                          "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount}",
+                                          "Saves upto ${store!.currencySymbol} ${value.couponResponse!.data![index].maxAmount!.toStringAsFixed(store!.currencyDecimals!)}",
                                           style: TextStyle(
                                               color: Color(0xff3a3a3a),
                                               fontSize: ScreenUtil().setSp(14)),
@@ -1078,7 +1078,7 @@ class _CartCard extends State<CartCard> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        "${store!.currencySymbol} " + cartData.price.toString(),
+                        "${store!.currencySymbol} " + cartData.price!.toStringAsFixed(store!.currencyDecimals!),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: AppColors.primaryElement2,

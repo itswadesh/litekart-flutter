@@ -278,7 +278,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(10),),
                       Text(
-                        "${store!.currencySymbol} " + item!.product!.price.toString() + " ",
+                        "${store!.currencySymbol} " + item!.product!.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -288,7 +288,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                       ),
                       item!.product!.price! < item!.product!.mrp!
                           ? Text(
-                        " ${store!.currencySymbol} " + item!.product!.mrp.toString(),
+                        " ${store!.currencySymbol} " + item!.product!.mrp!.toStringAsFixed(store!.currencyDecimals!),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(

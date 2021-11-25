@@ -318,7 +318,7 @@ class _Checkout extends State<Checkout> {
                                       16,
                                     ))),
                             Text("${store!.currencySymbol} " + value.cartResponse!
-                                .subtotal.toString(),
+                                .subtotal!.toStringAsFixed(store!.currencyDecimals!),
                                 style: TextStyle(
                                     color: Color(0xff616161),
                                     fontSize: ScreenUtil().setSp(
@@ -364,8 +364,8 @@ class _Checkout extends State<Checkout> {
                                         ))),
                                 Text(
                                     "${store!.currencySymbol} " +
-                                        value.cartResponse!.discount!.amount
-                                            .toString(),
+                                        value.cartResponse!.discount!.amount!
+                                            .toStringAsFixed(store!.currencyDecimals!),
                                     style: TextStyle(
                                         color: Color(0xff616161),
                                         fontSize: ScreenUtil().setSp(
@@ -388,8 +388,8 @@ class _Checkout extends State<Checkout> {
                                     fontSize: ScreenUtil().setSp(
                                       16,
                                     ))),
-                            Text("${store!.currencySymbol} " + value.cartResponse!
-                                .shipping.toString(),
+                            Text("${store!.currencySymbol} " + double.parse(value.cartResponse!
+                                .shipping!).toStringAsFixed(store!.currencyDecimals!),
                                 style: TextStyle(
                                     color: Color(0xff616161),
                                     fontSize: ScreenUtil().setSp(
@@ -486,7 +486,7 @@ class _Checkout extends State<Checkout> {
                                       16,
                                     ))),
                             Text("${store!.currencySymbol} " + (value
-                                .cartResponse!.total).toString(),
+                                .cartResponse!.total)!.toStringAsFixed(store!.currencyDecimals!),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff000000),
@@ -1372,7 +1372,7 @@ class _Checkout extends State<Checkout> {
                     }
                     return Text(
                         "TOTAL : ${store!.currencySymbol} " +
-                            (value.cartResponse!.total).toString()
+                            (value.cartResponse!.total!).toStringAsFixed(store!.currencyDecimals!)
                         //"$total"
                         ,
                         style: TextStyle(
@@ -1467,7 +1467,7 @@ class _Checkout extends State<Checkout> {
                     }
                     return Text(
                         "TOTAL : ${store!.currencySymbol} " +
-                            (value.cartResponse!.total).toString()
+                            (value.cartResponse!.total!).toStringAsFixed(store!.currencyDecimals!)
                         //"$total"
                         ,
                         style: TextStyle(
@@ -2497,7 +2497,7 @@ class _Checkout extends State<Checkout> {
                 color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
           ),
           SizedBox(
-            width: ScreenUtil().setWidth(214),
+            width: ScreenUtil().setWidth(210),
           ),
           Container(
             child: Row(
@@ -2553,7 +2553,7 @@ class _Checkout extends State<Checkout> {
                 color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
           ),
           SizedBox(
-            width: ScreenUtil().setWidth(214),
+            width: ScreenUtil().setWidth(206),
           ),
           Container(
             child: Row(

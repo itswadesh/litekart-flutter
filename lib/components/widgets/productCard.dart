@@ -242,7 +242,7 @@ class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
                     children: [
                       SizedBox(width: ScreenUtil().setWidth(20),),
                       Text(
-                        "${store!.currencySymbol} " + item.price.toString() + " ",
+                        "${store!.currencySymbol} " + item.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(
                               14,
@@ -252,7 +252,7 @@ class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
                       ),
                       item.price! < item.mrp!
                           ? Text(
-                        " ${store!.currencySymbol} " + item.mrp.toString(),
+                        " ${store!.currencySymbol} " + item.mrp!.toStringAsFixed(store!.currencyDecimals!),
                         style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: ScreenUtil().setSp(
