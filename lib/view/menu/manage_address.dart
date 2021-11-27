@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:anne/view_model/settings_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../../components/base/tz_dialog.dart';
 import '../../components/widgets/cartEmptyMessage.dart';
@@ -34,7 +37,7 @@ class _ManageAddressState extends State<ManageAddress> {
   TextEditingController _address = TextEditingController();
   TextEditingController _pin = TextEditingController();
   TextEditingController _email = TextEditingController();
-  TextEditingController _town = TextEditingController();
+ // TextEditingController _town = TextEditingController();
   TextEditingController _city = TextEditingController();
   TextEditingController _country = TextEditingController();
   TextEditingController _state = TextEditingController();
@@ -177,7 +180,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                   _address.text = "";
                                   _pin.text = "";
                                   _email.text = "";
-                                  _town.text = "";
+                                 // _town.text = "";
                                   _city.text = "";
                                   _country.text = "";
                                   _state.text = "";
@@ -340,7 +343,9 @@ class _ManageAddressState extends State<ManageAddress> {
                   ),
                   Container(
                     width: double.infinity,
-                    child: Text(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:[ Text(
                       "ADDRESS DETAILS",
                       style: TextStyle(
                           color: Color(0xff818181),
@@ -348,6 +353,30 @@ class _ManageAddressState extends State<ManageAddress> {
                             15,
                           )),
                     ),
+                    InkWell(
+                      onTap: () async{
+                            TzDialog _dialog =
+                                TzDialog(context, TzDialogType.progress);
+                            _dialog.show();
+                            Position position = await _determinePosition();
+                            final AddressRepository addressRepository =
+                                AddressRepository();
+                            var result =
+                                await addressRepository.fetchLocation(position.latitude,position.longitude);
+                            if (result != null) {
+                              setState(() {
+                                _country.text = result["country"];
+                                _state.text = result["state"];
+                                _city.text = result["city"];
+                                _pin.text = result["zip"].toString();
+                              });
+                            }
+                            _dialog.close();
+
+                      },
+                      child: Text("Get Location",style: TextStyle(color: Colors.blue),),
+                    )
+                    ])
                   ),
                   SizedBox(
                     height: ScreenUtil().setWidth(15),
@@ -393,7 +422,7 @@ class _ManageAddressState extends State<ManageAddress> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "Zip code",
+                        labelText: "Zip code *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -426,7 +455,7 @@ class _ManageAddressState extends State<ManageAddress> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "City *",
+                        labelText: "City/District/Town *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -459,7 +488,7 @@ class _ManageAddressState extends State<ManageAddress> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "State",
+                        labelText: "State *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -524,45 +553,45 @@ class _ManageAddressState extends State<ManageAddress> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "Address",
+                        labelText: "Street/Locality/House No. *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
                               15,
                             ))),
                   )),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(15),
-                  ),
-                  Container(
-                      child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Town Name is Required';
-                      }
-                      return null;
-                    },
-                    controller: _town,
-                    decoration: InputDecoration(
-                        fillColor: Color(0xfff3f3f3),
-                        filled: true,
-                        contentPadding:
-                            EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        labelText: "Town",
-                        labelStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: ScreenUtil().setSp(
-                              15,
-                            ))),
-                  )),
+                  // SizedBox(
+                  //   height: ScreenUtil().setWidth(15),
+                  // ),
+                  // Container(
+                  //     child: TextFormField(
+                  //   validator: (value) {
+                  //     if (value!.isEmpty) {
+                  //       return 'Town Name is Required';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   controller: _town,
+                  //   decoration: InputDecoration(
+                  //       fillColor: Color(0xfff3f3f3),
+                  //       filled: true,
+                  //       contentPadding:
+                  //           EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderSide:
+                  //             BorderSide(color: Colors.grey, width: 1.0),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderSide:
+                  //             BorderSide(color: Colors.grey, width: 1.0),
+                  //       ),
+                  //       labelText: "Town",
+                  //       labelStyle: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: ScreenUtil().setSp(
+                  //             15,
+                  //           ))),
+                  // )),
                   SizedBox(
                     height: ScreenUtil().setWidth(28),
                   ),
@@ -628,7 +657,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 _firstName.text,
                                 _lastName.text,
                                 _address.text,
-                                _town.text,
+                               // _town.text,
                                 _city.text,
                                 _country.text,
                                 _state.text,
@@ -642,7 +671,7 @@ class _ManageAddressState extends State<ManageAddress> {
                             _address.text = "";
                             _pin.text = "";
                             _email.text = "";
-                            _town.text = "";
+                          //  _town.text = "";
                             _city.text = "";
                             _country.text = "";
                             _state.text = "";
@@ -706,6 +735,29 @@ class _ManageAddressState extends State<ManageAddress> {
         }
         return Loading();
       } else if (value.status == "empty") {
+        Timer(Duration(seconds: 1),
+                (){
+              setState(() {
+                _phone.text = Provider.of<ProfileModel>(context, listen: false)
+                    .user!
+                    .phone ??
+                    "";
+                _firstName.text =
+                    Provider.of<ProfileModel>(context, listen: false)
+                        .user!
+                        .firstName ??
+                        "";
+                _lastName.text = Provider.of<ProfileModel>(context, listen: false)
+                    .user!
+                    .lastName ??
+                    "";
+                _email.text = Provider.of<ProfileModel>(context, listen: false)
+                    .user!
+                    .email ??
+                    "";
+                newAddress = !newAddress;
+              });
+            });
         return Container(child: cartEmptyMessage("search", "No Address Found"));
       } else if (value.status == "error") {
         return InkWell(
@@ -944,8 +996,8 @@ class _ManageAddressState extends State<ManageAddress> {
                                     .toString();
                                 _email.text =
                                     value.addressResponse!.data![index].email!;
-                                _town.text =
-                                    value.addressResponse?.data![index].town??"";
+                                // _town.text =
+                                //     value.addressResponse?.data![index].town??"";
                                 _city.text =
                                     value.addressResponse!.data![index].city!;
                                 _country.text =
@@ -1077,5 +1129,43 @@ class _ManageAddressState extends State<ManageAddress> {
             })
       ]);
     });
+  }
+
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 }

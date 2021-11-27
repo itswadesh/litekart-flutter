@@ -18,6 +18,7 @@ import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../repository/address_repository.dart';
 //import '../../repository/cashfree_repository.dart';
 import '../../repository/checkout_repository.dart';
@@ -86,7 +87,7 @@ class _Checkout extends State<Checkout> {
   TextEditingController _address = TextEditingController();
   TextEditingController _pin = TextEditingController();
   TextEditingController _email = TextEditingController();
-  TextEditingController _town = TextEditingController();
+//  TextEditingController _town = TextEditingController();
   TextEditingController _city = TextEditingController();
   TextEditingController _country = TextEditingController();
   TextEditingController _state = TextEditingController();
@@ -657,7 +658,33 @@ class _Checkout extends State<Checkout> {
             }
             return Loading();
           } else if (value.status == "empty") {
-            return Container(height: ScreenUtil().setWidth(20));
+            // setState(() {
+            //   newAddress = !newAddress;
+            // });
+             Timer(Duration(seconds: 1),
+                 (){
+                   setState(() {
+                     _phone.text = Provider.of<ProfileModel>(context, listen: false)
+                         .user!
+                         .phone ??
+                         "";
+                     _firstName.text =
+                         Provider.of<ProfileModel>(context, listen: false)
+                             .user!
+                             .firstName ??
+                             "";
+                     _lastName.text = Provider.of<ProfileModel>(context, listen: false)
+                         .user!
+                         .lastName ??
+                         "";
+                     _email.text = Provider.of<ProfileModel>(context, listen: false)
+                         .user!
+                         .email ??
+                         "";
+                     newAddress = !newAddress;
+                   });
+                 });
+           return  Container(height: ScreenUtil().setWidth(20));
           } else if (value.status == "error") {
             return Container(
               height: ScreenUtil().setWidth(20),
@@ -900,9 +927,9 @@ class _Checkout extends State<Checkout> {
                                         _email.text =
                                             value.addressResponse!.data![index]
                                                 .email!;
-                                        _town.text =
-                                            value.addressResponse!.data![index]
-                                                .town!;
+                                        // _town.text =
+                                        //     value.addressResponse!.data![index]
+                                        //         .town!;
                                         _city.text =
                                             value.addressResponse!.data![index]
                                                 .city!;
@@ -1351,7 +1378,10 @@ class _Checkout extends State<Checkout> {
                   ))
             ])),
         addressPage
-            ? Align(
+            ?Consumer<AddressViewModel>(
+    builder: (context, addressModel, child) {
+    return (addressModel.selectedAddress != null
+    ?  Align(
           alignment: Alignment.bottomCenter,
           child: Container(
               height: ScreenUtil().setHeight(61),
@@ -1382,9 +1412,10 @@ class _Checkout extends State<Checkout> {
                             )));
                   }),
                   Container(
-                    child: Consumer<AddressViewModel>(
-                      builder: (context, value, child) {
-                        return Container(
+   // child:
+                    // child: Consumer<AddressViewModel>(
+                    //   builder: (context, value, child) {
+                    //     return Container(
                             width: ScreenUtil().setWidth(150),
                             height: ScreenUtil().setHeight(42),
                             child: OutlinedButton(
@@ -1395,12 +1426,12 @@ class _Checkout extends State<Checkout> {
                                 ),
                                 side: BorderSide(
                                     width: 2,
-                                    color: value.selectedAddress == null
+                                    color: addressModel.selectedAddress == null
                                         ? Colors.grey
                                         : AppColors.primaryElement),
                               ),
                               onPressed: () async {
-                                if (value.selectedAddress != null) {
+                                if (addressModel.selectedAddress != null) {
                                   setState(() {
                                     addressPage = false;
                                   });
@@ -1413,15 +1444,16 @@ class _Checkout extends State<Checkout> {
                                       16,
                                     ),
                                     fontWeight: FontWeight.w500,
-                                    color: value.selectedAddress == null
+                                    color: addressModel.selectedAddress == null
                                         ? Colors.grey
                                         : AppColors.primaryElement,
                                     fontFamily: 'Montserrat'),
                               ),
-                            ));
-                      },
+                            )
+    //);
+      //                },
                     ),
-                  )
+                 // )
                   /*Consumer<AddressViewModel>(builder:
                             (BuildContext context, value, Widget child) {
                           return Container(
@@ -1446,7 +1478,7 @@ class _Checkout extends State<Checkout> {
                         })*/
                 ],
               )),
-        ) : Align(
+        ):Container());}) : Align(
           alignment: Alignment.bottomCenter,
           child: Container(
               height: ScreenUtil().setHeight(61),
@@ -1731,15 +1763,41 @@ class _Checkout extends State<Checkout> {
                 height: ScreenUtil().setWidth(35),
               ),
               Container(
-                width: double.infinity,
-                child: Text(
-                  "ADDRESS DETAILS",
-                  style: TextStyle(
-                      color: Color(0xff818181),
-                      fontSize: ScreenUtil().setSp(
-                        15,
-                      )),
-                ),
+                  width: double.infinity,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[ Text(
+                        "ADDRESS DETAILS",
+                        style: TextStyle(
+                            color: Color(0xff818181),
+                            fontSize: ScreenUtil().setSp(
+                              15,
+                            )),
+                      ),
+                        InkWell(
+                          onTap: () async{
+                            TzDialog _dialog =
+                            TzDialog(context, TzDialogType.progress);
+                            _dialog.show();
+                            Position position = await _determinePosition();
+                            final AddressRepository addressRepository =
+                            AddressRepository();
+                            var result =
+                            await addressRepository.fetchLocation(position.latitude,position.longitude);
+                            if (result != null) {
+                              setState(() {
+                                _country.text = result["country"];
+                                _state.text = result["state"];
+                                _city.text = result["city"];
+                                _pin.text = result["zip"].toString();
+                              });
+                            }
+                            _dialog.close();
+
+                          },
+                          child: Text("Get Location",style: TextStyle(color: Colors.blue),),
+                        )
+                      ])
               ),
               SizedBox(
                 height: ScreenUtil().setWidth(15),
@@ -1785,7 +1843,7 @@ class _Checkout extends State<Checkout> {
                           borderSide: BorderSide(
                               color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "Zip code",
+                        labelText: "Zip code *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -1819,7 +1877,7 @@ class _Checkout extends State<Checkout> {
                           borderSide: BorderSide(
                               color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "City *",
+                        labelText: "City/District/Town *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -1852,7 +1910,7 @@ class _Checkout extends State<Checkout> {
                           borderSide: BorderSide(
                               color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "State",
+                        labelText: "State *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
@@ -1917,45 +1975,45 @@ class _Checkout extends State<Checkout> {
                           borderSide: BorderSide(
                               color: Colors.grey, width: 1.0),
                         ),
-                        labelText: "Address",
+                        labelText: "Street/Locality/House No. *",
                         labelStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: ScreenUtil().setSp(
                               15,
                             ))),
                   )),
-              SizedBox(
-                height: ScreenUtil().setWidth(15),
-              ),
-              Container(
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Town Name is Required';
-                      }
-                      return null;
-                    },
-                    controller: _town,
-                    decoration: InputDecoration(
-                        fillColor: Color(0xfff3f3f3),
-                        filled: true,
-                        contentPadding:
-                        EdgeInsets.only(left: ScreenUtil().setWidth(12)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: 1.0),
-                        ),
-                        labelText: "Town",
-                        labelStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: ScreenUtil().setSp(
-                              15,
-                            ))),
-                  )),
+              // SizedBox(
+              //   height: ScreenUtil().setWidth(15),
+              // ),
+              // Container(
+              //     child: TextFormField(
+              //       validator: (value) {
+              //         if (value!.isEmpty) {
+              //           return 'Town Name is Required';
+              //         }
+              //         return null;
+              //       },
+              //       controller: _town,
+              //       decoration: InputDecoration(
+              //           fillColor: Color(0xfff3f3f3),
+              //           filled: true,
+              //           contentPadding:
+              //           EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+              //           enabledBorder: OutlineInputBorder(
+              //             borderSide: BorderSide(
+              //                 color: Colors.grey, width: 1.0),
+              //           ),
+              //           focusedBorder: OutlineInputBorder(
+              //             borderSide: BorderSide(
+              //                 color: Colors.grey, width: 1.0),
+              //           ),
+              //           labelText: "Town",
+              //           labelStyle: TextStyle(
+              //               color: Colors.grey,
+              //               fontSize: ScreenUtil().setSp(
+              //                 15,
+              //               ))),
+              //     )),
               SizedBox(
                 height: ScreenUtil().setWidth(28),
               ),
@@ -2030,7 +2088,7 @@ class _Checkout extends State<Checkout> {
                           _firstName.text,
                           _lastName.text,
                           _address.text,
-                          _town.text,
+                          //_town.text,
                           _city.text,
                           _country.text,
                           _state.text,
@@ -2043,7 +2101,7 @@ class _Checkout extends State<Checkout> {
                           _address.text = "";
                           _pin.text = "";
                           _email.text = "";
-                          _town.text = "";
+                        //  _town.text = "";
                           _city.text = "";
                           _country.text = "";
                           _state.text = "";
@@ -2068,7 +2126,7 @@ class _Checkout extends State<Checkout> {
                     }
                   },
                   child: Text(
-                    "Add Address",
+                    "Save Address",
                     style: TextStyle(
                         color: AppColors.primaryElement,
                         fontFamily: 'Montserrat'),
@@ -3408,5 +3466,42 @@ class _Checkout extends State<Checkout> {
     else{
       paymentMethod = "paypal";
     }
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 }

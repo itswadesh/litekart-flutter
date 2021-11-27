@@ -323,7 +323,7 @@ class ApiProvider {
     return responseData;
   }
 
-  saveAddress(id, email, firstName, lastName, address, town, city, country,
+  saveAddress(id, email, firstName, lastName, address, city, country,
       state, pin, phone) async {
     bool statusResponse;
     try {
@@ -336,7 +336,7 @@ class ApiProvider {
           'firstName': firstName,
           'lastName': lastName,
           'address': address,
-          'town': town,
+         // 'town': town,
           'city': city,
           'country': country,
           'state': state,
@@ -366,6 +366,27 @@ class ApiProvider {
     );
   }
 
+  fetchLocation(lat,long) async {
+    GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.mutate(
+      MutationOptions(
+          document: gql(addMutation.getLocation()),
+          variables: {'lat': lat,'lng':long}),
+    );
+    if (result.hasException) {
+      return null;
+    } else {
+      return {
+        "state": result.data!["getLocation"]["state"],
+        "country":"India",
+       // "country": result.data!["getLocation"]["country"],
+        "city": result.data!["getLocation"]["city"],
+        "zip": result.data!["getLocation"]["zip"]
+      };
+    }
+  }
+
   fetchDataFromZip(zip) async {
     GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -384,6 +405,7 @@ class ApiProvider {
         "state": result.data!["getLocationFromZip"]["state"],
         "country": result.data!["getLocationFromZip"]["country"],
         "city": result.data!["getLocationFromZip"]["city"],
+
       };
     }
   }

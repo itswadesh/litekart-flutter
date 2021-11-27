@@ -2557,6 +2557,17 @@ getOtp(phone: \$phone){
 }""";
   }
 
+  getLocation(){
+    return """query getLocation(\$lat: Float, \$lng: Float) {
+  getLocation(lat: \$lat, lng: \$lng) {
+    city
+    district
+    state
+    zip
+  }
+}""";
+  }
+
   getLocationFromZip() {
     return """query getLocationFromZip(\$zip: Int!) {
   getLocationFromZip(zip: \$zip) {

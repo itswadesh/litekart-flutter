@@ -8,10 +8,14 @@ class AddressRepository {
     return _apiProvider!.fetchAddressData();
   }
 
-  saveAddress(id, email, firstName, lastName, address, town, city, country,
+  saveAddress(id, email, firstName, lastName, address, city, country,
       state, pin, phone) {
     return _apiProvider!.saveAddress(id, email, firstName, lastName, address,
-        town, city, country, state, pin, phone);
+         city, country, state, pin, phone);
+  }
+
+  fetchLocation(lat,long){
+    return _apiProvider!.fetchLocation(lat,long);
   }
 
   deleteAddress(id) {

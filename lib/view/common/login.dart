@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -60,6 +61,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
       setState(() {
         appSignature = signature;
       });
+      log(appSignature!);
     });
   }
 
