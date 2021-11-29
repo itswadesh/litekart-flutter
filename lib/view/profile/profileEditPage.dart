@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 import '../../components/base/tz_dialog.dart';
 import '../../enum/tz_dialog_type.dart';
@@ -294,6 +297,15 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   TzDialog _dialog =
                                   TzDialog(context, TzDialogType.progress);
                                   _dialog.show();
+                                  final mimeTypeData = lookupMimeType(_image!.path,
+                                      headerBytes: [0xFF, 0xD8])!
+                                      .split('/');
+                                  print(mimeTypeData[1]);
+                                  final img = await MultipartFile.fromPath(
+                                      'image', _image!.path,
+                                      filename: _image!.path,
+                                      contentType:
+                                      MediaType(mimeTypeData[0], mimeTypeData[1]));
                                   await Provider.of<ProfileModel>(context,
                                       listen: false)
                                       .editProfile(
@@ -301,7 +313,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       _fName.text,
                                       _lName.text,
                                       _email.text,
-                                      selectedGender,_image);
+                                      selectedGender,img);
                                   if(value.editStatus) {
                                     await Provider.of<ProfileModel>(context,
                                         listen: false)

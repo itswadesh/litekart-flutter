@@ -512,27 +512,26 @@ class ApiProvider {
   }
   else {
     // var byteData = image.readAsBytesSync();
-      final mimeTypeData = lookupMimeType(image.path,
-          headerBytes: [0xFF, 0xD8])!.split('/');
-     
-      var file = Multipartfile.MultipartFile.fromString(
-          "image",
-          image.path,
-          filename: image.path,
-          contentType: MediaType(
-              mimeTypeData[0], mimeTypeData[1])
-      );
+    //   final mimeTypeData = lookupMimeType(image.path,
+    //       headerBytes: [0xFF, 0xD8])!.split('/');
+    //   log(image.path);
+    //   var file = Multipartfile.MultipartFile.fromString(
+    //       "image",
+    //       image.path,
+    //       filename: image.path,
+    //       contentType: MediaType(
+    //           mimeTypeData[0], mimeTypeData[1])
+    //   );
       QueryResult resultLink = await _client.mutate(
         MutationOptions(
             document: gql(
                 addMutation.fileUpload()),
             variables: {
-              'files': [file],
-              'folder': 'avatar',
-              'store': store!.id
+              'files': [image],
+              'folder': 'avatar'
             }),
       );
-      print(resultLink.toString());
+      log(resultLink.toString());
       if (!resultLink.hasException && resultLink.data!=null && resultLink.data!['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
@@ -550,6 +549,7 @@ class ApiProvider {
         if(!result.hasException){
           return true;
         }
+        log(result.exception.toString());
       }
       log("here");
       return false;

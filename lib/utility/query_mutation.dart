@@ -2043,8 +2043,8 @@ getOtp(phone: \$phone){
   }
 
   fileUpload() {
-    return """mutation fileUpload(\$files: [Upload!], \$folder: String,\$store: ID) {
-  fileUpload(files: \$files, folder: \$folder, store: \$store) {
+    return """mutation fileUpload(\$files: [Upload!], \$folder: String) {
+  fileUpload(files: \$files, folder: \$folder) {
     filename
     mimetype
     encoding
