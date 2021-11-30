@@ -2007,6 +2007,7 @@ getOtp(phone: \$phone){
   # \$city: String
   \$phone: String
   \$info: InputInfo
+  
 ) {
   updateProfile(
     firstName: \$firstName
@@ -2018,6 +2019,7 @@ getOtp(phone: \$phone){
     gender: \$gender
     info: \$info
     address: \$address
+ 
   ) {
     firstName
     lastName

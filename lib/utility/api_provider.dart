@@ -528,10 +528,11 @@ class ApiProvider {
                 addMutation.fileUpload()),
             variables: {
               'files': [image],
-              'folder': 'avatar'
+              'folder': 'user',
+              'store': store!.id
             }),
       );
-      log(resultLink.toString());
+      print(resultLink.toString());
       if (!resultLink.hasException && resultLink.data!=null && resultLink.data!['fileUpload'] != null) {
         QueryResult result =   await _client.mutate(
             MutationOptions(
@@ -549,7 +550,7 @@ class ApiProvider {
         if(!result.hasException){
           return true;
         }
-        log(result.exception.toString());
+        print(result.exception.toString());
       }
       log("here");
       return false;
