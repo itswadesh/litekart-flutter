@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -242,7 +243,8 @@ class _EmailLoginState extends State<EmailLogin> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if (!await launch(store!.domain!+"/account/forgot-password")) throw 'Could not launch Forgot Password URL';
+                        log("Domain Name is as "+store!.domain!);
+                        if (!await launch("https://"+store!.domain!+"/account/forgot-password")) throw 'Could not launch Forgot Password URL';
                         // locator<NavigationService>()
                         //     .pushReplacementNamed(routes.RegisterRoute);
                       },
