@@ -1,3 +1,7 @@
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
 import 'package:flutter/cupertino.dart';
 import '../../model/address.dart';
 import '../../repository/address_repository.dart';
@@ -5,6 +9,7 @@ import '../../response_handler/addressResponse.dart';
 import '../../utility/query_mutation.dart';
 
 class AddressViewModel with ChangeNotifier {
+  final NavigationService? _navigationService = locator<NavigationService>();
   QueryMutation addMutation = QueryMutation();
   Address? _selectedAddress;
   String? status = "loading";
@@ -12,6 +17,11 @@ class AddressViewModel with ChangeNotifier {
   final AddressRepository addressRepository = AddressRepository();
   Address? get selectedAddress {
     return _selectedAddress;
+  }
+  late TzDialog _dialog;
+  AddressViewModel() {
+    _dialog = TzDialog(
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
   }
 
   AddressResponse? get addressResponse {
@@ -29,11 +39,13 @@ class AddressViewModel with ChangeNotifier {
 
   saveAddress(id, email, firstName, lastName, address, city, country,
       state, pin, phone) async {
+    _dialog.show();
     bool statusResponse;
     statusResponse = await addressRepository.saveAddress(id, email, firstName,
         lastName, address, city, country, state, pin, phone);
     await fetchAddressData();
     selectAddress(_addressResponse!.data![0]);
+    _dialog.close();
     notifyListeners();
     return statusResponse;
   }
