@@ -1,8 +1,5 @@
-import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
-import 'package:anne/utility/api_endpoint.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +17,6 @@ import '../../values/route_path.dart' as routes;
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/login_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'login.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import '../../main.dart';
@@ -189,6 +185,7 @@ class _EmailLoginState extends State<EmailLogin> {
                   height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
+
                     focusNode: _focusNode,
                     controller: _emailController,
                     style: TextStyle(
@@ -260,21 +257,46 @@ class _EmailLoginState extends State<EmailLogin> {
               InkWell(
                 onTap: () async {
                   _focusNode!.unfocus();
-                      await model.login(_emailController.text,_passwordController.text);
-                  if (model.loginStatus) {
-                    token = tempToken!;
-                    await Provider.of<ProfileModel>(context, listen: false)
-                        .getProfile();
-                    await Provider.of<CartViewModel>(context, listen: false)
-                        .changeStatus("loading");
-                    locator<NavigationService>()
-                        .pushNamedAndRemoveUntil(routes.HomeRoute);
-                  } else {
-                    final snackBar = SnackBar(
-                      content: Text('You have entered wrong Email/Password'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
+                  if(EmailValidator.validate(_emailController.text)){
+
+                        if(_passwordController.text==""){
+                          final snackBar = SnackBar(
+                            content: Text(
+                                'Please Enter your Password'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              snackBar);
+                        }
+                        else {
+                          await model.login(_emailController.text,_passwordController.text);
+
+                          if (model.loginStatus) {
+                            token = tempToken!;
+                            await Provider.of<ProfileModel>(
+                                context, listen: false)
+                                .getProfile();
+                            await Provider.of<CartViewModel>(
+                                context, listen: false)
+                                .changeStatus("loading");
+                            locator<NavigationService>()
+                                .pushNamedAndRemoveUntil(routes.HomeRoute);
+                          } else {
+                            final snackBar = SnackBar(
+                              content: Text(
+                                  'You have entered wrong Email/Password'),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                snackBar);
+                          }
+                        }
+                      }
+                      else{
+                        final snackBar = SnackBar(
+                          content: Text('Please Enter Valid Email Address'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+
                 },
                 child: Container(
 
