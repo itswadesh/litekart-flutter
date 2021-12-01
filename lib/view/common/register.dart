@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -320,9 +321,16 @@ class _RegisterState extends State<Register> {
               ),
               InkWell(
                 onTap: () async {
-                  if(_emailController.text==null || _emailController.text==""){
+
+                  if(_emailController.text==""){
                     final snackBar = SnackBar(
                       content: Text("Please Add Email Address"),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  else   if(EmailValidator.validate(_emailController.text)){
+                    final snackBar = SnackBar(
+                      content: Text("Please Enter Valid Email Address"),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
