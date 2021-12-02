@@ -53,26 +53,26 @@ dependencies:
   extended_masked_text: ^2.1.0
 #  cashfree_pg: 2.0.4+24
   dotted_border: ^2.0.0
-  geolocator: ^7.0.3
-  firebase_messaging: ^10.0.0
-  flutter_local_notifications: ^5.0.0+4
+  geolocator: ^8.0.0
+  firebase_messaging: ^11.2.0
+  flutter_local_notifications: ^8.2.0
   firebase_analytics: ^8.1.0
   package_info: ^2.0.2
   device_info: ^2.0.0
   flutter_svg: ^0.22.0
   share: ^2.0.4
-  firebase_remote_config: ^0.10.0+1
+  firebase_remote_config: ^0.11.0+2
   url_launcher: ^6.0.6
   video_player: ^2.1.6
   chewie: ^1.2.2
-  firebase_dynamic_links: ^2.0.7
+  firebase_dynamic_links: ^3.0.2
   pinch_zoom: ^1.0.0
-  nertc: ^4.4.2-rc.6
+  nertc: ^4.4.7-rc.0
   permission_handler: ^8.3.0
   fluttertoast: ^8.0.7
-  file_picker: ^3.0.4
-  flutter_launcher_icons: "^0.9.2"
-  image_picker: ^0.7.4
+  file_picker: ^4.2.7
+  flutter_launcher_icons: ^0.9.2
+  image_picker: ^0.8.4+4
   flutter_html: ^2.1.2
   flutter_native_splash: any
   flutter_braintree: ^2.0.0+10
