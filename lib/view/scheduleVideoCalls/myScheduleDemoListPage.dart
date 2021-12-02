@@ -271,45 +271,65 @@ class _ScheduleCard extends State<ScheduleCard> {
               SizedBox(
                 height: ScreenUtil().setWidth(7),
               ),
-              Container(
+                Container(
                   width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: ScreenUtil().setWidth(10),),
-                      Text(
-                        "${store!.currencySymbol} " + item!.product!.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(
-                              14,
-                            ),
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff4a4a4a)),
-                      ),
-                      item!.product!.price! < item!.product!.mrp!
-                          ? Text(
-                        " ${store!.currencySymbol} " + item!.product!.mrp!.toStringAsFixed(store!.currencyDecimals!),
-                        style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: ScreenUtil().setSp(
-                              12,
-                            ),
-                            color: Color(0xff4a4a4a)),
-                      )
-                          : Container(),
-                      item!.product!.price! < item!.product!.mrp!
-                          ? Flexible(child: Text(
-                        " (${(100 - ((item!.product!.price! / item!.product!.mrp!) * 100)).toInt()} % off)",
-                        style: TextStyle(
-                            color: AppColors.primaryElement2,
-                            fontSize: ScreenUtil().setSp(
-                              12,
-                            )),
-                        overflow: TextOverflow.ellipsis,
-                      ))
-                          : Container()
-                    ],
+                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
+                      ScreenUtil().setWidth(20), 0),
+                  child: Text(
+                    DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).year.toString()+"-"+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).month.toString()+"-"+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).day.toString()+"  "+
+                        DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).hour.toString()+":"+
+                        (DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute<10? DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()+"0":DateTime.fromMillisecondsSinceEpoch(item!.scheduleDateTime!).minute.toString()),
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(
+                          14,
+                        ),
+                        color: Color(0xff616161),
+                        fontWeight: FontWeight.w600
+                    ),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
                   )),
+              // Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: [
+              //         SizedBox(width: ScreenUtil().setWidth(10),),
+              //         Text(
+              //           "${store!.currencySymbol} " + item!.product!.price!.toStringAsFixed(store!.currencyDecimals!) + " ",
+              //           style: TextStyle(
+              //               fontSize: ScreenUtil().setSp(
+              //                 14,
+              //               ),
+              //               fontWeight: FontWeight.w600,
+              //               color: Color(0xff4a4a4a)),
+              //         ),
+              //         item!.product!.price! < item!.product!.mrp!
+              //             ? Text(
+              //           " ${store!.currencySymbol} " + item!.product!.mrp!.toStringAsFixed(store!.currencyDecimals!),
+              //           style: TextStyle(
+              //               decoration: TextDecoration.lineThrough,
+              //               fontSize: ScreenUtil().setSp(
+              //                 12,
+              //               ),
+              //               color: Color(0xff4a4a4a)),
+              //         )
+              //             : Container(),
+              //         item!.product!.price! < item!.product!.mrp!
+              //             ? Flexible(child: Text(
+              //           " (${(100 - ((item!.product!.price! / item!.product!.mrp!) * 100)).toInt()} % off)",
+              //           style: TextStyle(
+              //               color: AppColors.primaryElement2,
+              //               fontSize: ScreenUtil().setSp(
+              //                 12,
+              //               )),
+              //           overflow: TextOverflow.ellipsis,
+              //         ))
+              //             : Container()
+              //       ],
+              //     )),
               SizedBox(height: ScreenUtil().setWidth(10),),
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
