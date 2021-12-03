@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -563,11 +565,16 @@ class _LoginState extends State<Login> with CodeAutoFill {
                   await model.validateOtp(
                       _mobileController!.text, _otpController.text);
                   if (model.otpStatus) {
+                    final NavigationService _navigationService = locator<NavigationService>();
+                    TzDialog _dialog =
+                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                    _dialog.show();
                     token = tempToken!;
                     await Provider.of<ProfileModel>(context, listen: false)
                         .getProfile();
                     await Provider.of<CartViewModel>(context, listen: false)
                         .changeStatus("loading");
+                    _dialog.close();
                     locator<NavigationService>()
                         .pushNamedAndRemoveUntil(routes.HomeRoute);
                   } else {

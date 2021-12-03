@@ -1230,7 +1230,7 @@ class _ProductDetail extends State<ProductDetail>
                             )),
                         Container(
                           decoration: BoxDecoration(
-                              color: AppColors.primaryElement,
+                              color: value.buttonStatus == "GO TO CART"?Color(0xff000000): AppColors.primaryElement,
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(5))),
                           width: ScreenUtil().setWidth(172),
@@ -1253,12 +1253,13 @@ class _ProductDetail extends State<ProductDetail>
                                 if (value.buttonStatus == "Not Available") {
                                 } else {
                                   if (value.buttonStatus == "ADD TO BAG") {
+                                    final NavigationService _navigationService = locator<NavigationService>();
                                     TzDialog _dialog =
-                                    TzDialog(context, TzDialogType.progress);
+                                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
                                     _dialog.show();
                                     Provider.of<ProductDetailViewModel>(context,
                                             listen: false)
-                                        .changeButtonStatus("GO TO CART");
+                                        .changeButtonStatusAndLoad("GO TO CART");
                                     Provider.of<CartViewModel>(context,
                                             listen: false)
                                         .cartAddItem(productData.id,
@@ -1272,8 +1273,8 @@ class _ProductDetail extends State<ProductDetail>
                               },
                               child: Container(
                                 //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
-                                color: value.buttonStatus == "Not Available"
-                                    ? AppColors.primaryElement
+                                color: value.buttonStatus == "GO TO CART"
+                                    ? Color(0xff000000)
                                     : AppColors.primaryElement,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1289,7 +1290,7 @@ class _ProductDetail extends State<ProductDetail>
                                       width: ScreenUtil().setWidth(12),
                                     ),
                                     Text(
-                                      value.buttonStatus,
+                                      value.buttonStatus!,
                                       style: TextStyle(
                                           color: Color(0xffffffff),
                                           fontSize: ScreenUtil().setSp(
@@ -1594,9 +1595,9 @@ class _YoutubeVideoPlayClass extends State<YoutubeVideoPlayClass>{
 
   void listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
+    //  setState(() {
         _playerState = _controller.value.playerState;
-      });
+    //  });
     }
   }
    @override

@@ -85,12 +85,12 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
         }
     );
-    final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data?.link;
-    if (deepLink != null) {
-
-      locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
-    }
+    // final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
+    // final Uri? deepLink = data?.link;
+    // if (deepLink != null) {
+    //
+    //   locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
+    // }
   }
 
   @override
@@ -126,7 +126,8 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                          SuggestedClass(),
                          TrendingClass(),
                          BrandClass(),
-                         VideoBannersClass()
+                         VideoBannersClass(),
+                         SizedBox(height: ScreenUtil().setWidth(15),)
                        ],
                      ),
                    ),

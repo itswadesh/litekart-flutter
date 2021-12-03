@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter/cupertino.dart';
@@ -346,11 +348,16 @@ class _RegisterState extends State<Register> {
                         _passwordController.text, _cPasswordController.text,
                         _firstNameController.text??"", _lastNameController.text??"");
                     if (model.registerStatus) {
+                      final NavigationService _navigationService = locator<NavigationService>();
+                      TzDialog _dialog =
+                      TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                      _dialog.show();
                       token = tempToken!;
                       await Provider.of<ProfileModel>(context, listen: false)
                           .getProfile();
                       await Provider.of<CartViewModel>(context, listen: false)
                           .changeStatus("loading");
+                      _dialog.close();
                       locator<NavigationService>()
                           .pushNamedAndRemoveUntil(routes.HomeRoute);
                     } else {

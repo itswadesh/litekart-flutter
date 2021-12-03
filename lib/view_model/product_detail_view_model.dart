@@ -5,12 +5,16 @@ import '../../utility/query_mutation.dart';
 
 class ProductDetailViewModel with ChangeNotifier {
   String? status = "loading";
-  var buttonStatus  = "ADD TO BAG";
+  var _buttonStatus  = "ADD TO BAG";
   QueryMutation addMutation = QueryMutation();
   ProductsRepository productsRepository = ProductsRepository();
   ProductDetailData? _productDetailResponse;
   ProductDetailData? get productDetailResponse {
     return _productDetailResponse;
+  }
+
+  String?  get buttonStatus {
+    return _buttonStatus;
   }
 
   Future<void> fetchProductDetailData(productId) async {
@@ -25,9 +29,16 @@ class ProductDetailViewModel with ChangeNotifier {
 
   changeStatus(statusData) {
     status = statusData;
+
   }
 
   changeButtonStatus(statusData){
-    buttonStatus = statusData;
+    _buttonStatus = statusData;
+
+  }
+
+  changeButtonStatusAndLoad(statusData){
+    _buttonStatus = statusData;
+    notifyListeners();
   }
 }

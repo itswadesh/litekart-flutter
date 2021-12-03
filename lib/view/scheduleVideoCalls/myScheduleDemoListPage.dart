@@ -268,9 +268,9 @@ class _ScheduleCard extends State<ScheduleCard> {
               //             )),
               //         overflow: TextOverflow.ellipsis,
               //         maxLines: 1)),
-              SizedBox(
-                height: ScreenUtil().setWidth(7),
-              ),
+              // SizedBox(
+              //   height: ScreenUtil().setWidth(7),
+              // ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(10),
@@ -330,7 +330,7 @@ class _ScheduleCard extends State<ScheduleCard> {
               //             : Container()
               //       ],
               //     )),
-              SizedBox(height: ScreenUtil().setWidth(10),),
+              SizedBox(height: ScreenUtil().setWidth(5),),
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
