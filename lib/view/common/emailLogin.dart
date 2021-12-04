@@ -345,7 +345,7 @@ class _EmailLoginState extends State<EmailLogin> {
                     InkWell(
                       onTap: (){
                         locator<NavigationService>()
-                            .pushReplacementNamed(routes.RegisterRoute);
+                            .pushNamed(routes.RegisterRoute);
                       },
                       child: Text("Register Here",style: TextStyle(color: Colors.blue),),
                     )
@@ -479,7 +479,7 @@ class _EmailLoginState extends State<EmailLogin> {
                     ),
                     onPressed: () async {
                       locator<NavigationService>()
-                          .pushReplacementNamed(routes.LoginRoute);
+                          .pushNamed(routes.LoginRoute);
 
                     },
                     child:  Container(

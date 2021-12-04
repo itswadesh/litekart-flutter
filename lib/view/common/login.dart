@@ -357,7 +357,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       ),
                       onPressed: () async {
                         locator<NavigationService>()
-                            .pushReplacementNamed(routes.EmailLoginRoute);
+                            .pushNamed(routes.EmailLoginRoute);
                       },
                       child: Container(
                         // padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
@@ -403,7 +403,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       ),
                       onPressed: () async {
                         locator<NavigationService>()
-                            .pushReplacementNamed(routes.RegisterRoute);
+                            .pushNamed(routes.RegisterRoute);
                       },
                       child:  Container(
                         //padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
