@@ -977,7 +977,8 @@ class _CartCard extends State<CartCard> {
   }
 
   Widget getCard(CartData cartData, CartResponse? response) {
-    return Card(
+   return Consumer<CartViewModel>(
+        builder: (BuildContext context, cartValue, Widget? child) {   return Card(
       margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(0), 0,
           ScreenUtil().setWidth(0), ScreenUtil().setWidth(10)),
       elevation: 0,
@@ -1108,8 +1109,7 @@ class _CartCard extends State<CartCard> {
                                     if(cartData.qty==1){
                                     await  Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
                                     }
-                                    Provider.of<CartViewModel>(context,
-                                            listen: false)
+                                   cartValue
                                         .cartAddItem(cartData.pid, cartData.pid,
                                             -1, false);
                                     Map<String, dynamic> data = {
@@ -1177,8 +1177,7 @@ class _CartCard extends State<CartCard> {
                           new InkWell(
                               onTap: () async {
 
-                                Provider.of<CartViewModel>(context,
-                                        listen: false)
+                                cartValue
                                     .cartAddItem(
                                         cartData.pid, cartData.pid, 1, false);
                                 Map<String, dynamic> data = {
@@ -1246,16 +1245,15 @@ class _CartCard extends State<CartCard> {
 
               InkWell(
                   onTap: () async {
-                    final NavigationService _navigationService = locator<NavigationService>();
-                    TzDialog _dialog =
-                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
-                    _dialog.show();
+                    // final NavigationService _navigationService = locator<NavigationService>();
+                    // TzDialog _dialog =
+                    // TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
+                    // _dialog.show();
                    await Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
-                  await  Provider.of<CartViewModel>(context,
-                        listen: false)
+                  await  cartValue
                         .cartAddItem(cartData.pid, cartData.pid,
                         -cartData.qty!, false);
-                  _dialog.close();
+                //  _dialog.close();
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -1307,6 +1305,6 @@ class _CartCard extends State<CartCard> {
           )
     ]),
       ),
-    );
+    );});
   }
 }

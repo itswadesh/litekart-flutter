@@ -3,8 +3,15 @@ import '../../repository/cart_repository.dart';
 import '../../response_handler/cartResponse.dart';
 import '../../response_handler/couponResponse.dart';
 import '../../utility/query_mutation.dart';
+import 'package:anne/components/base/tz_dialog.dart';
+import 'package:anne/enum/tz_dialog_type.dart';
+import 'package:anne/service/navigation/navigation_service.dart';
+import 'package:anne/utility/locator.dart';
+
 
 class CartViewModel with ChangeNotifier {
+  final NavigationService? _navigationService = locator<NavigationService>();
+  late TzDialog _dialog;
   QueryMutation addMutation = QueryMutation();
   String? status = "loading";
   String? statusPromo = "loading";
@@ -13,6 +20,12 @@ class CartViewModel with ChangeNotifier {
   CouponResponse? _couponResponse;
   bool? promocodeStatus = false;
   String? promocode = "";
+
+  CartViewModel() {
+    _dialog = TzDialog(
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
+  }
+
   CartRepository cartRepository = CartRepository();
   CartResponse? get cartResponse {
     return _cartResponse;
@@ -43,6 +56,7 @@ class CartViewModel with ChangeNotifier {
   }
 
   cartAddItem(pid, vid, qty, replace) async {
+    _dialog.show();
     var resultData = await cartRepository.cartAddItem(pid, vid, qty, replace);
     status = resultData["status"];
     if (status == "empty") {
@@ -59,6 +73,7 @@ class CartViewModel with ChangeNotifier {
         }
       }
     }
+    _dialog.close();
     notifyListeners();
   }
 

@@ -330,7 +330,7 @@ class _RegisterState extends State<Register> {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  else   if(EmailValidator.validate(_emailController.text)){
+                  else   if(!EmailValidator.validate(_emailController.text)){
                     final snackBar = SnackBar(
                       content: Text("Please Enter Valid Email Address"),
                     );

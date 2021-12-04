@@ -1228,7 +1228,8 @@ class _ProductDetail extends State<ProductDetail>
                                 ),
                               ),
                             )),
-                        Container(
+    Consumer<CartViewModel>(
+    builder: (BuildContext context, cartValue, Widget? child) { return   Container(
                           decoration: BoxDecoration(
                               color: value.buttonStatus == "GO TO CART"?Color(0xff000000): AppColors.primaryElement,
                               borderRadius: BorderRadius.circular(
@@ -1253,18 +1254,16 @@ class _ProductDetail extends State<ProductDetail>
                                 if (value.buttonStatus == "Not Available") {
                                 } else {
                                   if (value.buttonStatus == "ADD TO BAG") {
-                                    final NavigationService _navigationService = locator<NavigationService>();
-                                    TzDialog _dialog =
-                                    TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
-                                    _dialog.show();
+                                   // // final NavigationService _navigationService = locator<NavigationService>();
+                                   //  TzDialog _dialog =
+                                   //  TzDialog(context, TzDialogType.progress);
+                                   //  _dialog.show();
                                     Provider.of<ProductDetailViewModel>(context,
                                             listen: false)
                                         .changeButtonStatusAndLoad("GO TO CART");
-                                    Provider.of<CartViewModel>(context,
-                                            listen: false)
-                                        .cartAddItem(productData.id,
+                                    cartValue.cartAddItem(productData.id,
                                             productData.id, 1, false);
-                                    _dialog.close();
+                                 //   _dialog.close();
                                   } else {
                                     _navigationService!
                                         .pushNamed(routes.CartRoute);
@@ -1301,7 +1300,7 @@ class _ProductDetail extends State<ProductDetail>
                                   ],
                                 ),
                               )),
-                        )
+                        );})
                       ],
                     )));
       }),
