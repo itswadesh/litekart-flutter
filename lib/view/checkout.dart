@@ -985,7 +985,7 @@ class _Checkout extends State<Checkout> {
                                       ))
                                 ],
                               ),
-
+                              Divider(),
                               // Row(
                               //   mainAxisAlignment: MainAxisAlignment.end,
                               //   children: [

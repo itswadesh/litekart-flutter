@@ -185,7 +185,7 @@ class _LiveCommercePage extends State<LiveCommercePage>{
       // ),
       body:AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: AppColors.primaryElement
+        statusBarColor: Colors.white
     ),
     child:
     SafeArea(

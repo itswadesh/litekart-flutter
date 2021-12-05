@@ -795,9 +795,7 @@ getOtp(phone: \$phone){
     cgst
     sgst
     igst
-    category
-    variants
-    vendor
+ 
   }
 }""";
   }

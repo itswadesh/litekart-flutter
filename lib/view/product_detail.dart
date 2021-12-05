@@ -175,11 +175,342 @@ class _ProductDetail extends State<ProductDetail>
                 return Loading();
               }
               if (value.status == "empty") {
-                return cartEmptyMessage(
-                    "noNetwork", "Nothing here . Something went wrong !!");
+                return Stack(children:[ cartEmptyMessage(
+                    "search", "Product Not Found !!"),
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child: AnimatedBuilder(
+                          animation: _ColorAnimationController,
+                          builder: (context, child) => Container(
+                            color: _colorTween.value,
+                            width: double.infinity,
+                            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
+                                ScreenUtil().setWidth(20), 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      locator<NavigationService>().pop();
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.fromLTRB(
+                                            0, 0, ScreenUtil().setWidth(8), 0),
+                                        width: ScreenUtil().radius(45),
+                                        height: ScreenUtil().radius(45),
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xffffffff),
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Color(0xffffffff),
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              top: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              left: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              right: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4))),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          size: ScreenUtil().setWidth(18),
+                                        ))),
+                                /*InkWell(
+                    onTap: () async {
+                      TzDialog _dialog =
+                      TzDialog(context, TzDialogType.progress);
+                      _dialog.show();
+                     var dynamicLink = await _createDynamicLink(true, productData.id);
+                     _dialog.close();
+                      final RenderBox box = context.findRenderObject();
+                      await Share.share(
+                          "Hi, Check out this awesome product on anne : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                          sharePositionOrigin:
+                              box.localToGlobal(Offset.zero) & box.size);
+                    },
+                    child: Icon(
+                      Icons.share,
+                      size: 20,
+                    )),*/
+                                // SizedBox(
+                                //   width: ScreenUtil().setWidth(15),
+                                // ),
+                                Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+
+                                        InkWell(
+                                          onTap: () {
+                                            Map<String, dynamic> data = {
+                                              "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                              "itemId": productId,
+                                              "event": "tap"
+                                            };
+                                            Tracking(
+                                                event:
+                                                EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                                data: data);
+                                          },
+                                          child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0, 0, ScreenUtil().setWidth(8), 0),
+                                              width: ScreenUtil().radius(45),
+                                              height: ScreenUtil().radius(45),
+                                              decoration: new BoxDecoration(
+                                                color: Color(0xffffffff),
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    top: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    left: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    right: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4))),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: InkWell(
+                                                  onTap: () {
+                                                    if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                                                    {
+                                                      locator<NavigationService>().pushNamed(routes.LoginRoute);
+                                                    }
+                                                    else {
+                                                      locator<NavigationService>().pushNamed(
+                                                          routes.Wishlist);
+                                                    }
+                                                  },
+                                                  child: Icon(
+                                                    Icons.favorite_border_outlined,
+                                                    size: 25,
+                                                    color: Color(0xff616161),
+                                                  ))),
+                                        ),
+                                        SizedBox(
+                                          width: ScreenUtil().setWidth(15),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              0, 0, ScreenUtil().setWidth(0), 0),
+                                          width: ScreenUtil().radius(45),
+                                          height: ScreenUtil().radius(45),
+                                          decoration: new BoxDecoration(
+                                            color: Color(0xffffffff),
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                top: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                left: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                right: BorderSide(
+                                                    color: Color(0xffffffff),
+                                                    width: ScreenUtil().setWidth(0.4))),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child:
+                                          // Transform.translate(
+                                          //   offset: Offset(-10, 0),
+                                          //   child:
+                                          CartLogo(24),
+                                        )
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          ))),
+                ]);
               }
               if (value.status == "error") {
-                return errorMessage();
+                return Stack(children: [
+                  errorMessage(),
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child: AnimatedBuilder(
+                          animation: _ColorAnimationController,
+                          builder: (context, child) => Container(
+                            color: _colorTween.value,
+                            width: double.infinity,
+                            padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
+                                ScreenUtil().setWidth(20), 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      locator<NavigationService>().pop();
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.fromLTRB(
+                                            0, 0, ScreenUtil().setWidth(8), 0),
+                                        width: ScreenUtil().radius(45),
+                                        height: ScreenUtil().radius(45),
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xffffffff),
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Color(0xffffffff),
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              top: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              left: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4)),
+                                              right: BorderSide(
+                                                  color: Color(0xffffffff),
+
+                                                  width: ScreenUtil().setWidth(0.4))),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          size: ScreenUtil().setWidth(18),
+                                        ))),
+                                /*InkWell(
+                    onTap: () async {
+                      TzDialog _dialog =
+                      TzDialog(context, TzDialogType.progress);
+                      _dialog.show();
+                     var dynamicLink = await _createDynamicLink(true, productData.id);
+                     _dialog.close();
+                      final RenderBox box = context.findRenderObject();
+                      await Share.share(
+                          "Hi, Check out this awesome product on anne : $dynamicLink \n\n Weblink : ${ApiEndpoint().url}/${productData.slug}?id=$productId",
+                          sharePositionOrigin:
+                              box.localToGlobal(Offset.zero) & box.size);
+                    },
+                    child: Icon(
+                      Icons.share,
+                      size: 20,
+                    )),*/
+                                // SizedBox(
+                                //   width: ScreenUtil().setWidth(15),
+                                // ),
+                                Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+
+                                        InkWell(
+                                          onTap: () {
+                                            Map<String, dynamic> data = {
+                                              "id": EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                              "itemId": productId,
+                                              "event": "tap"
+                                            };
+                                            Tracking(
+                                                event:
+                                                EVENT_PRODUCT_DETAILS_ADD_TO_WISHLIST,
+                                                data: data);
+                                          },
+                                          child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0, 0, ScreenUtil().setWidth(8), 0),
+                                              width: ScreenUtil().radius(45),
+                                              height: ScreenUtil().radius(45),
+                                              decoration: new BoxDecoration(
+                                                color: Color(0xffffffff),
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    top: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    left: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4)),
+                                                    right: BorderSide(
+                                                        color: Color(0xffffffff),
+
+                                                        width: ScreenUtil().setWidth(0.4))),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: InkWell(
+                                                  onTap: () {
+                                                    if (Provider.of<ProfileModel>(context, listen: false).user == null)
+                                                    {
+                                                      locator<NavigationService>().pushNamed(routes.LoginRoute);
+                                                    }
+                                                    else {
+                                                      locator<NavigationService>().pushNamed(
+                                                          routes.Wishlist);
+                                                    }
+                                                  },
+                                                  child: Icon(
+                                                    Icons.favorite_border_outlined,
+                                                    size: 25,
+                                                    color: Color(0xff616161),
+                                                  ))),
+                                        ),
+                                        SizedBox(
+                                          width: ScreenUtil().setWidth(15),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              0, 0, ScreenUtil().setWidth(0), 0),
+                                          width: ScreenUtil().radius(45),
+                                          height: ScreenUtil().radius(45),
+                                          decoration: new BoxDecoration(
+                                            color: Color(0xffffffff),
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                top: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                left: BorderSide(
+                                                    color: Color(0xffffffff),
+
+                                                    width: ScreenUtil().setWidth(0.4)),
+                                                right: BorderSide(
+                                                    color: Color(0xffffffff),
+                                                    width: ScreenUtil().setWidth(0.4))),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child:
+                                          // Transform.translate(
+                                          //   offset: Offset(-10, 0),
+                                          //   child:
+                                          CartLogo(24),
+                                        )
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          ))),
+                ],) ;
               }
               if (value.productDetailResponse!.stock! <= 0) {
                 Provider.of<ProductDetailViewModel>(context, listen: false)

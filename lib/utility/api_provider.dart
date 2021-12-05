@@ -979,6 +979,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "hot"}),
       );
+      log(resultData.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1005,6 +1006,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "sale"}),
       );
+      log(resultData.toString());
       if (resultData.hasException) {
        
         responseData = {"status": "error"};
@@ -1033,6 +1035,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "new"}),
       );
+      log(resultData.toString());
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

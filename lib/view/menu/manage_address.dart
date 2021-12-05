@@ -1041,6 +1041,7 @@ class _ManageAddressState extends State<ManageAddress> {
                               ))
                         ],
                       ),
+                      Divider(),
                       // Divider(height: 1,),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.end,
