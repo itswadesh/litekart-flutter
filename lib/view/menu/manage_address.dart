@@ -142,9 +142,7 @@ class _ManageAddressState extends State<ManageAddress> {
   }
 
   addNewAddress() {
-    return ChangeNotifierProvider(
-        create: (BuildContext context) => AddressViewModel(),
-        child: Container(
+    return Container(
           color: Colors.white,
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(27),
@@ -592,49 +590,51 @@ class _ManageAddressState extends State<ManageAddress> {
                   //             15,
                   //           ))),
                   // )),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(28),
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            defaultAddress = !defaultAddress;
-                          });
-                        },
-                        child: defaultAddress
-                            ? Icon(
-                                Icons.check_box,
-                                color: AppColors.primaryElement,
-                                size: ScreenUtil().setWidth(18),
-                              )
-                            : Icon(
-                                Icons.check_box_outline_blank,
-                                color: AppColors.primaryElement,
-                                size: ScreenUtil().setWidth(18),
-                              ),
-                      ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(12.25),
-                      ),
-                      Container(
-                        width: ScreenUtil().setWidth(250),
-                        child: Text(
-                          "Make this a primary Address",
-                          style: TextStyle(
-                              color: Color(0xff5c5c5c),
-                              fontSize: ScreenUtil().setSp(
-                                13,
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: ScreenUtil().setWidth(28),
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     InkWell(
+                  //       onTap: () {
+                  //         setState(() {
+                  //           defaultAddress = !defaultAddress;
+                  //         });
+                  //       },
+                  //       child: defaultAddress
+                  //           ? Icon(
+                  //               Icons.check_box,
+                  //               color: AppColors.primaryElement,
+                  //               size: ScreenUtil().setWidth(18),
+                  //             )
+                  //           : Icon(
+                  //               Icons.check_box_outline_blank,
+                  //               color: AppColors.primaryElement,
+                  //               size: ScreenUtil().setWidth(18),
+                  //             ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: ScreenUtil().setWidth(12.25),
+                  //     ),
+                  //     Container(
+                  //       width: ScreenUtil().setWidth(250),
+                  //       child: Text(
+                  //         "Make this a primary Address",
+                  //         style: TextStyle(
+                  //             color: Color(0xff5c5c5c),
+                  //             fontSize: ScreenUtil().setSp(
+                  //               13,
+                  //             )),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: ScreenUtil().setWidth(27),
                   ),
-                  InkWell(
+    Consumer<AddressViewModel>(
+    builder: (BuildContext context, addressValue, Widget? child) {
+                 return InkWell(
                     onTap: () async {
                       if (buttonStatusAddress) {
                         if (!_formKey.currentState!.validate()) {
@@ -648,9 +648,7 @@ class _ManageAddressState extends State<ManageAddress> {
                         });
                         //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-                        var response = await Provider.of<AddressViewModel>(
-                                context,
-                                listen: false)
+                        await addressValue
                             .saveAddress(
                                 addressId,
                                 _email.text,
@@ -663,7 +661,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 _state.text,
                                 _pin.text,
                                 _phone.text);
-                        if (response) {
+                        if (addressValue.statusResponse!) {
                           setState(() {
                             buttonStatusAddress = !buttonStatusAddress;
                             addressId = "new";
@@ -717,10 +715,10 @@ class _ManageAddressState extends State<ManageAddress> {
                         ],
                       ),
                     ),
-                  ),
+                  );})
                 ],
               )),
-        ));
+        );
   }
 
   getDeliveryOptionCard() {

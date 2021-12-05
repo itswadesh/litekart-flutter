@@ -302,6 +302,8 @@ class ApiProvider {
           document: gql(addMutation.myAddresses()),
         ),
       );
+
+      log(resultData.toString());
       if (resultData.hasException) {
       
         responseData = {"status": "error"};
@@ -345,6 +347,7 @@ class ApiProvider {
           'store':store!.id
         }),
       );
+      print(result.toString());
       if (result.hasException) {
         
         statusResponse = false;

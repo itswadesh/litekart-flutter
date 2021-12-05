@@ -1380,7 +1380,7 @@ class _Checkout extends State<Checkout> {
         addressPage
             ?Consumer<AddressViewModel>(
     builder: (context, addressModel, child) {
-    return (addressModel.selectedAddress != null
+    return (addressModel.selectedAddress != null && newAddress
     ?  Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -2014,49 +2014,51 @@ class _Checkout extends State<Checkout> {
               //                 15,
               //               ))),
               //     )),
-              SizedBox(
-                height: ScreenUtil().setWidth(28),
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        defaultAddress = !defaultAddress;
-                      });
-                    },
-                    child: defaultAddress
-                        ? Icon(
-                      Icons.check_box,
-                      color: AppColors.primaryElement,
-                      size: ScreenUtil().setWidth(18),
-                    )
-                        : Icon(
-                      Icons.check_box_outline_blank,
-                      color: AppColors.primaryElement,
-                      size: ScreenUtil().setWidth(18),
-                    ),
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(12.25),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(250),
-                    child: Text(
-                      "Make this as my default Address",
-                      style: TextStyle(
-                          color: Color(0xff5c5c5c),
-                          fontSize: ScreenUtil().setSp(
-                            13,
-                          )),
-                    ),
-                  ),
-                ],
-              ),
+              // SizedBox(
+              //   height: ScreenUtil().setWidth(28),
+              // ),
+              // Row(
+              //   children: [
+              //     InkWell(
+              //       onTap: () {
+              //         setState(() {
+              //           defaultAddress = !defaultAddress;
+              //         });
+              //       },
+              //       child: defaultAddress
+              //           ? Icon(
+              //         Icons.check_box,
+              //         color: AppColors.primaryElement,
+              //         size: ScreenUtil().setWidth(18),
+              //       )
+              //           : Icon(
+              //         Icons.check_box_outline_blank,
+              //         color: AppColors.primaryElement,
+              //         size: ScreenUtil().setWidth(18),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: ScreenUtil().setWidth(12.25),
+              //     ),
+              //     Container(
+              //       width: ScreenUtil().setWidth(250),
+              //       child: Text(
+              //         "Make this as my default Address",
+              //         style: TextStyle(
+              //             color: Color(0xff5c5c5c),
+              //             fontSize: ScreenUtil().setSp(
+              //               13,
+              //             )),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: ScreenUtil().setWidth(27),
               ),
-              Container(
+          Consumer<AddressViewModel>(
+              builder: (BuildContext context, addressValue, Widget? child) {
+                return Container(
                 // padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 width: ScreenUtil().setWidth(362),
                 height: ScreenUtil().setWidth(42),
@@ -2079,9 +2081,7 @@ class _Checkout extends State<Checkout> {
                         buttonStatusAddress = !buttonStatusAddress;
                       });
 
-                      var response = await Provider.of<AddressViewModel>(
-                          context,
-                          listen: false)
+                      await addressValue
                           .saveAddress(
                           addressId,
                           _email.text,
@@ -2094,7 +2094,7 @@ class _Checkout extends State<Checkout> {
                           _state.text,
                           _pin.text,
                           _phone.text);
-                      if (response) {
+                      if (addressValue.statusResponse!) {
                         setState(() {
                           addressId = "new";
                           _phone.text = "";
@@ -2132,7 +2132,7 @@ class _Checkout extends State<Checkout> {
                         fontFamily: 'Montserrat'),
                   ),
                 ),
-              ),
+              );})
             ],
           )),
     );

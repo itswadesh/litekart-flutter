@@ -13,11 +13,17 @@ class AddressViewModel with ChangeNotifier {
   QueryMutation addMutation = QueryMutation();
   Address? _selectedAddress;
   String? status = "loading";
+ late bool _statusResponse;
   AddressResponse? _addressResponse;
   final AddressRepository addressRepository = AddressRepository();
   Address? get selectedAddress {
     return _selectedAddress;
   }
+
+  bool? get statusResponse{
+    return _statusResponse;
+  }
+
   late TzDialog _dialog;
   AddressViewModel() {
     _dialog = TzDialog(
@@ -39,15 +45,14 @@ class AddressViewModel with ChangeNotifier {
 
   saveAddress(id, email, firstName, lastName, address, city, country,
       state, pin, phone) async {
-    _dialog.show();
-    bool statusResponse;
-    statusResponse = await addressRepository.saveAddress(id, email, firstName,
+   _dialog.show();
+    _statusResponse = false;
+    _statusResponse = await addressRepository.saveAddress(id, email, firstName,
         lastName, address, city, country, state, pin, phone);
     await fetchAddressData();
-    selectAddress(_addressResponse!.data![0]);
-    _dialog.close();
+   selectAddress(_addressResponse!.data![0]);
+   _dialog.close();
     notifyListeners();
-    return statusResponse;
   }
 
   deleteAddress(id) async {

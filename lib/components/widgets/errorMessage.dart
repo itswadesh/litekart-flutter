@@ -12,7 +12,7 @@ errorMessage() {
         children: [
 
           Image.asset(
-            "assets/images/error.png",
+            "assets/images/no-data-curate.png",
             height: 280,
             width: 280,
           ),
