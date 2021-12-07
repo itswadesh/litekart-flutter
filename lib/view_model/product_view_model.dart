@@ -27,10 +27,10 @@ class ProductViewModel with ChangeNotifier {
   ProductResponse? get productSuggestedResponse {
     return _productSuggestedResponse;
   }
-  
-    ProductResponse? _productRecommendedResponse;
 
-  ProductResponse? get productRecommendedResponse {
+  RecommendedProductResponse? _productRecommendedResponse;
+
+  RecommendedProductResponse? get productRecommendedResponse {
     return _productRecommendedResponse;
   }
 
@@ -40,7 +40,7 @@ class ProductViewModel with ChangeNotifier {
     var resultData = await productsRepository.fetchRecommendedProducts();
     recommendedStatus = resultData["status"];
     if (recommendedStatus == "completed") {
-      _productRecommendedResponse = ProductResponse.fromJson(resultData["value"]);
+      _productRecommendedResponse = RecommendedProductResponse.fromJson(resultData["value"]);
     }
     notifyListeners(); 
   }
@@ -73,8 +73,8 @@ class ProductViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-// changeStatus(statusData) {
-//   status = statusData;
-//   notifyListeners();
-// }
+changeRecommendedStatus(statusData) {
+  recommendedStatus = statusData;
+
+}
 }

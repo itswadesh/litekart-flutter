@@ -981,7 +981,7 @@ class ApiProvider {
       log("store id is as "+store!.id!);
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.products()), variables: {'new':true , 'store':store!.id}),
+            document: gql(addMutation.products()), variables: {'store':store!.id, 'new':true}),
       );
       log(resultData.toString());
       if (resultData.hasException) {
@@ -991,7 +991,7 @@ class ApiProvider {
             resultData.data!["products"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          responseData = {"status": "completed", "value": resultData.data!["products"]["data"]};
+          responseData = {"status": "completed", "value": resultData.data!["products"]};
         }
       }
     } catch (e) {

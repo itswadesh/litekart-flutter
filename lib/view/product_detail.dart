@@ -87,6 +87,7 @@ class _ProductDetail extends State<ProductDetail>
    // productId = "61644dceaf07bf876d2c9f72";
     Provider.of<ProductDetailViewModel>(context, listen: false)
         .changeStatus("loading");
+    Provider.of<ProductViewModel>(context, listen: false).changeRecommendedStatus("loading");
     pageController =
         PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
     scrollController.addListener(() {
@@ -2213,9 +2214,12 @@ class _RecommendedClass extends State<RecommendedClass> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         Container(
+          color: Colors.white,
           child: getProductList(),
-        )
+        ),
+
       ],
     );
   }
@@ -2232,15 +2236,15 @@ class _RecommendedClass extends State<RecommendedClass> {
             return SizedBox.shrink();
           }
           return Column(children: [
-            Container(
-              height: ScreenUtil().setWidth(15),
-            ),
-            Container(
-              height: ScreenUtil().setWidth(25),
-              color: Color(0xfff3f3f3),),
-            Container(
-              height: ScreenUtil().setWidth(15),
-            ),
+            // Container(
+            //   height: ScreenUtil().setWidth(15),
+            // ),
+            // Container(
+            //   height: ScreenUtil().setWidth(25),
+            //   color: Color(0xfff3f3f3),),
+            // Container(
+            //   height: ScreenUtil().setWidth(15),
+            // ),
             Container(
               padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
               width: double.infinity,
@@ -2257,7 +2261,7 @@ class _RecommendedClass extends State<RecommendedClass> {
               child: Text(
                 "RECOMMENDED FOR YOU",
                 style: ThemeApp()
-                    .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+                    .homeHeaderThemeText(AppColors.primaryElement, ScreenUtil().setSp(18), true),
               ),
             ),
             Container(
@@ -2288,7 +2292,8 @@ class _RecommendedClass extends State<RecommendedClass> {
                       ]),
                     );
                   }),
-            )
+            ),
+            SizedBox(height: 20,)
           ]);
         });
   }
