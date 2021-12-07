@@ -990,7 +990,7 @@ class ApiProvider {
             resultData.data!["products"]["data"].length == 0) {
           responseData = {"status": "empty"};
         } else {
-          responseData = {"status": "completed", "value": resultData.data["products"]["data"]};
+          responseData = {"status": "completed", "value": resultData.data!["products"]["data"]};
         }
       }
     } catch (e) {
