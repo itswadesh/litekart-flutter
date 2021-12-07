@@ -25,7 +25,7 @@ class ScheduleViewModel with ChangeNotifier {
     var resultData = await scheduleRepository.fetchMyScheduleDemos();
     status = resultData["status"];
     if (status == "completed") {
-      log("in hereeeeeeee");
+
       _scheduleListResponse = ScheduleListResponse.fromJson(resultData["value"]);
       _pagingController.appendLastPage(_scheduleListResponse!.data!);
     }

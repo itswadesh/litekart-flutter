@@ -81,7 +81,7 @@ class _WishlistState extends State<Wishlist> {
   getWishList() {
     return Consumer<WishlistViewModel>(
         builder: (BuildContext context, value, Widget? child) {
-          log("hiii there");
+
       if (value.status == "loading") {
           Provider.of<WishlistViewModel>(context, listen: false).fetchData();
         return Loading();

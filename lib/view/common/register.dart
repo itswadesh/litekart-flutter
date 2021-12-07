@@ -275,7 +275,7 @@ class _RegisterState extends State<Register> {
                   height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     controller: _passwordController,
                     style: TextStyle(
                       color: Colors.black,

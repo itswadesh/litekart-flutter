@@ -306,12 +306,10 @@ class FacebookLoginViewModel extends ChangeNotifier{
       FacebookPermission.publicProfile,
       FacebookPermission.email,
     ]);
-    log("in hereeeee");
-    print("in hereeeee");
+
 
     if(res.status ==  FacebookLoginStatus.success){
-      log("in hereeeee");
-      print("in hereeeee");
+
 
       LoginRepository loginRepository = LoginRepository();
       final FacebookAccessToken accessToken = res.accessToken!;

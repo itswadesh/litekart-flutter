@@ -63,11 +63,11 @@ class _PickedBannersClass extends State<PickedBannersClass> {
       children.add( Container(
         height: ScreenUtil().setWidth(25),
         color: Color(0xfff3f3f3),));
-      children.add( Container(
+       children.add( bannerResponse.groupByBanner![i].title! =="" ?Container(): Container(
         color:Color(0xffffffff),
         height: ScreenUtil().setWidth(15),
       ));
-      children.add( Container(
+      children.add( bannerResponse.groupByBanner![i].title! =="" ?Container(): Container(
         padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
         color:Color(0xffffffff),
         width: double.infinity,

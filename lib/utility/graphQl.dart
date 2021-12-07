@@ -13,8 +13,8 @@ class GraphQLConfiguration {
       defaultHeaders: {"cookie": token??"", "content-type": "application/json"},
       httpResponseDecoder: (response) async {
 
-    /*log("Response Header : " + response.headers.toString());
-    log("Response Body : " + response.body);*/
+   /* log("Response Header : " + response.headers.toString());
+     log("Response Body : " + response.body);*/
     if (response.headers.containsKey("set-cookie")) {
       tempToken = response.headers["set-cookie"];
     }

@@ -33,7 +33,7 @@ class ApiProvider {
             }
         ),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
         return false;
       } else {
@@ -57,7 +57,7 @@ class ApiProvider {
             }
         ),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
         return false;
       } else {
@@ -87,7 +87,7 @@ class ApiProvider {
             }
         ),
       );
-      log(resultData.data!["myScheduleDemos"].toString());
+
       if (resultData.hasException) {
 
         responseData = {"status": "error"};
@@ -105,7 +105,7 @@ class ApiProvider {
     } catch (e) {
       responseData = {"status": "error"};
     }
-    log(responseData.toString());
+
     return responseData;
   }
 
@@ -133,7 +133,7 @@ class ApiProvider {
         }
         ),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
         
         responseData = {"status": "error"};
@@ -168,7 +168,7 @@ class ApiProvider {
             }
         ),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
 
         responseData = {"status": "error"};
@@ -205,7 +205,7 @@ class ApiProvider {
         variables: {"domain":ApiEndpoint().domainName}
         ),
       );
-      log("Store Result is  "+resultData.toString());
+
       if (resultData.hasException) {
         
         responseData = {"status": "error"};
@@ -303,7 +303,7 @@ class ApiProvider {
         ),
       );
 
-      log(resultData.toString());
+
       if (resultData.hasException) {
       
         responseData = {"status": "error"};
@@ -517,7 +517,7 @@ class ApiProvider {
     // var byteData = image.readAsBytesSync();
     //   final mimeTypeData = lookupMimeType(image.path,
     //       headerBytes: [0xFF, 0xD8])!.split('/');
-    //   log(image.path);
+    //
     //   var file = Multipartfile.MultipartFile.fromString(
     //       "image",
     //       image.path,
@@ -555,7 +555,7 @@ class ApiProvider {
         }
         print(result.exception.toString());
       }
-      log("here");
+
       return false;
     }
   }
@@ -616,7 +616,7 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        log(resultData.data!["groupByBanner"].toString());
+
         if (resultData.data!["groupByBanner"] == null ||
             resultData.data!["groupByBanner"].length == null) {
           responseData = {"status": "empty"};
@@ -649,7 +649,7 @@ class ApiProvider {
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
-        log("Video :: "+resultData.data.toString());
+
         if (resultData.data!["banners"] == null) {
           responseData = {"status": "empty"};
         } else {
@@ -777,7 +777,7 @@ class ApiProvider {
           }
         ),
       );
-      log("cart response   ===== "+resultData.toString());
+
       if (resultData.hasException) {
         
         responseData = {"status": "error"};
@@ -978,9 +978,10 @@ class ApiProvider {
     try {
       GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      log("store id is as "+store!.id!);
       var resultData = await _client1.mutate(
         MutationOptions(
-            document: gql(addMutation.products()), variables: {"new": true,"store":store!.id}),
+            document: gql(addMutation.products()), variables: {'new':true , 'store':store!.id}),
       );
       log(resultData.toString());
       if (resultData.hasException) {
@@ -1009,7 +1010,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "hot"}),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1038,7 +1039,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "sale"}),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
        
         responseData = {"status": "error"};
@@ -1067,7 +1068,7 @@ class ApiProvider {
         MutationOptions(
             document: gql(addMutation.trending()), variables: {"type": "new"}),
       );
-      log(resultData.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1219,8 +1220,8 @@ class ApiProvider {
     }
     print((ApiEndpoint()).productList);
     print(categoryName + cn);
-    log((ApiEndpoint()).productList!);
-    log(categoryName + cn);
+
+
    
     var response = await dio.get((ApiEndpoint()).productList!, queryParameters: {
       "categories": categoryName + cn,
@@ -1238,9 +1239,7 @@ class ApiProvider {
       "store": store!.id,
       // "brand": bi
     });
-    log(response.realUri.toString());
-	log(response.toString());
-	print(response.toString());
+
     return response;
   }
 
@@ -1279,7 +1278,7 @@ class ApiProvider {
     );
 
     if (result.hasException) {
-      log(result.exception.toString());
+
       responseData = {"status": "error"};
     } else {
       if (result.data==null||result.data!["paySuccessPageHit"] == null) {
@@ -1292,7 +1291,7 @@ class ApiProvider {
       }
     }
   } catch (e) {
-      log(e.toString());
+
   responseData = {"status": "error"};
 
   }
@@ -1347,8 +1346,7 @@ class ApiProvider {
           }
       ),
     );
-    log(result.exception.toString());
-    log(result.data.toString());
+
 
     if (result.hasException) {
       responseData = {"status": "error"};
@@ -1417,7 +1415,7 @@ class ApiProvider {
           MutationOptions(document: gql(addMutation.paymentMethods()), variables: {
             "store":store!.id
           }));
-      log(resultData.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1500,7 +1498,7 @@ class ApiProvider {
         // "sort":sort,
         // "status": status
       }));
-      log(resultData.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {
@@ -1532,7 +1530,7 @@ class ApiProvider {
       GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
       var resultData = await _client1.mutate(MutationOptions(
           document: gql(addMutation.orderItem()), variables: {"id": id}));
-     log(resultData.toString());
+
       if (resultData.hasException) {
         responseData = {"status": "error"};
       } else {

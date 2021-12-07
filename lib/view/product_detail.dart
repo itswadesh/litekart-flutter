@@ -2224,7 +2224,7 @@ class _RecommendedClass extends State<RecommendedClass> {
     return Consumer<ProductViewModel>(
         builder: (BuildContext context, value, Widget? child) {
           if (value.recommendedStatus == "loading") {
-            Provider.of<ProductViewModel>(context, listen: false).fetchRecommendedProducts();
+            value.fetchRecommendedProducts();
             return Container();
           } else if (value.recommendedStatus == "empty") {
             return SizedBox.shrink();

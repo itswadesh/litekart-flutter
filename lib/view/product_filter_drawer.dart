@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:anne/values/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
@@ -81,6 +82,11 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                     topRight: Radius.circular(ScreenUtil().setWidth(25)),
                   )),
               child: _createHeader(),
+            ),
+            Divider(
+              height: ScreenUtil().setWidth(0.4),
+              thickness: ScreenUtil().setWidth(0.4),
+              color: Color(0xff707070),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -214,42 +220,88 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           var item =
           widget.facet["all_aggs"]["brands"]["all"]["buckets"][index];
 
-          return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
+          return item['doc_count']>0?
+         InkWell(
+           onTap: (){
+                 if (brand.contains(item["key"])) {
+                   setState(() {
+                     brand.remove(item["key"]);
+                   });
+                 } else {
+                   setState(() {
+                     brand.add(item["key"]);
+                   });
+                 }
+           },
+             child: Container(
+                 padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+              height: ScreenUtil().setWidth(45),
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                Container(
 
-                  if (brand.contains(item["key"])) {
-                    setState(() {
-                      brand.remove(item["key"]);
-                    });
-                  } else {
-                    setState(() {
-                      brand.add(item["key"]);
-                    });
-                  }
-                },
-                trailing: brand.contains(item["key"])
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: brand.contains(item["key"])
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
+                    width: ScreenUtil().setWidth(175),
+                    child:  brand.contains(item["key"])
+                        ? Text(
+                      "${item['key']}",
+                      style: TextStyle(
+                          color: AppColors.primaryElement,
+                          fontSize: ScreenUtil().setWidth(14)),
+                    )
+                        : Text("${item['key']}",
+                        style: TextStyle(
+                            color: Color(0xff4a4a4a),
+                            fontSize: ScreenUtil().setWidth(14)))),
+                  brand.contains(item["key"])
+                        ? Icon(
+                      Icons.check_circle_outline,
                       color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+                    )
+                        : Icon(
+                      Icons.radio_button_unchecked,
+                      color: Color(0xff4a4a4a),
+                    ),
+                ],
+              )
+              // ListTile(
+              //
+              //   onTap: () {
+              //
+              //     if (brand.contains(item["key"])) {
+              //       setState(() {
+              //         brand.remove(item["key"]);
+              //       });
+              //     } else {
+              //       setState(() {
+              //         brand.add(item["key"]);
+              //       });
+              //     }
+              //   },
+              //   trailing: brand.contains(item["key"])
+              //       ? Icon(
+              //     Icons.check_circle_outline,
+              //     color: AppColors.primaryElement,
+              //   )
+              //       : Icon(
+              //     Icons.radio_button_unchecked,
+              //     color: Color(0xff4a4a4a),
+              //   ),
+              //   title: brand.contains(item["key"])
+              //       ? Text(
+              //     "${item['key']}",
+              //     style: TextStyle(
+              //         color: AppColors.primaryElement,
+              //         fontSize: ScreenUtil().setWidth(14)),
+              //   )
+              //       : Text("${item['key']}",
+              //       style: TextStyle(
+              //           color: Color(0xff4a4a4a),
+              //           fontSize: ScreenUtil().setWidth(14))),
+              // )
+          ))
+              :Container();
         });
   }
 
@@ -265,41 +317,88 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           widget.facet["all_aggs"]["colors"]["all"]["buckets"][index];
 
           return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
+              height: ScreenUtil().setWidth(45),
+              child:
+              InkWell(
+              onTap: (){
+              if (color.contains(item["key"])) {
+                setState(() {
+                  color.remove(item["key"]);
+                });
+              } else {
+                setState(() {
+                  color.add(item["key"]);
+                });
+              }
+              },
+              child: Container(
+              padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+              height: ScreenUtil().setWidth(45),
+              child:
+              Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+              Container(
 
-                  if (color.contains(item["key"])) {
-                    setState(() {
-                      color.remove(item["key"]);
-                    });
-                  } else {
-                    setState(() {
-                      color.add(item["key"]);
-                    });
-                  }
-                },
-                trailing: color.contains(item["key"])
-                    ? Icon(
-                  Icons.check_circle_outline,
+              width: ScreenUtil().setWidth(175),
+              child:  color.contains(item["key"])
+                ? Text(
+              "${item['key']}",
+              style: TextStyle(
                   color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: color.contains(item["key"])
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+                  fontSize: ScreenUtil().setWidth(14)),
+            )
+                : Text("${item['key']}",
+                style: TextStyle(
+                    color: Color(0xff4a4a4a),
+                    fontSize: ScreenUtil().setWidth(14)))),
+          color.contains(item["key"])
+                ? Icon(
+              Icons.check_circle_outline,
+              color: AppColors.primaryElement,
+            )
+                : Icon(
+              Icons.radio_button_unchecked,
+              color: Color(0xff4a4a4a),
+            ),
+          ],
+          )
+              // ListTile(
+              //   onTap: () {
+              //
+              //     if (color.contains(item["key"])) {
+              //       setState(() {
+              //         color.remove(item["key"]);
+              //       });
+              //     } else {
+              //       setState(() {
+              //         color.add(item["key"]);
+              //       });
+              //     }
+              //   },
+              //   trailing: color.contains(item["key"])
+              //       ? Icon(
+              //     Icons.check_circle_outline,
+              //     color: AppColors.primaryElement,
+              //   )
+              //       : Icon(
+              //     Icons.radio_button_unchecked,
+              //     color: Color(0xff4a4a4a),
+              //   ),
+              //   title: color.contains(item["key"])
+              //       ? Text(
+              //     "${item['key']}",
+              //     style: TextStyle(
+              //         color: AppColors.primaryElement,
+              //         fontSize: ScreenUtil().setWidth(14)),
+              //   )
+              //       : Text("${item['key']}",
+              //       style: TextStyle(
+              //           color: Color(0xff4a4a4a),
+              //           fontSize: ScreenUtil().setWidth(14))),
+              // )
+
+          ))):Container();
         });
   }
 
@@ -313,42 +412,92 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         itemBuilder: (BuildContext context, index) {
           var item = widget.facet["all_aggs"]["sizes"]["all"]["buckets"][index];
           log(item.toString());
-          return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
 
-                  if (size.contains(item["key"])) {
-                    setState(() {
-                      size.remove(item["key"]);
-                    });
-                  } else {
-                    setState(() {
-                      size.add(item["key"]);
-                    });
-                  }
-                },
-                trailing: size.contains(item["key"])
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: size.contains(item["key"])
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+          return item['doc_count']>0? Container(
+              height: ScreenUtil().setWidth(45),
+              child:
+              InkWell(
+                  onTap: (){
+                            if (size.contains(item["key"])) {
+                              setState(() {
+                                size.remove(item["key"]);
+                              });
+                            } else {
+                              setState(() {
+                                size.add(item["key"]);
+                              });
+                            }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      height: ScreenUtil().setWidth(45),
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+
+                              width: ScreenUtil().setWidth(175),
+                              child:  size.contains(item["key"])
+                                        ? Text(
+                                      "${item['key']}",
+                                      style: TextStyle(
+                                          color: AppColors.primaryElement,
+                                          fontSize: ScreenUtil().setWidth(14)),
+                                    )
+                                        : Text("${item['key']}",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setWidth(14)))),
+                          size.contains(item["key"])
+                                    ? Icon(
+                                  Icons.check_circle_outline,
+                                  color: AppColors.primaryElement,
+                                )
+                                    : Icon(
+                                  Icons.radio_button_unchecked,
+                                  color: Color(0xff4a4a4a),
+                                ),
+                        ],
+                      )
+
+                  ))):Container();
+          // return item['doc_count']>0? Container(
+          //     height: ScreenUtil().setWidth(45),
+          //     child: ListTile(
+          //       onTap: () {
+          //
+          //         if (size.contains(item["key"])) {
+          //           setState(() {
+          //             size.remove(item["key"]);
+          //           });
+          //         } else {
+          //           setState(() {
+          //             size.add(item["key"]);
+          //           });
+          //         }
+          //       },
+          //       trailing: size.contains(item["key"])
+          //           ? Icon(
+          //         Icons.check_circle_outline,
+          //         color: AppColors.primaryElement,
+          //       )
+          //           : Icon(
+          //         Icons.radio_button_unchecked,
+          //         color: Color(0xff4a4a4a),
+          //       ),
+          //       title: size.contains(item["key"])
+          //           ? Text(
+          //         "${item['key']}",
+          //         style: TextStyle(
+          //             color: AppColors.primaryElement,
+          //             fontSize: ScreenUtil().setWidth(14)),
+          //       )
+          //           : Text("${item['key']}",
+          //           style: TextStyle(
+          //               color: Color(0xff4a4a4a),
+          //               fontSize: ScreenUtil().setWidth(14))),
+          //     )):Container();
         });
   }
 
@@ -362,7 +511,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
         child: Container(
           color: s == current ? Color(0xffffffff) : Color(0xffdfdfdf),
           padding: EdgeInsets.only(
-              left: ScreenUtil().setWidth(26), top: ScreenUtil().setWidth(15)),
+              left: ScreenUtil().setWidth(15), top: ScreenUtil().setWidth(15)),
           height: ScreenUtil().setWidth(45),
           width: ScreenUtil().setWidth(176),
           child: Text(
@@ -437,41 +586,90 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           widget.facet["all_aggs"]["genders"]["all"]["buckets"][index];
           log(item.toString());
           return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
+              height: ScreenUtil().setWidth(45),
+              child:
+              InkWell(
+                  onTap: (){
+                            if (gender.contains(item["key"])) {
+                              setState(() {
+                                gender.remove(item["key"]);
+                              });
+                            } else {
+                              setState(() {
+                                gender.add(item["key"]);
+                              });
+                            }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      height: ScreenUtil().setWidth(45),
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
 
-                  if (gender.contains(item["key"])) {
-                    setState(() {
-                      gender.remove(item["key"]);
-                    });
-                  } else {
-                    setState(() {
-                      gender.add(item["key"]);
-                    });
-                  }
-                },
-                trailing: gender.contains(item["key"])
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: gender.contains(item["key"])
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+                              width: ScreenUtil().setWidth(175),
+                              child:  gender.contains(item["key"])
+                                        ? Text(
+                                      "${item['key']}",
+                                      style: TextStyle(
+                                          color: AppColors.primaryElement,
+                                          fontSize: ScreenUtil().setWidth(14)),
+                                    )
+                                        : Text("${item['key']}",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setWidth(14))),),
+                          gender.contains(item["key"])
+                                    ? Icon(
+                                  Icons.check_circle_outline,
+                                  color: AppColors.primaryElement,
+                                )
+                                    : Icon(
+                                  Icons.radio_button_unchecked,
+                                  color: Color(0xff4a4a4a),
+                                ),
+                        ],
+                      )
+
+                  ))):Container();
+          // return item['doc_count']>0? Container(
+          //     height: ScreenUtil().setWidth(45),
+          //     child: ListTile(
+          //       onTap: () {
+          //
+          //         if (gender.contains(item["key"])) {
+          //           setState(() {
+          //             gender.remove(item["key"]);
+          //           });
+          //         } else {
+          //           setState(() {
+          //             gender.add(item["key"]);
+          //           });
+          //         }
+          //       },
+          //       trailing: gender.contains(item["key"])
+          //           ? Icon(
+          //         Icons.check_circle_outline,
+          //         color: AppColors.primaryElement,
+          //       )
+          //           : Icon(
+          //         Icons.radio_button_unchecked,
+          //         color: Color(0xff4a4a4a),
+          //       ),
+          //       title: gender.contains(item["key"])
+          //           ? Text(
+          //         "${item['key']}",
+          //         style: TextStyle(
+          //             color: AppColors.primaryElement,
+          //             fontSize: ScreenUtil().setWidth(14)),
+          //       )
+          //           : Text("${item['key']}",
+          //           style: TextStyle(
+          //               color: Color(0xff4a4a4a),
+          //               fontSize: ScreenUtil().setWidth(14))),
+          //     )):Container();
         });
   }
 
@@ -486,39 +684,86 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           var item = widget.facet["all_aggs"]["price"]["all"]["buckets"][index];
           log(item.toString());
           return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
+              height: ScreenUtil().setWidth(45),
+              child:
+              InkWell(
+                  onTap: (){
+                            if (priceRange == item["from"].toString()+","+item["to"].toString()) {
 
-                  if (priceRange == item["from"].toString()+","+item["to"].toString()) {
+                            } else {
+                              setState(() {
+                                priceRange = item["from"].toString()+","+item["to"].toString();
+                              });
+                            }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      height: ScreenUtil().setWidth(45),
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
 
-                  } else {
-                    setState(() {
-                      priceRange = item["from"].toString()+","+item["to"].toString();
-                    });
-                  }
-                },
-                trailing: priceRange==item["from"].toString()+","+item["to"].toString()
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: priceRange==item["value"]
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+                            width: ScreenUtil().setWidth(175),
+                            child:  priceRange==item["value"]
+                                        ? Text(
+                                      "${item['key']}",
+                                      style: TextStyle(
+                                          color: AppColors.primaryElement,
+                                          fontSize: ScreenUtil().setWidth(14)),
+                                    )
+                                        : Text("${item['key']}",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setWidth(14))),),
+                          priceRange==item["from"].toString()+","+item["to"].toString()
+                                    ? Icon(
+                                  Icons.check_circle_outline,
+                                  color: AppColors.primaryElement,
+                                )
+                                    : Icon(
+                                  Icons.radio_button_unchecked,
+                                  color: Color(0xff4a4a4a),
+                                ),
+                        ],
+                      )
+
+                  ))):Container();
+          // return item['doc_count']>0? Container(
+          //     height: ScreenUtil().setWidth(45),
+          //     child: ListTile(
+          //       onTap: () {
+          //
+          //         if (priceRange == item["from"].toString()+","+item["to"].toString()) {
+          //
+          //         } else {
+          //           setState(() {
+          //             priceRange = item["from"].toString()+","+item["to"].toString();
+          //           });
+          //         }
+          //       },
+          //       trailing: priceRange==item["from"].toString()+","+item["to"].toString()
+          //           ? Icon(
+          //         Icons.check_circle_outline,
+          //         color: AppColors.primaryElement,
+          //       )
+          //           : Icon(
+          //         Icons.radio_button_unchecked,
+          //         color: Color(0xff4a4a4a),
+          //       ),
+          //       title: priceRange==item["value"]
+          //           ? Text(
+          //         "${item['key']}",
+          //         style: TextStyle(
+          //             color: AppColors.primaryElement,
+          //             fontSize: ScreenUtil().setWidth(14)),
+          //       )
+          //           : Text("${item['key']}",
+          //           style: TextStyle(
+          //               color: Color(0xff4a4a4a),
+          //               fontSize: ScreenUtil().setWidth(14))),
+          //     )):Container();
         });
   }
 
@@ -533,41 +778,90 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
           var item = widget.facet["all_aggs"]["age"]["all"]["buckets"][index];
 
           return item['doc_count']>0? Container(
-              height: ScreenUtil().setWidth(50),
-              child: ListTile(
-                onTap: () {
+              height: ScreenUtil().setWidth(45),
+              child:
+              InkWell(
+                  onTap: (){
+                            if (ageGroup==item["key"]) {
+                              // setState(() {
+                              //   ageGroup.remove(item["key"]);
+                              // });
+                            } else {
+                              setState(() {
+                                ageGroup=item["from"].toString()+","+item["to"].toString();
+                              });
+                            }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      height: ScreenUtil().setWidth(45),
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
 
-                  if (ageGroup==item["key"]) {
-                    // setState(() {
-                    //   ageGroup.remove(item["key"]);
-                    // });
-                  } else {
-                    setState(() {
-                      ageGroup=item["from"].toString()+","+item["to"].toString();
-                    });
-                  }
-                },
-                trailing: ageGroup==item["from"].toString()+","+item["to"].toString()
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: ageGroup==item["from"].toString()+","+item["to"].toString()
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              )):Container();
+                            width: ScreenUtil().setWidth(175),
+                            child:  ageGroup==item["from"].toString()+","+item["to"].toString()
+                                        ? Text(
+                                      "${item['key']}",
+                                      style: TextStyle(
+                                          color: AppColors.primaryElement,
+                                          fontSize: ScreenUtil().setWidth(14)),
+                                    )
+                                        : Text("${item['key']}",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setWidth(14))),),
+                          ageGroup==item["from"].toString()+","+item["to"].toString()
+                                    ? Icon(
+                                  Icons.check_circle_outline,
+                                  color: AppColors.primaryElement,
+                                )
+                                    : Icon(
+                                  Icons.radio_button_unchecked,
+                                  color: Color(0xff4a4a4a),
+                                ),
+                        ],
+                      )
+
+                  ))):Container();
+          // return item['doc_count']>0? Container(
+          //     height: ScreenUtil().setWidth(45),
+          //     child: ListTile(
+          //       onTap: () {
+          //
+          //         if (ageGroup==item["key"]) {
+          //           // setState(() {
+          //           //   ageGroup.remove(item["key"]);
+          //           // });
+          //         } else {
+          //           setState(() {
+          //             ageGroup=item["from"].toString()+","+item["to"].toString();
+          //           });
+          //         }
+          //       },
+          //       trailing: ageGroup==item["from"].toString()+","+item["to"].toString()
+          //           ? Icon(
+          //         Icons.check_circle_outline,
+          //         color: AppColors.primaryElement,
+          //       )
+          //           : Icon(
+          //         Icons.radio_button_unchecked,
+          //         color: Color(0xff4a4a4a),
+          //       ),
+          //       title: ageGroup==item["from"].toString()+","+item["to"].toString()
+          //           ? Text(
+          //         "${item['key']}",
+          //         style: TextStyle(
+          //             color: AppColors.primaryElement,
+          //             fontSize: ScreenUtil().setWidth(14)),
+          //       )
+          //           : Text("${item['key']}",
+          //           style: TextStyle(
+          //               color: Color(0xff4a4a4a),
+          //               fontSize: ScreenUtil().setWidth(14))),
+          //     )):Container();
         });
   }
 
@@ -576,7 +870,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
 
     //TextEditingController _brand = TextEditingController();
     return Container(
-        height: ScreenUtil().setWidth(50),
+
         child: ListView.builder(
             padding: EdgeInsets.only(top: 0, bottom: 0),
             itemCount:
@@ -584,41 +878,91 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
             itemBuilder: (BuildContext context, index) {
               var item =
               widget.facet["all_aggs"]["discount"]["all"]["buckets"][index];
+              return item['doc_count']>0? Container(
+                  height: ScreenUtil().setWidth(45),
+                  child:
+                  InkWell(
+                      onTap: (){
+                            if (discount==item["from"].toString()+","+item["to"].toString()) {
+                              // setState(() {
+                              //   discount.remove(item["key"]);
+                              // });
+                            } else {
+                              setState(() {
+                                discount = item["from"].toString()+","+item["to"].toString();
+                              });
+                            }
+                      },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                          height: ScreenUtil().setWidth(45),
+                          child:
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
 
-              return item['doc_count']>0? ListTile(
-                onTap: () {
+                                width: ScreenUtil().setWidth(175),
+                                child:  discount==item["key"]
+                                        ? Text(
+                                      "${item['key']}",
+                                      style: TextStyle(
+                                          color: AppColors.primaryElement,
+                                          fontSize: ScreenUtil().setWidth(14)),
+                                    )
+                                        : Text("${item['key']}",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontSize: ScreenUtil().setWidth(14))),),
+                              discount==item["from"].toString()+","+item["to"].toString()
+                                    ? Icon(
+                                  Icons.check_circle_outline,
+                                  color: AppColors.primaryElement,
+                                )
+                                    : Icon(
+                                  Icons.radio_button_unchecked,
+                                  color: Color(0xff4a4a4a),
+                                ),
+                            ],
+                          )
 
-                  if (discount==item["from"].toString()+","+item["to"].toString()) {
-                    // setState(() {
-                    //   discount.remove(item["key"]);
-                    // });
-                  } else {
-                    setState(() {
-                      discount = item["from"].toString()+","+item["to"].toString();
-                    });
-                  }
-                },
-                trailing: discount==item["from"].toString()+","+item["to"].toString()
-                    ? Icon(
-                  Icons.check_circle_outline,
-                  color: AppColors.primaryElement,
-                )
-                    : Icon(
-                  Icons.radio_button_unchecked,
-                  color: Color(0xff4a4a4a),
-                ),
-                title: discount==item["key"]
-                    ? Text(
-                  "${item['key']}",
-                  style: TextStyle(
-                      color: AppColors.primaryElement,
-                      fontSize: ScreenUtil().setWidth(14)),
-                )
-                    : Text("${item['key']}",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontSize: ScreenUtil().setWidth(14))),
-              ):Container();
+                      ))):Container();
+              // return item['doc_count']>0?Container(
+              //     height: ScreenUtil().setWidth(45),
+              //     child: ListTile(
+              //   onTap: () {
+              //
+              //     if (discount==item["from"].toString()+","+item["to"].toString()) {
+              //       // setState(() {
+              //       //   discount.remove(item["key"]);
+              //       // });
+              //     } else {
+              //       setState(() {
+              //         discount = item["from"].toString()+","+item["to"].toString();
+              //       });
+              //     }
+              //   },
+              //   trailing: discount==item["from"].toString()+","+item["to"].toString()
+              //       ? Icon(
+              //     Icons.check_circle_outline,
+              //     color: AppColors.primaryElement,
+              //   )
+              //       : Icon(
+              //     Icons.radio_button_unchecked,
+              //     color: Color(0xff4a4a4a),
+              //   ),
+              //   title: discount==item["key"]
+              //       ? Text(
+              //     "${item['key']}",
+              //     style: TextStyle(
+              //         color: AppColors.primaryElement,
+              //         fontSize: ScreenUtil().setWidth(14)),
+              //   )
+              //       : Text("${item['key']}",
+              //       style: TextStyle(
+              //           color: Color(0xff4a4a4a),
+              //           fontSize: ScreenUtil().setWidth(14))),
+              // )):Container();
             }));
   }
 }

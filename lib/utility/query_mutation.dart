@@ -833,7 +833,7 @@ getOtp(phone: \$phone){
   store: \$store
   ) {
   data {
-   id
+    id
     sku
     barcode
     description
@@ -878,8 +878,7 @@ getOtp(phone: \$phone){
   noOfPage
   page
   }
-  }
-""";
+ }""";
   }
 
   product() {
