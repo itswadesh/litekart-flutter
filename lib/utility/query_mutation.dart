@@ -833,68 +833,45 @@ getOtp(phone: \$phone){
   store: \$store
   ) {
   data {
-  id
-  slug
-  name
-  type
-  price
-  mrp
-  stock
-  img
-  imgCdn
-  images
-  time
-  active
-  popularity
-  position
-  variants {
-  id
-  options {
-  name
-  }
-  stock
-  weight
-  barcode
-  sku
-  mrp
-  price
-  images
-  trackInventory
-  active
-  sort
-  }
-  trending
-  featured
-  hot
-  new
-  sale
-  recommended
-  title
-  metaDescription
-  keywords
-  ratings
-  reviews
-  brand {
-      id
-      name
-    }
-  category {
-  name
-  }
-  vendor {
-  id
-  firstName
-  lastName
-  phone
-  email
-  address {
-  address
-  }
-  info {
-  store
-  storePhotos
-  }
-  }
+   id
+    sku
+    barcode
+    description
+    productMasterId
+    slug
+    name
+    type
+    price
+    mrp
+    stock
+    tax
+    img
+    imgCdn
+    images
+    time
+    active
+    popularity
+    position
+    trending
+    featured
+    hot
+    new
+    sale
+    recommended
+    title
+    metaDescription
+    keywords
+    ratings
+    reviews
+    itemId
+    warranty
+    discount
+    ageMin
+    ageMax
+    ageUnit
+    cgst
+    sgst
+    igst
   }
   count
   pageSize
