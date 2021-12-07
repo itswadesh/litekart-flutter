@@ -68,25 +68,16 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
-  - FBAEMKit (11.2.1):
-    - FBAEMKit/AEM (= 11.2.1)
-  - FBAEMKit/AEM (11.2.1):
-    - FBSDKCoreKit_Basics (~> 11.2.1)
-  - FBSDKCoreKit (11.2.1):
-    - FBSDKCoreKit/Core (= 11.2.1)
-  - FBSDKCoreKit/Core (11.2.1):
-    - FBAEMKit (~> 11.2.1)
-    - FBSDKCoreKit_Basics (~> 11.2.1)
-  - FBSDKCoreKit_Basics (11.2.1):
-    - FBSDKCoreKit_Basics/Basics (= 11.2.1)
-  - FBSDKCoreKit_Basics/Basics (11.2.1)
-  - FBSDKLoginKit (11.2.1):
-    - FBSDKLoginKit/Login (= 11.2.1)
-  - FBSDKLoginKit/Login (11.2.1):
-    - FBSDKCoreKit (~> 11.2.1)
-    - FBSDKCoreKit_Basics (~> 11.2.1)
-  - fijkplayer (0.10.0):
-    - BIJKPlayer (~> 0.7.15)
+  - FBAEMKit (12.1.0):
+    - FBSDKCoreKit_Basics (= 12.1.0)
+  - FBSDKCoreKit (12.1.0):
+    - FBAEMKit (= 12.1.0)
+    - FBSDKCoreKit_Basics (= 12.1.0)
+  - FBSDKCoreKit_Basics (12.1.0)
+  - FBSDKLoginKit (12.1.0):
+    - FBSDKCoreKit (= 12.1.0)
+  - fijkplayer (0.10.1):
+    - BIJKPlayer (~> 0.7.16)
     - Flutter
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
@@ -111,22 +102,22 @@ PODS:
     - Firebase/Analytics (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.10.0):
+  - firebase_core (1.10.1):
     - Firebase/CoreOnly (= 8.9.0)
     - Flutter
-  - firebase_dynamic_links (2.0.11):
+  - firebase_dynamic_links (3.0.2):
     - Firebase/DynamicLinks (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (10.0.9):
+  - firebase_messaging (11.2.0):
     - Firebase/Messaging (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (0.10.0-5):
+  - firebase_remote_config (0.11.0-2):
     - Firebase/RemoteConfig (= 8.9.0)
     - firebase_core
     - Flutter
-  - FirebaseABTesting (8.9.0):
+  - FirebaseABTesting (8.10.0):
     - FirebaseCore (~> 8.0)
   - FirebaseAnalytics (8.9.1):
     - FirebaseAnalytics/AdIdSupport (= 8.9.1)
@@ -150,14 +141,14 @@ PODS:
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.6)
     - GoogleUtilities/Logger (~> 7.6)
-  - FirebaseCoreDiagnostics (8.9.0):
+  - FirebaseCoreDiagnostics (8.10.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.6)
     - GoogleUtilities/Logger (~> 7.6)
     - nanopb (~> 2.30908.0)
   - FirebaseDynamicLinks (8.9.0):
     - FirebaseCore (~> 8.0)
-  - FirebaseInstallations (8.9.0):
+  - FirebaseInstallations (8.10.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.6)
     - GoogleUtilities/UserDefaults (~> 7.6)
@@ -192,8 +183,8 @@ PODS:
     - OrderedSet (~> 5.0)
   - flutter_local_notifications (0.0.1):
     - Flutter
-  - flutter_login_facebook (1.1.0):
-    - FBSDKLoginKit (~> 11.1)
+  - flutter_login_facebook (1.2.0):
+    - FBSDKLoginKit (~> 12.0)
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
@@ -265,12 +256,12 @@ PODS:
   - nertc (0.0.1):
     - Flutter
     - NEDyldYuv (= 0.0.1)
-    - NERtcSDK (= 4.4.2)
-  - NERtcSDK (4.4.2)
+    - NERtcSDK (= 4.4.7)
+  - NERtcSDK (4.4.7)
   - OrderedSet (5.0.0)
   - package_info (0.0.1):
     - Flutter
-  - path_provider (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
@@ -281,34 +272,34 @@ PODS:
   - SDWebImage/Core (5.12.1)
   - share (0.0.1):
     - Flutter
-  - shared_preferences (0.0.1):
+  - shared_preferences_ios (0.0.1):
     - Flutter
   - sign_in_with_apple (0.0.1):
     - Flutter
   - sms_autofill (0.0.1):
     - Flutter
-  - Stripe (21.9.0):
-    - Stripe/Stripe3DS2 (= 21.9.0)
-    - StripeCore (= 21.9.0)
-    - StripeUICore (= 21.9.0)
-  - Stripe/Stripe3DS2 (21.9.0):
-    - StripeCore (= 21.9.0)
-    - StripeUICore (= 21.9.0)
+  - Stripe (21.9.1):
+    - Stripe/Stripe3DS2 (= 21.9.1)
+    - StripeCore (= 21.9.1)
+    - StripeUICore (= 21.9.1)
+  - Stripe/Stripe3DS2 (21.9.1):
+    - StripeCore (= 21.9.1)
+    - StripeUICore (= 21.9.1)
   - stripe_ios (0.0.1):
     - Flutter
     - Stripe (~> 21.9.0)
-  - StripeCore (21.9.0)
-  - StripeUICore (21.9.0):
-    - StripeCore (= 21.9.0)
-  - SwiftyGif (5.4.0)
+  - StripeCore (21.9.1)
+  - StripeUICore (21.9.1):
+    - StripeCore (= 21.9.1)
+  - SwiftyGif (5.4.1)
   - Toast (4.0.0)
-  - url_launcher (0.0.1):
+  - url_launcher_ios (0.0.1):
     - Flutter
   - video_player (0.0.1):
     - Flutter
   - wakelock (0.0.1):
     - Flutter
-  - webview_flutter (0.0.1):
+  - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
 DEPENDENCIES:
@@ -332,17 +323,17 @@ DEPENDENCIES:
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - nertc (from `.symlinks/plugins/nertc/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - share (from `.symlinks/plugins/share/ios`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sms_autofill (from `.symlinks/plugins/sms_autofill/ios`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
-  - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -425,28 +416,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/nertc/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sms_autofill:
     :path: ".symlinks/plugins/sms_autofill/ios"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
-  webview_flutter:
-    :path: ".symlinks/plugins/webview_flutter/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -457,31 +448,31 @@ SPEC CHECKSUMS:
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  FBAEMKit: 5de0a7aaa854eec69bb5be20795952a63d38a5f6
-  FBSDKCoreKit: bf655f808b040ed66a72b9922911b39d703e64f4
-  FBSDKCoreKit_Basics: 73ebe3a27eb688ac5b5aa7e99f68992993042115
-  FBSDKLoginKit: 2e76831ef08d356b8f9150ea51cce865074ea304
-  fijkplayer: 7e0358fd4f0db778616b52583e086b295c9118ce
+  FBAEMKit: 56c0bb9b42e3747cd82b67934f0c2b19325382ea
+  FBSDKCoreKit: 75368765d9c2303073145a7925dfaa9d60bcd77b
+  FBSDKCoreKit_Basics: 39865aff97e5f6951a78fb3e89dc4460e35e1895
+  FBSDKLoginKit: e993f97c7cc794c5da4056d8aec3c3d66033a727
+  fijkplayer: 5ecf78e80cb97eed64cc170b094a4f691d9b9691
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_analytics: 7a7528bb2abf4ca22cff7a57bbf909dcab73e13d
-  firebase_core: f770e033e790657b3505f04be4cb24c482912f11
-  firebase_dynamic_links: 16a1987f9099cc9b283f654f7dad72d1b5209dde
-  firebase_messaging: 1109f5449638254c47fb5904d24e11a4d7736c77
-  firebase_remote_config: 2a43c3a6d3430fedb4f9f7360acc757d4d962bff
-  FirebaseABTesting: 9de50b34bf9eb4a07d4edb7af82c14152fd905aa
+  firebase_core: a54a31c48d516674649f419aea823585c4652ae0
+  firebase_dynamic_links: d79118550dc36eccc182e4990ed5d4342d5ab900
+  firebase_messaging: 4f7eab3f100c30d0544f5a6f6ca549f7f8c12705
+  firebase_remote_config: 64af2ad097186f4831a7095b2b03599276eb8a64
+  FirebaseABTesting: fc7255f7e96d3cf7a1131fd68636c47e312cef76
   FirebaseAnalytics: 4ab446ce08a3fe52e8a4303dd997cf26276bf968
   FirebaseCore: 599ee609343eaf4941bd188f85e3aa077ffe325b
-  FirebaseCoreDiagnostics: 5daa63f1c1409d981a2d5007daa100b36eac6a34
+  FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
   FirebaseDynamicLinks: 50980cbe21d2bbe8374afcdccd94dc2db20dffca
-  FirebaseInstallations: caa7c8e0d3e2345b8829d2fa9ca1b4dfbf2fcc85
+  FirebaseInstallations: 830327b45345ffc859eaa9c17bcd5ae893fd5425
   FirebaseMessaging: 82c4a48638f53f7b184f3cc9f6cd2cbe533ab316
   FirebaseRemoteConfig: a75c1bd44ebd3ed4ad3fa1ff09414a8b133be405
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_braintree: fe1bf2f5e99010e293af6986bc55876362bb28dd
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  flutter_login_facebook: b8f57fd9ad2f7cd3c3646d893f7a66c875a285dd
+  flutter_login_facebook: 1dba148a793800ab2407565749a39f3f25b3a03d
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
   google_sign_in: c5cecea71f3be43282263550556e311c4cc03582
@@ -491,33 +482,33 @@ SPEC CHECKSUMS:
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
-  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NEDyldYuv: 6b47adff16186768bf2f8b165697fdee8e94d7ac
-  nertc: 9292ed4398b44f2029f11e32f6f76c5e255bad2c
-  NERtcSDK: 41dfefb4b35f40a670b1e80cf8ed11606b06e566
+  nertc: bba938a1f91925789beaa1cc6100fc5bcb6d8b85
+  NERtcSDK: b98a8937959ef4781ec31e0dee44dc483965fc85
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
-  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
-  Stripe: 41c3d261501e1dc84755b1bdabdaae50ebf92b53
+  Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
   stripe_ios: fce03ba840e641cc31ff5bdb67f5d5b9c938b897
-  StripeCore: 2ea9531e863ef20f191a0d61f00dedb7f061baef
-  StripeUICore: a0f9e40520823d34c63baec0782fc4a0c7fb7484
-  SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
+  StripeCore: 91ea038ac0abbb72f11014044dfd1e5d39089714
+  StripeUICore: 7edf64b24c9c178bfd97e988f2cffdbb7a7628b0
+  SwiftyGif: 6895c887f5551618a3c5dd3ecb512419105bacca
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  video_player: ecd305f42e9044793efd34846e1ce64c31ea6fcb
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
-  webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
+  webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: f10c0438b63bc24e6bbc207956dc27d16c4408f2
 
 COCOAPODS: 1.11.2
