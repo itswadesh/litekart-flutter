@@ -972,6 +972,33 @@ class ApiProvider {
   }
 
   // product apis
+	
+	fetchRecommendedProducts() async{
+	 Map responseData;
+    try {
+      GraphQLConfiguration graphQLConfiguration1 = GraphQLConfiguration();
+      GraphQLClient _client1 = graphQLConfiguration1.clientToQuery();
+      var resultData = await _client1.mutate(
+        MutationOptions(
+            document: gql(addMutation.products()), variables: {"new": true,"store":store!.id}),
+      );
+      log(resultData.toString());
+      if (resultData.hasException) {
+        responseData = {"status": "error"};
+      } else {
+        if (resultData.data == null || resultData.data!["products"] ==null || 
+            resultData.data!["products"]["data"].length == 0) {
+          responseData = {"status": "empty"};
+        } else {
+          responseData = {"status": "completed", "value": resultData.data["products"]["data"]};
+        }
+      }
+    } catch (e) {
+      responseData = {"status": "error"};
+      
+    }
+    return responseData;	
+	}
 
   fetchHotData() async {
     Map responseData;
@@ -999,6 +1026,8 @@ class ApiProvider {
     }
     return responseData;
   }
+	
+	
 
    fetchYouMayLikeData() async {
     Map responseData;
