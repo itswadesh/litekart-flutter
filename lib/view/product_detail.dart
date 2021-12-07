@@ -1,8 +1,9 @@
 import 'dart:developer';
-
+import 'package:anne/components/widgets/productCard.dart';
 import 'package:anne/utility/api_endpoint.dart';
 import 'package:flutter/widgets.dart';
 import 'package:share/share.dart';
+import 'package:anne/utility/theme.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:anne/components/base/tz_dialog.dart';
 import 'package:anne/enum/tz_dialog_type.dart';
@@ -37,6 +38,7 @@ import '../../view_model/product_detail_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
 import 'package:flutter_html/flutter_html.dart';
 import '../main.dart';
+import 'package:anne/view_model/product_view_model.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -1261,6 +1263,7 @@ class _ProductDetail extends State<ProductDetail>
                       ],
                     ),
                   ),
+                  RecommendedClass(),
                   SizedBox(
                     height: ScreenUtil().setWidth(51),
                   )
@@ -2191,3 +2194,103 @@ class _CheckWishListClass extends State<CheckWishListClass> {
     );
   }
 }
+
+
+
+
+class RecommendedClass extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _RecommendedClass();
+  }
+}
+
+class _RecommendedClass extends State<RecommendedClass> {
+  QueryMutation addMutation = QueryMutation();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          child: getProductList(),
+        )
+      ],
+    );
+  }
+
+  Widget getProductList() {
+    return Consumer<ProductViewModel>(
+        builder: (BuildContext context, value, Widget? child) {
+          if (value.recommendedStatus == "loading") {
+            Provider.of<ProductViewModel>(context, listen: false).fetchRecommendedProducts();
+            return Container();
+          } else if (value.recommendedStatus == "empty") {
+            return SizedBox.shrink();
+          } else if (value.recommendedStatus == "error") {
+            return SizedBox.shrink();
+          }
+          return Column(children: [
+            Container(
+              height: ScreenUtil().setWidth(15),
+            ),
+            Container(
+              height: ScreenUtil().setWidth(25),
+              color: Color(0xfff3f3f3),),
+            Container(
+              height: ScreenUtil().setWidth(15),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
+              width: double.infinity,
+              // padding: EdgeInsets.only(
+              //   bottom: ScreenUtil().setWidth(
+              //       7.5), // This can be the space you need betweeb text and underline
+              // ),
+              // decoration: BoxDecoration(
+              //     border: Border(
+              //         bottom: BorderSide(
+              //   color: Color(0xff32AFC8),
+              //   width: 2.0, // This would be the width of the underline
+              // ))),
+              child: Text(
+                "RECOMMENDED FOR YOU",
+                style: ThemeApp()
+                    .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+              ),
+            ),
+            Container(
+              height: ScreenUtil().setWidth(15),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(0), 0, ScreenUtil().setWidth(0), 0),
+              height: ScreenUtil().setWidth(289),
+              child: ListView.builder(
+                cacheExtent: 100,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: value.productRecommendedResponse!.data!.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Map<String, dynamic> data = {
+                          "id": EVENT_TRENDING,
+                          "itemId":
+                          value.productRecommendedResponse!.data![index].barcode,
+                          "event": "tap"
+                        };
+                        Tracking(event: EVENT_TRENDING, data: data);
+                      },
+                      child: Column(children: [
+                        ProductCard(
+                            value.productRecommendedResponse!.data![index])
+                      ]),
+                    );
+                  }),
+            )
+          ]);
+        });
+  }
+}
+
