@@ -32,7 +32,7 @@ class EmailLogin extends StatefulWidget {
 class _EmailLoginState extends State<EmailLogin> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
+  bool _passwordVisible = false;
   FocusNode? _focusNode;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -216,7 +216,7 @@ class _EmailLoginState extends State<EmailLogin> {
                   height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     controller: _passwordController,
                     style: TextStyle(
                       color: Colors.black,
@@ -226,6 +226,21 @@ class _EmailLoginState extends State<EmailLogin> {
                     decoration: InputDecoration(
                       isDense: true,
                       labelText: "Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                          ? Icons.visibility
+                              : Icons.visibility_off,
+                        color: AppColors.primaryElement,
+                      ),
+                      onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                      },
+                    ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
