@@ -3,6 +3,10 @@ import '../../utility/api_provider.dart';
 class ProductsRepository {
   ApiProvider _apiProvider = ApiProvider();
 
+  fetchRecommendedProducts(){
+   return _apiProvider.fetchRecommendedProducts(); 
+  }
+  
   fetchHotData() {
     return _apiProvider.fetchHotData();
   }
