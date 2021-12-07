@@ -7,6 +7,7 @@ class ProductViewModel with ChangeNotifier {
   String? trendingStatus = "loading";
   String? youMayLikeStatus = "loading";
   String? suggestedStatus = "loading";
+   String? recommendedStatus = "loading";
   QueryMutation addMutation = QueryMutation();
   ProductResponse? _productTrendingResponse;
   ProductsRepository productsRepository = ProductsRepository();
@@ -26,7 +27,24 @@ class ProductViewModel with ChangeNotifier {
   ProductResponse? get productSuggestedResponse {
     return _productSuggestedResponse;
   }
+  
+    ProductResponse? _productRecommendedResponse;
 
+  ProductResponse? get productRecommendedResponse {
+    return _productRecommendedResponse;
+  }
+
+
+  
+ Future<void> fetchRecommendedProducts() async{
+    var resultData = await productsRepository.fetchRecommendedProducts();
+    recommendedStatus = resultData["status"];
+    if (recommendedStatus == "completed") {
+      _productRecommendedResponse = ProductResponse.fromJson(resultData["value"]);
+    }
+    notifyListeners(); 
+  }
+  
   Future<void> fetchHotData() async {
     var resultData = await productsRepository.fetchHotData();
     trendingStatus = resultData["status"];
