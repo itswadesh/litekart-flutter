@@ -36,7 +36,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _cPasswordController = TextEditingController();
   FocusNode? _focusNode;
-
+  bool _passwordVisible = false;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isCheckBox = true;
 
@@ -283,8 +283,23 @@ class _RegisterState extends State<Register> {
                       fontSize: ScreenUtil().setSp(20),
                     ),
                     decoration: InputDecoration(
-                      isDense: true,
+                      isDense: !_passwordVisible,
                       labelText: "Password",
+                         suffixIcon: IconButton(
+                        icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                          ? Icons.visibility
+                              : Icons.visibility_off,
+                        color: AppColors.primaryElement,
+                      ),
+                      onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                      },
+                    ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
@@ -300,7 +315,7 @@ class _RegisterState extends State<Register> {
                   height: ScreenUtil().setWidth(60),
                   margin: EdgeInsets.only(top: 0,left: ScreenUtil().setWidth(20),right: ScreenUtil().setWidth(20)),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: !_passwordVisible,
                     controller: _cPasswordController,
                     style: TextStyle(
                       color: Colors.black,
@@ -310,6 +325,21 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       isDense: true,
                       labelText: "Confirm Password",
+                         suffixIcon: IconButton(
+                        icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                          ? Icons.visibility
+                              : Icons.visibility_off,
+                        color: AppColors.primaryElement,
+                      ),
+                      onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                      },
+                    ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black54),
                       ),
