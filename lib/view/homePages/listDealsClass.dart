@@ -1,4 +1,4 @@
-import 'package:anne/components/widgets/productViewColorCard.dart';
+//import 'package:anne/components/widgets/productViewColorCard.dart';
 
 import 'package:anne/view_model/list_details_view_model.dart';
 import 'package:flutter/material.dart';
@@ -214,18 +214,18 @@ class _ListDealsClass extends State<ListDealsClass> {
                   SizedBox(
                     height: ScreenUtil().setWidth(48),
                   ),
-                  Container(
-                    padding:
-                    EdgeInsets.fromLTRB(ScreenUtil().setWidth(40), 0, 0, 0),
-                    height: ScreenUtil().setWidth(254),
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: value.listDealsResponse!.data![0].products!.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return ProductViewColorCard(
-                              value.listDealsResponse!.data![0].products![index]);
-                        }),
-                  ),
+              //    Container(
+              //      padding:
+              //      EdgeInsets.fromLTRB(ScreenUtil().setWidth(40), 0, 0, 0),
+              //      height: ScreenUtil().setWidth(254),
+              //      child: ListView.builder(
+              //          scrollDirection: Axis.horizontal,
+              //          itemCount: value.listDealsResponse!.data![0].products!.length,
+              //          itemBuilder: (BuildContext context, index) {
+              //            return ProductViewColorCard(
+              //                value.listDealsResponse!.data![0].products![index]);
+              //          }),
+               //   ),
                   SizedBox(
                     height: ScreenUtil().setWidth(40),
                   )

@@ -8,7 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../components/widgets/productViewColor2Card.dart';
 import '../../service/event/tracking.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/api_endpoint.dart';

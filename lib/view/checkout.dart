@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-//import 'package:flutter_braintree/flutter_braintree.dart';
+
 import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
@@ -13,23 +13,23 @@ import 'package:anne/view_model/store_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
-// import 'package:stripe_payment/stripe_payment.dart';
+
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../repository/address_repository.dart';
-//import '../../repository/cashfree_repository.dart';
+
 import '../../repository/checkout_repository.dart';
-//import '../../response_handler/cashFreeResponse.dart';
+
 import '../../service/event/tracking.dart';
 import '../../service/navigation/navigation_service.dart';
 import '../../utility/locator.dart';
 import '../../values/colors.dart';
 import '../../values/event_constant.dart';
 import '../../values/route_path.dart' as routes;
-//import 'package:cashfree_pg/cashfree_pg.dart';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -229,69 +229,7 @@ class _Checkout extends State<Checkout> {
                   child: Container(
                     child: Column(
                       children: <Widget>[
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Container(
-                        //         height: ScreenUtil().setWidth(35),
-                        //         width: ScreenUtil().setWidth(231),
-                        //         child: TextFormField(
-                        //           onTap: () async {
-                        //             await Provider.of<CartViewModel>(context,
-                        //                     listen: false)
-                        //                 .changePromoStatus("loading");
-                        //             showCoupon();
-                        //           },
-                        //           readOnly: true,
-                        //           decoration: InputDecoration(
-                        //               fillColor: Color(0xfff3f3f3),
-                        //               filled: true,
-                        //               contentPadding:
-                        //                   EdgeInsets.all(ScreenUtil().setWidth(10)),
-                        //               enabledBorder: OutlineInputBorder(
-                        //                 borderSide: BorderSide(
-                        //                     color: Color(0xffb4b4b4),
-                        //                     width: ScreenUtil().setWidth(0.4)),
-                        //               ),
-                        //               focusedBorder: OutlineInputBorder(
-                        //                 borderSide: BorderSide(
-                        //                     color: Color(0xffb4b4b4),
-                        //                     width: ScreenUtil().setWidth(0.4)),
-                        //               ),
-                        //               labelText: value.promocodeStatus
-                        //                   ? value.promocode
-                        //                   : "Promocode",
-                        //               labelStyle: TextStyle(
-                        //                   color: Color(0xffb9b9b9),
-                        //                   fontSize: ScreenUtil().setSp(
-                        //                     15,
-                        //                   ))),
-                        //         )),
-                        //     Container(
-                        //       width: ScreenUtil().setWidth(91),
-                        //       height: ScreenUtil().setWidth(35),
-                        //       child: OutlinedButton(
-                        //         style: OutlinedButton.styleFrom(
-                        //           shape: RoundedRectangleBorder(
-                        //             borderRadius: BorderRadius.circular(5),
-                        //           ),
-                        //           side: BorderSide(
-                        //               width: 1, color: AppColors.primaryElement),
-                        //         ),
-                        //         onPressed: () {},
-                        //         child: Text(
-                        //           value.promocodeStatus ? "Applied" : "Apply",
-                        //           style: TextStyle(
-                        //               fontFamily: 'Montserrat',
-                        //               color: AppColors.primaryElement),
-                        //         ),
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                        // SizedBox(
-                        //   height: ScreenUtil().setWidth(28),
-                        // ),
+                      
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
@@ -402,35 +340,7 @@ class _Checkout extends State<Checkout> {
                             ? SizedBox(
                           height: ScreenUtil().setWidth(16),
                         ) : Container(),
-                        // value.cartResponse.tax > 0
-                        //     ? Column(
-                        //         children: [
-                        //           Row(
-                        //             mainAxisAlignment:
-                        //                 MainAxisAlignment.spaceBetween,
-                        //             children: <Widget>[
-                        //               Text("SAT/VAT tax",
-                        //                   style: TextStyle(
-                        //                       color: Color(0xff616161),
-                        //                       fontSize: ScreenUtil().setSp(
-                        //                         16,
-                        //                       ))),
-                        //               Text(
-                        //                   "${store.currencySymbol} " +
-                        //                       (value.cartResponse.tax).toString(),
-                        //                   style: TextStyle(
-                        //                       color: Color(0xff616161),
-                        //                       fontSize: ScreenUtil().setSp(
-                        //                         16,
-                        //                       )))
-                        //             ],
-                        //           ),
-                        //           SizedBox(
-                        //             height: ScreenUtil().setWidth(16),
-                        //           )
-                        //         ],
-                        //       )
-                        //     : SizedBox.shrink(),
+                       
                         value.promocodeStatus!
                             ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -456,16 +366,7 @@ class _Checkout extends State<Checkout> {
                           ],
                         )
                             : Container(),
-                        /*SizedBox(
-                      height: ScreenUtil().setWidth(16),
-                    ),
-                    Text(
-                        "Free shipping on orders of 999 or more . For first two purchase, see Offer",
-                        style: TextStyle(
-                            color: Color(0xffbdbdbd),
-                            fontSize: ScreenUtil().setSp(
-                              14,
-                            ))),*/
+                        
                         SizedBox(
                           height: ScreenUtil().setWidth(21.5),
                         ),
@@ -744,14 +645,7 @@ class _Checkout extends State<Checkout> {
                                   child: Column(children: [
                                     Row(
                                       children: [
-                                        // InkWell(
-                                        //   onTap: () async {
-                                        //     await Provider.of<AddressViewModel>(context,
-                                        //             listen: false)
-                                        //         .selectAddress(
-                                        //             value.addressResponse.data[index]);
-                                        //   },
-                                        //   child:
+                                       
                                         (value.selectedAddress != null &&
                                             (value.selectedAddress!.id ==
                                                 value.addressResponse!
@@ -927,9 +821,7 @@ class _Checkout extends State<Checkout> {
                                         _email.text =
                                             value.addressResponse!.data![index]
                                                 .email!;
-                                        // _town.text =
-                                        //     value.addressResponse!.data![index]
-                                        //         .town!;
+                                        
                                         _city.text =
                                             value.addressResponse!.data![index]
                                                 .city!;
@@ -986,86 +878,7 @@ class _Checkout extends State<Checkout> {
                                 ],
                               ),
                               Divider(),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     Container(
-                              //         height: ScreenUtil().setWidth(37),
-                              //         width: ScreenUtil().setWidth(100),
-                              //         child: OutlinedButton(
-                              //           style: OutlinedButton.styleFrom(
-                              //             shape: RoundedRectangleBorder(
-                              //               borderRadius: BorderRadius.circular(18.0),
-                              //             ),
-                              //             side: BorderSide(
-                              //                 width: 1,
-                              //                 color: AppColors.primaryElement),
-                              //           ),
-                              //           onPressed: () {
-                              //             addressId =
-                              //                 value.addressResponse.data[index].id;
-                              //             _phone.text =
-                              //                 value.addressResponse.data[index].phone;
-                              //             _address.text =
-                              //                 value.addressResponse.data[index].address;
-                              //             _pin.text = value
-                              //                 .addressResponse.data[index].zip
-                              //                 .toString();
-                              //             _email.text =
-                              //                 value.addressResponse.data[index].email;
-                              //             _town.text =
-                              //                 value.addressResponse.data[index].town;
-                              //             _city.text =
-                              //                 value.addressResponse.data[index].city;
-                              //             _country.text =
-                              //                 value.addressResponse.data[index].country;
-                              //             _state.text =
-                              //                 value.addressResponse.data[index].state;
-                              //             _firstName.text = value
-                              //                 .addressResponse.data[index].firstName;
-                              //             _lastName.text = value
-                              //                 .addressResponse.data[index].lastName;
-                              //             setState(() {
-                              //               newAddress = !newAddress;
-                              //             });
-                              //           },
-                              //           child: Text(
-                              //             "Edit",
-                              //             style: TextStyle(
-                              //                 color: AppColors.primaryElement,
-                              //                 fontFamily: 'Montserrat'),
-                              //           ),
-                              //         )),
-                              //     SizedBox(
-                              //       width: ScreenUtil().setWidth(14),
-                              //     ),
-                              //     Container(
-                              //       height: ScreenUtil().setWidth(37),
-                              //       width: ScreenUtil().setWidth(100),
-                              //       child: OutlinedButton(
-                              //         style: OutlinedButton.styleFrom(
-                              //           shape: RoundedRectangleBorder(
-                              //             borderRadius: BorderRadius.circular(18.0),
-                              //           ),
-                              //           side: BorderSide(
-                              //               width: 1, color: AppColors.primaryElement),
-                              //         ),
-                              //         onPressed: () async {
-                              //           await Provider.of<AddressViewModel>(context,
-                              //                   listen: false)
-                              //               .deleteAddress(
-                              //                   value.addressResponse.data[index].id);
-                              //         },
-                              //         child: Text(
-                              //           "Remove",
-                              //           style: TextStyle(
-                              //               color: AppColors.primaryElement,
-                              //               fontFamily: 'Montserrat'),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // )
+                             
                             ]),
                           ),
                         )),);
@@ -1357,18 +1170,7 @@ class _Checkout extends State<Checkout> {
                       SizedBox(
                         height: 25,
                       ),
-                      /*addressPage
-                  ? Container()
-                  : Container(
-                      padding: EdgeInsets.all(20),
-                      width: double.infinity,
-                      color: AppColors.primaryElement,
-                      child: Text(
-                        "© 2020 Anne Private Limited",
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),*/
+                     
                       addressPage
                           ? SizedBox(
                         height: 50,
@@ -1454,28 +1256,7 @@ class _Checkout extends State<Checkout> {
       //                },
                     ),
                  // )
-                  /*Consumer<AddressViewModel>(builder:
-                            (BuildContext context, value, Widget child) {
-                          return Container(
-                            width: 110,
-                            child: RaisedButton(
-                              color: value.selectedAddress != null
-                                  ? AppColors.primaryElement
-                                  : Color(0x66ee7625),
-                              onPressed: () {
-                                if (value.selectedAddress != null) {
-                                  setState(() {
-                                    addressPage = false;
-                                  });
-                                }
-                              },
-                              child: Text(
-                                "CONTINUE",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          );
-                        })*/
+                  
                 ],
               )),
         ):Container());}) : Align(
@@ -1811,25 +1592,7 @@ class _Checkout extends State<Checkout> {
                       return null;
                     },
                     controller: _pin,
-                    // onChanged: (value) async {
-                    //   if (value.length == 6) {
-                    //     TzDialog _dialog = TzDialog(
-                    //         context, TzDialogType.progress);
-                    //     _dialog.show();
-                    //     final AddressRepository addressRepository =
-                    //     AddressRepository();
-                    //     var result =
-                    //     await addressRepository.fetchDataFromZip(value);
-                    //     if (result != null) {
-                    //       setState(() {
-                    //         _country.text = result["country"];
-                    //         _state.text = result["state"];
-                    //         _city.text = result["city"];
-                    //       });
-                    //     }
-                    //     _dialog.close();
-                    //   }
-                    // },
+                   
                     decoration: InputDecoration(
                         fillColor: Color(0xfff3f3f3),
                         filled: true,
@@ -2159,15 +1922,7 @@ class _Checkout extends State<Checkout> {
                     },
                     child: Column(
                       children: [
-                        // GestureDetector(
-                        //   onTap: (){
-                        //     setState(() {
-                        //       paymentMethod = "credit";
-                        //     });
-                        //   },
-                        //   child:
-                        // creditCard(),
-                        // ),
+                        
                         methodList.contains("Stripe")?   GestureDetector(
                             onTap: (){
                               setState(() {
@@ -2190,15 +1945,7 @@ class _Checkout extends State<Checkout> {
                         methodList.contains("Paypal")? SizedBox(
                           height: ScreenUtil().setWidth(15),
                         ):Container(),
-                        // podCard(),
-                        // SizedBox(
-                        //   height: ScreenUtil().setWidth(15),
-                        // ),
-                        // upiCard(),
-                        // SizedBox(
-                        //   height: ScreenUtil().setWidth(15),
-                        // ),
-                        //netBankingCard()
+                        
                       ],
                     ),
                   ),
@@ -2670,83 +2417,7 @@ class _Checkout extends State<Checkout> {
     );
   }
 
-  //
-  // upiCard() {
-  //   return Container(
-  //     padding: EdgeInsets.fromLTRB(
-  //         ScreenUtil().setWidth(26),
-  //         ScreenUtil().setWidth(30),
-  //         ScreenUtil().setWidth(17),
-  //         ScreenUtil().setWidth(22)),
-  //     decoration: BoxDecoration(
-  //         border: Border.all(
-  //             color: paymentMethod == "upi"
-  //                 ? AppColors.primaryElement
-  //                 : Color(0xff707070),
-  //             width: ScreenUtil().setWidth(0.9)),
-  //         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
-  //     child: Row(
-  //       children: [
-  //         InkWell(
-  //             onTap: () {
-  //               setState(() {
-  //                 paymentMethod = "upi";
-  //               });
-  //             },
-  //             child: paymentMethod == "upi"
-  //                 ? Icon(
-  //                     Icons.adjust_sharp,
-  //                     color: AppColors.primaryElement,
-  //                   )
-  //                 : Icon(
-  //                     Icons.panorama_fish_eye,
-  //                     color: Color(0xff707070),
-  //                   )),
-  //         SizedBox(
-  //           width: ScreenUtil().setWidth(19),
-  //         ),
-  //         Text(
-  //           "UPI (Using UPI ID)",
-  //           style: TextStyle(
-  //               color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
-  //         ),
-  //         SizedBox(
-  //           width: ScreenUtil().setWidth(80),
-  //         ),
-  //         Container(
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                   height: ScreenUtil().setWidth(24),
-  //                   width: ScreenUtil().setWidth(24),
-  //                   child: Image.asset(
-  //                     "assets/images/gpay.png",
-  //                   )),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(4),
-  //               ),
-  //               Container(
-  //                   height: ScreenUtil().setWidth(24),
-  //                   width: ScreenUtil().setWidth(24),
-  //                   child: Image.asset(
-  //                     "assets/images/phonePay.png",
-  //                   )),
-  //               SizedBox(
-  //                 width: ScreenUtil().setWidth(4),
-  //               ),
-  //               Container(
-  //                   height: ScreenUtil().setWidth(24),
-  //                   width: ScreenUtil().setWidth(40),
-  //                   child: Image.asset(
-  //                     "assets/images/upi.png",
-  //                   )),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  
 
   netBankingCard() {
     return Container(
@@ -2804,43 +2475,7 @@ class _Checkout extends State<Checkout> {
               ),*/
             ],
           ),
-          // SizedBox(
-          //   height: ScreenUtil().setWidth(23),
-          // ),
-          // Container(
-          //   width: double.infinity,
-          //   child: Text(
-          //     "Bank Code",
-          //     style: TextStyle(
-          //         color: AppColors.primaryElement,
-          //         fontSize: ScreenUtil().setWidth(14)),
-          //     textAlign: TextAlign.left,
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: ScreenUtil().setWidth(11),
-          // ),
-          // Container(
-          //   height: ScreenUtil().setWidth(50),
-          //   child: TextField(
-          //     controller: paymentCode,
-          //     decoration: InputDecoration(
-          //         fillColor: Colors.white,
-          //         filled: true,
-          //         enabledBorder: OutlineInputBorder(
-          //           borderSide:
-          //           BorderSide(color: Color(0xff707070), width: 1.0),
-          //         ),
-          //         focusedBorder: OutlineInputBorder(
-          //           borderSide:
-          //           BorderSide(color: Color(0xff707070), width: 1.0),
-          //         ),
-          //         hintText: "xxxx",
-          //         hintStyle: TextStyle(
-          //             color: Color(0xff525252),
-          //             fontSize: ScreenUtil().setSp(13))),
-          //   ),
-          // ),
+          
         ]));
   }
 

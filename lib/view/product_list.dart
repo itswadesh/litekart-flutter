@@ -21,7 +21,6 @@ import '../../utility/query_mutation.dart';
 import '../../view/product_filter_drawer.dart';
 import '../../components/widgets/cartEmptyMessage.dart';
 import '../../components/widgets/loading.dart';
-import '../../components/widgets/productViewCard.dart';
 import '../../values/route_path.dart' as routes;
 import '../../view/cart_logo.dart';
 

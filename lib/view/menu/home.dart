@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:anne/view/common/login.dart';
 import 'package:anne/view/homePages/bannersClass.dart';
 import 'package:anne/view/homePages/brandClass.dart';
-import 'package:anne/view/homePages/listDealsClass.dart';
+//import 'package:anne/view/homePages/listDealsClass.dart';
 import 'package:anne/view/homePages/pickedBannersClass.dart';
 import 'package:anne/view/homePages/sliderBannerClasss.dart';
 import 'package:anne/view/homePages/suggestedClass.dart';
