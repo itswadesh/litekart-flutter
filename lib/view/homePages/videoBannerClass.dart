@@ -44,7 +44,7 @@ class _VideoBannersClass extends State<VideoBannersClass> {
             return value.videoBannerResponse!.data!.length>0? Container(
               // color: Colors.indigo,
               width: ScreenUtil().setWidth(380),
-              height: 200,
+              height: ScreenUtil().setWidth(200),
               child: ChewieClass(
                 videoPlayerController: VideoPlayerController.network(value.videoBannerResponse!.data![0].img!),
                 looping: true,

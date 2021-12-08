@@ -116,7 +116,7 @@ class _HomeDrawer extends State<HomeDrawer> {
 
                   child: Text(
                     "${user.user!=null?(user.user!.firstName ?? "User"):"User"}",
-                    style: TextStyle(color: Color(0xff616161), fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),
+                    style: TextStyle(color: Color(0xff616161), fontSize: ScreenUtil().setSp(18),fontWeight: FontWeight.w600,fontFamily: 'Inter'),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -145,12 +145,12 @@ class _HomeDrawer extends State<HomeDrawer> {
               leading: Icon(
                 icon,
                 color: Color(0xff616161),
-                size: 22,
+                size: ScreenUtil().setWidth(25),
               ),
               title:
                   //   Text(text, style: ThemeApp().textThemeGrey(),),
                  Transform.translate(offset: Offset(-ScreenUtil().setWidth(25),0), child: Text(text!,
-                      style: TextStyle(color: Color(0xff616161), fontSize: 16),
+                      style: TextStyle(color: Color(0xff616161), fontSize: ScreenUtil().setSp(18)),
                       textAlign: TextAlign.left)),
               onTap: () {
                 if(text=="Shop By Categories") {

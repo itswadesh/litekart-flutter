@@ -345,7 +345,7 @@ class _WishCard extends State<WishCard> {
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(35),
                     child: Center(
-                      child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),),
+                      child: Text("MOVE TO BAG",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600,fontSize: ScreenUtil().setSp(16)),),
                     ),
                   ))
             ],

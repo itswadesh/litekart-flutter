@@ -53,6 +53,7 @@ class _OrderTracking extends State<OrderTracking> {
           child: Icon(
             Icons.arrow_back,
             color: Colors.black54,
+            size: ScreenUtil().setWidth(28),
           ),
         ),
         title: Center(
@@ -68,7 +69,7 @@ class _OrderTracking extends State<OrderTracking> {
         )),
         actions: [
           Container(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
               // width: MediaQuery.of(context).size.width * 0.35,
               child: CartLogo(25))
         ],
@@ -286,7 +287,8 @@ class _OrderTracking extends State<OrderTracking> {
                 new ClipRRect(
                     child: FadeInImage.assetNetwork(
                       imageErrorBuilder: ((context,object,stackTrace){
-                        return Image.asset("assets/images/logo.png");
+                        return Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(92),
+                        height: ScreenUtil().setWidth(102),);
                       }),
                       placeholder: 'assets/images/loading.gif',
                       image: items.img!,
@@ -409,7 +411,7 @@ class _OrderTracking extends State<OrderTracking> {
             margin: EdgeInsets.all(ScreenUtil().setWidth(20)),
             elevation: 0,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -423,7 +425,7 @@ class _OrderTracking extends State<OrderTracking> {
                       width: ScreenUtil().setWidth(15),
                       decoration:BoxDecoration(
                   color: Color(0x55f84b6d),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(10)),
               ),
                       child: Container(
                         height: ScreenUtil().setWidth(12),
@@ -457,24 +459,24 @@ class _OrderTracking extends State<OrderTracking> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 65,
+                              height: ScreenUtil().setWidth(65),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Ordered",
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Packed",
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Shipped",
                                 style: ThemeApp().textThemeSemiGreySmall(),
@@ -482,21 +484,21 @@ class _OrderTracking extends State<OrderTracking> {
                             ),
 
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Delivered",
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ),
                             orderTrackResponse.orderHistory![6].time!=null?  Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Return Initiated",
                                 style: ThemeApp().textThemeSemiGreySmall(),
                               ),
                             ):Container(),
                             orderTrackResponse.orderHistory![6].time!=null?  Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 "Return Done",
                                 style: ThemeApp().textThemeSemiGreySmall(),
@@ -508,17 +510,17 @@ class _OrderTracking extends State<OrderTracking> {
                       Container(
                           decoration: BoxDecoration(
                               color: Color(0xfff3f3f3),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: 14,
+                              borderRadius: BorderRadius.circular(ScreenUtil().setWidth(10))),
+                          width: ScreenUtil().setWidth(14),
                           child: StepProgressIndicator(
                             totalSteps: orderTrackResponse.orderHistory![6].time!=null? 6:4,
                             currentStep: progressStep,
-                            size: 15,
+                            size: ScreenUtil().setWidth(15),
                             padding: 0,
                             selectedColor: Colors.transparent,
                             unselectedColor: Color(0xfff3f3f3),
-                            fallbackLength: orderTrackResponse.orderHistory![6].time!=null? 450:300,
-                            roundedEdges: Radius.circular(10),
+                            fallbackLength: orderTrackResponse.orderHistory![6].time!=null? ScreenUtil().setWidth(450):ScreenUtil().setWidth(300),
+                            roundedEdges: Radius.circular(ScreenUtil().setWidth(10)),
                             direction: Axis.vertical,
                             customStep: (index, color, _) =>
                                 color == Colors.transparent
@@ -527,7 +529,7 @@ class _OrderTracking extends State<OrderTracking> {
                                         child: Icon(
                                           Icons.circle,
                                           color: AppColors.primaryElement,
-                                          size: 14,
+                                          size: ScreenUtil().setWidth(16),
                                         ),
                                       )
                                     : Container(
@@ -535,7 +537,7 @@ class _OrderTracking extends State<OrderTracking> {
                                         child: Icon(
                                           Icons.circle,
                                           color: Color(0xffd2d2d2),
-                                          size: 14,
+                                          size: ScreenUtil().setWidth(16),
                                         ),
                                       ),
                           )),
@@ -543,10 +545,10 @@ class _OrderTracking extends State<OrderTracking> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 65,
+                              height: ScreenUtil().setWidth(65),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                   orderTrackResponse.orderHistory![0].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![0].time!) * 1000))}":"",
 
@@ -554,7 +556,7 @@ class _OrderTracking extends State<OrderTracking> {
                               ),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 orderTrackResponse.orderHistory![2].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![2].time!) * 1000))}":"",
 
@@ -562,7 +564,7 @@ class _OrderTracking extends State<OrderTracking> {
                               ),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                   orderTrackResponse.orderHistory![3].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![3].time!) * 1000))}":"",
                                   
@@ -570,7 +572,7 @@ class _OrderTracking extends State<OrderTracking> {
                               ),
                             ),
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                   orderTrackResponse.orderHistory![5].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![5].time!) * 1000))}":"",
                                   
@@ -579,7 +581,7 @@ class _OrderTracking extends State<OrderTracking> {
                             ),
                             orderTrackResponse.orderHistory![6].time!=null?
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 orderTrackResponse.orderHistory![6].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![6].time!) * 1000))}":"",
 
@@ -588,7 +590,7 @@ class _OrderTracking extends State<OrderTracking> {
                             ):Container(),
                             orderTrackResponse.orderHistory![6].time!=null?
                             Container(
-                              height: 75,
+                              height: ScreenUtil().setWidth(75),
                               child: Text(
                                 orderTrackResponse.orderHistory![8].time!=null?"${DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(int.parse(orderTrackResponse.orderHistory![8].time!) * 1000))}":"",
 
@@ -617,7 +619,7 @@ class _OrderTracking extends State<OrderTracking> {
                           args: orderTrackResponse.pid);
                     },
                     child: Container(
-                    padding: EdgeInsets.all(14),
+                    padding: EdgeInsets.all(ScreenUtil().setWidth(14)),
                     color: Color(0xfff3f3f3),
                     child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -171,7 +171,7 @@ class _RegisterState extends State<Register> {
               Text(
                 "Register New User Here",
                 style:
-                TextStyle(color: AppColors.primaryElement, fontSize: 18),
+                TextStyle(color: AppColors.primaryElement, fontSize: ScreenUtil().setSp(20)),
               ),
               // SizedBox(
               //   height: 20,
@@ -418,7 +418,7 @@ class _RegisterState extends State<Register> {
                         style: TextStyle(
                           color:Color(0xffffffff),
                           fontWeight: FontWeight.w600,
-                          fontSize: 14,
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ],
@@ -432,13 +432,13 @@ class _RegisterState extends State<Register> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already Have An Account? "),
+                    Text("Already Have An Account? ",style: TextStyle(fontSize: ScreenUtil().setSp(16)),),
                     InkWell(
                       onTap: (){
                         locator<NavigationService>()
                             .pushNamed(routes.EmailLoginRoute);
                       },
-                      child: Text("Login Here",style: TextStyle(color: Colors.blue),),
+                      child: Text("Login Here",style: TextStyle(color: Colors.blue,fontSize: ScreenUtil().setSp(16)),),
                     )
                   ],
                 ),

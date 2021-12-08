@@ -54,7 +54,7 @@ class _MenuState extends State<Menu>{
                  showUnselectedLabels: true,
                  selectedFontSize: ScreenUtil().setSp(14),
                  unselectedFontSize: ScreenUtil().setSp(14),
-                 iconSize: 22,
+                 iconSize: ScreenUtil().setWidth(25),
                  currentIndex:
                  model.currentIndex,
                  onTap: (int index) {
@@ -79,7 +79,7 @@ class _MenuState extends State<Menu>{
   List<BottomNavigationBarItem> bottomNavigationItem(MenuViewModel model){
     List<BottomNavigationBarItem> menu  = [];
     for(int i=0; i< model.menus.length;i++){
-        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset,size: 22,),label: model.menus[i].title,));
+        menu.add(BottomNavigationBarItem(icon: Icon(model.menus[i].asset,size: ScreenUtil().setWidth(25),),label: model.menus[i].title,));
     }
     return menu;
   }

@@ -67,7 +67,7 @@ class _TrendingClass extends State<TrendingClass> {
               child: Text(
                 "TRENDING PRODUCTS FOR YOU",
                 style: ThemeApp()
-                    .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+                    .homeHeaderThemeText(Color(0xff616161), 18, true),
               ),
             ),
             Container(

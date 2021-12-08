@@ -34,6 +34,7 @@ class _AddReviewPage extends State<AddReviewPage> {
             child: Icon(
               Icons.arrow_back,
               color: Colors.black54,
+              size: ScreenUtil().setWidth(28),
             ),
           ),
           title: Center(
@@ -49,7 +50,7 @@ class _AddReviewPage extends State<AddReviewPage> {
           )),
           actions: [
             Container(
-                padding: EdgeInsets.only(right: 10.0),
+                padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
                 // width: MediaQuery.of(context).size.width * 0.35,
                 child: CartLogo(25))
           ],
@@ -89,7 +90,7 @@ class _AddReviewPage extends State<AddReviewPage> {
                 ),
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(20), ScreenUtil().setWidth(20), ScreenUtil().setWidth(20)),
                   child: Text(
                     "Review This Product",
                     style: TextStyle(
@@ -100,17 +101,17 @@ class _AddReviewPage extends State<AddReviewPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(25, 0, 20, 0),
+                  margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(25), 0, ScreenUtil().setWidth(20), 0),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(25)),
                       border: Border(
                           top: BorderSide(color: Color(0x996c757d)),
                           bottom: BorderSide(color: Color(0x996c757d)),
                           left: BorderSide(color: Color(0x996c757d)),
                           right: BorderSide(color: Color(0x996c757d)))),
-                  height: 150,
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  height: ScreenUtil().setWidth(150),
+                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), 0, 0, 0),
                   child: Container(
                     child: TextFormField(
                       controller: _description,
@@ -176,7 +177,7 @@ class _AddReviewPage extends State<AddReviewPage> {
                           style: TextStyle(
                             color: AppColors.primaryText,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                            fontSize: ScreenUtil().setSp(16),
                           ),
                         ),
                       ],

@@ -35,7 +35,7 @@ class _CartLogo extends State<CartLogo> {
           Center(
               child:  Icon(
           Icons.shopping_cart,
-          size: double.parse(widget.size.toString())-0.5,
+          size: ScreenUtil().setWidth( double.parse(widget.size.toString())-0.5+3.0),
           color: Color(0xff616161),
         //)
           ));
@@ -53,12 +53,12 @@ class _CartLogo extends State<CartLogo> {
               children: [
                 Icon(
                   Icons.shopping_cart,
-                  size: double.parse(widget.size.toString())-0.5,
+                  size: ScreenUtil().setWidth(double.parse(widget.size.toString())-0.5+3.0),
                   color: Color(0xff616161),
                 ),
                 value.cartCount! > 0
                     ? Positioned(
-                      left: 12, top: 0,
+                      left: ScreenUtil().setWidth(12), top: 0,
                       child: Container(
                           width: ScreenUtil().radius(12),
                           height: ScreenUtil().radius(12),

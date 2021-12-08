@@ -48,7 +48,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
     skipStatus = false;
     _TextAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _transTween = Tween(begin: Offset(0, 57), end: Offset(0, -55))
+    _transTween = Tween(begin: Offset(0, ScreenUtil().setWidth(57)), end: Offset(0, ScreenUtil().setWidth(-55)))
         .animate(_TextAnimationController);
     this.initDynamicLinks();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -64,11 +64,11 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
    _scrollListener() {
     if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      _TextAnimationController.animateTo(105);
+      _TextAnimationController.animateTo(ScreenUtil().setWidth(105));
       return true;
     }
     if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-      _TextAnimationController.animateTo(-105);
+      _TextAnimationController.animateTo(ScreenUtil().setWidth(-105));
       return true;
     }
   }
@@ -150,7 +150,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                  Align(
                    alignment: Alignment.topCenter,
                    child: Transform.translate(
-                     offset: Offset(0,-50),
+                     offset: Offset(0,ScreenUtil().setWidth(-50)),
                      child:Container(
                        height: ScreenUtil().setWidth(100),
                        color: Color(0xffffffff),
@@ -175,12 +175,12 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.menu,
-                                         size: 25,
+                                         size: ScreenUtil().setWidth(28),
                                          color: Color(0xff616161),
                                        )),
                              SizedBox(width: ScreenUtil().setWidth(25),),
                              Container(
-                                       height: 45,
+                                       height: ScreenUtil().setWidth(50),
                                        child: Image.asset(
                                          'assets/images/logo.png',
                                        )),
@@ -190,7 +190,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                            mainAxisAlignment: MainAxisAlignment.end,
                            children: [
                              Container(
-                                 padding: EdgeInsets.only(top: 2),
+                                 padding: EdgeInsets.only(top: ScreenUtil().setWidth(2)),
                                  child:
                                    InkWell(
                                        onTap: () {
@@ -198,7 +198,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.search,
-                                         size: 25,
+                                         size: ScreenUtil().setWidth(28),
                                          color: Color(0xff616161),
                                        ))),
                                    // SizedBox(
@@ -239,7 +239,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
                                        },
                                        child: Icon(
                                          Icons.favorite_border_outlined,
-                                         size: 25,
+                                         size: ScreenUtil().setWidth(28),
                                          color: Color(0xff616161),
                                        ))),
                                    SizedBox(width: ScreenUtil().setWidth(24),),

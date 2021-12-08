@@ -80,7 +80,7 @@ class _ProductDetail extends State<ProductDetail>
     _TextAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
 
-    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+    _transTween = Tween(begin: Offset(-ScreenUtil().setWidth(10), ScreenUtil().setWidth(40)), end: Offset(-ScreenUtil().setWidth(10), 0))
         .animate(_TextAnimationController);
 
     productId = widget.productId;
@@ -99,10 +99,10 @@ class _ProductDetail extends State<ProductDetail>
    _scrollListener() {
     if (scrollController.position.axis == Axis.vertical) {
       _ColorAnimationController.animateTo(
-          scrollController.position.pixels / 350);
+          scrollController.position.pixels / ScreenUtil().setWidth(350));
 
       _TextAnimationController.animateTo(
-          (scrollController.position.pixels - 350) / 50);
+          (scrollController.position.pixels - ScreenUtil().setWidth(350)) / ScreenUtil().setWidth(50));
       return true;
     }
   }
@@ -118,12 +118,12 @@ class _ProductDetail extends State<ProductDetail>
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 5.0),
-      height: 8.0,
-      width: 8.0,
+      margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(5)),
+      height: ScreenUtil().setWidth(8),
+      width: ScreenUtil().setWidth(8),
       decoration: BoxDecoration(
         color: isActive ? Color(0Xff454545) : Color(0X4d000000),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(12))),
       ),
     );
   }
@@ -188,7 +188,7 @@ class _ProductDetail extends State<ProductDetail>
                             color: _colorTween.value,
                             width: double.infinity,
                             padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
-                                ScreenUtil().setWidth(20), 20),
+                                ScreenUtil().setWidth(20), ScreenUtil().setWidth(20)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -301,7 +301,7 @@ class _ProductDetail extends State<ProductDetail>
                                                   },
                                                   child: Icon(
                                                     Icons.favorite_border_outlined,
-                                                    size: 25,
+                                                    size: ScreenUtil().setWidth(28),
                                                     color: Color(0xff616161),
                                                   ))),
                                         ),
@@ -357,7 +357,7 @@ class _ProductDetail extends State<ProductDetail>
                             color: _colorTween.value,
                             width: double.infinity,
                             padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
-                                ScreenUtil().setWidth(20), 20),
+                                ScreenUtil().setWidth(20), ScreenUtil().setWidth(20)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -470,7 +470,7 @@ class _ProductDetail extends State<ProductDetail>
                                                   },
                                                   child: Icon(
                                                     Icons.favorite_border_outlined,
-                                                    size: 25,
+                                                    size: ScreenUtil().setWidth(28),
                                                     color: Color(0xff616161),
                                                   ))),
                                         ),
@@ -1197,7 +1197,7 @@ class _ProductDetail extends State<ProductDetail>
                                       data: productData.description,
                                         style: {
                                         "li":Style(
-                                          fontSize: FontSize(ScreenUtil().setSp(13))
+                                          fontSize: FontSize(ScreenUtil().setSp(14))
                                         )
                                         }
                                     ),
@@ -1277,8 +1277,8 @@ class _ProductDetail extends State<ProductDetail>
               builder: (context, child) => Container(
                     color: _colorTween.value,
                     width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(20, ScreenUtil().setWidth(15),
-                        ScreenUtil().setWidth(20), 20),
+                    padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), ScreenUtil().setWidth(15),
+                        ScreenUtil().setWidth(20), ScreenUtil().setWidth(20)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1391,7 +1391,7 @@ class _ProductDetail extends State<ProductDetail>
                                       },
                                       child: Icon(
                                         Icons.share,
-                                        size: 25,
+                                        size: ScreenUtil().setWidth(28),
                                         color: Color(0xff616161),
                                       ))),
                             ),
@@ -1449,7 +1449,7 @@ class _ProductDetail extends State<ProductDetail>
                                       },
                                       child: Icon(
                                         Icons.favorite_border_outlined,
-                                        size: 25,
+                                        size: ScreenUtil().setWidth(28),
                                         color: Color(0xff616161),
                                       ))),
                             ),
@@ -1687,7 +1687,7 @@ class _ProductDetail extends State<ProductDetail>
                                 child: Text(
                                   specifications[i].name!,
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Color(0xff000000)),
+                                  style: TextStyle(color: Color(0xff000000,),fontSize: ScreenUtil().setSp(16)),
                                 ))
                           ],
                         )),
@@ -1696,7 +1696,7 @@ class _ProductDetail extends State<ProductDetail>
                       child: Text(
                         specifications[i].value!,
                         textAlign: TextAlign.left,
-                        style: TextStyle(color: Color(0xffa4a4a4)),
+                        style: TextStyle(color: Color(0xffa4a4a4),fontSize: ScreenUtil().setSp(16)),
                       ),
                     )
                   ],
@@ -1734,7 +1734,7 @@ class _ProductDetail extends State<ProductDetail>
                                 child: Text(
                                   "Country of Origin ",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Color(0xff000000)),
+                                  style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(16)),
                                 ))
                           ],
                         )),
@@ -1743,7 +1743,7 @@ class _ProductDetail extends State<ProductDetail>
                       child: Text(
                         "${productData?.countryOfOrigin}",
                         textAlign: TextAlign.left,
-                        style: TextStyle(color: Color(0xffa4a4a4)),
+                        style: TextStyle(color: Color(0xffa4a4a4),fontSize: ScreenUtil().setSp(16)),
                       ),
                     )
                   ],
@@ -1774,7 +1774,7 @@ class _ProductDetail extends State<ProductDetail>
                                 child: Text(
                                   "Warranty ",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Color(0xff000000)),
+                                  style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(16)),
                                 ))
                           ],
                         )),
@@ -1783,7 +1783,7 @@ class _ProductDetail extends State<ProductDetail>
                       child: Text(
                         productData?.warranty ?? '',
                         textAlign: TextAlign.left,
-                        style: TextStyle(color: Color(0xffa4a4a4)),
+                        style: TextStyle(color: Color(0xffa4a4a4),fontSize: ScreenUtil().setSp(16)),
                       ),
                     )
                   ],
@@ -2044,7 +2044,7 @@ class _RatingClass extends State<RatingClass> {
                 width: ScreenUtil().setWidth(55),
                 decoration: BoxDecoration(
                     color: Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(15)),
                     border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
@@ -2079,7 +2079,7 @@ class _RatingClass extends State<RatingClass> {
                 width: ScreenUtil().setWidth(55),
                 decoration: BoxDecoration(
                     color: Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(15)),
                     border: Border.all(color: Color(0xfff3f3f3),width: 0.3)
                 ),
                 child: Row(
@@ -2160,12 +2160,12 @@ class _CheckWishListClass extends State<CheckWishListClass> {
                         ? Icon(
                             FontAwesomeIcons.heart,
                             color: Color(0xff616161),
-                            size: 20,
+                            size: ScreenUtil().setWidth(22),
                           )
                         : Icon(
                             FontAwesomeIcons.solidHeart,
                             color: AppColors.primaryElement,
-                            size: 20,
+                            size: ScreenUtil().setWidth(22),
                           ),
                     onTap: () async {
                       if (Provider.of<ProfileModel>(context, listen: false)

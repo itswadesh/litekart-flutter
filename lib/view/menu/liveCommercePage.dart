@@ -301,7 +301,7 @@ class _StreamCard extends State<StreamCard> {
                                           ScreenUtil().setWidth(7)),
                                       child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [ Text("JOIN STREAM",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),overflow: TextOverflow.ellipsis)
+                                          children: [ Text("JOIN STREAM",style: TextStyle(fontSize: ScreenUtil().setSp(16),color: AppColors.primaryElement,fontWeight: FontWeight.w600),overflow: TextOverflow.ellipsis)
                                     ]));
                                           //  return Text('Ended');
                                   }
@@ -324,7 +324,7 @@ class _StreamCard extends State<StreamCard> {
                                             child: Center(
                                                 child: Text(
                                                     "${(time!.days != null ? time!.days : 0)!}",
-                                                    style: TextStyle(color: Colors.black38))),
+                                                    style: TextStyle(color: Colors.black38,fontSize: ScreenUtil().setSp(16)))),
                                             decoration: new BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.rectangle,
@@ -350,7 +350,7 @@ class _StreamCard extends State<StreamCard> {
                                             child: Center(
                                                 child: Text(
                                                     "${(time!.hours != null ? time!.hours : 0)!}",
-                                                    style: TextStyle(color: Colors.black38))),
+                                                    style: TextStyle(color: Colors.black38,fontSize: ScreenUtil().setSp(16)))),
                                             decoration: new BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.rectangle,
@@ -376,7 +376,7 @@ class _StreamCard extends State<StreamCard> {
                                             child: Center(
                                                 child: Text(
                                                     "${(time.min != null ? time.min : 0)! }",
-                                                    style: TextStyle(color: Colors.black38))),
+                                                    style: TextStyle(color: Colors.black38,fontSize: ScreenUtil().setSp(16)))),
                                             decoration: new BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.rectangle,
@@ -402,7 +402,7 @@ class _StreamCard extends State<StreamCard> {
                                             child: Center(
                                                 child: Text(
                                                     "${(time.sec != null ? time.sec : 0)!}",
-                                                    style: TextStyle(color: Colors.black38))),
+                                                    style: TextStyle(color: Colors.black38,fontSize: ScreenUtil().setSp(16)))),
                                             decoration: new BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.rectangle,

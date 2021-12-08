@@ -55,6 +55,7 @@ class _Cart extends State<Cart> {
           child: Icon(
             Icons.arrow_back,
             color: Colors.black54,
+            size: ScreenUtil().setWidth(28),
           ),
         ),
         title: Text("Cart",
@@ -112,7 +113,7 @@ class _Cart extends State<Cart> {
                     padding: EdgeInsets.fromLTRB(
                         ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(21),
-                        20,
+                        ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(18)),
                     child: Text(
                       "${value.cartResponse!.items!.length} Items",
@@ -129,7 +130,7 @@ class _Cart extends State<Cart> {
                     padding: EdgeInsets.fromLTRB(
                         ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(15),
-                        20,
+                        ScreenUtil().setWidth(20),
                         ScreenUtil().setWidth(20)),
                     child: Text(
                       "COUPONS",
@@ -158,7 +159,7 @@ class _Cart extends State<Cart> {
                       children: [
                         Text(value.promocodeStatus!
                             ?"Applied Promocode ("+ value.promocode!+")"
-                            : "Apply Promocode"),
+                            : "Apply Promocode",style: TextStyle(fontSize: ScreenUtil().setSp(16)),),
                         Icon(FontAwesomeIcons.angleRight,color: Color(0xffd0d0d0),size: ScreenUtil().setWidth(14),),
                       ],
                     )
@@ -169,7 +170,7 @@ class _Cart extends State<Cart> {
                     child: CartBillCard(),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: ScreenUtil().setWidth(50),
                   ),
                 ],
               ))
@@ -178,7 +179,7 @@ class _Cart extends State<Cart> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: ScreenUtil().setHeight(61),
+              height: ScreenUtil().setWidth(61),
               color: Colors.white,
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(20),
@@ -195,7 +196,7 @@ class _Cart extends State<Cart> {
                             18,
                           ))),
                   SizedBox(
-                    width: 10,
+                    width: ScreenUtil().setWidth(10),
                   ),
                   Container(
                     child: Consumer<ProfileModel>(
@@ -206,7 +207,7 @@ class _Cart extends State<Cart> {
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
                               ),
                               backgroundColor: AppColors.primaryElement,
                               side: BorderSide(
@@ -1060,7 +1061,7 @@ class _CartCard extends State<CartCard> {
                       ],
                     ),
                     SizedBox(
-                      height: ScreenUtil().setWidth(2),
+                      height: ScreenUtil().setWidth(6),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -1068,13 +1069,13 @@ class _CartCard extends State<CartCard> {
                         cartData.brand ?? "",
                         style: TextStyle(
                           color: AppColors.primaryElement,
-                          fontSize: ScreenUtil().setWidth(13),
+                          fontSize: ScreenUtil().setSp(14),
                         ),
                         textAlign: TextAlign.start,
                       ),
                     ),
                     SizedBox(
-                      height: ScreenUtil().setWidth(11),
+                      height: ScreenUtil().setWidth(7),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -1084,7 +1085,7 @@ class _CartCard extends State<CartCard> {
                             fontWeight: FontWeight.w500,
                             color: AppColors.primaryElement2,
                             fontSize: ScreenUtil().setSp(
-                              14,
+                              16,
                             )),
                       ),
                     ),
@@ -1156,7 +1157,7 @@ class _CartCard extends State<CartCard> {
                                       borderRadius: BorderRadius.circular(5)
                                       //  shape: BoxShape.circle,
                                     ),
-                                    child:Icon(Icons.remove,size: 13,),
+                                    child:Icon(Icons.remove,size: ScreenUtil().setWidth(14),),
                                     // child: Center(
                                     //     child: Text(
                                     //   "-",
@@ -1167,14 +1168,14 @@ class _CartCard extends State<CartCard> {
                                   )
                           )
                               : new Container(),
-                          SizedBox(width: 4,),
+                          SizedBox(width: ScreenUtil().setWidth(4),),
                           new Text(
                             cartData.qty.toString(),
                             style: TextStyle(
                                 color: Color(0xff616161),
                                 fontSize: ScreenUtil().setSp(17)),
                           ),
-                          SizedBox(width: 4,),
+                          SizedBox(width: ScreenUtil().setWidth(4),),
                           new InkWell(
                               onTap: () async {
 
@@ -1222,7 +1223,7 @@ class _CartCard extends State<CartCard> {
                                  // shape: BoxShape.circle,
                                 ),
                                 //child: Center(
-                                  child: Icon(Icons.add,size: 14,)
+                                  child: Icon(Icons.add,size: ScreenUtil().setWidth(14),)
                                   // Text("+",
                                   //     style: TextStyle(
                                   //         fontSize: ScreenUtil().setSp(15)),textAlign: TextAlign.center,),
@@ -1266,7 +1267,7 @@ class _CartCard extends State<CartCard> {
                     width: ScreenUtil().setWidth(150),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
+                      child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(16)),),
                     ),
                   )),
 
@@ -1299,7 +1300,7 @@ class _CartCard extends State<CartCard> {
                     width: ScreenUtil().setWidth(215),
                     height: ScreenUtil().setWidth(30),
                     child: Center(
-                      child: Text("MOVE TO WISHLIST",style: TextStyle(color: AppColors.primaryElement),),
+                      child: Text("MOVE TO WISHLIST",style: TextStyle(color: AppColors.primaryElement,fontSize:ScreenUtil().setSp(16)),),
                     ),
                   ))
             ],

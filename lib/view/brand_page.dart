@@ -33,11 +33,12 @@ class _BrandPageState extends State<BrandPage> {
               child: Icon(
                 Icons.arrow_back,
                 color: Colors.black54,
+                size: ScreenUtil().setWidth(28),
               )),
           centerTitle: true,
           backgroundColor: Colors.white,
           title: Container(
-              height: 35,
+              height: ScreenUtil().setWidth(35),
               child: Image.network(
                 widget.brand!.img!,
               )),
@@ -56,9 +57,9 @@ class _BrandPageState extends State<BrandPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(height: 10),
+                      SizedBox(height: ScreenUtil().setWidth(10)),
                       SliderBrandPage(viewModel: value),
-                      SizedBox(height: 10),
+                      SizedBox(height: ScreenUtil().setWidth(10)),
                       SubBrandBrandPage(viewModel: value),
                       PickedBrandPage(viewModel: value, brandName: widget.brand!.slug),
                       BrandVideo(viewModel: value),
@@ -236,7 +237,7 @@ class PickedBrandPage extends StatelessWidget {
                 itemBuilder: (_, int index) {
                   final key = data.keys.elementAt(index);
                   return Container(
-                    height: 220,
+                    height: ScreenUtil().setWidth(220),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -247,7 +248,7 @@ class PickedBrandPage extends StatelessWidget {
                             child: Text(
                               '$key',
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: ScreenUtil().setSp(20),
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w400),
                             ),
@@ -292,7 +293,7 @@ class PickedBrandPage extends StatelessWidget {
                               separatorBuilder:
                                   (BuildContext context, int index) {
                                 return SizedBox(
-                                  width: 6,
+                                  width: ScreenUtil().setWidth(6),
                                 );
                               },
                             ),
@@ -327,7 +328,7 @@ class BrandVideo extends StatelessWidget {
           return Container(
            // color: Colors.indigo,
             width: ScreenUtil().setWidth(380),
-            height: 200,
+            height: ScreenUtil().setWidth(200),
             child: ChewieClass(
               videoPlayerController: VideoPlayerController.network(bannerData.img!),
               looping: true,

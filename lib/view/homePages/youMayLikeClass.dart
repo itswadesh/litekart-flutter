@@ -73,7 +73,7 @@ class _YouMayLikeClass extends State<YouMayLikeClass> {
               child: Text(
                 "PRODUCTS YOU MAY LIKE",
                 style: ThemeApp()
-                    .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+                    .homeHeaderThemeText(Color(0xff616161), 18, true),
               ),
             ),
             Container(

@@ -57,6 +57,7 @@ class _ManageAddressState extends State<ManageAddress> {
             child: Icon(
               Icons.arrow_back,
               color: Color(0xff616161),
+              size: ScreenUtil().setWidth(28),
             ),
           ),
           title: Center(
@@ -72,7 +73,7 @@ class _ManageAddressState extends State<ManageAddress> {
           )),
           actions: [
             Container(
-                padding: EdgeInsets.only(right: 10.0),
+                padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
                 // width: MediaQuery.of(context).size.width * 0.35,
                 child: CartLogo(25)),
             SizedBox(width: ScreenUtil().setWidth(20),)
@@ -114,7 +115,7 @@ class _ManageAddressState extends State<ManageAddress> {
             });
           },
           child: Container(
-            height: 43,
+            height: ScreenUtil().setWidth(43),
             width: MediaQuery.of(context).size.width * 0.80,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.primaryElement, width: 1),
@@ -129,7 +130,7 @@ class _ManageAddressState extends State<ManageAddress> {
                   style: TextStyle(
                     color: AppColors.primaryElement,
                     fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                    fontSize: ScreenUtil().setSp(16),
                   ),
                 ),
               ],
@@ -693,12 +694,12 @@ class _ManageAddressState extends State<ManageAddress> {
                       }
                     },
                     child: Container(
-                      height: 43,
+                      height: ScreenUtil().setWidth(43),
                       width: MediaQuery.of(context).size.width * 0.80,
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: AppColors.primaryElement, width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(5))),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -709,7 +710,7 @@ class _ManageAddressState extends State<ManageAddress> {
                             style: TextStyle(
                               color: AppColors.primaryElement,
                               fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                              fontSize: ScreenUtil().setSp(16),
                             ),
                           ),
                         ],
@@ -1019,7 +1020,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 width: ScreenUtil().setWidth(150),
                                 height: ScreenUtil().setWidth(30),
                                 child: Center(
-                                  child: Text("EDIT",style: TextStyle(color: AppColors.primaryElement),),
+                                  child: Text("EDIT",style: TextStyle(color: AppColors.primaryElement,fontSize:ScreenUtil().setWidth(16)),),
                                 ),
                               )),
 
@@ -1034,7 +1035,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 width: ScreenUtil().setWidth(215),
                                 height: ScreenUtil().setWidth(30),
                                 child: Center(
-                                  child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement),),
+                                  child: Text("REMOVE",style: TextStyle(color: AppColors.primaryElement,fontSize:ScreenUtil().setWidth(16)),),
                                 ),
                               ))
                         ],

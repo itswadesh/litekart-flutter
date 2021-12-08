@@ -58,7 +58,7 @@ class _MegaMenu extends State<MegaMenu> {
               },
               child: Icon(
                 Icons.favorite_border_outlined,
-                size: 25,
+                size: ScreenUtil().setWidth(28),
                 color: Color(0xff616161),
               )),
           SizedBox(width: ScreenUtil().setWidth(24),),
@@ -141,11 +141,11 @@ class _MegaMenu extends State<MegaMenu> {
     child: ExpansionTile(
       onExpansionChanged: (value){
         setState(() {
-          if(trailingIcon  == Icon(Icons.keyboard_arrow_up)){
-            trailingIcon  = Icon(Icons.keyboard_arrow_down);
+          if(trailingIcon  == Icon(Icons.keyboard_arrow_up,size:ScreenUtil().setWidth(24))){
+            trailingIcon  = Icon(Icons.keyboard_arrow_down,size: ScreenUtil().setWidth(24),);
           }
           else{
-            trailingIcon  = Icon(Icons.keyboard_arrow_up);
+            trailingIcon  = Icon(Icons.keyboard_arrow_up,size: ScreenUtil().setWidth(24),);
           }
         });
       },
@@ -244,7 +244,7 @@ class _MegaMenu extends State<MegaMenu> {
             title: Text(children[i].name??"",
                 style: TextStyle(
                     color: Color(0xff6d6d6d),
-                    fontSize: ScreenUtil().setSp(20),
+                    fontSize: ScreenUtil().setSp(18),
                     fontFamily: "Inter"))),
       ));
     }

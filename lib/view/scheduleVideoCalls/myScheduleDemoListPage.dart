@@ -340,7 +340,7 @@ class _ScheduleCard extends State<ScheduleCard> {
                     width: ScreenUtil().setWidth(183),
                     height: ScreenUtil().setWidth(35),
                     child: Center(
-                      child: Text("JOIN CALL",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600),),
+                      child: Text("JOIN CALL",style: TextStyle(color: AppColors.primaryElement,fontWeight: FontWeight.w600,fontSize: ScreenUtil().setSp(16)),),
                     ),
                   ))
             ],

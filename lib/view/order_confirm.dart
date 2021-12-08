@@ -60,6 +60,7 @@ class _OrderConfirm extends State<OrderConfirm> {
           child: Icon(
             Icons.arrow_back,
             color: Colors.black54,
+            size:ScreenUtil().setWidth(28)
           ),
         ),
         title: Center(
@@ -72,7 +73,7 @@ class _OrderConfirm extends State<OrderConfirm> {
         )),
         actions: [
           Container(
-            padding: EdgeInsets.only(right: 10.0),
+            padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
             // width: MediaQuery.of(context).size.width * 0.35,
           )
         ],
@@ -137,7 +138,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                   getPaymentInfoCard(),
                   getDeliveryCard(),
                   SizedBox(
-                    height: 25,
+                    height: ScreenUtil().setWidth(25),
                   ),
                   // Container(
                   //   padding: EdgeInsets.all(20),
@@ -256,7 +257,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                             "View Order",
                             style: TextStyle(
                                 color: AppColors.primaryElement,
-                                fontFamily: 'Montserrat'),
+                                fontFamily: 'Montserrat',fontSize: ScreenUtil().setSp(16)),
                           ),
                         ),
                       ),
@@ -282,7 +283,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                             "Shop More",
                             style: TextStyle(
                                 color: AppColors.primaryElement,
-                                fontFamily: 'Montserrat'),
+                                fontFamily: 'Montserrat',fontSize: ScreenUtil().setSp(16)),
                           ),
                         ),
                       ),

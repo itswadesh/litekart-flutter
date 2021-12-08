@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'dart:developer';
 
 import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/repository/stripe_repository.dart';
-import 'package:anne/utility/api_endpoint.dart';
-import 'package:anne/values/functions.dart';
-import 'package:anne/view_model/settings_view_model.dart';
+
 import 'package:anne/view_model/store_view_model.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 
@@ -151,7 +149,7 @@ class _Checkout extends State<Checkout> {
         DropdownMenuItem(
           child: Text(
             listItem.name,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: ScreenUtil().setWidth(12)),
           ),
           value: listItem,
         ),
@@ -174,6 +172,7 @@ class _Checkout extends State<Checkout> {
             child: Icon(
               Icons.arrow_back,
               color: Colors.black54,
+              size: ScreenUtil().setWidth(28),
             ),
           ),
           title: Text(
@@ -187,7 +186,7 @@ class _Checkout extends State<Checkout> {
           ),
           actions: [
             Container(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
               // width: MediaQuery.of(context).size.width * 0.35,
             )
           ]),
@@ -440,6 +439,7 @@ class _Checkout extends State<Checkout> {
                       child: Text(
                         'Place Order',
                         style: TextStyle(
+                          fontSize: ScreenUtil().setSp(16),
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
                             color: buttonStatusOrder
@@ -853,7 +853,7 @@ class _Checkout extends State<Checkout> {
                                         child: Center(
                                           child: Text("EDIT", style: TextStyle(
                                               color: AppColors
-                                                  .primaryElement),),
+                                                  .primaryElement,fontSize: ScreenUtil().setSp(16)),),
                                         ),
                                       )),
 
@@ -872,7 +872,7 @@ class _Checkout extends State<Checkout> {
                                         child: Center(
                                           child: Text("REMOVE",
                                             style: TextStyle(color: AppColors
-                                                .primaryElement),),
+                                                .primaryElement,fontSize: ScreenUtil().setSp(16)),),
                                         ),
                                       ))
                                 ],
@@ -913,7 +913,7 @@ class _Checkout extends State<Checkout> {
                                         border: Border.all(
                                             color: AppColors.primaryElement),
                                         borderRadius: BorderRadius.circular(
-                                            ScreenUtil().radius(20))),
+                                            ScreenUtil().radius(ScreenUtil().setWidth(20)))),
                                     child: Center(
                                         child: Icon(
                                           Icons.check_circle,
@@ -974,7 +974,7 @@ class _Checkout extends State<Checkout> {
                                       decoration: BoxDecoration(
                                           color: AppColors.primaryElement,
                                           borderRadius: BorderRadius.circular(
-                                              ScreenUtil().radius(20))),
+                                              ScreenUtil().radius(ScreenUtil().setWidth(20)))),
                                       child: Center(
                                           child: Text(
                                             "2",
@@ -992,7 +992,7 @@ class _Checkout extends State<Checkout> {
                                           border: Border.all(
                                               color: AppColors.primaryElement),
                                           borderRadius: BorderRadius.circular(
-                                              ScreenUtil().radius(20))),
+                                              ScreenUtil().radius(ScreenUtil().setWidth(20)))),
                                       child: Center(
                                           child: Icon(
                                             Icons.check_circle,
@@ -1061,7 +1061,7 @@ class _Checkout extends State<Checkout> {
                                           border: Border.all(
                                               color: AppColors.primaryElement),
                                           borderRadius: BorderRadius.circular(
-                                              ScreenUtil().radius(20))),
+                                              ScreenUtil().radius(ScreenUtil().setWidth(20)))),
                                       child: Center(
                                           child: Text(
                                             "3",
@@ -1117,7 +1117,7 @@ class _Checkout extends State<Checkout> {
                         padding: EdgeInsets.fromLTRB(
                             ScreenUtil().setWidth(20),
                             ScreenUtil().setWidth(15),
-                            20,
+                            ScreenUtil().setWidth(20),
                             ScreenUtil().setWidth(20)),
                         child: Text(
                           "COUPONS",
@@ -1154,7 +1154,7 @@ class _Checkout extends State<Checkout> {
                                             Text(value.promocodeStatus!
                                                 ? "Applied Promocode (" +
                                                 value.promocode! + ")"
-                                                : "Apply Promocode"),
+                                                : "Apply Promocode",style: TextStyle(fontSize: ScreenUtil().setSp(16)),),
                                             Icon(FontAwesomeIcons.angleRight,
                                               color: Color(0xffd0d0d0),
                                               size: ScreenUtil().setWidth(14),),
@@ -1168,12 +1168,12 @@ class _Checkout extends State<Checkout> {
                         child: getBillCard(),
                       ),
                       SizedBox(
-                        height: 25,
+                        height: ScreenUtil().setWidth(25),
                       ),
                      
                       addressPage
                           ? SizedBox(
-                        height: 50,
+                        height: ScreenUtil().setWidth(50),
                       )
                           : Container(),
                     ],
@@ -1186,7 +1186,7 @@ class _Checkout extends State<Checkout> {
     ?  Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-              height: ScreenUtil().setHeight(61),
+              height: ScreenUtil().setWidth(61),
               color: Colors.white,
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil().setWidth(20),
@@ -1378,7 +1378,7 @@ class _Checkout extends State<Checkout> {
             child: Text(
               'Add New Address',
               style: TextStyle(
-                  fontFamily: 'Montserrat', color: AppColors.primaryElement),
+                  fontFamily: 'Montserrat', color: AppColors.primaryElement,fontSize: ScreenUtil().setSp(16)),
             ),
           ),
         ),
@@ -1892,7 +1892,7 @@ class _Checkout extends State<Checkout> {
                     "Save Address",
                     style: TextStyle(
                         color: AppColors.primaryElement,
-                        fontFamily: 'Montserrat'),
+                        fontFamily: 'Montserrat',fontSize: ScreenUtil().setSp(16)),
                   ),
                 ),
               );})
@@ -2268,7 +2268,7 @@ class _Checkout extends State<Checkout> {
 
   creditCard() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
       decoration: BoxDecoration(
           border: Border.all(
               color: paymentMethod == "credit"
@@ -2299,7 +2299,7 @@ class _Checkout extends State<Checkout> {
           Text(
             "Stripe",
             style: TextStyle(
-                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(16)),
           ),
           SizedBox(
             width: ScreenUtil().setWidth(210),
@@ -2324,7 +2324,7 @@ class _Checkout extends State<Checkout> {
 
   paypalCard() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
       decoration: BoxDecoration(
           border: Border.all(
               color: paymentMethod == "paypal"
@@ -2355,7 +2355,7 @@ class _Checkout extends State<Checkout> {
           Text(
             "Paypal",
             style: TextStyle(
-                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(16)),
           ),
           SizedBox(
             width: ScreenUtil().setWidth(206),
@@ -2379,7 +2379,7 @@ class _Checkout extends State<Checkout> {
 
   podCard() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
       decoration: BoxDecoration(
           border: Border.all(
               color: paymentMethod == "pod"
@@ -2410,7 +2410,7 @@ class _Checkout extends State<Checkout> {
           Text(
             "POD (Pay On Delivery)",
             style: TextStyle(
-                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(14)),
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(16)),
           ),
         ],
       ),
@@ -3073,7 +3073,7 @@ class _Checkout extends State<Checkout> {
                               Navigator.pop(context);
                             }
                           },
-                          child: Text('Apply Coupon'),
+                          child: Text('Apply Coupon',style: TextStyle(fontSize: ScreenUtil().setSp(16)),),
                         ))
                   ],
                 ),

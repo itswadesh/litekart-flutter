@@ -194,7 +194,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
             Text(
               "Sign in With Mobile Number",
               style:
-              TextStyle(color: AppColors.primaryElement, fontSize: 18),
+              TextStyle(color: AppColors.primaryElement, fontSize: ScreenUtil().setSp(20)),
             ),
             // SizedBox(
             //   height: 20,
@@ -297,7 +297,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                                     ? AppColors.primaryElement
                                     : Colors.grey,
                                 width: 1),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(5))),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -310,7 +310,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                                       ? Color(0xffffffff)
                                       : Colors.grey,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize: ScreenUtil().setSp(16),
                                 ),
                               ),
                             ],
@@ -456,7 +456,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w300,
-                fontSize: 12,
+                fontSize: ScreenUtil().setSp(14),
                 height: 1.70833,
               ),
             ),
@@ -471,9 +471,9 @@ class _LoginState extends State<Login> with CodeAutoFill {
                 shape: PinCodeFieldShape.box,
                 animationDuration: Duration(milliseconds: 300),
                 borderRadius: BorderRadius.circular(5),
-                fieldHeight: 50,
+                fieldHeight: ScreenUtil().setWidth(50),
                 backgroundColor: Color(0xFFFFFFF),
-                fieldWidth: 40,
+                fieldWidth: ScreenUtil().setWidth(40),
                 activeFillColor: Colors.black,
                 enableActiveFill: false,
                 autoFocus: true,
@@ -517,8 +517,8 @@ class _LoginState extends State<Login> with CodeAutoFill {
                         decoration: TextDecoration.underline,
                         color: model.resendEnable ? Colors.black : Colors.grey,
                         fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        height: 3.41667,
+                        fontSize: ScreenUtil().setSp(14),
+
                       ),
                     ),
                     !model.resendEnable &&
@@ -527,14 +527,14 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       widgetBuilder: ((BuildContext context,
                           CurrentRemainingTime? time) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: EdgeInsets.only(left: ScreenUtil().setWidth(8)),
                           child: Text(
                             "wait ${time!.sec.toString()} second",
                             style: TextStyle(
                               color: AppColors.primaryElement,
                               fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                              height: 3.41667,
+                              fontSize: ScreenUtil().setSp(14),
+
                             ),
                           ),
                         );
@@ -602,7 +602,7 @@ class _LoginState extends State<Login> with CodeAutoFill {
                       style: TextStyle(
                         color: AppColors.primaryText,
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: ScreenUtil().setSp(16),
                       ),
                     ),
                   ],

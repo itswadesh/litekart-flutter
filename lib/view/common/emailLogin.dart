@@ -162,7 +162,7 @@ class _EmailLoginState extends State<EmailLogin> {
               Text(
                 "Login With Email Address",
                 style:
-                TextStyle(color: AppColors.primaryElement, fontSize: 18),
+                TextStyle(color: AppColors.primaryElement, fontSize: ScreenUtil().setSp(20)),
               ),
               // SizedBox(
               //   height: 20,
@@ -265,7 +265,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         // locator<NavigationService>()
                         //     .pushReplacementNamed(routes.RegisterRoute);
                       },
-                      child: Text("Forgot Password",style: TextStyle(color: Colors.blue),),
+                      child: Text("Forgot Password",style: TextStyle(color: Colors.blue,fontSize: ScreenUtil().setSp(16)),),
                     )
                   ],
                 ),
@@ -331,7 +331,7 @@ class _EmailLoginState extends State<EmailLogin> {
                     border: Border.all(
                         color:  AppColors.primaryElement,
                         width: 1),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(5))),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -342,7 +342,7 @@ class _EmailLoginState extends State<EmailLogin> {
                         style: TextStyle(
                           color:Color(0xffffffff),
                           fontWeight: FontWeight.w600,
-                          fontSize: 14,
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ],
@@ -356,13 +356,13 @@ class _EmailLoginState extends State<EmailLogin> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Didn't Have Any Account? "),
+                    Text("Didn't Have Any Account? ",style: TextStyle(fontSize: ScreenUtil().setSp(16)),),
                     InkWell(
                       onTap: (){
                         locator<NavigationService>()
                             .pushNamed(routes.RegisterRoute);
                       },
-                      child: Text("Register Here",style: TextStyle(color: Colors.blue),),
+                      child: Text("Register Here",style: TextStyle(color: Colors.blue,fontSize: ScreenUtil().setSp(16)),),
                     )
                   ],
                 ),
@@ -418,7 +418,7 @@ class _EmailLoginState extends State<EmailLogin> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         },
-                        child: Image.asset("assets/images/google.png",height:35,width:35),
+                        child: Image.asset("assets/images/google.png",height:ScreenUtil().setWidth(35),width:ScreenUtil().setWidth(35)),
                       )),
                    Visibility(visible: Platform.isIOS ,child: Consumer<AppleLoginViewModel>(
                           builder: (context, appleModel, child) =>   InkWell(
@@ -444,7 +444,7 @@ class _EmailLoginState extends State<EmailLogin> {
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             },
-                            child: Image.asset("assets/images/apple.png",height:32,width:32),
+                            child: Image.asset("assets/images/apple.png",height:ScreenUtil().setWidth(32),width:ScreenUtil().setWidth(32)),
                           ))),
                       Consumer<FacebookLoginViewModel>(
                         builder: (context, facebookModel, child) =>   InkWell(
@@ -471,7 +471,7 @@ class _EmailLoginState extends State<EmailLogin> {
                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                          }
                         },
-                        child: Image.asset("assets/images/facebook.png",height:40,width:40),
+                        child: Image.asset("assets/images/facebook.png",height:ScreenUtil().setWidth(40),width:ScreenUtil().setWidth(40)),
                       )),
                     ],
                   )
@@ -487,7 +487,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
+                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
                       ),
                       side: BorderSide(
                           width: 2, color: AppColors.primaryElement),

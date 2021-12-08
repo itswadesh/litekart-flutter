@@ -144,7 +144,7 @@ class _MyProfileState extends State<MyProfile> {
                                           style: TextStyle(
                                             color: AppColors.primaryElement,
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 14,
+                                            fontSize: ScreenUtil().setSp(16),
                                           ),
                                         ),
                                       ],
@@ -168,10 +168,10 @@ class _MyProfileState extends State<MyProfile> {
           locator<NavigationService>().pushNamed(path);
         }
       },
-      leading: Icon(icon,color: Color(0xff616161),),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: Icon(FontAwesomeIcons.angleRight,color: Color(0xff616161),size: ScreenUtil().setWidth(14),),
+      leading: Icon(icon,color: Color(0xff616161),size: ScreenUtil().setWidth(28)),
+      title: Text(title,style: TextStyle(fontSize: ScreenUtil().setSp(18)),),
+      subtitle: Text(subtitle, style: TextStyle(fontSize: ScreenUtil().setSp(14)),),
+      trailing: Icon(FontAwesomeIcons.angleRight,color: Color(0xff616161),size: ScreenUtil().setWidth(22),),
     );
   }
 }

@@ -84,7 +84,7 @@ class _PickedBannersClass extends State<PickedBannersClass> {
         child: Text(
           bannerResponse.groupByBanner![i].title!,
           style: ThemeApp()
-              .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+              .homeHeaderThemeText(Color(0xff616161),18, true),
         ),
       ));
       children.add( Container(

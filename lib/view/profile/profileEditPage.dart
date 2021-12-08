@@ -73,6 +73,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: Icon(
               Icons.arrow_back,
               color: Colors.black54,
+              size: ScreenUtil().setWidth(28),
             ),
           ),
           title:  Text(
@@ -340,7 +341,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     color: Color(0xffffffff),
                                     child: Container(
                                   margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(8),left: ScreenUtil().setWidth(25),right: ScreenUtil().setWidth(25)),
-                                  height: 43,
+                                  height: ScreenUtil().setWidth(43),
                                   width: MediaQuery.of(context).size.width * 0.80,
                                   decoration: BoxDecoration(
                                     color: AppColors.primaryElement,
@@ -359,7 +360,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         style: TextStyle(
                                           color: Color(0xffffffff),
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 14,
+                                          fontSize: ScreenUtil().setSp(16),
                                         ),
                                       ),
                                     ],
@@ -373,7 +374,7 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   _getImage(avatar) {
     return Container(
-        margin: EdgeInsets.all(12),
+        margin: EdgeInsets.all(ScreenUtil().setWidth(12)),
         child: Column(children: <Widget>[
           _image != null
               ? InkWell(

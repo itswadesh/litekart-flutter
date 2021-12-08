@@ -79,7 +79,7 @@ class _ManageOrderState extends State<ManageOrder> {
         ),
         actions: [
           Container(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
               // width: MediaQuery.of(context).size.width * 0.35,
               child: CartLogo(25)),
           SizedBox(width: ScreenUtil().setWidth(20),)
