@@ -128,12 +128,12 @@ class _ProductDetail extends State<ProductDetail>
     );
   }
 
-  _createDynamicLink(bool short, id) async {
+  _createDynamicLink(bool short, id,slug) async {
     var _linkMessage;
     var dynamicUrl;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://annebiz.page.link/',
-      link: Uri.parse('https://www.anne.biz/$id'),
+      link: Uri.parse('https://www.anne.biz/$slug/id=$id'),
       androidParameters: AndroidParameters(
         packageName: 'biz.anne.app',
         minimumVersion: 0,
@@ -1382,11 +1382,11 @@ class _ProductDetail extends State<ProductDetail>
                                         TzDialog _dialog =
                                         TzDialog(context, TzDialogType.progress);
                                         _dialog.show();
-                                        var dynamicLink = await _createDynamicLink(true, productData.id);
+                                        var dynamicLink = await _createDynamicLink(true, productData.id, productData.slug);
                                         _dialog.close();
                                         // final RenderObject? box = context.findRenderObject();
                                         await Share.share(
-                                            "Hi, Check out this awesome product  : $dynamicLink \n\n Weblink : ${store!.domain}/${productData.slug}?id=$productId",
+                                            "Hi, Check out this awesome product  : $dynamicLink ",
                                            );
                                       },
                                       child: Icon(

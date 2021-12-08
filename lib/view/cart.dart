@@ -1091,7 +1091,8 @@ class _CartCard extends State<CartCard> {
                     SizedBox(
                       height: ScreenUtil().setWidth(10),
                     ),
-                    Row(
+    Consumer<ProductDetailViewModel>(
+    builder: (BuildContext context, productDetailValue, Widget? child) {   return    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Row(children: <Widget>[
@@ -1107,7 +1108,7 @@ class _CartCard extends State<CartCard> {
                               ? new InkWell(
                                   onTap: () async {
                                     if(cartData.qty==1){
-                                    await  Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
+                                    await  productDetailValue.changeButtonStatus("ADD TO BAG");
                                     }
                                    cartValue
                                         .cartAddItem(cartData.pid, cartData.pid,
@@ -1231,7 +1232,7 @@ class _CartCard extends State<CartCard> {
                         ]),
 
                       ],
-                    ),
+                    );})
                   ],
                 ),
               ),
@@ -1239,7 +1240,8 @@ class _CartCard extends State<CartCard> {
           ],
         ),
     Divider(),
-          Row(
+        Consumer<ProductDetailViewModel>(
+    builder: (BuildContext context, productDetailValue, Widget? child) {   return   Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
 
@@ -1249,7 +1251,7 @@ class _CartCard extends State<CartCard> {
                     // TzDialog _dialog =
                     // TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
                     // _dialog.show();
-                   await Provider.of<ProductDetailViewModel>(context,listen: false).changeButtonStatus("ADD TO BAG");
+                   await productDetailValue.changeButtonStatus("ADD TO BAG");
                   await  cartValue
                         .cartAddItem(cartData.pid, cartData.pid,
                         -cartData.qty!, false);
@@ -1281,8 +1283,7 @@ class _CartCard extends State<CartCard> {
       _dialog.show();
       await Provider.of<WishlistViewModel>(context, listen: false)
           .toggleItem(cartData.pid);
-      Provider.of<CartViewModel>(context,
-          listen: false)
+     await cartValue
           .cartAddItem(cartData.pid, cartData.pid,
           -cartData.qty!, false);
       _dialog.close();
@@ -1302,7 +1303,7 @@ class _CartCard extends State<CartCard> {
                     ),
                   ))
             ],
-          )
+          );})
     ]),
       ),
     );});

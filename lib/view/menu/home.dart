@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anne/view/common/login.dart';
 import 'package:anne/view/homePages/bannersClass.dart';
 import 'package:anne/view/homePages/brandClass.dart';
@@ -77,7 +79,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
           final Uri? deepLink = dynamicLink?.link;
           if (deepLink != null) {
 
-            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
+            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.split("/id=")[1]);
           }
         },
         onError: (OnLinkErrorException e) async {
