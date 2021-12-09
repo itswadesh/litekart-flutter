@@ -148,6 +148,14 @@ PODS:
     - nanopb (~> 2.30908.0)
   - FirebaseDynamicLinks (8.9.0):
     - FirebaseCore (~> 8.0)
+  - FirebaseFirestore (8.9.0):
+    - FirebaseFirestore/AutodetectLeveldb (= 8.9.0)
+  - FirebaseFirestore/AutodetectLeveldb (8.9.0):
+    - FirebaseFirestore/Base
+    - FirebaseFirestore/WithLeveldb
+  - FirebaseFirestore/Base (8.9.0)
+  - FirebaseFirestore/WithLeveldb (8.9.0):
+    - FirebaseFirestore/Base
   - FirebaseInstallations (8.10.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.6)
@@ -312,6 +320,7 @@ DEPENDENCIES:
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `8.9.0`)
   - Flutter (from `Flutter`)
   - flutter_braintree (from `.symlinks/plugins/flutter_braintree/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
@@ -394,6 +403,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_remote_config:
     :path: ".symlinks/plugins/firebase_remote_config/ios"
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 8.9.0
   Flutter:
     :path: Flutter
   flutter_braintree:
@@ -439,6 +451,11 @@ EXTERNAL SOURCES:
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
+CHECKOUT OPTIONS:
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 8.9.0
+
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BIJKPlayer: 4c5d66e5cb99ae5bade6f22a4fcc031722a81c64
@@ -465,6 +482,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 599ee609343eaf4941bd188f85e3aa077ffe325b
   FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
   FirebaseDynamicLinks: 50980cbe21d2bbe8374afcdccd94dc2db20dffca
+  FirebaseFirestore: 7c22bff6c0e1f222920cd110e9da13a117b61fea
   FirebaseInstallations: 830327b45345ffc859eaa9c17bcd5ae893fd5425
   FirebaseMessaging: 82c4a48638f53f7b184f3cc9f6cd2cbe533ab316
   FirebaseRemoteConfig: a75c1bd44ebd3ed4ad3fa1ff09414a8b133be405
@@ -509,6 +527,6 @@ SPEC CHECKSUMS:
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: f10c0438b63bc24e6bbc207956dc27d16c4408f2
+PODFILE CHECKSUM: 4ed4e4cec7e374a278e47b33843bc6b81966d6c0
 
 COCOAPODS: 1.11.2
