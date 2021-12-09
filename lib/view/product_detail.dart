@@ -133,7 +133,7 @@ class _ProductDetail extends State<ProductDetail>
     var dynamicUrl;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://annebiz.page.link/',
-      link: Uri.parse('https://www.anne.biz/$slug/id=$id'),
+      link: Uri.parse('https://www.anne.biz/$slug?id=$id'),
       androidParameters: AndroidParameters(
         packageName: 'biz.anne.app',
         minimumVersion: 0,
