@@ -234,7 +234,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                  }
            },
              child: Container(
-                 padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                 padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
               height: ScreenUtil().setWidth(45),
               child:
               Row(
@@ -332,7 +332,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
               }
               },
               child: Container(
-              padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+              padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
               height: ScreenUtil().setWidth(45),
               child:
               Row(
@@ -429,7 +429,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                             }
                   },
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
                       height: ScreenUtil().setWidth(45),
                       child:
                       Row(
@@ -601,7 +601,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                             }
                   },
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
                       height: ScreenUtil().setWidth(45),
                       child:
                       Row(
@@ -697,7 +697,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                             }
                   },
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
                       height: ScreenUtil().setWidth(45),
                       child:
                       Row(
@@ -793,7 +793,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                             }
                   },
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
                       height: ScreenUtil().setWidth(45),
                       child:
                       Row(
@@ -894,7 +894,7 @@ class _ProductFilterDrawer extends State<ProductFilterDrawer> {
                             }
                       },
                       child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(15), ScreenUtil().setWidth(5), ScreenUtil().setWidth(15), 0),
                           height: ScreenUtil().setWidth(45),
                           child:
                           Row(
