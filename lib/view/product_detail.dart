@@ -2261,7 +2261,7 @@ class _RecommendedClass extends State<RecommendedClass> {
               child: Text(
                 "RECOMMENDED FOR YOU",
                 style: ThemeApp()
-                    .homeHeaderThemeText(AppColors.primaryElement, ScreenUtil().setSp(18), true),
+                    .homeHeaderThemeText(AppColors.primaryElement, 18, true),
               ),
             ),
             Container(
