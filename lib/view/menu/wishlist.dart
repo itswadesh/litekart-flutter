@@ -47,6 +47,14 @@ class _WishlistState extends State<Wishlist> {
       appBar: AppBar(
         backgroundColor: Colors.white,
        // automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black54,
+            size: ScreenUtil().setWidth(28),
+          ),
+        ),
         title: Text(
           "Wishlist",
           style: TextStyle(
