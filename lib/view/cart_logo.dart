@@ -27,7 +27,7 @@ class _CartLogo extends State<CartLogo> {
     return Center(child: Consumer<CartViewModel>(
         builder: (BuildContext context, value, Widget? child) {
       if (value.status == "loading") {
-        Provider.of<CartViewModel>(context, listen: false).fetchCartData();
+        value.fetchCartData();
         return
           // Padding(
           // // padding: const EdgeInsets.only(right: 14, left: 14),

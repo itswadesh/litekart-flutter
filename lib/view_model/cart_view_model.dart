@@ -94,11 +94,13 @@ class CartViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  changeStatus(statusData) {
+  changeStatus(statusData) async{
     promocodeStatus = false;
     promocode = "";
     status = statusData;
+    statusPromo = statusData;
     _cartCount = 0;
+    await fetchCartData();
     notifyListeners();
   }
 

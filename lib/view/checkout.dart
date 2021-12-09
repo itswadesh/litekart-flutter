@@ -2801,8 +2801,8 @@ class _Checkout extends State<Checkout> {
 
    // bool response = await cashfreeRepository.captureCashFree(value);
     // log(response.toString());
-    await Provider.of<CartViewModel>(context, listen: false)
-        .changeStatus("loading");
+
+  //  await Provider.of<CartViewModel>(context, listen: false).fetchCartData();
     await Provider.of<OrderViewModel>(context, listen: false)
         .refreshOrderPage();
     late var result;
@@ -2812,6 +2812,8 @@ class _Checkout extends State<Checkout> {
     else if(paymentMode=="paypal"){
       result = await checkoutRepository.paySuccessPageHit(orderId,"");
     }
+    await Provider.of<CartViewModel>(context, listen: false)
+        .changeStatus("loading");
     if (result["status"]=="completed") {
       setState(() {
         buttonStatusOrder = !buttonStatusOrder;
