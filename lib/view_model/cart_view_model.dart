@@ -21,10 +21,10 @@ class CartViewModel with ChangeNotifier {
   bool? promocodeStatus = false;
   String? promocode = "";
 
-  CartViewModel() {
-    _dialog = TzDialog(
-        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
-  }
+  //CartViewModel() {
+  //  _dialog = TzDialog(
+  //      _navigationService!.navigationKey.currentContext, TzDialogType.progress);
+ // }
 
   CartRepository cartRepository = CartRepository();
   CartResponse? get cartResponse {
@@ -56,6 +56,8 @@ class CartViewModel with ChangeNotifier {
   }
 
   cartAddItem(pid, vid, qty, replace) async {
+    _dialog = TzDialog(
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
     _dialog.show();
     var resultData = await cartRepository.cartAddItem(pid, vid, qty, replace);
     status = resultData["status"];
