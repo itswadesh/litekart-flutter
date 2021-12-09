@@ -1111,7 +1111,7 @@ class _CartCard extends State<CartCard> {
                                     if(cartData.qty==1){
                                     await  productDetailValue.changeButtonStatus("ADD TO BAG");
                                     }
-                                   cartValue
+                                  await cartValue
                                         .cartAddItem(cartData.pid, cartData.pid,
                                             -1, false);
                                     Map<String, dynamic> data = {
@@ -1179,7 +1179,7 @@ class _CartCard extends State<CartCard> {
                           new InkWell(
                               onTap: () async {
 
-                                cartValue
+                             await cartValue
                                     .cartAddItem(
                                         cartData.pid, cartData.pid, 1, false);
                                 Map<String, dynamic> data = {
