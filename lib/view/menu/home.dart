@@ -79,7 +79,7 @@ class _Home extends State<Home> with TickerProviderStateMixin{
           final Uri? deepLink = dynamicLink?.link;
           if (deepLink != null) {
 
-            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.split("/id=")[1]);
+            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.split("?id=")[1]);
           }
         },
         onError: (OnLinkErrorException e) async {
