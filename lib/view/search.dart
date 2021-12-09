@@ -54,10 +54,11 @@ class _SearchPage extends State<SearchPage> {
             child: Icon(
               Icons.arrow_back,
               color: Color(0xff525252),
+              size: ScreenUtil().setWidth(28)
             ),
           ),
           title: Container(
-            margin: EdgeInsets.only(top: 5),
+            margin: EdgeInsets.only(top: ScreenUtil().setWidth(5)),
             child: TextField(
               focusNode: _focusNode,
               // onSubmitted: ,
@@ -409,7 +410,7 @@ class _TopPickClass extends State<TopPickClass> {
           child: Text(
             "TOP PICKS FOR YOU",
             style: ThemeApp()
-                .homeHeaderThemeText(Color(0xff616161), ScreenUtil().setSp(18), true),
+                .homeHeaderThemeText(Color(0xff616161), 18, true),
           ),
         ),
         SizedBox(
