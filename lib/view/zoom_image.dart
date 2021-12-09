@@ -91,9 +91,9 @@ class _ZoomImageState extends State<ZoomImage> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                      left: 10),
-                  width: 40,
-                  height: 40,
+                      left: ScreenUtil().setWidth(10)),
+                  width: ScreenUtil().setWidth(40),
+                  height: ScreenUtil().setWidth(40),
                   child: Icon(
                     Icons.arrow_back_ios,
                     size: ScreenUtil().setWidth(40),
@@ -110,9 +110,9 @@ class _ZoomImageState extends State<ZoomImage> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                      right: 10),
-                  width: 40,
-                  height: 40,
+                      right: ScreenUtil().setWidth(10)),
+                  width: ScreenUtil().setWidth(40),
+                  height: ScreenUtil().setWidth(40),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     size: ScreenUtil().setWidth(40),
@@ -129,9 +129,9 @@ class _ZoomImageState extends State<ZoomImage> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 15, right: 15),
-                  width: 30,
-                  height: 30,
+                      top: MediaQuery.of(context).padding.top + ScreenUtil().setWidth(15), right: ScreenUtil().setWidth(15)),
+                  width: ScreenUtil().setWidth(30),
+                  height: ScreenUtil().setWidth(30),
                   child: Icon(
                     Icons.close,
                     size: ScreenUtil().setWidth(30),
