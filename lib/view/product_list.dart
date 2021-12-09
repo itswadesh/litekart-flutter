@@ -103,7 +103,8 @@ class _ProductList extends State<ProductList> {
             onTap: () => Navigator.pop(context),
             child: Icon(
               Icons.arrow_back,
-              color: Color(0xff6161616)
+              color: Color(0xff6161616),
+              size: ScreenUtil().setWidth(28)
             ),
           ),
           title: Column(
@@ -120,7 +121,7 @@ class _ProductList extends State<ProductList> {
           ) ,
           actions: [
         Container(
-        padding: EdgeInsets.only(top: 2),
+        padding: EdgeInsets.only(top: ScreenUtil().setWidth(2)),
       child:
             InkWell(
                 onTap: () {
@@ -128,7 +129,7 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                   Icons.search,
-                  size: 25,
+                  size: ScreenUtil().setWidth(28),
                   color: Color(0xff616161),
                 ))),
             SizedBox(
@@ -166,7 +167,7 @@ class _ProductList extends State<ProductList> {
                 },
                 child: Icon(
                   Icons.favorite_border_outlined,
-                  size: 25,
+                  size: ScreenUtil().setWidth(28),
                   color: Color(0xff616161),
                 )),
             SizedBox(width: ScreenUtil().setWidth(24),),
@@ -210,10 +211,10 @@ class _ProductList extends State<ProductList> {
                                   children: [
                                   Icon(
                                     FontAwesomeIcons.sort,
-                                    size: 17,
+                                    size: ScreenUtil().setWidth(19),
                                     color: AppColors.primaryElement,
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: ScreenUtil().setWidth(10),),
                                   Text("Sort By",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
                                 ],))),
                             onTap: () {
@@ -253,10 +254,10 @@ class _ProductList extends State<ProductList> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [  Icon(
                               FontAwesomeIcons.filter,
-                              size: 14,
+                              size: ScreenUtil().setWidth(16),
                               color: AppColors.primaryElement,
                             ),
-                              SizedBox(width: 10,),
+                              SizedBox(width: ScreenUtil().setWidth(10),),
                               Text("Filter",style: TextStyle(color: AppColors.primaryElement,fontFamily: 'Inter'),)
                             ]))),
                         onTap: () {
