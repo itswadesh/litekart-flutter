@@ -45,6 +45,7 @@ class _ReturnPage extends State<ReturnPage> {
           child: Icon(
             Icons.arrow_back,
             color: Colors.black54,
+            size: ScreenUtil().setWidth(28)
           ),
         ),
         title: Center(
@@ -60,7 +61,7 @@ class _ReturnPage extends State<ReturnPage> {
         )),
         actions: [
           Container(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
               // width: MediaQuery.of(context).size.width * 0.35,
               child: CartLogo(25))
         ],
@@ -128,9 +129,9 @@ class _ReturnPage extends State<ReturnPage> {
     return Container(
       child: Card(
         elevation: 0,
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), 0, ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
         child: Container(
-          padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+          padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(10), ScreenUtil().setWidth(20), ScreenUtil().setWidth(10), ScreenUtil().setWidth(10)),
           child: Column(
             children: [
               stepIndicator(),
@@ -174,11 +175,11 @@ class _ReturnPage extends State<ReturnPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(9.5, 5, 9.5, 5),
+            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(9.5), ScreenUtil().setWidth(5), ScreenUtil().setWidth(9.5), ScreenUtil().setWidth(5)),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Color(0xffc53193), width: 2),
-                borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20))),
             child: Text(
               "1",
               style: TextStyle(color: Color(0xffc53193)),
@@ -192,17 +193,17 @@ class _ReturnPage extends State<ReturnPage> {
             decoration: BoxDecoration(
               color: currentStep > 1 ? Color(0xffc53193) : Color(0xfff3f3f3),
             ),
-            height: 10,
+            height: ScreenUtil().setWidth(10),
           ),
           SizedBox(
             width: 2,
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(8.5, 5, 8.5, 5),
+            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(8.5), ScreenUtil().setWidth(5), ScreenUtil().setWidth(8.5), ScreenUtil().setWidth(5)),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Color(0xffc53193), width: 2),
-                borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20))),
             child: Text(
               "2",
               style: TextStyle(color: Color(0xffc53193)),
@@ -216,17 +217,17 @@ class _ReturnPage extends State<ReturnPage> {
             decoration: BoxDecoration(
               color: currentStep > 2 ? Color(0xffc53193) : Color(0xfff3f3f3),
             ),
-            height: 10,
+            height: ScreenUtil().setWidth(10),
           ),
           SizedBox(
             width: 2,
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(8.2, 5, 8.2, 5),
+            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(8.2), ScreenUtil().setWidth(5), ScreenUtil().setWidth(8.2), ScreenUtil().setWidth(5)),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Color(0xffc53193), width: 2),
-                borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20))),
             child: Text(
               "3",
               style: TextStyle(color: Color(0xffc53193)),
@@ -240,17 +241,17 @@ class _ReturnPage extends State<ReturnPage> {
             decoration: BoxDecoration(
               color: currentStep > 3 ? Color(0xffc53193) : Color(0xfff3f3f3),
             ),
-            height: 10,
+            height: ScreenUtil().setWidth(10),
           ),
           SizedBox(
             width: 2,
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(7.9, 5, 7.9, 5),
+            padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(7.9), ScreenUtil().setWidth(5), ScreenUtil().setWidth(7.9), ScreenUtil().setWidth(5)),
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Color(0xffc53193), width: 2),
-                borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20))),
             child: Text(
               "4",
               style: TextStyle(color: Color(0xffc53193)),
@@ -264,9 +265,9 @@ class _ReturnPage extends State<ReturnPage> {
             decoration: BoxDecoration(
                 color: currentStep > 4 ? Color(0xffc53193) : Color(0xfff3f3f3),
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
-            height: 10,
+                    topRight: Radius.circular(ScreenUtil().setWidth(10)),
+                    bottomRight: Radius.circular(ScreenUtil().setWidth(10)))),
+            height: ScreenUtil().setWidth(10),
           )
         ],
       ),
