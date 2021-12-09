@@ -125,7 +125,7 @@ class _ProductSortDrawer extends State<ProductSortDrawer> {
         height: ScreenUtil().setWidth(56),
         child: Center(
           child: Container(
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(25),top: 3),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(25),top: ScreenUtil().setWidth(3)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
