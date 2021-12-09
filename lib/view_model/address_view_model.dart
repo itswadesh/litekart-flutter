@@ -25,10 +25,10 @@ class AddressViewModel with ChangeNotifier {
   }
 
   late TzDialog _dialog;
-  AddressViewModel() {
-    _dialog = TzDialog(
-        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
-  }
+ // AddressViewModel() {
+ //   _dialog = TzDialog(
+ //       _navigationService!.navigationKey.currentContext, TzDialogType.progress);
+//  }
 
   AddressResponse? get addressResponse {
     return _addressResponse;
