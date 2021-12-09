@@ -45,6 +45,8 @@ class AddressViewModel with ChangeNotifier {
 
   saveAddress(id, email, firstName, lastName, address, city, country,
       state, pin, phone) async {
+    _dialog = TzDialog(
+        _navigationService!.navigationKey.currentContext, TzDialogType.progress);
    _dialog.show();
     _statusResponse = false;
     _statusResponse = await addressRepository.saveAddress(id, email, firstName,
