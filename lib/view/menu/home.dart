@@ -79,7 +79,9 @@ class _Home extends State<Home> with TickerProviderStateMixin{
           final Uri? deepLink = dynamicLink?.link;
           if (deepLink != null) {
 
-            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.split("?id=")[1]);
+            String argID = deepLink.path.split("?id=")[1];
+            log("gygu ugug hhb huh "+argID);
+            locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: argID);
           }
         },
         onError: (OnLinkErrorException e) async {
@@ -87,12 +89,13 @@ class _Home extends State<Home> with TickerProviderStateMixin{
 
         }
     );
-    // final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
-    // final Uri? deepLink = data?.link;
-    // if (deepLink != null) {
-    //
-    //   locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: deepLink.path.replaceAll("/", ""));
-    // }
+    final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri? deepLink = data?.link;
+    if (deepLink != null) {
+      String argID = deepLink.path.split("?id=")[1];
+      log("gygu ugug hhb huh "+argID);
+      locator<NavigationService>().pushNamed(routes.ProductDetailRoute,args: argID);
+    }
   }
 
   @override
