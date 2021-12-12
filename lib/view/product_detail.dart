@@ -361,7 +361,7 @@ class _ProductDetail extends State<ProductDetail>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                             Container(child: Row(children:[   InkWell(
+                               InkWell(
                                     onTap: () {
                                       locator<NavigationService>().pop();
                                     },
@@ -395,32 +395,7 @@ class _ProductDetail extends State<ProductDetail>
                                           size: ScreenUtil().setWidth(18),
                                         ))),
 
-                               Container(
-                                 padding: EdgeInsets.fromLTRB(
-                                     ScreenUtil().setWidth(15),
-                                     0,
-                                     ScreenUtil().setWidth(10),
-                                     0),
-                                 child: Row(
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   children: [
-                                     Text(
-                                      value.productDetailResponse!.brand  == null
-                                           ? ""
-                                           : (value.productDetailResponse!.brand!.name ?? ""),
-                                       style: TextStyle(
-                                           color: AppColors.primaryElement,
-                                           fontSize: ScreenUtil().setSp(
-                                             21,
-                                           )),
-                                     ),
-                                     //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
 
-                                     Container()
-                                   ],
-                                 ),
-                               ),
-                             ])),
                                 /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
@@ -1283,7 +1258,7 @@ class _ProductDetail extends State<ProductDetail>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
+                     Container(child: Row(children:[  InkWell(
                             onTap: () {
                               locator<NavigationService>().pop();
                             },
@@ -1315,7 +1290,29 @@ class _ProductDetail extends State<ProductDetail>
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: ScreenUtil().setWidth(18),
-                                ))),
+                                ))), 
+                       
+                       Container(
+                         width: ScreenUtil().setWidth(140),
+                          padding: EdgeInsets.fromLTRB(
+                              ScreenUtil().setWidth(5),
+                              0,
+                              ScreenUtil().setWidth(5),
+                              0),
+                          child:  Text(
+                           productData.brand  == null
+                                ? ""
+                                : (productData.brand!.name ?? ""),
+                            style: TextStyle(
+                              color: AppColors.primaryElement,
+                              fontSize: ScreenUtil().setSp(
+                                21,
+                              ),),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container()
+                        ),])),
                         /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
