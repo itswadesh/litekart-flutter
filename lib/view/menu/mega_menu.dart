@@ -138,7 +138,7 @@ class _MegaMenu extends State<MegaMenu> {
         //  padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
           child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-    child: ExpansionTile(
+    child: megamenu.children!.length>0? ExpansionTile(
       onExpansionChanged: (value){
         setState(() {
           if(trailingIcon  == Icon(Icons.keyboard_arrow_up,size:ScreenUtil().setWidth(24))){
@@ -172,7 +172,35 @@ class _MegaMenu extends State<MegaMenu> {
             ],
           )),
             children: getMenuCard(megamenu.children!),
+          ): ListTile(
+      onTap: (){
+        locator<NavigationService>().pushNamed(routes.ProductList, args: {
+          "searchKey": "",
+          "category": megamenu.slug,
+          "brandName": "",
+          "parentBrand": ""
+        });
+      },
+      title: Container(
+        //padding: EdgeInsets.only(top: ScreenUtil().setWidth(14),bottom: ScreenUtil().setWidth(14)),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(ScreenUtil().radius(3)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  width: ScreenUtil().setWidth(155),
+                  child: Text(megamenu.name??"", style: TextStyle(color: Color(0xff000000),fontSize: ScreenUtil().setSp(25),fontWeight:FontWeight.w600),maxLines: 3,overflow: TextOverflow.ellipsis,)),
+              megamenu.img!=null? FadeInImage.assetNetwork(image:megamenu.img!, imageErrorBuilder: ((context,object,stackTrace){
+                return Image.asset("assets/images/logo.png",fit: BoxFit.contain,
+                  width: ScreenUtil().setWidth(120),
+                  height: ScreenUtil().setWidth(120),);
+              }),width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120), placeholder: 'assets/images/loading.gif',)
+                  : Image.asset("assets/images/logo.png",width: ScreenUtil().setWidth(120),height: ScreenUtil().setWidth(120))
+            ],
           )),
+    )),
 
     );
   }

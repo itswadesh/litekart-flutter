@@ -68,8 +68,9 @@ class _ManageAddressState extends State<ManageAddress> {
                 color: Color(0xff616161),
                 fontSize: ScreenUtil().setSp(
                   21,
-                )),
+                ),fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
+
           )),
           actions: [
             Container(

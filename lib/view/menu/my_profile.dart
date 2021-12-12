@@ -88,7 +88,7 @@ class _MyProfileState extends State<MyProfile> {
                                             child: Container(
                                               height: ScreenUtil().setWidth(120),
                                               width: ScreenUtil().setWidth(120),
-                                              child: value.user!.avatar!=null&&value.user!.avatar!=""? Image.network(value.user!.avatar!):Image.asset("assets/images/user.png")
+                                              child: value.user!.avatar!=null&&value.user!.avatar!=""? Image.network(value.user!.avatar!, fit: BoxFit.cover,):Image.asset("assets/images/user.png", fit: BoxFit.cover,)
                                             ),
                                           ),)),
                                     SizedBox(width: ScreenUtil().setWidth(20),),

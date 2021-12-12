@@ -82,9 +82,9 @@ class _HomeDrawer extends State<HomeDrawer> {
                           height: ScreenUtil().setWidth(90),
                           width: ScreenUtil().setWidth(90),
                           child: (user.user !=null && user.user!.avatar != null)
-                              ? Image.network(user.user!.avatar!,fit: BoxFit.contain,height: ScreenUtil().setWidth(90),
+                              ? Image.network(user.user!.avatar!,fit: BoxFit.cover,height: ScreenUtil().setWidth(90),
                             width: ScreenUtil().setWidth(90),)
-                              : Image.asset("assets/images/user.png",fit: BoxFit.contain,height: ScreenUtil().setWidth(90),
+                              : Image.asset("assets/images/user.png",fit: BoxFit.cover,height: ScreenUtil().setWidth(90),
                             width: ScreenUtil().setWidth(90),)),
                     ),
                   )),

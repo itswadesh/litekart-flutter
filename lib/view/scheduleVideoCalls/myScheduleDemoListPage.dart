@@ -43,7 +43,7 @@ class _MyScheduleDemoListPage extends State<MyScheduleDemoListPage>{
                 color: Color(0xff616161),
                 fontSize: ScreenUtil().setSp(
                   21,
-                )),
+                ),fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               )
       ),

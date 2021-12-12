@@ -63,7 +63,7 @@ class _Cart extends State<Cart> {
                 color: Color(0xff616161),
                 fontSize: ScreenUtil().setSp(
                   21,
-                ))),
+                ),fontWeight: FontWeight.w600)),
         // actions: [
         //   Container(
         //       padding: EdgeInsets.only(right: 10.0),
@@ -1288,6 +1288,14 @@ class _CartCard extends State<CartCard> {
           .cartAddItem(cartData.pid, cartData.pid,
           -cartData.qty!, false);
       _dialog.close();
+      final snackBar = SnackBar(
+        backgroundColor: Colors.black,
+        content:  Text(
+          "Added To Wishlist",
+          style: TextStyle(color: Color(0xffffffff)),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     else {
       if (settingData!.otpLogin!) { locator<NavigationService>().pushNamed(routes.LoginRoute);}

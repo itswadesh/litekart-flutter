@@ -181,7 +181,7 @@ class _Checkout extends State<Checkout> {
                 color: Color(0xff616161),
                 fontSize: ScreenUtil().setSp(
                   21,
-                )),
+                ),fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
           actions: [
@@ -420,35 +420,35 @@ class _Checkout extends State<Checkout> {
               SizedBox(
                 height: ScreenUtil().setWidth(21),
               ),
-              Container(
-                  height: ScreenUtil().setWidth(46),
-                  width: double.infinity,
-                  child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        side: BorderSide(width: 2,
-                            color: buttonStatusOrder
-                                ? AppColors.primaryElement
-                                : Colors.grey),
-                      ),
-                      onPressed: () async {
-                        paymentHandle(value.selectedAddress!.id);
-                      },
-                      child: Text(
-                        'Place Order',
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(16),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w700,
-                            color: buttonStatusOrder
-                                ? AppColors.primaryElement
-                                : Colors.grey),
-                      ))),
-              SizedBox(
-                height: ScreenUtil().setWidth(19),
-              ),
+              // Container(
+              //     height: ScreenUtil().setWidth(46),
+              //     width: double.infinity,
+              //     child: OutlinedButton(
+              //         style: OutlinedButton.styleFrom(
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(5),
+              //           ),
+              //           side: BorderSide(width: 2,
+              //               color: buttonStatusOrder
+              //                   ? AppColors.primaryElement
+              //                   : Colors.grey),
+              //         ),
+              //         onPressed: () async {
+              //           paymentHandle(value.selectedAddress!.id);
+              //         },
+              //         child: Text(
+              //           'Place Order',
+              //           style: TextStyle(
+              //             fontSize: ScreenUtil().setSp(16),
+              //               fontFamily: 'Montserrat',
+              //               fontWeight: FontWeight.w700,
+              //               color: buttonStatusOrder
+              //                   ? AppColors.primaryElement
+              //                   : Colors.grey),
+              //         ))),
+              // SizedBox(
+              //   height: ScreenUtil().setWidth(19),
+              // ),
               Divider(
                 thickness: ScreenUtil().setWidth(0.4),
               ),
@@ -2308,8 +2308,8 @@ class _Checkout extends State<Checkout> {
             child: Row(
               children: [
                 Container(
-                    height: ScreenUtil().setWidth(22),
-                    width: ScreenUtil().setWidth(40),
+                    height: ScreenUtil().setWidth(32),
+                    width: ScreenUtil().setWidth(32),
                     child: Image.network(
                       stripeImage,
                     )),
@@ -2364,8 +2364,8 @@ class _Checkout extends State<Checkout> {
             child: Row(
               children: [
                 Container(
-                    height: ScreenUtil().setWidth(22),
-                    width: ScreenUtil().setWidth(40),
+                    height: ScreenUtil().setWidth(32),
+                    width: ScreenUtil().setWidth(32),
                     child: Image.network(
                       paypalImage,
                     )),

@@ -361,7 +361,7 @@ class _ProductDetail extends State<ProductDetail>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InkWell(
+                             Container(child: Row(children:[   InkWell(
                                     onTap: () {
                                       locator<NavigationService>().pop();
                                     },
@@ -394,6 +394,33 @@ class _ProductDetail extends State<ProductDetail>
                                           Icons.arrow_back,
                                           size: ScreenUtil().setWidth(18),
                                         ))),
+
+                               Container(
+                                 padding: EdgeInsets.fromLTRB(
+                                     ScreenUtil().setWidth(15),
+                                     0,
+                                     ScreenUtil().setWidth(10),
+                                     0),
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Text(
+                                      value.productDetailResponse!.brand  == null
+                                           ? ""
+                                           : (value.productDetailResponse!.brand!.name ?? ""),
+                                       style: TextStyle(
+                                           color: AppColors.primaryElement,
+                                           fontSize: ScreenUtil().setSp(
+                                             21,
+                                           )),
+                                     ),
+                                     //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
+
+                                     Container()
+                                   ],
+                                 ),
+                               ),
+                             ])),
                                 /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
@@ -672,34 +699,8 @@ class _ProductDetail extends State<ProductDetail>
                         EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(10), 0, 0),
                     child: Column(
                       children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(
-                              ScreenUtil().setWidth(20),
-                              0,
-                              ScreenUtil().setWidth(20),
-                              0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                productData.brand == null
-                                    ? ""
-                                    : (productData.brand!.name ?? ""),
-                                style: TextStyle(
-                                    color: AppColors.primaryElement,
-                                    fontSize: ScreenUtil().setSp(
-                                      21,
-                                    )),
-                              ),
-                              //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
 
-                              Container()
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(10),
-                        ),
+
                         Container(
                             margin: EdgeInsets.only(
                                 left: ScreenUtil().setWidth(20),
@@ -730,7 +731,7 @@ class _ProductDetail extends State<ProductDetail>
                                       fontSize: ScreenUtil().setSp(
                                         18,
                                       ),
-                                      fontWeight: FontWeight.w500),
+                                      fontWeight: FontWeight.w600),
                                 ),
                                 productData.price! < productData.mrp!
                                     ? Text(
@@ -741,7 +742,7 @@ class _ProductDetail extends State<ProductDetail>
                                                 TextDecoration.lineThrough,
                                             fontSize: ScreenUtil().setSp(
                                               17,
-                                            )),
+                                            ),fontWeight: FontWeight.w600),
                                       )
                                     : Container(),
                                 productData.price! < productData.mrp!
@@ -776,7 +777,7 @@ class _ProductDetail extends State<ProductDetail>
                                     productData.stock! > 0
                                         ? TextSpan(
                                             text:
-                                                "${productData.stock} in Stock",
+                                              productData.stock!>5?"In Stock":  "${productData.stock} in Stock",
                                             style: TextStyle(
                                                 color:
                                                     AppColors.primaryElement2,
@@ -784,7 +785,7 @@ class _ProductDetail extends State<ProductDetail>
                                                   15,
                                                 )))
                                         : TextSpan(
-                                            text: "Not in Stock",
+                                            text: "Out of Stock",
                                             style: TextStyle(
                                                 color: Colors.red,
                                                 fontSize: ScreenUtil().setSp(

@@ -75,7 +75,7 @@ class _ManageOrderState extends State<ManageOrder> {
               color: Color(0xff616161),
               fontSize: ScreenUtil().setSp(
                 21,
-              ),),
+              ),fontWeight: FontWeight.w600),
         ),
         actions: [
           Container(

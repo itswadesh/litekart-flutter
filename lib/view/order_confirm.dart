@@ -68,7 +68,7 @@ class _OrderConfirm extends State<OrderConfirm> {
             child: Text(
           "Order Confirm",
           style: TextStyle(
-              color: Color(0xff616161), fontSize: ScreenUtil().setSp(21)),
+              color: Color(0xff616161), fontSize: ScreenUtil().setSp(21),fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         )),
         actions: [

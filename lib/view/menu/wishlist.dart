@@ -61,8 +61,9 @@ class _WishlistState extends State<Wishlist> {
               color: Color(0xff616161),
               fontSize: ScreenUtil().setSp(
                 21,
-              )),
+              ),fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
+
         ),
         actions: [
           Container(

@@ -90,7 +90,8 @@ class _LiveCommercePage extends State<LiveCommercePage>{
               color: Color(0xff000000),
               fontSize: ScreenUtil().setSp(
                 23,
-              )),
+              ),fontWeight: FontWeight.w600),
+
       ),
       ))
       ])))

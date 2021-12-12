@@ -56,7 +56,7 @@ class _ReturnPage extends State<ReturnPage> {
               color: Color(0xff616161),
               fontSize: ScreenUtil().setSp(
                 21,
-              )),
+              ),fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         )),
         actions: [

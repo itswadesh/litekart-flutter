@@ -389,7 +389,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           height: ScreenUtil().setWidth(120),
                           width: ScreenUtil().setWidth(120),
                           child: Image.file(
-                    _image!,
+                    _image!, fit: BoxFit.cover,
                   )))))
               : InkWell(
               onTap: () {
@@ -402,7 +402,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: Container(
                 height: ScreenUtil().setWidth(120),
                 width: ScreenUtil().setWidth(120),
-                child: avatar!=null&&avatar!=""? Image.network(avatar!):Image.asset("assets/images/user.png")
+                child: avatar!=null&&avatar!=""? Image.network(avatar!, fit: BoxFit.cover,):Image.asset("assets/images/user.png", fit: BoxFit.cover,)
             ),
           ),)),
         ]));

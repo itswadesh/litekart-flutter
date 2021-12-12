@@ -53,6 +53,8 @@ class _BannersSliderClass extends State<BannersSliderClass> {
               child: CarouselSlider.builder(
                 itemCount: value.sliderResponse!.data!.length,
                 options: CarouselOptions(
+                  autoPlayAnimationDuration: Duration(seconds: 1),
+                  autoPlayInterval: Duration(seconds: 8),
                   viewportFraction: 1,
                   aspectRatio: 18 / 10,
                   enlargeCenterPage: true,
