@@ -7,7 +7,7 @@ import 'package:anne/values/colors.dart';
 import 'package:anne/view/product_detail.dart';
 import 'package:anne/view_model/cart_view_model.dart';
 import 'package:anne/view_model/store_view_model.dart';
-import 'package:extended_image/extended_image.dart';
+//import 'package:extended_image/extended_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

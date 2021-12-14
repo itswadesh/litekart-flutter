@@ -2,7 +2,7 @@ import 'package:anne/model/product.dart';
 import 'package:anne/service/navigation/navigation_service.dart';
 import 'package:anne/utility/locator.dart';
 import 'package:anne/values/colors.dart';
-import 'package:extended_image/extended_image.dart';
+//import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
