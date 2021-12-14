@@ -73,7 +73,7 @@ dependencies:
   file_picker: ^4.2.7
   flutter_launcher_icons: ^0.9.2
   image_picker: ^0.8.4+4
-  flutter_html: ^2.1.2
+  flutter_html: ^2.2.1
   flutter_native_splash: any
   flutter_braintree: ^2.0.0+10
   flutter_stripe: ^2.0.2
