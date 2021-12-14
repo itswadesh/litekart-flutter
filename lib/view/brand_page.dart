@@ -371,7 +371,6 @@ class _ChewieClassState extends State<ChewieClass> {
       looping: widget.looping!,
       showControls: false,
       showControlsOnInitialize: false,
-      showOptions: false,
       errorBuilder: (context, errorMessage){
         return Center(
           child: Text(
