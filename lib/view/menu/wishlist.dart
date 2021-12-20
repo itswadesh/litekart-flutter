@@ -25,6 +25,7 @@ import '../../view_model/cart_view_model.dart';
 import '../../view_model/wishlist_view_model.dart';
 import '../../view/cart_logo.dart';
 import '../../view/product_detail.dart';
+import 'package:vibration/vibration.dart';
 import '../../values/route_path.dart' as routes;
 class Wishlist extends StatefulWidget {
   @override
@@ -338,6 +339,9 @@ class _WishCard extends State<WishCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
+                    if (await Vibration.hasVibrator()) {
+                    Vibration.vibrate();
+                    }
                     final NavigationService _navigationService = locator<NavigationService>();
                     TzDialog _dialog =
                     TzDialog(_navigationService.navigationKey.currentContext, TzDialogType.progress);
