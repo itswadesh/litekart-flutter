@@ -700,6 +700,7 @@ class _OrderConfirm extends State<OrderConfirm> {
                                 style: TextStyle(
                                   color: AppColors.primaryElement,
                                   fontSize: ScreenUtil().setWidth(13),
+                                  fontWeight: FontWeight.w600
                                 ),
                               ),
                             ],
