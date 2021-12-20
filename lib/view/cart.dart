@@ -1070,6 +1070,7 @@ class _CartCard extends State<CartCard> {
                         style: TextStyle(
                           color: AppColors.primaryElement,
                           fontSize: ScreenUtil().setSp(14),
+                          fontWeight: FontWeight.w600
                         ),
                         textAlign: TextAlign.start,
                       ),
