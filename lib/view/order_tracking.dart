@@ -333,6 +333,7 @@ class _OrderTracking extends State<OrderTracking> {
                             style: TextStyle(
                               color: AppColors.primaryElement,
                               fontSize: ScreenUtil().setWidth(13),
+                              fontWeight: FontWeight.w600
                             ),
                             textAlign: TextAlign.start,
                           ),
