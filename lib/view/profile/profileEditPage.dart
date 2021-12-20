@@ -102,7 +102,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 child:  Column(
                                   children: [
                                   Image.asset("assets/images/backgroundProfile.jpg",width: MediaQuery.of(context).size.width,height: ScreenUtil().setWidth(200),fit: BoxFit.cover,),
-                                Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-73)),
+                                Transform.translate(offset: Offset(0,ScreenUtil().setWidth(-112)),
                                   child:
                                   Container(
                                     padding: EdgeInsets.fromLTRB(
@@ -382,12 +382,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                 _pickImageFromGallery();
               },
               child: Container(
-                  height: ScreenUtil().setWidth(120),
-                  width: ScreenUtil().setWidth(120),
+                  height: ScreenUtil().setWidth(200),
+                  width: ScreenUtil().setWidth(200),
                   child: Card(
                       child: Container(
-                          height: ScreenUtil().setWidth(120),
-                          width: ScreenUtil().setWidth(120),
+                          height: ScreenUtil().setWidth(200),
+                          width: ScreenUtil().setWidth(200),
                           child: Image.file(
                     _image!, fit: BoxFit.cover,
                   )))))
@@ -396,12 +396,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                 _pickImageFromGallery();
               },
               child:  Container(
-          height: ScreenUtil().setWidth(120),
-          width: ScreenUtil().setWidth(120),
+          height: ScreenUtil().setWidth(200),
+          width: ScreenUtil().setWidth(200),
           child: Card(
             child: Container(
-                height: ScreenUtil().setWidth(120),
-                width: ScreenUtil().setWidth(120),
+                height: ScreenUtil().setWidth(200),
+                width: ScreenUtil().setWidth(200),
                 child: avatar!=null&&avatar!=""? Image.network(avatar!, fit: BoxFit.cover,):Image.asset("assets/images/user.png", fit: BoxFit.cover,)
             ),
           ),)),
