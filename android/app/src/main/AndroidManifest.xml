@@ -26,6 +26,7 @@
     </queries>
     <application
         tools:replace="android:label"
+	tools:node="merge"
         android:name="androidx.multidex.MultiDexApplication"
         android:label="Anne"
         android:icon="@mipmap/launcher_icon"
