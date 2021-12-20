@@ -39,6 +39,7 @@ import '../../view_model/wishlist_view_model.dart';
 import 'package:flutter_html/flutter_html.dart';
 import '../main.dart';
 import 'package:anne/view_model/product_view_model.dart';
+import 'package:vibration/vibration.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -1620,6 +1621,9 @@ class _ProductDetail extends State<ProductDetail>
                                    //  TzDialog _dialog =
                                    //  TzDialog(context, TzDialogType.progress);
                                    //  _dialog.show();
+                                    if (await Vibration.hasVibrator()) {
+                                     Vibration.vibrate();
+                                   }
                                     Provider.of<ProductDetailViewModel>(context,
                                             listen: false)
                                         .changeButtonStatusAndLoad("GO TO CART");
