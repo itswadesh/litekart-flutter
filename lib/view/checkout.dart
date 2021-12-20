@@ -6,14 +6,15 @@ import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
 import 'package:anne/repository/stripe_repository.dart';
-
+import 'package:anne/repository/cashfree_repository.dart';
+import 'package:anne/response_handler/cashFreeResponse.dart';
 import 'package:anne/view_model/store_view_model.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
-
+import 'package:cashfree_pg/cashfree_pg.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -69,7 +70,7 @@ class _Checkout extends State<Checkout> {
   QueryMutation addMutation = QueryMutation();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   CheckoutRepository checkoutRepository = CheckoutRepository();
-  //CashfreeRepository cashfreeRepository = CashfreeRepository();
+  CashfreeRepository cashfreeRepository = CashfreeRepository();
   PaypalRepository paypalRepository = PaypalRepository();
   var _formKey = GlobalKey<FormState>();
   var newAddress = true;
@@ -132,6 +133,8 @@ class _Checkout extends State<Checkout> {
   List methodList = [];
   String stripeImage = "";
   String paypalImage = "";
+  String cashfreeImage = "";
+  String codImage = "";
   @override
   void initState() {
     _dropdownMonthItems = buildDropDownMenuItems(_dropdownMonth);
@@ -1922,7 +1925,14 @@ class _Checkout extends State<Checkout> {
                     },
                     child: Column(
                       children: [
-                        
+                         methodList.contains("Cashfree")?   GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "cashfree";
+                              });
+                            },
+                            child:
+                            cashfreeCard()):Container(),
                         methodList.contains("Stripe")?   GestureDetector(
                             onTap: (){
                               setState(() {
@@ -1945,7 +1955,14 @@ class _Checkout extends State<Checkout> {
                         methodList.contains("Paypal")? SizedBox(
                           height: ScreenUtil().setWidth(15),
                         ):Container(),
-                        
+                         methodList.contains("COD")?   GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                paymentMethod = "cod";
+                              });
+                            },
+                            child:
+                            cashfreeCard()):Container(),
                       ],
                     ),
                   ),
@@ -2320,7 +2337,116 @@ class _Checkout extends State<Checkout> {
       ),
     );
   }
+  
+   cashfreeCard() {
+    return Container(
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: paymentMethod == "cashfree"
+                  ? AppColors.primaryElement
+                  : Color(0xff707070),
+              width: ScreenUtil().setWidth(0.9)),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+      child: Row(
+        children: [
+          InkWell(
+              onTap: () {
+                setState(() {
+                  paymentMethod = "cashfree";
+                });
+              },
+              child: paymentMethod == "cashfree"
+                  ? Icon(
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
+                  : Icon(
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
+          SizedBox(
+            width: ScreenUtil().setWidth(19),
+          ),
+          Text(
+            "Cashfree",
+            style: TextStyle(
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(16)),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(210),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Container(
+                    height: ScreenUtil().setWidth(32),
+                    width: ScreenUtil().setWidth(32),
+                    child: Image.network(
+                      cashfreeImage,
+                    )),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
+    codCard() {
+    return Container(
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: paymentMethod == "cod"
+                  ? AppColors.primaryElement
+                  : Color(0xff707070),
+              width: ScreenUtil().setWidth(0.9)),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3))),
+      child: Row(
+        children: [
+          InkWell(
+              onTap: () {
+                setState(() {
+                  paymentMethod = "cod";
+                });
+              },
+              child: paymentMethod == "cod"
+                  ? Icon(
+                Icons.adjust_sharp,
+                color: AppColors.primaryElement,
+              )
+                  : Icon(
+                Icons.panorama_fish_eye,
+                color: Color(0xff707070),
+              )),
+          SizedBox(
+            width: ScreenUtil().setWidth(19),
+          ),
+          Text(
+            "COD",
+            style: TextStyle(
+                color: Color(0xff6d6d6d), fontSize: ScreenUtil().setSp(16)),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(206),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Container(
+                    height: ScreenUtil().setWidth(32),
+                    width: ScreenUtil().setWidth(32),
+                    child: Image.network(
+                      codImage,
+                    )),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   paypalCard() {
     return Container(
@@ -2668,6 +2794,57 @@ class _Checkout extends State<Checkout> {
           //   _dialog.close();
           //   handlePaymentFailure(onError.toString());});
   }
+      else if(paymentMethod=="cashfree"){
+          QueryResult resultCashFree =
+          await cashfreeRepository.cashFreePayNow(selectedAddressId);
+
+      if (!resultCashFree.hasException && resultCashFree.data != null) {
+        CashFreeResponse cashFreeResponse = CashFreeResponse();
+        cashFreeResponse =
+            CashFreeResponse.fromJson(resultCashFree.data["cashfreePayNow"]);
+
+        var tokenData = cashFreeResponse.token;
+        
+          Map<String, dynamic> inputParams = {
+            "tokenData": tokenData,
+            "orderId": cashFreeResponse.orderId,
+            "orderAmount": cashFreeResponse.orderAmount,
+            "customerName": cashFreeResponse.customerName,
+            "orderNote": cashFreeResponse.orderNote,
+            "orderCurrency": cashFreeResponse.orderCurrency,
+            "appId": cashFreeResponse.appId,
+            "customerPhone": cashFreeResponse.customerPhone,
+            "customerEmail": cashFreeResponse.customerEmail,
+            "stage": kReleaseMode ? 'PROD' : 'TEST',
+            "notifyUrl": cashFreeResponse.notifyUrl,
+          };
+          CashfreePGSDK.doPayment(inputParams).then((value) async {
+            log(value.toString());
+            if (value["txStatus"] == "SUCCESS") {
+              
+                setState(() {
+                  buttonStatusOrder = !buttonStatusOrder;
+                });
+                _dialog.close();
+              bool response = await cashfreeRepository.captureCashFree(value);
+              await handlePaymentSuccess("cashfree", value["orderId"]);
+            } else {
+                setState(() {
+                  buttonStatusOrder = !buttonStatusOrder;
+                });
+                _dialog.close();
+              await handlePaymentFailure();
+            }
+          });
+        } 
+      } else {
+       _dialog.close();
+                setState(() {
+                  buttonStatusOrder = !buttonStatusOrder;
+                });
+                handlePaymentFailure("Something Went Wrong...");
+      }
+      }
 
       else if(paymentMethod=="paypal"){
         BrainTreeRepository brainTreeRepository = BrainTreeRepository();
@@ -2724,6 +2901,10 @@ class _Checkout extends State<Checkout> {
           _dialog.close();
           handlePaymentFailure("Something Went Wrong...");
         }
+      }
+    
+       else if(paymentMethod=="cod"){
+       handlePaymentSuccess("cod", "");
       }
 
 
@@ -2809,8 +2990,14 @@ class _Checkout extends State<Checkout> {
     if(paymentMode=="credit") {
       result = await checkoutRepository.paySuccessPageHit("",orderId);
     }
+    if(paymentMode=="cashfree") {
+      result = await checkoutRepository.paySuccessPageHit(orderId,"");
+    }
     else if(paymentMode=="paypal"){
       result = await checkoutRepository.paySuccessPageHit(orderId,"");
+    }
+    else if(paymentMode=="cod"){
+      result = await checkoutRepository.paySuccessPageHit("","");
     }
     await Provider.of<CartViewModel>(context, listen: false)
         .changeStatus("loading");
@@ -3096,12 +3283,25 @@ class _Checkout extends State<Checkout> {
       if(result["value"]["data"][i]["name"]=="Paypal"){
         paypalImage = result["value"]["data"][i]["imgCdn"];
       }
+       if(result["value"]["data"][i]["name"]=="Cashfree"){
+        cashfreeImage = result["value"]["data"][i]["imgCdn"];
+      }
+      if(result["value"]["data"][i]["name"]=="COD"){
+        codImage = result["value"]["data"][i]["imgCdn"];
+      }
     }
-    if(methodList.contains("Stripe")){
+     if(methodList.contains("Cashfree")){
+      paymentMethod = "cashfree";
+    }
+    else if(methodList.contains("Stripe")){
       paymentMethod = "credit";
     }
-    else{
+    
+    else if(methodList.contains("Paypal")){
       paymentMethod = "paypal";
+    }
+    else if(methodList.contains("COD")){
+      paymentMethod = "cod";
     }
   }
 
