@@ -674,7 +674,35 @@ class _ProductDetail extends State<ProductDetail>
                         EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(10), 0, 0),
                     child: Column(
                       children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(
+                              ScreenUtil().setWidth(20),
+                              0,
+                              ScreenUtil().setWidth(20),
+                              0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                productData.brand == null
+                                    ? ""
+                                    : (productData.brand!.name ?? ""),
+                                style: TextStyle(
+                                    color: AppColors.primaryElement,
+                                    fontSize: ScreenUtil().setSp(
+                                      21,
+                                    ),fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container(),
 
+                              Container()
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setWidth(10),
+                        ),
 
                         Container(
                             margin: EdgeInsets.only(
@@ -717,7 +745,7 @@ class _ProductDetail extends State<ProductDetail>
                                                 TextDecoration.lineThrough,
                                             fontSize: ScreenUtil().setSp(
                                               17,
-                                            ),fontWeight: FontWeight.w600),
+                                            )),
                                       )
                                     : Container(),
                                 productData.price! < productData.mrp!
@@ -768,10 +796,10 @@ class _ProductDetail extends State<ProductDetail>
                                                 )))
                                   ]),
                             )),
-                        SizedBox(
+                     productData.stock! > 0 ?  SizedBox(
                           height: ScreenUtil().setWidth(10),
-                        ),
-                        Container(
+                        ):Container(),
+                     productData.stock! > 0 ?  Container(
                             margin: EdgeInsets.only(
                                 left: ScreenUtil().setWidth(20)),
                             width: double.maxFinite,
@@ -788,7 +816,7 @@ class _ProductDetail extends State<ProductDetail>
                                   fontSize: ScreenUtil().setSp(
                                     13,
                                   )),
-                            )),
+                            )):Container(),
                         // SizedBox(
                         //   height: ScreenUtil().setWidth(15),
                         // ),
@@ -1292,27 +1320,28 @@ class _ProductDetail extends State<ProductDetail>
                                   size: ScreenUtil().setWidth(18),
                                 ))), 
                        
-                       Container(
-                         width: ScreenUtil().setWidth(140),
-                          padding: EdgeInsets.fromLTRB(
-                              ScreenUtil().setWidth(5),
-                              0,
-                              ScreenUtil().setWidth(5),
-                              0),
-                          child:  Text(
-                           productData.brand  == null
-                                ? ""
-                                : (productData.brand!.name ?? ""),
-                            style: TextStyle(
-                              color: AppColors.primaryElement,
-                              fontSize: ScreenUtil().setSp(
-                                21,
-                              ),),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                     //  Container(
+                     //    width: ScreenUtil().setWidth(140),
+                     //     padding: EdgeInsets.fromLTRB(
+                     //         ScreenUtil().setWidth(5),
+                     //         0,
+                     //         ScreenUtil().setWidth(5),
+                     //         0),
+                     //     child:  Text(
+                     //      productData.brand  == null
+                     //           ? ""
+                     //           : (productData.brand!.name ?? ""),
+                     //       style: TextStyle(
+                     //         color: AppColors.primaryElement,
+                     //         fontSize: ScreenUtil().setSp(
+                     //           21,
+                     //         ),),
+                     //       maxLines: 2,
+                     //       overflow: TextOverflow.ellipsis,
+                     //     ),
                           //   data["brand"]!=null? Text("${productData.}",style: TextStyle(color: Color(0xffee7625),fontWeight: FontWeight.w600,fontSize: 13),):Container()
-                        ),])),
+                     //   ),
+                                                   ])),
                         /*InkWell(
                     onTap: () async {
                       TzDialog _dialog =
