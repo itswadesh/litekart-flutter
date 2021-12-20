@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:anne/repository/brainTreeRepository.dart';
 import 'package:anne/repository/payment_repository.dart';
 import 'package:anne/repository/paypal_repository.dart';
@@ -2801,7 +2801,7 @@ class _Checkout extends State<Checkout> {
       if (!resultCashFree.hasException && resultCashFree.data != null) {
         CashFreeResponse cashFreeResponse = CashFreeResponse();
         cashFreeResponse =
-            CashFreeResponse.fromJson(resultCashFree.data["cashfreePayNow"]);
+            CashFreeResponse.fromJson(resultCashFree.data!["cashfreePayNow"]);
 
         var tokenData = cashFreeResponse.token;
         
@@ -2820,30 +2820,23 @@ class _Checkout extends State<Checkout> {
           };
           CashfreePGSDK.doPayment(inputParams).then((value) async {
             log(value.toString());
-            if (value["txStatus"] == "SUCCESS") {
+            if (value!["txStatus"]! == "SUCCESS") {
               
                 setState(() {
                   buttonStatusOrder = !buttonStatusOrder;
                 });
                 _dialog.close();
               bool response = await cashfreeRepository.captureCashFree(value);
-              await handlePaymentSuccess("cashfree", value["orderId"]);
+              await handlePaymentSuccess("cashfree", value!["orderId"]!);
             } else {
                 setState(() {
                   buttonStatusOrder = !buttonStatusOrder;
                 });
                 _dialog.close();
-              await handlePaymentFailure();
+              await handlePaymentFailure("Something went wrong ...");
             }
           });
         } 
-      } else {
-       _dialog.close();
-                setState(() {
-                  buttonStatusOrder = !buttonStatusOrder;
-                });
-                handlePaymentFailure("Something Went Wrong...");
-      }
       }
 
       else if(paymentMethod=="paypal"){

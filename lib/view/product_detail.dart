@@ -1621,7 +1621,7 @@ class _ProductDetail extends State<ProductDetail>
                                    //  TzDialog _dialog =
                                    //  TzDialog(context, TzDialogType.progress);
                                    //  _dialog.show();
-                                    if (await Vibration.hasVibrator()) {
+                                    if (await Vibration.hasVibrator()??false) {
                                      Vibration.vibrate();
                                    }
                                     Provider.of<ProductDetailViewModel>(context,

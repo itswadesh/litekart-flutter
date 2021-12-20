@@ -339,7 +339,7 @@ class _WishCard extends State<WishCard> {
               Divider(height: ScreenUtil().setWidth(5),),
               InkWell(
                   onTap: () async {
-                    if (await Vibration.hasVibrator()) {
+                    if (await Vibration.hasVibrator()??false) {
                     Vibration.vibrate();
                     }
                     final NavigationService _navigationService = locator<NavigationService>();
