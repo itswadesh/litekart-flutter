@@ -45,6 +45,8 @@
 	<string>Anne</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -62,6 +64,9 @@
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+		<string>phonepe</string>
+		<string>tez</string>
+		<string>paytm</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
