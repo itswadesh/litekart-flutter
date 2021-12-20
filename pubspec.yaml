@@ -51,7 +51,7 @@ dependencies:
   sms_autofill: ^2.2.0
   transparent_image: ^2.0.0
   extended_masked_text: ^2.1.0
-#  cashfree_pg: 2.0.4+24
+  cashfree_pg: 2.0.4+24
   dotted_border: ^2.0.0
   geolocator: ^8.0.0
   firebase_messaging: ^11.2.0
