@@ -212,7 +212,7 @@ class _ProductCard extends State<ProductCard> with TickerProviderStateMixin{
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(
                             12,
-                          ),
+                          ),fontWeight: FontWeight.w600,
                           color: AppColors.primaryElement,
                         ),
                         textAlign: TextAlign.left,
