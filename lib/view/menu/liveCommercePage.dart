@@ -105,9 +105,13 @@ class _LiveCommercePage extends State<LiveCommercePage>{
             Provider.of<ChannelViewModel>(context, listen: false).fetchChannelData(null,null,null,"","","","");
             return Loading();
           } else if (value.status == "empty") {
-            return  cartEmptyMessage("search", "No Live Steam");
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(child: cartEmptyMessage("search", "No Live Steam")));
           } else if (value.status == "error") {
-            return errorMessage();
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(child:errorMessage()));
           }
 
           return
