@@ -1933,6 +1933,9 @@ class _Checkout extends State<Checkout> {
                             },
                             child:
                             cashfreeCard()):Container(),
+                         methodList.contains("Cashfree")? SizedBox(
+                          height: ScreenUtil().setWidth(15),
+                        ):Container(),
                         methodList.contains("Stripe")?   GestureDetector(
                             onTap: (){
                               setState(() {
@@ -1962,7 +1965,7 @@ class _Checkout extends State<Checkout> {
                               });
                             },
                             child:
-                            cashfreeCard()):Container(),
+                            codCard()):Container(),
                       ],
                     ),
                   ),
